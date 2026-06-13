@@ -1,0 +1,9 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+
+# Rust build (analyzer, slice 2+)
+/target/
+
+# Local env
+.env
