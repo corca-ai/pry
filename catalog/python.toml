@@ -1,0 +1,213 @@
+# pry boundary catalog — Python (SEED, not final)
+#
+# Layer-0 boundary fingerprints, as DATA (spec F21). The pry CLI matches these
+# at the leaf, resolving names through one-level import tracking (F19). This is a
+# SEED grounded in a 2026-06-13 scan of `ceal` Python (472 files) + pry's own
+# harness; broaden/correct it as the (b)-gate hand-sample runs.
+#
+# Forms:
+#   [[construct]]    — a constructor that ACQUIRES a boundary resource.
+#   [[direct_call]]  — a module/builtin function that IS a boundary crossing
+#                      (acquisition + use fused → inherently welded at the site).
+#   [[method]]       — a method-name fingerprint, RECEIVER-TYPE-BLIND. Needed
+#                      because pathlib file I/O is method-on-receiver and nose-grade
+#                      analysis has no type inference (F19). Heuristic → small FP
+#                      risk (a non-Path object with `.read_text`); kept because
+#                      file I/O is ceal Python's single largest boundary surface.
+#
+# `leg` = cautilus verification leg(s) the boundary serves (F21/F23):
+#   es = externalSubstitution · tc = triggerControl
+#   is = inputSimulation       · eo = externalObservation
+#
+# GROUNDING NOTE (ceal Python, the next gate corpus): the *agent-API* boundaries
+# (openai/anthropic/slack/boto3/calendar) are 0 in ceal Python — they live in its
+# TS/JS (797+536 files), OUT of Layer-0 scope. ceal Python is file I/O + subprocess
+# glue + clock. The provider entries below are kept for charness / other Python
+# agent code and flagged `expect = "ts-side-in-ceal"`. See docs/dogfood-control.md.
+#
+# CAVEAT carried to the next session (dogfood finding C): the config-seam rule
+# (F18) needs a crisp operational test before scoring. On CLI/script glue almost
+# every boundary *target* (path, repo, url string) is param/CLI-parameterized; if
+# that alone counts as a seam, config-seam degenerates and swallows everything —
+# the mirror image of the monkeypatch trap. Open question: does failure-injection
+# via a bad parameterized target count as a seam, or must substitution be at the
+# *client/dependency* level (`OpenAI(base_url=cfg)`)?
+
+version = "0.1.0-seed"
+language = "python"
+
+# ───────────────────────── subprocess / worker spawn ─────────────────────────
+# ceal: subprocess.run in 107 files (dominant), Popen 1, check_output 2.
+[[direct_call]]
+pattern = "subprocess.run"
+kind = "subprocess"
+leg = ["tc", "es"]
+[[direct_call]]
+pattern = "subprocess.Popen"
+kind = "subprocess"
+leg = ["tc", "es"]
+[[direct_call]]
+pattern = "subprocess.check_output"
+kind = "subprocess"
+leg = ["tc", "es"]
+[[direct_call]]
+pattern = "subprocess.check_call"
+kind = "subprocess"
+leg = ["tc", "es"]
+[[direct_call]]
+pattern = "subprocess.call"
+kind = "subprocess"
+leg = ["tc", "es"]
+[[direct_call]]
+pattern = "os.system"
+kind = "subprocess"
+leg = ["tc", "es"]
+[[direct_call]]
+pattern = "os.popen"
+kind = "subprocess"
+leg = ["tc", "es"]
+
+# ───────────────────────── file I/O (method-form dominant) ───────────────────
+# ceal: .read_text 189, .exists 81, .write_text 75, .mkdir 74, .glob 50, .open 24,
+# builtin open( 12. Largest surface. Method-form = receiver-blind heuristic.
+[[direct_call]]
+pattern = "open"            # builtin
+kind = "fileio"
+leg = ["es", "eo"]
+[[method]]
+pattern = "read_text"
+kind = "fileio"
+leg = ["es"]
+[[method]]
+pattern = "read_bytes"
+kind = "fileio"
+leg = ["es"]
+[[method]]
+pattern = "write_text"
+kind = "fileio"
+leg = ["eo"]
+[[method]]
+pattern = "write_bytes"
+kind = "fileio"
+leg = ["eo"]
+[[method]]
+pattern = "exists"
+kind = "fileio"
+leg = ["es"]
+[[method]]
+pattern = "mkdir"
+kind = "fileio"
+leg = ["eo"]
+[[method]]
+pattern = "glob"
+kind = "fileio"
+leg = ["es"]
+[[method]]
+pattern = "iterdir"
+kind = "fileio"
+leg = ["es"]
+[[method]]
+pattern = "unlink"
+kind = "fileio"
+leg = ["eo"]
+
+# ───────────────────────── network ───────────────────────────────────────────
+# ceal Python: urllib.request/urlopen 7, socket 2 (small; HTTP is mostly TS-side).
+[[direct_call]]
+pattern = "urllib.request.urlopen"
+kind = "network"
+leg = ["es"]
+[[construct]]
+pattern = "socket.socket"
+kind = "network"
+leg = ["es"]
+# present for charness / other python; expect ~0 in ceal Python:
+[[direct_call]]
+pattern = "requests.get"
+kind = "network"
+leg = ["es"]
+expect = "ts-side-in-ceal"
+[[direct_call]]
+pattern = "requests.post"
+kind = "network"
+leg = ["es"]
+expect = "ts-side-in-ceal"
+[[construct]]
+pattern = "httpx.Client"
+kind = "network"
+leg = ["es"]
+expect = "ts-side-in-ceal"
+
+# ───────────────────────── clock / tz / randomness ───────────────────────────
+# ceal: datetime.now / .now( 33, time.sleep 3, time.time 1, zoneinfo/ZoneInfo 4.
+[[direct_call]]
+pattern = "datetime.datetime.now"
+kind = "clock"
+leg = ["es"]
+[[direct_call]]
+pattern = "datetime.datetime.utcnow"
+kind = "clock"
+leg = ["es"]
+[[method]]
+pattern = "now"                 # receiver-blind; FP risk (other .now()); see caveat
+kind = "clock"
+leg = ["es"]
+[[direct_call]]
+pattern = "time.time"
+kind = "clock"
+leg = ["es"]
+[[direct_call]]
+pattern = "time.sleep"
+kind = "clock"
+leg = ["es"]
+[[construct]]
+pattern = "zoneinfo.ZoneInfo"   # the ceal ZoneInfoNotFoundError bug boundary
+kind = "clock"
+leg = ["es"]
+[[direct_call]]
+pattern = "random.random"
+kind = "random"
+leg = ["es"]
+[[direct_call]]
+pattern = "random.choice"
+kind = "random"
+leg = ["es"]
+
+# ───────────────────────── env / db ──────────────────────────────────────────
+# ceal: os.environ 41, sqlite3.connect 3.
+[[direct_call]]
+pattern = "os.environ"
+kind = "env"
+leg = ["es", "is"]
+[[direct_call]]
+pattern = "os.getenv"
+kind = "env"
+leg = ["es", "is"]
+[[direct_call]]
+pattern = "sqlite3.connect"
+kind = "db"
+leg = ["es"]
+
+# ───────────────────────── agent-API (TS-side in ceal; charness/other python) ─
+# 0 hits in ceal Python — kept for completeness; expect ~0 until a TS frontend
+# exists (reopens language scope, deferred). Tagged for charness / python agents.
+[[construct]]
+pattern = "openai.OpenAI"
+kind = "llm"
+leg = ["es"]
+expect = "ts-side-in-ceal"
+[[construct]]
+pattern = "anthropic.Anthropic"
+kind = "llm"
+leg = ["es"]
+expect = "ts-side-in-ceal"
+[[construct]]
+pattern = "slack_sdk.WebClient"
+kind = "provider"
+leg = ["es", "tc"]
+expect = "ts-side-in-ceal"
+[[construct]]
+pattern = "boto3.client"
+kind = "provider"
+leg = ["es"]
+expect = "ts-side-in-ceal"

@@ -8,19 +8,28 @@ the handoff's original "catalog swap" into a full **(b) testability-surface
 re-centering**. The contract is now in [`docs/spec-layer0.md`](spec-layer0.md)
 (F18–F24 + three new sections). Read those first.
 
-**First action: run the (b)-axis testability-surface gate (F24), analyzer-free**
-(hand/script-sample, Gate-0 spirit — *no Rust yet*). Run the protocol **twice —
-harness first (control), then ceal (gate)**:
+**First action: DECIDE finding C, then run the (b)-axis gate (F24) on `ceal`,
+analyzer-free** (hand/script-sample, *no Rust yet*). Pre-work is done — the catalog
+seed (`catalog/python.toml`) and the harness dogfood control are pre-computed in
+[`docs/dogfood-control.md`](dogfood-control.md). Two pre-decisions it surfaced must
+be settled *before scoring*:
 
-- **(0) Dogfood control (F25):** run steps 1–4 on the Python **harness**
-  (`harness/*.py`; git/subprocess/file-I/O-heavy; every seam known to the author)
-  — the protocol **shakedown** + welded-detection calibration. *A control, not a
-  gate corpus* (it never clears the gate — dogfooding is non-independent).
-- **then `ceal`** (the independent gate corpus that carries the verdict):
+- **Finding C (blocker) — config-seam operational test (F18).** On CLI/script glue
+  almost every boundary *target* is param-driven; a loose config-seam rule
+  degenerates (all-seamed = the monkeypatch trap's mirror). Decide: does a bad
+  parameterized *path/url* count as a seam (failure-injectable), or must
+  substitution be at the *client/dependency* level? The harness control swings from
+  welded 1.0 → 0.29 on this choice.
+- **Finding A (scope) — ceal's agent-API boundaries (LLM/Slack/calendar) are TS/JS,
+  0 in Python.** ceal Python is file I/O + subprocess + clock glue. Sample the
+  *real* Python surface; the headline agent surface needs a TS frontend (deferred).
+  cautilus-demand overlap in Python = **subprocess worker-spawn + file/db/clock**.
 
-1. Sample N≈30–50 boundary **call/acquisition sites** in ceal's Python (favor the
-   cautilus-demand surface: LLM/tool dispatch, Slack/provider SDK, calendar reads,
-   scheduled enqueue, subprocess worker spawn, workflow-state store, credentials).
+Then run the gate on ceal (the independent corpus that carries the verdict):
+
+1. Sample N≈30–50 boundary **call/acquisition sites** in ceal's Python — the real
+   surface: file I/O (`read_text`/`write_text`/`exists`…), `subprocess.run`
+   worker-spawn, clock (`datetime.now`), `os.environ`, small net/db/tz.
 2. Classify each **SEAMED / WELDED / AMBIGUOUS** by the F18/F19 rule (0-hop +
    one `self.attr`→same-class `__init__` hop; config-seam counts; monkeypatch never
    upgrades; every `ambiguous` gets a **reason code**).
@@ -62,6 +71,11 @@ If validation-shaped closeout is needed, route through `quality` per CLAUDE.md.
   **self-application invariant**: pry's own Rust implementation must be seamed by
   pry's own standard (testable by its own definition). Literal self-analysis
   deferred (pry parses Python, not Rust).
+- **Pre-work done (this session):** `catalog/python.toml` (grounded seed — ceal
+  Python = file I/O + subprocess + clock; agent-API is TS-side, **0 in Python**) and
+  the harness dogfood control are pre-computed in `docs/dogfood-control.md`.
+  Surfaced pre-scoring blockers: **finding C** (config-seam operational test) and
+  **finding A** (ceal agent boundaries are TS, not Python).
 - **Architecture unchanged & locked:** `pry` CLI = deterministic Rust analyzer,
   zero intelligence (nose model); intelligence in an agent-run skill; labeling
   agent-driven/blinded. Harness built/verified/committed (`harness/`).
@@ -69,8 +83,12 @@ If validation-shaped closeout is needed, route through `quality` per CLAUDE.md.
 
 ## References
 
-- [`docs/spec-layer0.md`](spec-layer0.md) — build contract; **F18–F24** + the three
+- [`docs/spec-layer0.md`](spec-layer0.md) — build contract; **F18–F26** + the three
   new sections are this session's output. Canonical.
+- [`catalog/python.toml`](../catalog/python.toml) — the grounded boundary catalog
+  **seed** (leg-tagged; ceal Python = file I/O + subprocess + clock).
+- [`docs/dogfood-control.md`](dogfood-control.md) — pre-computed harness control +
+  ceal Python surface scan + findings A–D (C is a pre-scoring blocker).
 - [`docs/kill-gate.md`](kill-gate.md) — Gate 0 (a)-axis verdicts + the re-centering
   note (the (b)-gate is the next experiment).
 - [`docs/ceal-bug-profile.md`](ceal-bug-profile.md) — ceal's recurring clusters +
