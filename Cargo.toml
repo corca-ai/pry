@@ -1,0 +1,25 @@
+[package]
+name = "pry"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.85"
+description = "Static testability-surface analyzer: finds welded boundary calls with no seam to inject a failure."
+license = "MIT"
+
+# F1: deterministic analyzer, ZERO intelligence — no HTTP/LLM client in the tree.
+[dependencies]
+tree-sitter = "0.24"
+tree-sitter-typescript = "0.23"
+clap = { version = "4", features = ["derive"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+toml = "0.8"
+anyhow = "1"
+ignore = "0.4"
+
+[[bin]]
+name = "pry"
+path = "src/main.rs"
+
+[profile.release]
+opt-level = 3

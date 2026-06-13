@@ -175,3 +175,41 @@ build** (Rust + tree-sitter-typescript, TS catalog, the `?? new`/ctor-config/par
 seam patterns, **with rung-3 wrapper detection in scope** for transports/executors) —
 or pause. nose supports TS, and pry's seam model transfers; rung-3 is the one new
 capability the TS surface demands.
+
+---
+
+# Stage-1 minimal TS map (F28) — BUILT & VALIDATED, 2026-06-13
+
+The author chose **build the minimal TS map, staged**. The first `pry` analyzer code
+now exists: Rust + tree-sitter-typescript, `catalog/typescript.toml` (data), leaf +
+0-hop (`??`/default-param/local-decl/formal-param receiver) + one-hop (`this.attr`←
+constructor) seam classification + the two-tier `inputSimulation` tag, deterministic
+JSON emit. `pry map <path>` + `pry --version`. The pure analysis core
+(`analyze_source`) is I/O-free and unit-tested by injection (F26 self-application).
+
+**Validation goal met — the analyzer reproduces the analyzer-free hand-gate:**
+
+| metric | hand-sample (Run 5) | **`pry map` on ceal/packages** |
+|---|---|---|
+| substitution-demand welded (lens GO metric) | ~0.74 | **0.7352** (seamed 58 / welded 161 / amb 3) |
+| bare welded (diagnostic, fs-swamped) | ~0.89 | **0.8878** |
+| decided-fraction | ~0.92 | **0.9942** |
+| clock welded | 0.71 (6S/15W) | **0.726** (51S/135W) |
+| files | — | 457 |
+
+Per-kind (analyzer): clock 51S/135W, slack 5S/3W/**3 ambiguous**, subprocess 2S/8W,
+llm 0S/3W, network 0S/12W (leaf — the **rung-3 gap**, as predicted), fileio 0S/223W +
+env 0S/75W (input-redirectable, correctly **excluded** from the lens metric).
+
+**Engineering invariants confirmed:** determinism — two runs **byte-identical**
+(SC3 ✓); **no LLM/HTTP client in the dependency tree** (SC2 ✓); `new Date(arg)` ≠
+clock (catalog finding, implemented); 3 classifier tests pass. Frozen evidence:
+`fixtures/ceal-ts-map.summary.json`.
+
+**Stage-1 confirms the GO with real, deterministic output** — pry's seam model
+transfers to TS as predicted, catching the clock/client seams the hand-gate found.
+The 3 ambiguous slack receivers + the leaf-welded network/subprocess are exactly the
+**rung-3 (wrapper/transport/executor) work for stage 2.** No rung-3 built yet (staged,
+F28). The open decision is whether to proceed to **stage 2 (rung-3)**, **gate a 2nd TS
+corpus** with the now-built analyzer, or **wire packaging** (`external_binary` +
+`pry` skill).

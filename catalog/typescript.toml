@@ -1,0 +1,204 @@
+# pry boundary catalog — TypeScript (SEED, post-Run-5 GO)
+#
+# Layer-0 boundary fingerprints as DATA (spec F21/F28). Grounded in the ceal TS
+# (b)-gate (Runs 4+5, docs/ceal-ts-gate.md). The minimal TS map (F28 stage 1)
+# matches these at the leaf and classifies seamed/welded/ambiguous with 0-hop +
+# one-hop (F19), plus the two-tier inputSimulation tag (F18).
+#
+# Per-entry fields:
+#   form  = construct | builtin_call | global_call | ns_call | method | member
+#   kind  = boundary family
+#   leg   = cautilus verification leg(s): es/tc/is/eo (F21/F23)
+#   demand = true  -> substitution-demand subset (the F27 lens GO test): leg tc, or
+#            es on a non-value-shaped-failure boundary (clock/client/network/subproc)
+#          = false -> input-redirectable (file I/O, env) — excluded from the GO test
+#
+# CLASSIFICATION NOTES (handled in code, not data):
+#  - clock `construct` (new Date): EMPTY args = clock boundary; `new Date(arg)` =
+#    deterministic parsing, NOT a boundary (Run-5 catalog finding).
+#  - SEAMED when the boundary acquisition is the RHS of `??` (config.x ?? new X) or
+#    a default-param value (now = new Date()), or the receiver is a formal param /
+#    `this.attr` <- ctor param (one-hop). Else WELDED. Monkeypatch never upgrades.
+#  - network (fetch) + subprocess wrappers behind injected transport/executor
+#    interfaces are leaf-WELDED here; F22 rung-3 (stage 2) will resolve them.
+
+version = "0.1.0-seed"
+language = "typescript"
+
+# ───────────── clock (substitution-demand; input-sim NO) ─────────────
+[[boundary]]
+form = "construct"
+ctor = "Date"
+kind = "clock"
+leg = ["es"]
+demand = true
+clock_ctor = true        # empty-args only; new Date(arg) is not a boundary
+
+[[boundary]]
+form = "builtin_call"
+object = "Date"
+method = "now"
+kind = "clock"
+leg = ["es"]
+demand = true
+
+[[boundary]]
+form = "builtin_call"
+object = "performance"
+method = "now"
+kind = "clock"
+leg = ["es"]
+demand = true
+
+[[boundary]]
+form = "global_call"
+callee = "setTimeout"
+kind = "clock"
+leg = ["tc"]
+demand = true
+
+[[boundary]]
+form = "global_call"
+callee = "setInterval"
+kind = "clock"
+leg = ["tc"]
+demand = true
+
+# ───────────── provider clients (substitution-demand) ─────────────
+[[boundary]]
+form = "construct"
+ctor = "OpenAI"
+kind = "llm"
+leg = ["es"]
+demand = true
+
+[[boundary]]
+form = "construct"
+ctor = "Anthropic"
+kind = "llm"
+leg = ["es"]
+demand = true
+
+[[boundary]]
+form = "construct"
+ctor = "WebClient"
+kind = "slack"
+leg = ["es", "tc"]
+demand = true
+
+[[boundary]]
+form = "construct"
+ctor = "SocketModeClient"
+kind = "slack"
+leg = ["es", "tc"]
+demand = true
+
+# client method calls — classify by receiver origin (one-hop)
+[[boundary]]
+form = "method"
+method = "postMessage"
+kind = "slack"
+leg = ["es"]
+demand = true
+
+[[boundary]]
+form = "method"
+method = "update"
+kind = "slack"
+leg = ["es"]
+demand = true
+require_root = "chat"       # only match *.chat.update(...)
+
+[[boundary]]
+form = "method"
+method = "create"
+kind = "llm"
+leg = ["es"]
+demand = true
+require_root = "responses,messages"   # *.responses.create / *.messages.create
+
+# ───────────── network (substitution-demand; leaf-welded until rung-3) ─────────────
+[[boundary]]
+form = "global_call"
+callee = "fetch"
+kind = "network"
+leg = ["es"]
+demand = true
+
+# ───────────── subprocess (substitution-demand) ─────────────
+[[boundary]]
+form = "ns_call"
+object = "child_process"
+method = "spawn"
+kind = "subprocess"
+leg = ["tc", "es"]
+demand = true
+
+[[boundary]]
+form = "ns_call"
+object = "child_process"
+method = "execFile"
+kind = "subprocess"
+leg = ["tc", "es"]
+demand = true
+
+[[boundary]]
+form = "global_call"
+callee = "spawn"
+kind = "subprocess"
+leg = ["tc", "es"]
+demand = true
+
+# ───────────── file I/O (input-redirectable — excluded from GO subset) ─────────────
+[[boundary]]
+form = "ns_call"
+object = "fs"
+method = "readFile"
+kind = "fileio"
+leg = ["es"]
+demand = false
+
+[[boundary]]
+form = "ns_call"
+object = "fs"
+method = "writeFile"
+kind = "fileio"
+leg = ["eo"]
+demand = false
+
+[[boundary]]
+form = "global_call"
+callee = "readFileSync"
+kind = "fileio"
+leg = ["es"]
+demand = false
+
+[[boundary]]
+form = "global_call"
+callee = "writeFileSync"
+kind = "fileio"
+leg = ["eo"]
+demand = false
+
+[[boundary]]
+form = "global_call"
+callee = "readFile"
+kind = "fileio"
+leg = ["es"]
+demand = false
+
+[[boundary]]
+form = "global_call"
+callee = "writeFile"
+kind = "fileio"
+leg = ["eo"]
+demand = false
+
+# ───────────── env (input-redirectable — excluded from GO subset) ─────────────
+[[boundary]]
+form = "member"
+object = "process"
+property = "env"
+kind = "env"
+leg = ["is", "es"]
+demand = false

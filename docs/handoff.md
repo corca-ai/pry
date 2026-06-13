@@ -8,12 +8,13 @@ the handoff's original "catalog swap" into a full **(b) testability-surface
 re-centering**. The contract is now in [`docs/spec-layer0.md`](spec-layer0.md)
 (F18–F24 + three new sections). Read those first.
 
-**Five gate runs done; a clear map and the FIRST GO. The author's *Python* is glue
-pry can't rank (Runs 1–3 → KILL); the author's *TS* agent runtime is pry's surface
-(Run 5 → GO under the recalibrated lens criterion).** Finding C RESOLVED (two-tier
-F18); F24 recalibrated to the lens criterion (F27). **First action: DECIDE the build
-decision** (below) — a frozen GO means *build the Rust map for TS*, which reopens the
-Python-only Layer-0 scope. Needs a human call. **No analyzer code until that call.**
+**Five gate runs → first GO → first analyzer BUILT & validated.** The author's
+*Python* is glue pry can't rank (Runs 1–3 → KILL); the author's *TS* agent runtime is
+pry's surface (Run 5 → GO, lens criterion). The author then chose **build the minimal
+TS map (staged)**, and it's done: **`pry map` (Rust + tree-sitter-typescript)
+reproduces the hand-gate** — demand-subset welded **0.7352** (vs ~0.74), deterministic,
+zero-LLM, tested. **First action: DECIDE what's next** — stage-2 rung-3 / gate a 2nd TS
+corpus with the now-built analyzer / wire packaging (below).
 
 **Run 3 — ceal Python (b)-gate → KILL·HANDOFF (glue)** ([`docs/ceal-b-gate.md`](ceal-b-gate.md);
 [`kill-gate.md`](kill-gate.md) Run 3). N=59 sites: decided **1.00**, welded **0.95**
@@ -46,14 +47,26 @@ seams (same-file DI). **EXTEND rider (evidence-backed):** pry under-detects **ne
 `.request()`/`.exec()`) → needs **F22 rung-3 wrapper detection** for TS accuracy (not
 a GO blocker). Catalog finding: `new Date(arg)` ≠ clock; DB in TS = 0.
 
-**The build decision to make (needs the author):** a frozen GO means, per F24, *build
-the Rust map — for TS* (reopens the Python-only Layer-0 language scope, deferred).
-- **Commit to the TS-frontend build** — Rust + tree-sitter-typescript, a TS boundary
-  catalog, the `?? new` / ctor-config / param seam patterns, **with rung-3 wrapper
-  detection in scope** (the one new capability the TS surface demands). nose supports
-  TS; pry's seam model transfers.
-- **or pause** — e.g. validate on a second TS corpus first, or settle the
-  backlog-finder vs regression-guard product framing before writing Rust.
+**Stage-1 minimal TS map — BUILT & validated (F28)** ([`docs/ceal-ts-gate.md`](ceal-ts-gate.md)
+Stage-1 section). `pry map <path>` + `pry --version`; Rust + tree-sitter-typescript;
+`catalog/typescript.toml` (data); leaf + 0-hop (`??`/default-param/local-decl/param-
+receiver) + one-hop (`this.attr`←ctor) classification + two-tier `inputSimulation`
+tag; deterministic JSON. On ceal/packages: demand-subset welded **0.7352** (vs hand
+~0.74), bare 0.8878, decided 0.9942, 457 files. Byte-deterministic (SC3), no LLM/HTTP
+deps (SC2), pure I/O-free core + 3 tests (F26). Per-kind: clock 51S/135W, slack
+5S/3W/**3 amb**, subprocess 2S/8W, llm 0S/3W, **network 0S/12W (leaf — rung-3 gap)**.
+Frozen evidence: `fixtures/ceal-ts-map.summary.json`.
+
+**The next decision (needs the author):**
+1. **Stage 2 — F22 rung-3 wrapper detection** (transport/executor interfaces): the
+   3 ambiguous slack receivers + leaf-welded network/subprocess are the evidence-backed
+   rung-3 work; resolves leaf-0.74 toward the true ~0.55.
+2. **Gate a 2nd TS corpus** with the now-built analyzer (cheap, analyzer-driven) — de-risk
+   "is ceal idiosyncratically well-engineered?" before more building.
+3. **Wire packaging** — `external_binary` manifest + the `pry` agent skill (the F15
+   path), so `quality` can invoke `pry`.
+4. **Product framing** — settle backlog-finder vs regression-guard (shapes the map's
+   output + skill).
 - **Finding C — RESOLVED 2026-06-13 (two-tier F18).** Headline SEAMED/WELDED =
   `externalSubstitution`; operand-parameterization = WELDED + `inputSimulation`-tag.
 - **Finding A — CONFIRMED.** ceal Python = file/subprocess/clock glue (agent-API 0);
@@ -63,16 +76,16 @@ If validation-shaped closeout is needed, route through `quality` per CLAUDE.md.
 
 ## Current State
 
-- **(b)-gate RUN to a GO (Runs 3–5, this session).** Finding C resolved (two-tier
-  F18, frozen first). **Run 3 ceal Python → KILL·HANDOFF (glue)** (welded 0.95, no
-  lift). **Run 4 ceal TS → GO-lean** (mixed surface) but surfaced the bare-fraction
-  **fs-swamp** → **F24 recalibrated to the lens criterion (F27, frozen first)**.
-  **Run 5 ceal TS clean re-gate → GO** (substitution-demand subset welded ~0.74, in
-  band, discriminates) — **the first GO in five runs.** pry's seam model transfers to
-  TS; the one new capability needed is **F22 rung-3 wrapper detection** (transports/
-  executors). Evidence: `docs/ceal-b-gate.md`, `docs/ceal-ts-gate.md`,
-  `docs/kill-gate.md` Runs 3–5. The TS-frontend **build decision** is the open call.
-  **No analyzer code built.**
+- **(b)-gate → GO → analyzer BUILT (Runs 3–5 + Stage-1, this session).** Finding C
+  resolved (two-tier F18). **Run 3 ceal Python → KILL·HANDOFF (glue)**. **Run 4 ceal
+  TS → GO-lean** but surfaced the bare-fraction **fs-swamp** → **F24 recalibrated to
+  the lens criterion (F27, frozen first)**. **Run 5 ceal TS clean re-gate → GO** (the
+  first GO). Then **Stage-1 minimal TS map BUILT (F28)**: `pry map` (Rust +
+  tree-sitter-typescript) reproduces the hand-gate (demand-subset welded **0.7352** vs
+  ~0.74), byte-deterministic (SC3), zero-LLM (SC2), pure I/O-free core + 3 tests (F26).
+  Evidence: `docs/ceal-b-gate.md`, `docs/ceal-ts-gate.md`, `docs/kill-gate.md` Runs
+  3–5, `fixtures/ceal-ts-map.summary.json`. **First real analyzer code shipped**;
+  next decision = stage-2 rung-3 / 2nd corpus / packaging.
 - **Design seq #1–#5 complete and formalized** (this session): seam definition,
   catalog-recognition + analysis-depth model, extension ladder, the (b)-gate, and
   the cautilus-demand lens. All in `docs/spec-layer0.md` F18–F24 + sections
@@ -112,8 +125,11 @@ If validation-shaped closeout is needed, route through `quality` per CLAUDE.md.
 
 - [`docs/spec-layer0.md`](spec-layer0.md) — build contract; **F18–F26** + the three
   new sections are this session's output. Canonical.
-- [`catalog/python.toml`](../catalog/python.toml) — the grounded boundary catalog
-  **seed** (leg-tagged; ceal Python = file I/O + subprocess + clock).
+- [`catalog/python.toml`](../catalog/python.toml) — Python boundary catalog seed
+  (leg-tagged; ceal Python = file I/O + subprocess + clock).
+- [`catalog/typescript.toml`](../catalog/typescript.toml) + `src/` (`main.rs`,
+  `lib.rs`, `catalog.rs`, `classify.rs`) + `Cargo.toml` — **the Stage-1 TS analyzer**
+  (`pry map`). `tests/classify_smoke.rs`; `fixtures/ceal-ts-map.summary.json`.
 - [`docs/dogfood-control.md`](dogfood-control.md) — pre-computed harness control +
   ceal Python surface scan + findings A–D (C is a pre-scoring blocker).
 - [`docs/kill-gate.md`](kill-gate.md) — (a)-axis Gate 0 verdicts + **Run 3** (the

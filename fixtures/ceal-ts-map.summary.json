@@ -1,0 +1,62 @@
+{
+  "corpus": "/home/hwidong/codes/ceal/packages",
+  "note": "risk ranking, not a bug list",
+  "summary": {
+    "ambiguous": 3,
+    "bare_welded_fraction_DIAGNOSTIC": 0.8878,
+    "by_kind": {
+      "clock": {
+        "ambiguous": 0,
+        "seamed": 51,
+        "welded": 135
+      },
+      "env": {
+        "ambiguous": 0,
+        "seamed": 0,
+        "welded": 75
+      },
+      "fileio": {
+        "ambiguous": 0,
+        "seamed": 0,
+        "welded": 223
+      },
+      "llm": {
+        "ambiguous": 0,
+        "seamed": 0,
+        "welded": 3
+      },
+      "network": {
+        "ambiguous": 0,
+        "seamed": 0,
+        "welded": 12
+      },
+      "slack": {
+        "ambiguous": 3,
+        "seamed": 5,
+        "welded": 3
+      },
+      "subprocess": {
+        "ambiguous": 0,
+        "seamed": 2,
+        "welded": 8
+      }
+    },
+    "decided_fraction": 0.9942,
+    "files_scanned": 457,
+    "seamed": 58,
+    "substitution_demand_subset": {
+      "ambiguous": 3,
+      "band": [
+        0.15,
+        0.85
+      ],
+      "seamed": 58,
+      "total": 222,
+      "welded": 161,
+      "welded_fraction_LENS_GO_METRIC": 0.7352
+    },
+    "total_boundaries": 520,
+    "welded": 459
+  },
+  "tool": "pry"
+}
