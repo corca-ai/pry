@@ -69,16 +69,22 @@ disciplined edge (ceal). Caveats: client catalog is ceal-tuned (cross-corpus cla
 rests on the universal clock signal); rung-3 gap makes demand-welded an upper bound;
 codex excluded (TS thin over Rust).
 
+**Catalog broadened (Run 6 follow-up, DONE):** added generic low-FP fingerprints —
+randomness (`Math.random`, `crypto.*`), HTTP (`axios`/`got`/`http.request`/`WebSocket`),
+db (`new Pool/PrismaClient/MongoClient/Redis/Database`), more LLM/subprocess/fs;
+generalized the classifier's `input_sim`/reason off clock. Re-sweep shows the backlog is
+**multi-kind** (un-injected random/http/db/subprocess/llm across the field; ax-day alone
+has 66 welded `Math.random`). FP check passed (every db find real; caught a Prisma
+singleton seam). ceal re-frozen: demand-welded **0.75**, 850 boundaries (was 520). Tests
+extended (random/db/http) — green.
+
 **The next decision (needs the author):**
 1. **Stage 2 — F22 rung-3 wrapper detection** (transport/executor interfaces): the
-   3 ambiguous slack receivers + leaf-welded network/subprocess; resolves leaf-0.74
-   toward the true ~0.55. (Whether the network over-count is a *bug* depends on framing
-   — for a backlog-finder it's arguably acceptable signal.)
-2. **Per-corpus client catalogs** — the catalog is ceal-tuned; broaden client/provider
-   fingerprints so the demand subset isn't clock-dominated on other corpora.
-3. **Wire packaging** — `external_binary` manifest + the `pry` agent skill (F15), so
-   `quality` can invoke `pry map`.
-4. **Commit the backlog-finder product framing** (now data-backed) — shape the map's
+   ambiguous slack receivers + leaf-welded network/subprocess; resolves leaf-0.74→0.55.
+   (For a backlog-finder the network over-count is arguably acceptable signal.)
+2. **Wire packaging** — `external_binary` manifest + the `pry` agent skill (F15), so
+   `quality` can invoke `pry map` and you can dogfood it.
+3. **Commit the backlog-finder product framing** (now data-backed) — shape the map's
    output (rank welded-at-demand) + the skill around it.
 - **Finding C — RESOLVED 2026-06-13 (two-tier F18).** Headline SEAMED/WELDED =
   `externalSubstitution`; operand-parameterization = WELDED + `inputSimulation`-tag.

@@ -22,6 +22,9 @@ export class Notifier {
 }
 export async function postWith(webClient: any, p: unknown) { await webClient.chat.postMessage(p as never); }
 export async function get(url: string) { return await fetch(url); }
+export function rng(): number { return Math.random(); }
+export function db(p: string) { return new Database(p); }
+export async function http2(u: string) { return await axios.get(u); }
 "#;
 
 #[test]
@@ -54,6 +57,14 @@ fn smoke_classifications() {
     let net = find(&fs, 14);
     assert_eq!(net.kind, "network");
     assert_eq!(net.class, Class::Welded);
+
+    // broadened catalog (Run 6): random / db / http(axios) are recognized + welded,
+    // and random is a hard weld (input-sim NO, like clock)
+    let rng = fs.iter().find(|f| f.kind == "random").expect("Math.random not recognized");
+    assert_eq!(rng.class, Class::Welded);
+    assert!(!rng.input_sim, "randomness has no operand to redirect");
+    assert!(fs.iter().any(|f| f.kind == "db" && f.class == Class::Welded), "new Database not recognized");
+    assert!(fs.iter().any(|f| f.kind == "network" && f.reason.contains("builtin")), "axios.get not recognized");
 }
 
 #[test]

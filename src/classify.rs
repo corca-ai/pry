@@ -51,6 +51,13 @@ fn text<'a>(n: Node, src: &'a [u8]) -> &'a str {
     n.utf8_text(src).unwrap_or("")
 }
 
+/// inputSimulation tag (two-tier, F18): true = operand-redirectable (path/url/
+/// connstring/cmd — cheap to test). clock & randomness have no operand to redirect
+/// (you must substitute the source), so they are the hard welds.
+fn kind_input_sim(kind: &str) -> bool {
+    !matches!(kind, "clock" | "random")
+}
+
 /// Climb to the nearest enclosing function-like node.
 fn enclosing_function<'t>(n: Node<'t>) -> Option<Node<'t>> {
     let mut cur = n.parent();
@@ -402,14 +409,15 @@ fn match_node(node: Node, src: &[u8], file: &str, cat: &Catalog) -> Option<Findi
                                 }
                                 return Some(finding(node, b, file, Class::Welded, true, "exe-inline"));
                             }
-                            let input_sim = b.kind != "clock";
                             let reason = match b.kind.as_str() {
-                                "network" => "fetch-global-leaf",
+                                "network" => "http-global-leaf",
                                 "clock" => "timer-global",
+                                "random" => "random-global",
                                 "fileio" => "fs-global",
+                                "llm" => "llm-global-call",
                                 _ => "global-call",
                             };
-                            return Some(finding(node, b, file, Class::Welded, input_sim, reason));
+                            return Some(finding(node, b, file, Class::Welded, kind_input_sim(&b.kind), reason));
                         }
                     }
                     None
@@ -430,8 +438,9 @@ fn match_node(node: Node, src: &[u8], file: &str, cat: &Catalog) -> Option<Findi
                                 } else {
                                     Class::Welded
                                 };
-                                let reason = if class == Class::Seamed { "clock-injected" } else { "clock-inline" };
-                                return Some(finding(node, b, file, class, false, reason));
+                                let is = kind_input_sim(&b.kind);
+                                let reason = if class == Class::Seamed { "builtin-injected" } else { "builtin-inline" };
+                                return Some(finding(node, b, file, class, is, reason));
                             }
                             if b.form == "ns_call"
                                 && b.object.as_deref() == Some(obj_name)
@@ -447,8 +456,7 @@ fn match_node(node: Node, src: &[u8], file: &str, cat: &Catalog) -> Option<Findi
                                     }
                                     return Some(finding(node, b, file, Class::Welded, true, "exe-inline"));
                                 }
-                                let input_sim = b.kind != "clock";
-                                return Some(finding(node, b, file, Class::Welded, input_sim, "ns-call-leaf"));
+                                return Some(finding(node, b, file, Class::Welded, kind_input_sim(&b.kind), "ns-call-leaf"));
                             }
                         }
                     }

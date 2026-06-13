@@ -63,6 +63,33 @@ welded TS corpora (actionable) from the Python glue (not). Candidate F27 addendu
   one-hop model can't resolve) — worth a look; not counted as decided either way.
 - **codex excluded** as not an agent-surface-in-TS (low recognizability).
 
+## Catalog broadening (Run 6 follow-up, 2026-06-14)
+
+The author chose **broaden the catalog** (the binding constraint above). Added generic,
+low-FP fingerprints: **randomness** (`Math.random`, `crypto.randomBytes/UUID/Int`),
+**HTTP** (`axios(.get/post/…)`, `got`, `http(s).request`, `WebSocket`), **db**
+(`new Pool/PrismaClient/MongoClient/Redis/Database`), **more LLM** (`GoogleGenerativeAI`,
+`CohereClient`, `generateText/streamText`, `*.completions/embeddings.create`), **more
+subprocess** (`child_process.exec/execSync/spawnSync/fork`, `*Sync` globals), more fs.
+The classifier's `input_sim`/reason logic was generalized off clock (random is now a
+hard weld too). Re-swept:
+
+| corpus | demand total | demand-welded | new demand kinds surfaced (S/W) |
+|---|---|---|---|
+| ceal | 247 (was 222) | **0.76** (in band) | subprocess 2/22, random 0/6 |
+| craken-agents | 96 | 0.91 | random 0/27, network 0/11, llm 0/7 |
+| agent-device | 184 | 0.92 | random 0/16, network 0/12, subprocess 0/8 |
+| ax-day | 121 | 0.97 | **random 0/66**, network 0/14, db 1/1, llm 0/4 |
+| gstack | 158 | 1.00 | network 0/17, db 0/2, subprocess 0/12 |
+| agent-browser | 43 | 1.00 | network 0/8, db 0/2, llm 0/1 |
+
+**The backlog is multi-kind, not just clocks** — un-injected randomness, http, db,
+subprocess, llm across the field. **FP check passed:** every `db` find is a real client
+(`new Database` better-sqlite3, `new Redis` Upstash, `new PrismaClient`) — no worker-pool
+FP — and the classifier even caught ax-day's Prisma singleton seam (`?? new PrismaClient()`
+→ seamed). ceal stays the lone outlier with a real seam population. ceal re-frozen:
+demand-welded **0.75**, 850 boundaries (was 520). Tests extended (random/db/http) — green.
+
 ## Verdict
 
 **Run 6 = GENERALIZES (with a reframe).** ceal's GO does not generalize as "TS agent

@@ -115,7 +115,8 @@ method = "create"
 kind = "llm"
 leg = ["es"]
 demand = true
-require_root = "responses,messages"   # *.responses.create / *.messages.create
+# *.responses.create / *.messages.create / *.chat.completions.create / *.embeddings.create
+require_root = "responses,messages,completions,embeddings"
 
 # ───────────── network (substitution-demand; leaf-welded until rung-3) ─────────────
 [[boundary]]
@@ -201,4 +202,290 @@ object = "process"
 property = "env"
 kind = "env"
 leg = ["is", "es"]
+demand = false
+
+# ════════════ BROADENED (Run 6 → backlog-finder market, 2026-06-14) ════════════
+# Generic, cross-SDK fingerprints so pry finds the welded-at-demand backlog on ANY
+# TS repo, not just the universal clock. Kept low-FP: construction + namespaced /
+# global calls, not bare generic method names (e.g. no bare `.query`/`.exec`).
+
+# ----- randomness (substitution-demand; input-sim NO, like clock) -----
+[[boundary]]
+form = "builtin_call"
+object = "Math"
+method = "random"
+kind = "random"
+leg = ["es"]
+demand = true
+[[boundary]]
+form = "ns_call"
+object = "crypto"
+method = "randomBytes"
+kind = "random"
+leg = ["es"]
+demand = true
+[[boundary]]
+form = "ns_call"
+object = "crypto"
+method = "randomUUID"
+kind = "random"
+leg = ["es"]
+demand = true
+[[boundary]]
+form = "ns_call"
+object = "crypto"
+method = "randomInt"
+kind = "random"
+leg = ["es"]
+demand = true
+
+# ----- clock (more) -----
+[[boundary]]
+form = "global_call"
+callee = "setImmediate"
+kind = "clock"
+leg = ["tc"]
+demand = true
+
+# ----- HTTP / network clients (generic) -----
+[[boundary]]
+form = "global_call"
+callee = "axios"
+kind = "network"
+leg = ["es"]
+demand = true
+[[boundary]]
+form = "builtin_call"
+object = "axios"
+method = "get"
+kind = "network"
+leg = ["es"]
+demand = true
+[[boundary]]
+form = "builtin_call"
+object = "axios"
+method = "post"
+kind = "network"
+leg = ["es"]
+demand = true
+[[boundary]]
+form = "builtin_call"
+object = "axios"
+method = "put"
+kind = "network"
+leg = ["es"]
+demand = true
+[[boundary]]
+form = "builtin_call"
+object = "axios"
+method = "delete"
+kind = "network"
+leg = ["es"]
+demand = true
+[[boundary]]
+form = "builtin_call"
+object = "axios"
+method = "request"
+kind = "network"
+leg = ["es"]
+demand = true
+[[boundary]]
+form = "global_call"
+callee = "got"
+kind = "network"
+leg = ["es"]
+demand = true
+[[boundary]]
+form = "ns_call"
+object = "http"
+method = "request"
+kind = "network"
+leg = ["es"]
+demand = true
+[[boundary]]
+form = "ns_call"
+object = "https"
+method = "request"
+kind = "network"
+leg = ["es"]
+demand = true
+[[boundary]]
+form = "construct"
+ctor = "WebSocket"
+kind = "network"
+leg = ["es"]
+demand = true
+
+# ----- database clients (substitution-demand; construction sites, low-FP) -----
+[[boundary]]
+form = "construct"
+ctor = "Pool"
+kind = "db"
+leg = ["es"]
+demand = true
+[[boundary]]
+form = "construct"
+ctor = "PrismaClient"
+kind = "db"
+leg = ["es"]
+demand = true
+[[boundary]]
+form = "construct"
+ctor = "MongoClient"
+kind = "db"
+leg = ["es"]
+demand = true
+[[boundary]]
+form = "construct"
+ctor = "Redis"
+kind = "db"
+leg = ["es"]
+demand = true
+[[boundary]]
+form = "construct"
+ctor = "Database"   # better-sqlite3
+kind = "db"
+leg = ["es"]
+demand = true
+
+# ----- LLM / agent SDKs (more; construction + vercel-ai global calls) -----
+[[boundary]]
+form = "construct"
+ctor = "GoogleGenerativeAI"
+kind = "llm"
+leg = ["es"]
+demand = true
+[[boundary]]
+form = "construct"
+ctor = "CohereClient"
+kind = "llm"
+leg = ["es"]
+demand = true
+[[boundary]]
+form = "global_call"
+callee = "generateText"   # vercel ai sdk
+kind = "llm"
+leg = ["es"]
+demand = true
+[[boundary]]
+form = "global_call"
+callee = "streamText"
+kind = "llm"
+leg = ["es"]
+demand = true
+
+# ----- subprocess (more; namespaced + *Sync globals, no bare `exec`) -----
+[[boundary]]
+form = "ns_call"
+object = "child_process"
+method = "exec"
+kind = "subprocess"
+leg = ["tc", "es"]
+demand = true
+[[boundary]]
+form = "ns_call"
+object = "child_process"
+method = "execSync"
+kind = "subprocess"
+leg = ["tc", "es"]
+demand = true
+[[boundary]]
+form = "ns_call"
+object = "child_process"
+method = "spawnSync"
+kind = "subprocess"
+leg = ["tc", "es"]
+demand = true
+[[boundary]]
+form = "ns_call"
+object = "child_process"
+method = "fork"
+kind = "subprocess"
+leg = ["tc", "es"]
+demand = true
+[[boundary]]
+form = "global_call"
+callee = "execSync"
+kind = "subprocess"
+leg = ["tc", "es"]
+demand = true
+[[boundary]]
+form = "global_call"
+callee = "spawnSync"
+kind = "subprocess"
+leg = ["tc", "es"]
+demand = true
+[[boundary]]
+form = "global_call"
+callee = "execFileSync"
+kind = "subprocess"
+leg = ["tc", "es"]
+demand = true
+
+# ----- file I/O (more; input-redirectable, demand=false — diagnostic only) -----
+[[boundary]]
+form = "ns_call"
+object = "fs"
+method = "readdir"
+kind = "fileio"
+leg = ["es"]
+demand = false
+[[boundary]]
+form = "ns_call"
+object = "fs"
+method = "stat"
+kind = "fileio"
+leg = ["es"]
+demand = false
+[[boundary]]
+form = "ns_call"
+object = "fs"
+method = "mkdir"
+kind = "fileio"
+leg = ["eo"]
+demand = false
+[[boundary]]
+form = "ns_call"
+object = "fs"
+method = "unlink"
+kind = "fileio"
+leg = ["eo"]
+demand = false
+[[boundary]]
+form = "ns_call"
+object = "fs"
+method = "appendFile"
+kind = "fileio"
+leg = ["eo"]
+demand = false
+[[boundary]]
+form = "ns_call"
+object = "fs"
+method = "rm"
+kind = "fileio"
+leg = ["eo"]
+demand = false
+[[boundary]]
+form = "global_call"
+callee = "existsSync"
+kind = "fileio"
+leg = ["es"]
+demand = false
+[[boundary]]
+form = "global_call"
+callee = "mkdirSync"
+kind = "fileio"
+leg = ["eo"]
+demand = false
+[[boundary]]
+form = "global_call"
+callee = "readdirSync"
+kind = "fileio"
+leg = ["es"]
+demand = false
+[[boundary]]
+form = "global_call"
+callee = "appendFileSync"
+kind = "fileio"
+leg = ["eo"]
 demand = false

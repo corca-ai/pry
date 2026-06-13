@@ -3,7 +3,7 @@
   "note": "risk ranking, not a bug list",
   "summary": {
     "ambiguous": 3,
-    "bare_welded_fraction_DIAGNOSTIC": 0.8878,
+    "bare_welded_fraction_DIAGNOSTIC": 0.9315,
     "by_kind": {
       "clock": {
         "ambiguous": 0,
@@ -18,7 +18,7 @@
       "fileio": {
         "ambiguous": 0,
         "seamed": 0,
-        "welded": 223
+        "welded": 540
       },
       "llm": {
         "ambiguous": 0,
@@ -30,6 +30,11 @@
         "seamed": 0,
         "welded": 12
       },
+      "random": {
+        "ambiguous": 0,
+        "seamed": 0,
+        "welded": 5
+      },
       "slack": {
         "ambiguous": 3,
         "seamed": 5,
@@ -38,10 +43,10 @@
       "subprocess": {
         "ambiguous": 0,
         "seamed": 2,
-        "welded": 8
+        "welded": 16
       }
     },
-    "decided_fraction": 0.9942,
+    "decided_fraction": 0.9965,
     "files_scanned": 457,
     "seamed": 58,
     "substitution_demand_subset": {
@@ -51,12 +56,12 @@
         0.85
       ],
       "seamed": 58,
-      "total": 222,
-      "welded": 161,
-      "welded_fraction_LENS_GO_METRIC": 0.7352
+      "total": 235,
+      "welded": 174,
+      "welded_fraction_LENS_GO_METRIC": 0.75
     },
-    "total_boundaries": 520,
-    "welded": 459
+    "total_boundaries": 850,
+    "welded": 789
   },
   "tool": "pry"
 }
