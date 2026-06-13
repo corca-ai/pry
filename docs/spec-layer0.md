@@ -26,6 +26,22 @@ kill-gate discipline.
 > §13 B.1 discipline that pre-registered the *analyst* knobs (`T`, budget unit,
 > mute-gate) now also has to cover the *labeling* knob.
 
+> **Signal re-centering (2026-06-13, post nose/cautilus study).** Gate 0 returned
+> RE-TARGET on both own-repos — but it measured only the **(a) predictive** claim
+> ("error-handling defects *cluster* in welded boundaries", via SZZ bug-history),
+> not pry's deeper **(b) testability-surface** claim ("a welded boundary is one a
+> failure *cannot be injected into*"), which is the literal thesis. (b) is
+> structural and always valid; (a) = (b) ∧ a contingent breeding assumption these
+> repos lack. So the map/floor are **not** invalidated by Gate 0 — only the
+> (a)-lens is, for these repos. pry is re-centered on (b) as the **substrate**,
+> with (a), error-path proximity, and **cautilus-demand** as pluggable
+> prioritization **lenses**. The boundary catalog is **broadened (not swapped)**
+> to every recognizable boundary; the static map + syntactic floor stay the whole
+> deliverable. Mechanically the static/behavioral line *is* the local/whole-program
+> line: pry decides what is cheaply, locally, honestly decidable and emits
+> `ambiguous` (→ cautilus) for the rest. See `Seam classification & analysis
+> depth`, `Extension ladder`, `Testability-surface gate`, and F18–F24.
+
 ## The two layers (load-bearing)
 
 | Layer | What it is | Intelligence | Mirrors |
@@ -54,6 +70,12 @@ the tool"). A single Z-vs-B number collapses them; the contract below keeps them
 on separate axes.
 
 ## Current Slice
+
+> **Update (signal re-centering, F18–F24).** Gate 0 (step 0 below, the **(a)-axis**:
+> bug-history fit) ran → **RE-TARGET on both own-repos** (`docs/kill-gate.md`). The
+> new gating experiment is the **(b)-axis testability-surface gate (F24)** —
+> analyzer-free hand/script-sample on `ceal` — which Gate 0 never measured. Steps
+> 1–3 below (the (a)/tool path) are unchanged; a **(b)-gate GO** unlocks them.
 
 Reach the **kill gate**, in forced order:
 
@@ -93,11 +115,92 @@ beating the baselines first (kill-cheaply).
 | F10 | **The labeler IS the coding agent**, NOT an API-calling script with a pinned model + cost gate. **Blinded + single-pass + monotone-subtractive:** the labeling worklist strips all pry-identifying framing (the agent labels commits as a generic defect study, *not knowing it serves pry* — the bias guard); the first number is labeled by **one agent, no parallel-subagent batching** (consistency); labeling can only **prune** the miner's recall-oriented candidate set to confirmed fixes, never *add* a site (a label cannot inflate past the floor). `labels.json` records the **driving model id (passed to `freeze --model-id`) + rubric hash**. No credential, no spend, no cost gate. | Intelligence = the agent (`nose` two-layer model); retires the API-labeler and dissolves the credential blocker. Blinding/single-pass/monotone are what stop the *agent* from re-opening the bias §13 B.1 closed for *analyst knobs*. |
 | F11 | **Join key = file path + fully-qualified function name (module-qualified), resolved at commit `T`.** SZZ blame line ranges map back to `T`'s line ranges; matching is by qualified name, never raw line number. | The join is load-bearing; left implicit, impl would invent it and corrupt Z. |
 | F12 | **The map reports a coverage denominator and the verdict is gated on it.** Output carries `seamed`/`welded`/`ambiguous` counts and the **decided fraction** = (seamed+welded)/total catalogued boundary calls. If the **ambiguous fraction exceeds a pre-registered ceiling** (default **0.60**), the verdict is **"map is mute (P3 fired) — not a go,"** regardless of Z. | §13 B.3: SC2's non-zero check guards silence, not muteness. |
-| F13 | **The verdict is two-axis** (in `docs/kill-gate.md`): a **repo-fit axis** from harness-only signals (labeled-site count vs floor; mining-recall) and a **tool axis** (given a usable gradient, does the map beat the baselines, under the mute-gate). "No lift" routes to *change the target* vs *fix the tool* by which axis failed. | §13 A vs B must stay separable. |
+| F13 | **The verdict is two-axis** (in `docs/kill-gate.md`): a **repo-fit axis** from harness-only signals (labeled-site count vs floor; mining-recall) and a **tool axis** (given a usable gradient, does the map beat the baselines, under the mute-gate). "No lift" routes to *change the target* vs *fix the tool* by which axis failed. The repo-fit axis now spans **two sub-axes**: (a) bug-history fit (Gate 0) and (b) testability-surface (F24). | §13 A vs B must stay separable. |
 | F14 | **SZZ uses `git blame -w`** (ignore whitespace) and records each site kept/dropped; residual noise is acknowledged to bias Z **downward** (conservative — against the thesis). | Cheap honesty without research-grade SZZ machinery. |
 | F15 | **Packaging = `external_binary` (Rust CLI) + a `pry` agent skill** (the intelligence layer), mirroring `nose` (external_binary) consumed by the `quality` skill. The CLI emits advisory data; the agent-run skill consumes it AND drives validation labeling. For Layer 0 the skill is **enacted by the agent inline** (run mechanics → label → score); the formal `SKILL.md` package + `integrations/tools/pry.json` manifest are deferred to the go path. | The user-confirmed architecture: CLI dumb, intelligence in the agent skill. |
 | F16 | **Frozen, contestable label transcript.** `labels.json` carries, per commit, the verdict + confidence + one-clause reason, keyed to the frozen `corpus_head` + sha — so a skeptic re-runs `git show <sha>` against the frozen corpus and re-judges any label **without re-running the agent**. Labels are *auditable*, not byte-reproducible. | The label-producing step is the one non-deterministic link; a checked-in transcript makes it contestable instead of opaque. |
 | F17 | **High-confidence floor + provenance caveat.** The repo-fit floor (P1) must be cleared by **high-confidence** sites only; borderline/low-confidence commits get a **refute pass** (a second judgment instructed to argue NOT-count). The verdict line (SC5) carries `n`, the high/med/low confidence breakdown, and a "self-labeled, blinded single-pass" caveat. | The rubric already collects confidence; this stops a margin-of-3 floor win being manufactured by low-confidence yes-votes. |
+| F18 | **Seam definition.** A boundary site is **SEAMED** iff its callee/resource is obtained in-band — a function **param**, a `self.attr` injected from an `__init__` **param**, **or config/env-parameterized** (config-seam) — else **WELDED**. **Monkeypatchability / attribute-replacement never upgrades a site to SEAMED.** | §1: failure injection on a *specific path* needs an in-band substitution point; a global patch is the brittle non-seam. cautilus's `externalSubstitution` ("substitute at the same boundary the product uses") makes config/env redirection a real seam → config-seam, else pry over-counts welded vs what cautilus can control. |
+| F19 | **Analysis depth = nose-grade local + exactly one bounded hop.** 0-hop (param/local via intra-function dataflow; module imports via one-level resolution) **+ one hop** `self.attr`→same-file same-class `__init__`. Beyond (cross-function, cross-file, factory return, dynamic dispatch, depth>1) → **`ambiguous`**, never guessed. | nose proves intra-fn dataflow + one-level import resolution are affordable, but *deliberately omits* `self.attr`→ctor — which pry's seam question (OOP agent runtimes) load-bearingly needs. The mute-gate (F12) backstops an over-tight cap. |
+| F20 | **Lower to a thin pry-IR; analyze the IR, not raw tree-sitter nodes; manual walk, no `.scm` queries.** | nose's model (CST→normalized IL→manual visitor): decouples analysis from grammar specifics, expresses the one-hop resolution queries cannot, keeps determinism controllable. |
+| F21 | **Boundary catalog = data (`catalog/python.toml`), broadened to all recognizable boundaries, each tagged with the cautilus verification *leg* it serves** (`externalSubstitution` / `triggerControl` / `inputSimulation` / `externalObservation`). Two forms: `construct` (resource constructors) + `direct_call` (module/builtin boundary calls). | Catalog precision ↔ required flow depth is a trade-off — rich leaf fingerprints keep analysis shallow. Flat names are data (unlike nose's hardcoded operator semantics); leg tags enable per-leg lift. |
+| F22 | **Extension is a pre-registered ladder — evidence-gated, cheapest-first, with a principled ceiling — not open-ended.** Rungs 0 (now) → intra-file cross-function → depth k=2 → boundary-bearing propagation → (cliff) cross-file resolution → (≈never) type inference. A rung is **kept only if it converts ≥15%p ambiguous→decided** and does not raise floor FP; **ceiling** = the static/behavioral line (runtime-determined injectability → `ambiguous` → cautilus). | The one-hop cap is a hypothesis the gate measures (ambiguous fraction). "Prepared to extend" must not slide into a whole-program analyzer; rent rule + principled ceiling + determinism-erosion cost bound it. |
+| F23 | **cautilus-demand is pry's actionability lens, evidence-grounded.** cautilus (built, eval-slice shipping) *requires the host* to expose controllable boundaries (its 4 verification legs) and only documents controlled-vs-not *reactively per-runner*; it has **no** static/exhaustive/ahead-of-time scorer. pry is that scorer; welded boundaries on `externalSubstitution`/`triggerControl` points = exactly where cautilus's legs fail. | Resolves the marginal-value question (①): pry is a structural pre-pass, not a convenience byproduct. Complementarity is non-overlapping by construction. |
+| F24 | **Testability-surface gate (the (b)-axis gate) precedes any Rust**, analyzer-free hand/script-sample first (Gate-0 spirit). Metrics: recognizability, decided-fraction (mute-gate `< 0.40`), welded-fraction (band `[0.15, 0.85]`), **ambiguous-reason histogram**, cautilus-demand lift. Verdict is **3-way: GO / EXTEND / KILL·HANDOFF** (EXTEND routes to F22's ladder by the ambiguous-reason shape). Numbers **frozen per-run** (re-tunable between runs, never after seeing a run — §13 B.1). | Gate 0 tested (a) only; (b) was never measured. The reason-histogram steers extend-vs-ceiling. |
+
+## Seam classification & analysis depth (the map's mechanics)
+
+The map answers one structural question per catalogued boundary site: **is the
+boundary obtained through a substitution point the *runner can use*, or welded?**
+Grounded in `nose`'s shallow-analysis ceiling and `cautilus`'s substitution legs.
+
+**Recognition (catalog, F21).** Lower each file to a thin pry-IR (F20), then match
+boundary sites by leaf fingerprint resolved through **one-level import tracking**
+(so `import openai`, `from openai import OpenAI`, `import requests as r` all
+resolve — nose proves this affordable). Unrecognized boundaries (a project wrapper
+hiding the leaf) are honestly **under-counted**, never guessed.
+
+**Classification (F18/F19) — 0-hop + exactly one bounded hop:**
+
+| callee / resource origin | resolution | class |
+|---|---|---|
+| function **param**, or local from a param | 0-hop (intra-fn dataflow) | **SEAMED** (DI) |
+| construction kwarg / target **from config/env/param** (`OpenAI(base_url=cfg.x)`) | 0-hop | **SEAMED** (config) |
+| `self.attr` ← same-class `__init__` **param** | one hop (same file) | **SEAMED** (DI) |
+| **inline construction** at site, or **imported module** direct call | 0-hop | **WELDED** |
+| `self.attr` ← `__init__` **inline construction** | one hop | **WELDED** (ctor-chokepoint) |
+| `self.attr` multi/conditional, no `__init__`, class spans files | cap exceeded | **AMBIGUOUS** |
+| callee from a call (`get_x()`), cross-function/file, dynamic dispatch | not followed | **AMBIGUOUS** |
+
+**Monkeypatch / attribute-replacement never upgrades a site to SEAMED** (F18) — it
+reaches into internals, not "the same boundary the product uses". Each `ambiguous`
+verdict carries a **reason code**; the reason *histogram*, not the bare fraction,
+steers extension vs ceiling (F22/F24).
+
+## Extension ladder (F22)
+
+The one-hop cap is a hypothesis the gate measures (ambiguous fraction). If
+insufficient, extend — but only as a pre-registered, evidence-gated, cheapest-first
+ladder with a principled ceiling, never an open invitation to whole-program
+analysis.
+
+| rung | mechanism | cost | unlock signal |
+|---|---|---|---|
+| 0 (now) | 0-hop + `self.attr`→same-class `__init__` | lowest | — |
+| 1 | intra-file cross-function (same-module `get_x()`, one hop) | low | ambiguous reason ≈ "same-file factory/helper" dominates |
+| 2 | depth k=2 on existing mechanisms | low, decaying | rung-1 residual |
+| 3 | boundary-bearing propagation (wrapper detection) | medium | hidden-wrapper under-count is material |
+| 4 (cliff) | cross-file / cross-module symbol resolution | high; erodes determinism | ambiguous mass proven cross-module **and** pry value depends on it |
+| 5 | type inference / points-to | prohibitive | ≈never (different tool) |
+
+**Rent rule:** keep a rung only if it converts **≥15%p** ambiguous→decided and does
+not raise the floor's FP rate. **Ceiling:** when injectability is runtime-determined
+(dynamic dispatch, env-driven provider/plugin selection) it is *behavioral* — pry
+emits `ambiguous` and hands off to cautilus. The ambiguous-with-reasons set is
+itself a product: the cautilus handoff list + the refactor-candidate list.
+
+## Testability-surface gate — the (b)-axis gate (F24)
+
+Gate 0 tested (a) (bug-history fit) → RE-TARGET; it never measured (b). This gate
+does, **analyzer-free first** (hand/script-sample N≈30–50 boundary sites on `ceal`,
+Gate-0 spirit), before any Rust.
+
+Metrics: **recognizability** (catalog hit rate), **decided-fraction**
+`(seamed+welded)/recognized` (mute-gate `< 0.40` → map mute), **welded-fraction**
+`welded/decided` (discrimination band `[0.15, 0.85]`), **ambiguous-reason
+histogram** (steers the ladder), **cautilus-demand lift** (welded-fraction among
+`externalSubstitution`/`triggerControl` points vs overall).
+
+Verdict (3-way; numbers frozen per-run, re-tunable between runs, never after seeing
+a run — §13 B.1):
+
+- **GO** — decided ≥ 0.40, welded in band, welded concentrates at cautilus-demand
+  points → build the Rust map.
+- **EXTEND** — mute (decided < 0.40) but ambiguous reasons are mostly rung-1/2
+  resolvable → climb one ladder rung (F22) and re-measure (**not** a kill).
+- **KILL · HANDOFF** — mute and ambiguous is mostly runtime/dynamic/cross-module →
+  the ceiling; this code's injectability is not statically decidable = cautilus
+  territory. Re-think pry for these repos.
 
 ## Labeling rubric (the intelligence the agent applies)
 
@@ -179,10 +282,17 @@ frozen.
   `grep -Ei 'reqwest|hyper|anthropic|openai|tonic' Cargo.lock` must be empty).
   *Reopen when:* Slice 2 (the Rust map) lands — it belongs to that slice, not the
   current harness slice.
-- **Layer 1 / Layer 2 internals**, **test-only monkeypatches as "seamed
-  enough,"** **final per-language floor rule set.** *Reopen when:* the relevant
-  layer is unfolded; for monkeypatches, when the first map run shows test-only
-  patches change a function's seamed/welded class.
+- **Layer 1 / Layer 2 internals**, **final per-language floor rule set.**
+  *Reopen when:* the relevant layer is unfolded.
+- **Boundary-bearing propagation** (wrapper detection, F22 rung 3) — deferred out
+  of Layer 0 (needs cross-function resolution past nose-grade). *Reopen when:* the
+  (b)-gate's ambiguous-reason histogram shows hidden-wrapper under-count is
+  material and clears the F22 rent rule.
+- **Test-only monkeypatch as standing evidence.** F18 settles the *general* case
+  (monkeypatchability ≠ seam). Only the narrow question — does a *pre-existing*
+  test-only patch count as evidence a site is de-facto seamed — stays open.
+  *Reopen when:* the first map run shows pre-existing test patches would change a
+  site's class.
 
 ## Non-Goals
 

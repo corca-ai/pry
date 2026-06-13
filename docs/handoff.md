@@ -2,66 +2,68 @@
 
 ## Workflow Trigger
 
-**First action: open the §13 strategic fork as a discussion with the user and do
-NOT pick a branch yourself.** Layer 0's first experiment returned **RE-TARGET on
-both own-repos**; the user wants to decide the direction live next session. Read
-[`docs/kill-gate.md`](kill-gate.md) and [`docs/ceal-bug-profile.md`](ceal-bug-profile.md)
-first. Sequence:
+**The §13 strategic fork is RESOLVED — do not re-open it as a discussion.** It was
+worked live toward the user's lean (**pivot the signal**) and *reshaped well beyond*
+the handoff's original "catalog swap" into a full **(b) testability-surface
+re-centering**. The contract is now in [`docs/spec-layer0.md`](spec-layer0.md)
+(F18–F24 + three new sections). Read those first.
 
-1. Present the 3-way fork (see `Discuss`) **neutrally** to the user.
-2. **Only if the user confirms "pivot the signal"** → run **`ideation`** to
-   reshape the thesis for the agent/LLM defect profile.
-3. **Then** re-run **Gate 0** with a re-tuned miner + boundary catalog.
+**First action: run the (b)-axis testability-surface gate (F24) on `ceal`,
+analyzer-free** (hand/script-sample, Gate-0 spirit — *no Rust yet*). Sequence:
 
-The user's prior leans toward "pivot the signal" (*"catch ceal's recurring bugs
-earlier"*) — that is their lean to confirm, not a branch to advocate. Do **not**
-start the Rust analyzer until a corpus/signal clears Gate 0.
+1. Sample N≈30–50 boundary **call/acquisition sites** in ceal's Python (favor the
+   cautilus-demand surface: LLM/tool dispatch, Slack/provider SDK, calendar reads,
+   scheduled enqueue, subprocess worker spawn, workflow-state store, credentials).
+2. Classify each **SEAMED / WELDED / AMBIGUOUS** by the F18/F19 rule (0-hop +
+   one `self.attr`→same-class `__init__` hop; config-seam counts; monkeypatch never
+   upgrades; every `ambiguous` gets a **reason code**).
+3. Score the F24 metrics: recognizability, decided-fraction, welded-fraction,
+   **ambiguous-reason histogram**, cautilus-demand lift. Apply the frozen numbers
+   (mute-gate `<0.40`; welded band `[0.15,0.85]`; lift = demand-point welded% >
+   overall welded%).
+4. Record the **3-way verdict — GO / EXTEND / KILL·HANDOFF** — in
+   `docs/kill-gate.md`. EXTEND routes to the F22 ladder by the ambiguous-reason
+   shape; **no analyzer code until a (b)-gate GO.**
+
+If validation-shaped closeout is needed, route through `quality` per CLAUDE.md.
 
 ## Current State
 
-- **Layer 0 first experiment COMPLETE** — and it did its designed job: cheaply
-  falsified corpus-fit with **no analyzer code written** (§9/§13). Working tree
-  clean; all committed (`git log`).
-- **Verdict: both own-repos → RE-TARGET.** charness 7/126 confirmed
-  error-handling fixes (6 high-conf sites ≪ floor 30, recall 1/40); ceal 2/26
-  (2 high-conf sites, recall 0/5). Both are AI-agent/LLM-orchestration tools that
-  **lack** pry's target shape (swallowed boundary-failure → mutation → commit).
-  Textbook §13 A.2, confirmed twice. Numbers + synthesis: `docs/kill-gate.md`.
-- **Architecture (user-corrected, locked in `docs/spec-layer0.md`):** `pry` CLI =
-  deterministic Rust analyzer, **zero intelligence** (map/floor as data, like
-  `nose`); intelligence in an **agent-run `pry` skill**; **labeling is
-  agent-driven** (blinded single-rater), never a script with an API key.
-- **The validation harness is built/verified/committed** (`harness/` +
-  `harness/README.md`): `mine → label_io emit → agent labels → label_io freeze →
-  szz → repo_fit`, all deterministic/no-LLM except the agent label step. Frozen
-  per-corpus evidence under `harness/fixtures/{,ceal/}`.
-
-## Discuss (needs user input — the fork)
-
-Present all three neutrally; the lean is the user's prior, not a branch to advocate.
-
-**Scope invariant for the whole discussion (user-set):** pry stays **static**
-(seamed/welded injectability map + syntactic floor, no execution). Agent/workflow
-**behavioral** correctness is **cautilus**'s job (`../cautilus`) — pry must not
-chase it. The two are complementary: pry statically finds boundaries with *no
-seam*; those are exactly what cautilus cannot write a failure-injection eval for.
-
-1. **Pivot the signal** (user's lean): re-tune only the **boundary catalog** to
-   what these repos cross — LLM/tool dispatch, scheduled-task/cron enqueue,
-   subprocess agent-worker spawn, workflow-state store reads/writes. The map
-   stays the static seamed-vs-welded question; the floor stays syntactic. The
-   catalog is a **hypothesis seed for `ideation`, not settled** — see
-   `docs/ceal-bug-profile.md` (Scope line + Implication). → `ideation`.
-2. **Pivot the target**: validate the tool as-built on OSS distributed-systems
-   repos (§9's "20–50 OSS repos") + BugsInPy — proves the mechanism but on repos
-   the author doesn't own.
-3. **Shelve**: accept error-handling/testability isn't the bottleneck for these
-   repos; the honest cheap-kill outcome.
+- **Design seq #1–#5 complete and formalized** (this session): seam definition,
+  catalog-recognition + analysis-depth model, extension ladder, the (b)-gate, and
+  the cautilus-demand lens. All in `docs/spec-layer0.md` F18–F24 + sections
+  *Seam classification & analysis depth*, *Extension ladder*, *Testability-surface
+  gate*. Cross-doc updates in `kill-gate.md` and `ceal-bug-profile.md`.
+- **Key reframe:** pry re-centered on **(b) testability-surface** (welded = can't
+  inject a failure) as the substrate; **(a) bug-history**, error-path proximity,
+  and **cautilus-demand** are pluggable lenses. Gate 0's RE-TARGET killed the
+  (a)-lens for these repos, **not** pry — the (b) map was never measured.
+- **cautilus is BUILT** (`../cautilus`, Go+JS, eval-slice shipping). Its 4
+  verification legs (`externalSubstitution`/`triggerControl`/`inputSimulation`/
+  `externalObservation`) are the concrete demand signal; ceal is its primary
+  consumer. pry = the static, ahead-of-time **runner-readiness scorer** cautilus
+  lacks (F23). Complementarity is non-overlapping by construction; mechanically the
+  static/behavioral line = the local/whole-program line.
+- **nose study (`../nose`):** tree-sitter parse-only + CST→IL→manual walk (no
+  `.scm`); rules hardcoded but pry's flat catalog stays **data**; intra-fn dataflow
+  + one-level import resolution are affordable; nose *omits* `self.attr`→ctor, the
+  one hop pry must add (F19/F20).
+- **Architecture unchanged & locked:** `pry` CLI = deterministic Rust analyzer,
+  zero intelligence (nose model); intelligence in an agent-run skill; labeling
+  agent-driven/blinded. Harness built/verified/committed (`harness/`).
+- **Still static-only.** Behavioral correctness = cautilus's lane (`../cautilus`).
 
 ## References
 
-- [`docs/kill-gate.md`](kill-gate.md) — the go/kill verdicts + cross-corpus synthesis.
-- [`docs/ceal-bug-profile.md`](ceal-bug-profile.md) — ceal's recurring bug shape; the pivot-signal seed.
-- [`docs/spec-layer0.md`](spec-layer0.md) — the build contract (nose-model architecture, kill-gate methodology).
-- `harness/` + `harness/README.md` — the built falsifier; `harness/fixtures/` holds the frozen evidence.
-- [`initial-plan.md`](../initial-plan.md) §9 (first experiment), §13 (premortem — A.2 is the outcome we hit).
+- [`docs/spec-layer0.md`](spec-layer0.md) — build contract; **F18–F24** + the three
+  new sections are this session's output. Canonical.
+- [`docs/kill-gate.md`](kill-gate.md) — Gate 0 (a)-axis verdicts + the re-centering
+  note (the (b)-gate is the next experiment).
+- [`docs/ceal-bug-profile.md`](ceal-bug-profile.md) — ceal's recurring clusters +
+  the grounded pivot outcome (catalog leg-tags, config-seam, cautilus 4 legs).
+- `../cautilus` — built behavioral verifier; `docs/contracts/runner-verification.md`
+  defines the 4 legs (the demand signal).
+- `../nose` — the static-analysis sibling pry is modeled on (mechanics ground truth).
+- `harness/` + `harness/README.md` — the built (a)-axis falsifier; frozen evidence
+  under `harness/fixtures/`.
+- [`initial-plan.md`](../initial-plan.md) §9/§13.

@@ -118,3 +118,24 @@ before any analyzer was built.** The open strategic fork (needs the author):
    workers) so pry targets the defect profile these repos actually have.
 3. **Shelve** — accept that error-handling/testability is not the bottleneck for
    this author's repos and stop here (the honest cheap-kill outcome).
+
+---
+
+## Re-centering note (2026-06-13, post nose/cautilus study)
+
+The fork was resolved live toward **pivot the signal**, reshaped (see
+`docs/spec-layer0.md` F18–F24 and `docs/ceal-bug-profile.md` "Grounded outcome"):
+
+- **The RE-TARGET verdicts above measured only the (a) axis** — does the
+  *bug-history* match pry's swallowed-boundary shape (via SZZ). They do **not**
+  speak to the **(b) testability-surface** axis — are these repos' boundaries
+  *welded* (un-injectable)? — which is pry's literal thesis and was **never
+  measured** (the map was never built or run on either repo).
+- So "RE-TARGET" means "the (a)-lens does not fit these repos," **not** "pry has
+  nothing to find here." ceal in particular is full of connector/provider/LLM
+  boundaries (the cautilus-demand surface) that the (a)-gate never examined
+  through the welded/seamed lens.
+- **Next experiment: the (b)-axis testability-surface gate (F24)** — analyzer-free
+  hand/script-sample of ceal's boundary sites, scoring welded-fraction +
+  ambiguous-reason histogram + cautilus-demand lift, with a 3-way
+  GO / EXTEND / KILL·HANDOFF verdict. Still **no Rust until a (b)-gate GO.**

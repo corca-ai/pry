@@ -87,3 +87,32 @@ This is a hypothesis to test, not a decision. Next session: take it into
 seamed/welded map + syntactic floor stay the whole deliverable — behavioral
 verification stays with cautilus), then re-run Gate 0 with the re-tuned static
 miner + catalog on ceal/charness.
+
+## Grounded outcome (post-discussion, 2026-06-13)
+
+The ideation happened (live). The seed above held, but sharpened in four ways —
+all recorded in `docs/spec-layer0.md` (F18–F24):
+
+1. **It is not a catalog *swap* but a re-centering.** pry's two value-props were
+   conflated: **(a)** defects *cluster* in welded boundaries (what Gate 0 measured,
+   weak here) vs **(b)** a welded boundary *cannot have a failure injected into it*
+   (the literal thesis, never measured). (b) is the structural substrate; (a) is one
+   contingent lens on it. The catalog is **broadened to all recognizable
+   boundaries**, not swapped.
+2. **The demand lens is now evidence-grounded, not hypothetical.** `cautilus` is
+   **built** (eval-slice shipping) and formalizes demand as **4 verification legs**:
+   `externalSubstitution` (LLM/Slack/calendar/DB/HTTP/credential — ~1:1 with pry's
+   seam/welded question), `triggerControl` (scheduled enqueue / async worker spawn),
+   `inputSimulation`, `externalObservation`. ceal's clusters above map cleanly onto
+   these. The catalog tags each boundary with the leg it serves (F21).
+3. **pry is a structural pre-pass, not a cautilus byproduct.** cautilus *requires
+   the host* to expose controllable boundaries and only documents controlled-vs-not
+   *reactively per-runner*; it has no static/exhaustive/ahead-of-time scorer. pry is
+   that scorer (F23).
+4. **config-seam.** Because cautilus substitutes "at the same boundary the product
+   uses", config/env redirection is a real seam — so SEAMED = in-band DI ∪
+   config-seam (monkeypatch still excluded). Without this, pry over-counts welded
+   vs what cautilus can actually control (F18).
+
+Next experiment = the **(b)-axis testability-surface gate (F24)**, analyzer-free
+hand/script-sample on ceal — *not* a re-run of the (a)/SZZ Gate 0.
