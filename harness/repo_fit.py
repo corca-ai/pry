@@ -33,32 +33,36 @@ import config
 from szz import BUG_SITES_PATH
 
 
-def assess(site_count: int, recall_total: int, recall_hits: int,
-           floor: int) -> dict:
-    """Pure decision logic (unit-testable without git or the API)."""
-    recall = (recall_hits / recall_total) if recall_total else None
+def assess(site_count: int, high_conf_count: int, recall_total: int,
+           recall_hits: int, floor: int) -> dict:
+    """Pure decision logic (unit-testable without git or the agent).
 
-    if site_count >= floor:
+    The floor (F17) is cleared by HIGH-CONFIDENCE sites only, so a margin-of-few
+    win cannot be manufactured by low-confidence yes-votes.
+    """
+    recall = (recall_hits / recall_total) if recall_total else None
+    tot = f"{high_conf_count} high-confidence sites (of {site_count} total)"
+
+    if high_conf_count >= floor:
         axis = "go"
-        verdict = (f"PROCEED: {site_count} error-handling bug sites >= floor "
-                   f"{floor}. charness has the bug shape; building the analyzer "
-                   f"is justified.")
+        verdict = (f"PROCEED: {tot} >= floor {floor}. charness has the bug shape; "
+                   f"building the analyzer is justified.")
     else:
         axis = "inconclusive"
         if recall is not None and recall >= 0.25:
-            verdict = (f"UNDERPOWERED: only {site_count} sites (< floor {floor}) "
-                       f"AND the miner missed error-handling fixes "
-                       f"({recall_hits}/{recall_total} non-matched were real). "
-                       f"Re-tune the miner before concluding 'no gradient'.")
+            verdict = (f"UNDERPOWERED: {tot} < floor {floor} AND the miner missed "
+                       f"error-handling fixes ({recall_hits}/{recall_total} "
+                       f"non-matched were real). Re-tune the miner before "
+                       f"concluding 'no gradient'.")
         else:
-            verdict = (f"RE-TARGET: only {site_count} sites (< floor {floor}) and "
-                       f"miner recall looks adequate "
-                       f"({recall_hits}/{recall_total} missed). charness may not "
-                       f"have this bug shape — pull ceal or change the target, "
-                       f"don't build the analyzer.")
+            verdict = (f"RE-TARGET: {tot} < floor {floor} and miner recall looks "
+                       f"adequate ({recall_hits}/{recall_total} missed). charness "
+                       f"may not have this bug shape — pull ceal or change the "
+                       f"target, don't build the analyzer.")
     return {
         "repo_fit_axis": axis,
         "site_count": site_count,
+        "high_confidence_site_count": high_conf_count,
         "floor": floor,
         "mining_recall_sample": recall_total,
         "mining_recall_hits": recall_hits,
@@ -82,19 +86,30 @@ def main() -> None:
     labels = json.loads(args.labels.read_text())["labels"]
     bug = json.loads(args.bug_sites.read_text())
 
+    # high-confidence fix commits (F17): a site is high-confidence if any of its
+    # fix commits was labeled high-confidence.
+    high_conf_fix = {sha for sha, v in labels.items()
+                     if v["group"] == "candidate" and v["is_error_handling_fix"]
+                     and v["confidence"] == "high"}
+    high_conf_count = sum(
+        1 for s in bug["sites"]
+        if any(fc in high_conf_fix for fc in s.get("fix_commits", []))
+    )
+
     recall_total = sum(1 for v in labels.values() if v["group"] == "recall_sample")
     recall_hits = sum(1 for v in labels.values()
                       if v["group"] == "recall_sample" and v["is_error_handling_fix"])
 
-    result = assess(bug["site_count"], recall_total, recall_hits, args.floor)
+    result = assess(bug["site_count"], high_conf_count, recall_total,
+                    recall_hits, args.floor)
     result["corpus"] = bug["corpus"]
     result["corpus_head"] = bug["corpus_head"]
 
     args.out.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n")
 
     print("=== repo-fit gate (analyzer-free) ===")
-    print(f"  sites: {result['site_count']}  floor: {result['floor']}  "
-          f"axis: {result['repo_fit_axis']}")
+    print(f"  sites: {result['site_count']}  high-confidence: {high_conf_count}  "
+          f"floor: {result['floor']}  axis: {result['repo_fit_axis']}")
     print(f"  mining recall: {recall_hits}/{recall_total}")
     print(f"\n  {result['verdict']}")
     print(f"\nwrote {args.out}")

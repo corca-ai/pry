@@ -24,25 +24,12 @@ CANDIDATES_PATH = FIXTURES_DIR / "candidates.json"   # mine.py output (frozen)
 LABELS_PATH = FIXTURES_DIR / "labels.json"           # label.py output (frozen)
 REPO_FIT_PATH = FIXTURES_DIR / "repo_fit.json"       # repo_fit.py output (frozen)
 
-# --- labeler (F10) -------------------------------------------------------
-# Precision defines ground truth; Sonnet 4.6 balances precision/cost.
-# Haiku 4.5 is the cheaper fallback if cost dominates.
-LABELER_MODEL = "claude-sonnet-4-6"
-LABELER_MODEL_FALLBACK = "claude-haiku-4-5-20251001"
-
-# USD per 1,000,000 tokens (input, output). Sourced from the claude-api skill's
-# current-models table (cached 2026-06-04). Pin here so the cost gate is honest.
-PRICING = {
-    "claude-sonnet-4-6": {"input": 3.00, "output": 15.00},
-    "claude-haiku-4-5-20251001": {"input": 1.00, "output": 5.00},
-}
-
-# Cost-estimation knobs (doctor.py). label.py must honor LABEL_DIFF_CHAR_CAP so
-# the pre-spend estimate matches what is actually sent.
-LABEL_DIFF_CHAR_CAP = 8000      # max diff chars sent to the labeler per commit
-CHARS_PER_TOKEN = 3.5           # heuristic for diffs/code (denser than prose)
-PROMPT_OVERHEAD_TOKENS = 400    # system + instructions per labeling call
-OUTPUT_TOKENS_PER_CALL = 40     # binary verdict + short reason
+# --- labeling worklist (F10) --------------------------------------------
+# The labeler is the CODING AGENT, not a pinned API model. There is no model
+# constant, no pricing, and no cost gate (that was the retired nose anti-pattern
+# that embedded intelligence + a credential in a script). label_io.py emit caps
+# each diff placed in the (blinded) worklist:
+LABEL_DIFF_CHAR_CAP = 8000      # max diff chars per commit in the worklist
 
 # --- repo-fit gate (P1) --------------------------------------------------
 # Pre-registered floor: below this many SZZ-attributable error-handling bug
