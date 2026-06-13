@@ -19,14 +19,27 @@ Can kill or re-target the project **before any Rust is written** (§9 reframe).
 | 5 | `repo_fit.py` | no | `fixtures/repo_fit.json` — site count vs floor → repo-fit verdict |
 
 `label.py` is gated: it must not spend without explicit `--yes` confirmation,
-and `doctor.py` prints the cost first. Built so far: steps 1–2.
+and `doctor.py` prints the cost first. **All five steps are built.** Non-paid
+parts are verified; the only unrun step is the paid `label.py` call, which needs
+a credential.
 
 ## Run
 
 ```sh
-python3 harness/mine.py            # freeze candidates.json (corpus: charness)
-python3 harness/doctor.py          # cost gate — review before authorizing labeling
+python3 harness/mine.py            # 1. freeze candidates.json (corpus: charness)
+python3 harness/doctor.py          # 2. cost gate — review before authorizing
+python3 harness/label.py --dry-run # preview one prompt for free ($0)
+python3 harness/label.py --yes     # 3. PAID — freeze labels.json (resumable)
+python3 harness/szz.py             # 4. freeze bug_sites.json
+python3 harness/repo_fit.py        # 5. repo-fit verdict -> repo_fit.json
 ```
+
+### Credential
+
+`label.py` resolves `ANTHROPIC_API_KEY` / `ANTHROPIC_AUTH_TOKEN` from the
+environment, or from a **gitignored** `pry/.env` (`ANTHROPIC_API_KEY=sk-...`).
+The `.env` path is robust because env vars set in one shell don't persist across
+tooling calls.
 
 ## Current numbers (charness @ 3b9a2013)
 
