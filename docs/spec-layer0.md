@@ -127,6 +127,8 @@ beating the baselines first (kill-cheaply).
 | F22 | **Extension is a pre-registered ladder — evidence-gated, cheapest-first, with a principled ceiling — not open-ended.** Rungs 0 (now) → intra-file cross-function → depth k=2 → boundary-bearing propagation → (cliff) cross-file resolution → (≈never) type inference. A rung is **kept only if it converts ≥15%p ambiguous→decided** and does not raise floor FP; **ceiling** = the static/behavioral line (runtime-determined injectability → `ambiguous` → cautilus). | The one-hop cap is a hypothesis the gate measures (ambiguous fraction). "Prepared to extend" must not slide into a whole-program analyzer; rent rule + principled ceiling + determinism-erosion cost bound it. |
 | F23 | **cautilus-demand is pry's actionability lens, evidence-grounded.** cautilus (built, eval-slice shipping) *requires the host* to expose controllable boundaries (its 4 verification legs) and only documents controlled-vs-not *reactively per-runner*; it has **no** static/exhaustive/ahead-of-time scorer. pry is that scorer; welded boundaries on `externalSubstitution`/`triggerControl` points = exactly where cautilus's legs fail. | Resolves the marginal-value question (①): pry is a structural pre-pass, not a convenience byproduct. Complementarity is non-overlapping by construction. |
 | F24 | **Testability-surface gate (the (b)-axis gate) precedes any Rust**, analyzer-free hand/script-sample first (Gate-0 spirit). Metrics: recognizability, decided-fraction (mute-gate `< 0.40`), welded-fraction (band `[0.15, 0.85]`), **ambiguous-reason histogram**, cautilus-demand lift. Verdict is **3-way: GO / EXTEND / KILL·HANDOFF** (EXTEND routes to F22's ladder by the ambiguous-reason shape). Numbers **frozen per-run** (re-tunable between runs, never after seeing a run — §13 B.1). | Gate 0 tested (a) only; (b) was never measured. The reason-histogram steers extend-vs-ceiling. |
+| F25 | **Dogfood the Python harness as a known-ground-truth calibration *control*, not a gate corpus.** The harness (`harness/*.py`: git/subprocess/file-I/O-heavy, every seam known to the author) is hand-sampled under the (b)-gate protocol **before ceal** — as the protocol **shakedown** (catch bad reason-codes / catalog gaps on code with ground truth) and a **welded-detection calibration**. It is **never** a gate-clearing signal: dogfooding is maximally non-independent (own tool · own code · own ground truth) → circular self-validation (the §13 B.1 / F10 independence concern). It also confirms substrate+lens: throwaway glue is welded-but-fine, so raw welded ≠ bad — only the lens makes it actionable. | Dogfooding strengthens a testability tool, but its value is discipline/fast-feedback/calibration, not the verdict; the verdict must rest on a corpus the author did not shape to pry's taste (ceal). |
+| F26 | **Architecture self-application invariant.** pry's own implementation satisfies pry's own seam standard — its boundaries (source-file reads, catalog TOML read, output emit) are injectable/seamed, so pry is testable by its own definition. A testability tool that is not testable is self-refuting. Literal self-analysis is **deferred** (pry parses Python, not Rust; a nose-style tree-sitter-rust frontend would make it the literal proof someday). | pry's product *is* testability; its credibility collapses if its own implementation welds the very boundaries it flags. |
 
 ## Seam classification & analysis depth (the map's mechanics)
 
@@ -184,6 +186,10 @@ itself a product: the cautilus handoff list + the refactor-candidate list.
 Gate 0 tested (a) (bug-history fit) → RE-TARGET; it never measured (b). This gate
 does, **analyzer-free first** (hand/script-sample N≈30–50 boundary sites on `ceal`,
 Gate-0 spirit), before any Rust.
+
+**Ordering (F25):** hand-sample the Python **harness first** — the protocol
+shakedown + a ground-truth-known calibration *control* (not a gate corpus) — then
+`ceal`, the independent gate corpus that carries the verdict.
 
 Metrics: **recognizability** (catalog hit rate), **decided-fraction**
 `(seamed+welded)/recognized` (mute-gate `< 0.40` → map mute), **welded-fraction**
@@ -335,6 +341,8 @@ frozen.
 - **Two-channel discipline**: map = prediction (judged by lift); floor = claim
   (≈0 FP, `# pry-ignore`). Physically separate outputs (F8).
 - **Boundary + seam catalog is *data*** (`catalog/python.toml`), not code.
+- **Self-application invariant (F26):** pry's own implementation is seamed by pry's
+  own standard — pry must be testable by its own definition.
 - **No live `git` in the scoring path** — scoring reads frozen SZZ sites (F9).
 - Toolchain present: `cargo`/`rustc` 1.93, `python3` 3.10.
 - Charness durable artifacts under `charness-artifacts/` are repo state.

@@ -8,8 +8,15 @@ the handoff's original "catalog swap" into a full **(b) testability-surface
 re-centering**. The contract is now in [`docs/spec-layer0.md`](spec-layer0.md)
 (F18–F24 + three new sections). Read those first.
 
-**First action: run the (b)-axis testability-surface gate (F24) on `ceal`,
-analyzer-free** (hand/script-sample, Gate-0 spirit — *no Rust yet*). Sequence:
+**First action: run the (b)-axis testability-surface gate (F24), analyzer-free**
+(hand/script-sample, Gate-0 spirit — *no Rust yet*). Run the protocol **twice —
+harness first (control), then ceal (gate)**:
+
+- **(0) Dogfood control (F25):** run steps 1–4 on the Python **harness**
+  (`harness/*.py`; git/subprocess/file-I/O-heavy; every seam known to the author)
+  — the protocol **shakedown** + welded-detection calibration. *A control, not a
+  gate corpus* (it never clears the gate — dogfooding is non-independent).
+- **then `ceal`** (the independent gate corpus that carries the verdict):
 
 1. Sample N≈30–50 boundary **call/acquisition sites** in ceal's Python (favor the
    cautilus-demand surface: LLM/tool dispatch, Slack/provider SDK, calendar reads,
@@ -22,8 +29,9 @@ analyzer-free** (hand/script-sample, Gate-0 spirit — *no Rust yet*). Sequence:
    (mute-gate `<0.40`; welded band `[0.15,0.85]`; lift = demand-point welded% >
    overall welded%).
 4. Record the **3-way verdict — GO / EXTEND / KILL·HANDOFF** — in
-   `docs/kill-gate.md`. EXTEND routes to the F22 ladder by the ambiguous-reason
-   shape; **no analyzer code until a (b)-gate GO.**
+   `docs/kill-gate.md` (ceal carries the verdict; the harness pass is calibration
+   only — never clears the gate, F25). EXTEND routes to the F22 ladder by the
+   ambiguous-reason shape; **no analyzer code until a (b)-gate GO.**
 
 If validation-shaped closeout is needed, route through `quality` per CLAUDE.md.
 
@@ -48,6 +56,12 @@ If validation-shaped closeout is needed, route through `quality` per CLAUDE.md.
   `.scm`); rules hardcoded but pry's flat catalog stays **data**; intra-fn dataflow
   + one-level import resolution are affordable; nose *omits* `self.attr`→ctor, the
   one hop pry must add (F19/F20).
+- **Dogfooding decided (F25/F26):** the Python harness is a ground-truth-known
+  *calibration control* — run the (b)-gate protocol on it before ceal (shakedown +
+  calibration), **never as a gate corpus** (non-independent). Plus a
+  **self-application invariant**: pry's own Rust implementation must be seamed by
+  pry's own standard (testable by its own definition). Literal self-analysis
+  deferred (pry parses Python, not Rust).
 - **Architecture unchanged & locked:** `pry` CLI = deterministic Rust analyzer,
   zero intelligence (nose model); intelligence in an agent-run skill; labeling
   agent-driven/blinded. Harness built/verified/committed (`harness/`).
