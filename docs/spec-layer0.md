@@ -129,6 +129,7 @@ beating the baselines first (kill-cheaply).
 | F24 | **Testability-surface gate (the (b)-axis gate) precedes any Rust**, analyzer-free hand/script-sample first (Gate-0 spirit). Metrics: recognizability, decided-fraction (mute-gate `< 0.40`), welded-fraction (band `[0.15, 0.85]`), **ambiguous-reason histogram**, cautilus-demand lift. Verdict is **3-way: GO / EXTEND / KILL·HANDOFF** (EXTEND routes to F22's ladder by the ambiguous-reason shape). Numbers **frozen per-run** (re-tunable between runs, never after seeing a run — §13 B.1). | Gate 0 tested (a) only; (b) was never measured. The reason-histogram steers extend-vs-ceiling. |
 | F25 | **Dogfood the Python harness as a known-ground-truth calibration *control*, not a gate corpus.** The harness (`harness/*.py`: git/subprocess/file-I/O-heavy, every seam known to the author) is hand-sampled under the (b)-gate protocol **before ceal** — as the protocol **shakedown** (catch bad reason-codes / catalog gaps on code with ground truth) and a **welded-detection calibration**. It is **never** a gate-clearing signal: dogfooding is maximally non-independent (own tool · own code · own ground truth) → circular self-validation (the §13 B.1 / F10 independence concern). It also confirms substrate+lens: throwaway glue is welded-but-fine, so raw welded ≠ bad — only the lens makes it actionable. | Dogfooding strengthens a testability tool, but its value is discipline/fast-feedback/calibration, not the verdict; the verdict must rest on a corpus the author did not shape to pry's taste (ceal). |
 | F26 | **Architecture self-application invariant.** pry's own implementation satisfies pry's own seam standard — its boundaries (source-file reads, catalog TOML read, output emit) are injectable/seamed, so pry is testable by its own definition. A testability tool that is not testable is self-refuting. Literal self-analysis is **deferred** (pry parses Python, not Rust; a nose-style tree-sitter-rust frontend would make it the literal proof someday). | pry's product *is* testability; its credibility collapses if its own implementation welds the very boundaries it flags. |
+| F27 | **(b)-gate GO criterion recalibrated to the *lens* (Runs 3+4 finding; frozen before Run 5).** The bare welded-fraction `welded/decided` is **fs-swamped**: the high-volume, input-redirectable boundary (file I/O, env) is uniformly welded-but-cheaply-testable in *any* codebase, so the bare fraction trends `> 0.85` regardless (0.95 ceal-Py, ~0.89 ceal-TS) and does not discriminate. The GO test moves from the bare fraction to **lens discrimination on the substitution-demand subset.** Partition decided boundaries into **(i) input-redirectable** (`inputSimulation`-seam YES + value-shaped failures: file I/O, env, db-path, tz-key, url-as-data) — *excluded* from the GO test (welded≠bad, F25) — and **(ii) the substitution-demand subset** (leg `triggerControl`, or `externalSubstitution` on clock / provider-client / network-transport / subprocess — boundaries whose failure modes are **not** value-shaped, so only `externalSubstitution`/`triggerControl` reaches them). **GO** = subset is non-trivial (≥ floor) **and** discriminates (within-subset welded-fraction in `[0.15,0.85]` with a real seamed population). **KILL·HANDOFF** = subset trivially small (glue) or uniformly welded (no seam population). **EXTEND** = subset discriminates but a material part is `ambiguous` for a rung-resolvable reason. The bare fraction is retained as a reported *diagnostic*, not the gate. | The bare fraction measured file-I/O volume, not testability (confirmed on two corpora); the substrate+lens model (F25) says the *lens* is the product. This correctly KILLs ceal-Py (tiny, all-welded substitution-demand subset) and GOs ceal-TS (mixed) — a better metric, not a verdict-flip (it sharpens Py's KILL too). Between-runs tuning, frozen before Run 5 (§13 B.1). |
 
 ## Seam classification & analysis depth (the map's mechanics)
 
@@ -208,22 +209,34 @@ shakedown + a ground-truth-known calibration *control* (not a gate corpus) — t
 `ceal`, the independent gate corpus that carries the verdict.
 
 Metrics: **recognizability** (catalog hit rate), **decided-fraction**
-`(seamed+welded)/recognized` (mute-gate `< 0.40` → map mute), **welded-fraction**
-`welded/decided` (discrimination band `[0.15, 0.85]`), **ambiguous-reason
-histogram** (steers the ladder), **cautilus-demand lift** (welded-fraction among
-`externalSubstitution`/`triggerControl` points vs overall) — computed **per leg**
-(substitution-welded vs input-sim-welded) per F18's two-tier rule.
+`(seamed+welded)/recognized` (mute-gate `< 0.40` → map mute), **ambiguous-reason
+histogram** (steers the ladder), and — **the GO metric (recalibrated, F27)** —
+**lens discrimination on the substitution-demand subset.** The bare welded-fraction
+`welded/decided` is **fs-swamped** (file-I/O/env volume → always `> 0.85`; confirmed
+on ceal-Py 0.95 and ceal-TS ~0.89) and is kept only as a reported **diagnostic**, not
+the gate.
 
-Verdict (3-way; numbers frozen per-run, re-tunable between runs, never after seeing
-a run — §13 B.1):
+The substitution-demand subset (F27): decided boundaries with leg `triggerControl`,
+or `externalSubstitution` on **clock / provider-client / network-transport /
+subprocess** — i.e. boundaries whose failure modes are **not** value-shaped, so an
+`inputSimulation` redirect can't reach them. The high-volume **input-redirectable**
+boundaries (file I/O, env, db-path, tz-key, url-as-data — `inputSimulation`-seam YES,
+value-shaped failures) are **excluded** from the GO test (welded≠bad, F25).
 
-- **GO** — decided ≥ 0.40, welded in band, welded concentrates at cautilus-demand
-  points → build the Rust map.
-- **EXTEND** — mute (decided < 0.40) but ambiguous reasons are mostly rung-1/2
-  resolvable → climb one ladder rung (F22) and re-measure (**not** a kill).
-- **KILL · HANDOFF** — mute and ambiguous is mostly runtime/dynamic/cross-module →
-  the ceiling; this code's injectability is not statically decidable = cautilus
-  territory. Re-think pry for these repos.
+Verdict (numbers frozen per-run, re-tunable between runs, never after seeing a run —
+§13 B.1):
+
+- **GO** — decided ≥ 0.40; the substitution-demand subset is non-trivial (≥ floor)
+  **and discriminates** (within-subset welded-fraction in `[0.15,0.85]` with a real
+  seamed population) → the map separates seamed-good from welded-gaps where it matters
+  → build the Rust map.
+- **EXTEND** — the subset discriminates but a material part is `ambiguous` for a
+  rung-1/2-resolvable reason → climb one ladder rung (F22) and re-measure (**not** a
+  kill). (Also: mute, `decided < 0.40`, with resolvable ambiguous reasons.)
+- **KILL · HANDOFF** — the substitution-demand subset is **trivially small** (glue,
+  e.g. ceal-Py ~4% all-clock) **or uniformly welded** (no seam population), **or** mute
+  with ambiguous mostly runtime/dynamic/cross-module (the ceiling = cautilus
+  territory). Re-think pry for these repos.
 
 ## Labeling rubric (the intelligence the agent applies)
 
