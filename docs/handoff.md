@@ -8,44 +8,54 @@ the handoff's original "catalog swap" into a full **(b) testability-surface
 re-centering**. The contract is now in [`docs/spec-layer0.md`](spec-layer0.md)
 (F18–F24 + three new sections). Read those first.
 
-**First action: run the (b)-axis gate (F24) on `ceal`, analyzer-free** (hand/script-
-sample, *no Rust yet*). Finding C is **RESOLVED** (see below); pre-work is done — the
-catalog seed (`catalog/python.toml`) and the harness dogfood control are pre-computed
-in [`docs/dogfood-control.md`](dogfood-control.md).
+**Both gate axes are now run on the author's repos and both say "not pry's
+corpus."** Finding C is RESOLVED (two-tier F18) and the (b)-gate has been run on
+`ceal` → **Run 3 = KILL·HANDOFF (saturated-welded / glue)**. **First action: DECIDE
+the (b)-axis strategic fork** (below) with the author — it is the (b)-analogue of the
+(a)-gate fork and needs a human call. **No analyzer code until a corpus clears a
+gate** (still true on both axes).
 
-- **Finding C (blocker) — RESOLVED 2026-06-13 (two-tier / leg-relative, frozen F18).**
-  config-seam is now leg-relative: the headline SEAMED/WELDED bit = **externalSubstitution**
-  (a param selecting a runner-swappable provider/endpoint/client); operand-
-  parameterization (`open(path)`, `urlopen(url)`) is WELDED for substitution but tagged
-  **`inputSimulation`-seam** (separate weaker tier). Classify each *site* on substitution
-  (S/W/A) + a yes/no input-sim tag; gate reports **per-leg lift**.
-- **Finding A (scope) — ceal's agent-API boundaries (LLM/Slack/calendar) are TS/JS,
-  0 in Python.** ceal Python is file I/O + subprocess + clock glue. Sample the
-  *real* Python surface; the headline agent surface needs a TS frontend (deferred).
-  cautilus-demand overlap in Python = **subprocess worker-spawn + file/db/clock**.
+**(b)-gate result** (full evidence: [`docs/ceal-b-gate.md`](ceal-b-gate.md);
+verdict in [`docs/kill-gate.md`](kill-gate.md) Run 3). N=59 non-test boundary sites:
+decided-fraction **1.00** (fully decidable, NOT mute), welded-fraction **0.95** (OUT
+of the `[0.15,0.85]` band — bare bit non-discriminating), ambiguous **0**,
+substitution lift **≈1.0** (none). ceal Python is procedural agent-tooling glue —
+zero `self.attr`-DI, zero computed-targets, *structurally identical to pry's own
+harness*. The two-tier lens recovers one small real signal: ~4% hard welds (all
+clock) = genuine cautilus substitution-demand; the other ~94% are cheaply
+input-redirectable (already testable the way ceal's own tests are). This is
+**decided-but-saturated-welded** — a fourth outcome F24 didn't enumerate (its
+EXTEND/KILL branches are muteness-keyed); recorded as an F24 recalibration candidate,
+NOT used to flip the verdict (§13 B.1 anti-wriggle).
 
-Then run the gate on ceal (the independent corpus that carries the verdict):
+**The strategic fork to decide (needs the author):**
+1. **TS frontend** — go where ceal's *real* agent boundaries (LLM/Slack/calendar)
+   live (finding A — they are 0 in Python, all in TS); nose supports TS; reopens the
+   language scope Layer-0 deferred.
+2. **OSS non-glue Python corpus** (§9: distributed systems / data pipelines) where
+   boundaries are genuinely *mixed* welded/seamed and the bare bit discriminates.
+3. **Re-scope pry's product on glue** — from "welded/seamed ranker" to the **two-tier
+   lens output** (hard-weld/clock extractor + cautilus-handoff list + input-sim
+   cheap-test list), accepting the bare-bit ranker thesis does not fit glue code.
 
-1. Sample N≈30–50 boundary **call/acquisition sites** in ceal's Python — the real
-   surface: file I/O (`read_text`/`write_text`/`exists`…), `subprocess.run`
-   worker-spawn, clock (`datetime.now`), `os.environ`, small net/db/tz.
-2. Classify each site's **substitution bit (SEAMED / WELDED / AMBIGUOUS)** by the
-   F18/F19 rule (0-hop + one `self.attr`→same-class `__init__` hop; config-seam =
-   dependency-substitution only; monkeypatch never upgrades; every `ambiguous` gets a
-   **reason code**) **plus a yes/no `inputSimulation`-seam tag** (two-tier, F18).
-3. Score the F24 metrics: recognizability, decided-fraction, welded-fraction,
-   **ambiguous-reason histogram**, cautilus-demand lift. Apply the frozen numbers
-   (mute-gate `<0.40`; welded band `[0.15,0.85]`; lift = demand-point welded% >
-   overall welded%).
-4. Record the **3-way verdict — GO / EXTEND / KILL·HANDOFF** — in
-   `docs/kill-gate.md` (ceal carries the verdict; the harness pass is calibration
-   only — never clears the gate, F25). EXTEND routes to the F22 ladder by the
-   ambiguous-reason shape; **no analyzer code until a (b)-gate GO.**
+- **Finding C — RESOLVED 2026-06-13 (two-tier / leg-relative, frozen F18).** Headline
+  SEAMED/WELDED = `externalSubstitution` (runner-swappable provider/endpoint/client);
+  operand-parameterization = WELDED + separate `inputSimulation`-seam tag. Frozen
+  before Run 3.
+- **Finding A — CONFIRMED by Run 3.** ceal Python (461 skill scripts) is file I/O +
+  subprocess + clock glue; the agent-API surface is TS. cautilus substitution-demand
+  in Python = the tiny clock hard-weld sliver only.
 
 If validation-shaped closeout is needed, route through `quality` per CLAUDE.md.
 
 ## Current State
 
+- **(b)-gate RUN (Run 3, this session): KILL·HANDOFF (glue).** Finding C resolved
+  (two-tier F18, frozen first), then the analyzer-free (b)-gate run on ceal → welded
+  0.95 / decided 1.0 / no lift. Both pry axes now agree the author's Python repos are
+  uniformly welded glue (3 of 3 signals). Evidence: `docs/ceal-b-gate.md`,
+  `docs/kill-gate.md` Run 3. The strategic fork (TS frontend / OSS corpus / re-scope)
+  is the open decision. **No analyzer code built.**
 - **Design seq #1–#5 complete and formalized** (this session): seam definition,
   catalog-recognition + analysis-depth model, extension ladder, the (b)-gate, and
   the cautilus-demand lens. All in `docs/spec-layer0.md` F18–F24 + sections
@@ -89,8 +99,10 @@ If validation-shaped closeout is needed, route through `quality` per CLAUDE.md.
   **seed** (leg-tagged; ceal Python = file I/O + subprocess + clock).
 - [`docs/dogfood-control.md`](dogfood-control.md) — pre-computed harness control +
   ceal Python surface scan + findings A–D (C is a pre-scoring blocker).
-- [`docs/kill-gate.md`](kill-gate.md) — Gate 0 (a)-axis verdicts + the re-centering
-  note (the (b)-gate is the next experiment).
+- [`docs/kill-gate.md`](kill-gate.md) — (a)-axis Gate 0 verdicts + **Run 3** (the
+  (b)-axis gate, KILL·HANDOFF) + the cross-axis synthesis.
+- [`docs/ceal-b-gate.md`](ceal-b-gate.md) — the (b)-gate run on ceal: N=59 sample
+  table, F24 metrics under the two-tier rule, verdict, and the strategic fork.
 - [`docs/ceal-bug-profile.md`](ceal-bug-profile.md) — ceal's recurring clusters +
   the grounded pivot outcome (catalog leg-tags, config-seam, cautilus 4 legs).
 - `../cautilus` — built behavioral verifier; `docs/contracts/runner-verification.md`

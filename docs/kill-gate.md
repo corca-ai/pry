@@ -139,3 +139,50 @@ The fork was resolved live toward **pivot the signal**, reshaped (see
   hand/script-sample of ceal's boundary sites, scoring welded-fraction +
   ambiguous-reason histogram + cautilus-demand lift, with a 3-way
   GO / EXTEND / KILL·HANDOFF verdict. Still **no Rust until a (b)-gate GO.**
+
+---
+
+## Run 3 — corpus: **ceal** @ `8238b245` — the (b)-axis gate (2026-06-13)
+
+The testability-surface gate (F24), analyzer-free hand-sample, two-tier F18 rule
+(finding C resolved, frozen before the run). Full evidence + sample table:
+[`docs/ceal-b-gate.md`](ceal-b-gate.md). N = 59 non-test boundary sites, stratified
+(net/db/tz exhaustive; file I/O / subprocess / clock / env sampled).
+
+| metric | value | frozen bar | result |
+|--------|-------|------------|--------|
+| recognizability | ~1.0 | high | clears |
+| decided-fraction | **1.00** (59/59) | mute-gate `< 0.40` | NOT mute (fully decidable) |
+| welded-fraction (substitution) | **0.95** (56/59) | band `[0.15, 0.85]` | **OUT (high)** — bare bit non-discriminating |
+| ambiguous | **0** | reason histogram | empty (no extend signal) |
+| cautilus-demand lift (substitution) | ≈ **1.0** | > 1 | **no lift** (welded is uniform) |
+| input-sim tier (two-tier) | welds YES 45 / **NO 11** | — | hard-welds concentrate **100% at clock** |
+
+**Verdict: KILL · HANDOFF (substitution-ranker), "saturated-welded / glue" variant.**
+ceal Python is procedural agent-tooling glue (zero `self.attr`-DI, zero
+computed-targets, 1 injected callable — *structurally identical to pry's own
+harness*). The bare seamed/welded map ≈ the any-boundary baseline (no lift) → fails
+the frozen GO criterion. This is **decided-but-saturated-welded**, the *opposite* of
+F24's "undecidable→cautilus" KILL rationale (a fourth outcome F24 didn't enumerate).
+The two-tier lens recovers one small real signal — ~4% hard welds, all clock =
+genuine cautilus substitution-demand — but it does not flip the headline verdict
+(§13 B.1 anti-wriggle). **No Rust built.** Convergent with the (a)-gate RE-TARGET.
+
+## Cross-axis synthesis (3 of 3 own-repo signals → not pry's corpus)
+
+| run | corpus | axis | headline | verdict |
+|-----|--------|------|----------|---------|
+| 1 | charness | (a) bug-history | 6 high-conf sites ≪ 30 | RE-TARGET |
+| 2 | ceal | (a) bug-history | 2 high-conf sites ≪ 30 | RE-TARGET |
+| 3 | ceal | (b) testability-surface | welded 0.95 (no lift), decided 1.0 | KILL·HANDOFF (glue) |
+
+Both pry axes now agree on the author's repos: **the Python is uniformly welded glue
+that pry's thesis gets no traction on as a ranker, and the interesting agent
+boundaries are TS** (finding A). The (b)-gate adds the precise mechanism: not "no
+bugs" but "no *discrimination*" — ~94% of welds are cheaply input-redirectable
+(already testable the way ceal's tests do it), only ~4% (clock) are true
+substitution-demand. **The (b)-axis strategic fork (needs the author):** (1) a **TS
+frontend** to reach ceal's real agent surface; (2) an **OSS non-glue Python corpus**
+(§9) where boundaries are mixed; (3) **re-scope** pry's product to the two-tier lens
+output (hard-weld + cautilus-handoff + cheap-test list), dropping the bare-bit ranker.
+Still **no analyzer code** until a corpus clears a gate.
