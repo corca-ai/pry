@@ -43,27 +43,47 @@ computed over a failed calendar read. Everything else recurs in these shapes:
 6. **Skill/adapter parsing + materialization pins** (infra): `8ece278` adapter
    list parsing; `e01610a`/`30b84ab` charness materialization pin.
 
-## Implication for pry (the pivot-signal hypothesis)
+## Scope line: pry (static) vs cautilus (behavioral) — do not blur them
 
-pry's boundary catalog (`requests`/`open`/`socket`/…) and bug shape (swallowed
-boundary failure → mutation → commit-anyway) are tuned for Yuan's distributed
-systems. For ceal-shaped repos the **injectability/seam thesis may still hold**
-but the *boundaries* and *invariants* differ:
+The clusters above are *behavioral* bugs. Whether ceal's scheduled workflow
+**actually** aborts correctly, enforces a follow-up, or records the right
+decision is a **behavioral / runtime** question — and that is
+[`cautilus`](../../cautilus)'s job (it keeps agent/workflow *behavior* honest by
+running bounded evaluation packets as prompts change). **pry must not chase
+behavioral correctness — that is cautilus's lane.**
 
-- **Boundaries to catalog:** LLM/tool dispatch, Slack/provider API calls,
-  **scheduled-task / cron / async-worker hops**, subprocess agent workers,
-  workflow-state persistence.
-- **Bug shapes to flag:** a required workflow step / proof / contract not
-  enforced across an async agent boundary; a scheduled action that fires or
-  aborts without a visible, testable outcome; state/decision recorded after a
-  deadline or on the wrong channel.
-- **Seam question, restated:** is there a seam to inject "the scheduled job
-  failed / the agent worker crashed / the provider returned an error / the
-  follow-up was never posted" and assert the workflow refuses to record success?
-  Clusters 1–3 are exactly *missing such seams* — welded scheduled/dispatch
-  boundaries with no injectable failure point.
+pry is **static**: it never runs the agent. Its only question about any boundary
+is structural and answerable from the AST/imports alone — **is this boundary
+welded inline, or reachable through an injectable seam?** So the recurring
+clusters matter to pry *only* as a clue to *which boundaries* to catalog, not as
+behaviors to verify.
+
+## Implication for pry (the pivot-signal hypothesis) — kept strictly static
+
+The thesis is unchanged: *injectability is the static shadow of testability.*
+Only the **boundary catalog** would shift from Yuan's I/O primitives
+(`requests`/`open`/`socket`) to the boundaries these repos actually cross:
+
+- **Boundaries to catalog (static targets):** LLM/tool dispatch, Slack/provider
+  SDK calls, scheduled-task / cron enqueue, subprocess agent-worker spawn,
+  workflow-state store reads/writes.
+- **Static map signal (prediction):** is that boundary call **welded inline**
+  (constructed/imported/dispatched directly in the business function, no
+  parameter/constructor/patchable indirection) vs **seamed**? Pure structural
+  analysis — no execution, no behavioral claim.
+- **Static floor signal (claim, Aspirator-style):** syntactic patterns only —
+  e.g. a catalogued boundary call inside a `try` whose handler swallows; a
+  boundary call followed by a state-store write in the same function with no
+  intervening seam. Visible in the tree, not in behavior.
+
+**The complementarity (why both tools exist):** pry statically finds the
+boundaries that have **no seam** — and a boundary with no seam is *precisely one
+cautilus cannot write a bounded failure-injection eval for*. pry surfaces (and
+later, Layer 1, proposes) the seam; cautilus then exercises behavior *through*
+it. pry makes the un-testable testable; cautilus tests it. They do not overlap.
 
 This is a hypothesis to test, not a decision. Next session: take it into
-`ideation` (the thesis shifts from "boundary I/O failure" to "agent-workflow
-failure injectability"), then re-run Gate 0 with a re-tuned miner + boundary
-catalog against this signal on ceal/charness.
+`ideation` keeping pry **strictly static** (boundary catalog re-tune only; the
+seamed/welded map + syntactic floor stay the whole deliverable — behavioral
+verification stays with cautilus), then re-run Gate 0 with the re-tuned static
+miner + catalog on ceal/charness.

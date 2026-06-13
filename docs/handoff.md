@@ -27,28 +27,31 @@ start the Rust analyzer until a corpus/signal clears Gate 0.
   (2 high-conf sites, recall 0/5). Both are AI-agent/LLM-orchestration tools that
   **lack** pry's target shape (swallowed boundary-failure → mutation → commit).
   Textbook §13 A.2, confirmed twice. Numbers + synthesis: `docs/kill-gate.md`.
-- **Architecture (user-corrected, locked in the spec):** the **`pry` CLI is a
-  deterministic Rust analyzer with ZERO intelligence** (emits map advisory +
-  floor claims as data, like `nose`); intelligence lives in an **agent-run `pry`
-  skill**; **validation labeling is agent-driven** (blinded single-rater), never
-  a script with an API key. Contract: `docs/spec-layer0.md`.
-- **The validation harness is built/verified/committed** (`harness/`): `mine.py`,
-  `label_io.py` (emit/freeze, no LLM), `szz.py` (`blame -w` + AST), `repo_fit.py`
-  (high-confidence floor). Frozen per-corpus evidence under `harness/fixtures/`
-  (charness) and `harness/fixtures/ceal/`. Re-run any corpus:
-  `mine → label_io emit → agent labels → label_io freeze → szz → repo_fit`.
+- **Architecture (user-corrected, locked in `docs/spec-layer0.md`):** `pry` CLI =
+  deterministic Rust analyzer, **zero intelligence** (map/floor as data, like
+  `nose`); intelligence in an **agent-run `pry` skill**; **labeling is
+  agent-driven** (blinded single-rater), never a script with an API key.
+- **The validation harness is built/verified/committed** (`harness/` +
+  `harness/README.md`): `mine → label_io emit → agent labels → label_io freeze →
+  szz → repo_fit`, all deterministic/no-LLM except the agent label step. Frozen
+  per-corpus evidence under `harness/fixtures/{,ceal/}`.
 
 ## Discuss (needs user input — the fork)
 
 Present all three neutrally; the lean is the user's prior, not a branch to advocate.
 
-1. **Pivot the signal** (user's lean): redefine the boundary catalog + bug shape
-   for the agent/LLM domain. The boundary list (LLM/tool dispatch,
-   scheduled-task/cron hops, subprocess agent workers, workflow-state
-   persistence) and the flag *"required workflow step / proof / contract not
-   enforced across an async agent boundary"* are a **hypothesis seed for
-   `ideation`, not a settled catalog** — see `docs/ceal-bug-profile.md`'s closing
-   caveat. → `ideation`.
+**Scope invariant for the whole discussion (user-set):** pry stays **static**
+(seamed/welded injectability map + syntactic floor, no execution). Agent/workflow
+**behavioral** correctness is **cautilus**'s job (`../cautilus`) — pry must not
+chase it. The two are complementary: pry statically finds boundaries with *no
+seam*; those are exactly what cautilus cannot write a failure-injection eval for.
+
+1. **Pivot the signal** (user's lean): re-tune only the **boundary catalog** to
+   what these repos cross — LLM/tool dispatch, scheduled-task/cron enqueue,
+   subprocess agent-worker spawn, workflow-state store reads/writes. The map
+   stays the static seamed-vs-welded question; the floor stays syntactic. The
+   catalog is a **hypothesis seed for `ideation`, not settled** — see
+   `docs/ceal-bug-profile.md` (Scope line + Implication). → `ideation`.
 2. **Pivot the target**: validate the tool as-built on OSS distributed-systems
    repos (§9's "20–50 OSS repos") + BugsInPy — proves the mechanism but on repos
    the author doesn't own.
