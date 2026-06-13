@@ -24,19 +24,29 @@ F18/F19. The harness is procedural (no classes / `self.attr` / factories), so
 **(b)-gate metrics on the control** (recognizability high; decided-fraction = 1.0,
 ambiguous = 0 — clears the mute-gate trivially):
 
-| reading | welded-fraction | in band `[0.15,0.85]`? |
-|---|---|---|
-| **strict** (config-seam OFF) | ~21/21 ≈ **1.0** | NO → degenerate "all welded" |
-| **config-seam ON** (F18) | ~6/21 ≈ **0.29** | YES → discriminates (git-spawn welded vs CLI-path fs seamed) |
+| reading | substitution welded-frac | inputSimulation-seam | band? |
+|---|---|---|---|
+| **two-tier (FROZEN, F18; finding C)** | ~21/21 ≈ **1.0** | ~14/21 input-redirectable (fs-on-args, git-repo-arg) | substitution OUT of band (all-welded) — but this is a **control**, welded-but-fine (F25); ceal carries the band |
+| ~~loose "any param = seam"~~ (rejected = option 2) | ~6/21 ≈ 0.29 | — | its discrimination was an artifact of the harness's *hardcoded-git* anchor; collapses to ~0 on anchor-free glue → rejected |
+
+The harness under the frozen rule is the textbook two-tier shape: **substitution-welded
+1.0** (no provider/endpoint/client is parameterized — git exe hardcoded, fs is builtin)
+yet **input-sim-seam high** (most welds redirect to fixture/temp paths). That is the
+honest picture of throwaway CLI glue — *can't substitute boundary behavior, can redirect
+inputs* — and it directly confirms substrate+lens (F25): welded-but-fine, with the weak
+input-sim tier as the cheapest test path.
 
 ### Calibration lessons (what the control proves)
 
-1. **config-seam is load-bearing — and risky (finding C).** Without it the harness
-   is degenerate 100% welded; with it, ~0.29 and *discriminating* (hardcoded `git`
-   spawn welded, CLI-redirectable fs seamed). BUT: on CLI/script glue nearly every
-   target is param/CLI-driven, so a loose config-seam rule would swallow everything
-   — the **mirror of the monkeypatch trap**. Needs a crisp operational test before
-   scoring (see Open question).
+1. **config-seam is load-bearing — RESOLVED two-tier (finding C, frozen F18).** A
+   loose "any parameterized target = seam" rule swallows everything on glue (the
+   monkeypatch trap's mirror); the harness's apparent 0.29 discrimination was an
+   artifact of its *hardcoded-git* anchor and would collapse on anchor-free glue.
+   Frozen resolution: the headline SEAMED/WELDED bit = **externalSubstitution**
+   (runner can swap the boundary's provider/endpoint/client), and operand-
+   parameterization is recorded on a **separate `inputSimulation` tier**, never folded
+   into the headline. So the harness is honestly substitution-welded 1.0 with a high
+   input-sim tier — the lens, not the bit, makes a weld actionable.
 2. **Functional-core exemption works.** `repo_fit.assess` (docstring: "unit-testable
    without git or the agent") is pure → correctly unflagged. Right answer.
 3. **Hidden-wrapper under-count is real and visible.** `_git` wraps `subprocess.run`;
@@ -78,13 +88,15 @@ Scan of ceal Python (472 files; ceal is 472 py / 797 ts / 536 js):
   **method-on-receiver** (`.read_text()`), unrecognizable by dotted-module
   fingerprint. nose-grade has no type inference, so the catalog uses receiver-blind
   `[[method]]` fingerprints (FP risk accepted). Validate the FP rate on the gate.
-- **C (seam-definition, the key open question).** config-seam (F18) must get a crisp
-  operational test or it degenerates on CLI-glue (everything param-driven → all
-  seamed). Candidate rule: count config-seam only when substitution is at the
-  **client/dependency** level (a redirectable client/endpoint that can be made to
-  *fail deterministically*), not when a mere *data argument* (a path/url string) is
-  parameterized — though for pure failure-injection a bad parameterized path *does*
-  induce failure, so the two readings genuinely diverge. **Decide before scoring.**
+- **C (seam-definition) — RESOLVED 2026-06-13 (two-tier / leg-relative, frozen F18).**
+  The headline SEAMED/WELDED bit tracks **externalSubstitution** (a param that selects
+  a runner-swappable provider/endpoint/client — `OpenAI(base_url=cfg)`, `[cfg.bin,…]`);
+  a param that steers only the *operand/data* of a fixed real boundary (`open(path)`,
+  `urlopen(url)`) is WELDED for substitution but tagged **`inputSimulation`-seam** (a
+  separate weaker tier). Litmus: *can you make the boundary fail in arbitrary ways via
+  this param?* This kills the degeneracy (the loose reading), stays consistent with the
+  monkeypatch ruling, and lets the gate report **per-leg lift**. Applied to the ceal
+  gate below.
 - **D (extend-vs-ceiling).** Dynamic dispatch in ceal Python is modest (`getattr` 15,
   `importlib` 4) → if the gate goes mute, ambiguous is more likely
   same-file-factory/`self.attr` (→ EXTEND rung 1) than runtime/dynamic (→ ceiling).

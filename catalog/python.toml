@@ -25,13 +25,15 @@
 # glue + clock. The provider entries below are kept for charness / other Python
 # agent code and flagged `expect = "ts-side-in-ceal"`. See docs/dogfood-control.md.
 #
-# CAVEAT carried to the next session (dogfood finding C): the config-seam rule
-# (F18) needs a crisp operational test before scoring. On CLI/script glue almost
-# every boundary *target* (path, repo, url string) is param/CLI-parameterized; if
-# that alone counts as a seam, config-seam degenerates and swallows everything —
-# the mirror image of the monkeypatch trap. Open question: does failure-injection
-# via a bad parameterized target count as a seam, or must substitution be at the
-# *client/dependency* level (`OpenAI(base_url=cfg)`)?
+# FINDING C — RESOLVED (2026-06-13, two-tier rule frozen into F18). config-seam is
+# now leg-relative: the headline SEAMED/WELDED bit tracks externalSubstitution —
+# SEAMED only when a param selects the boundary's *provider/endpoint/client* the
+# runner can swap for a controllable double (OpenAI(base_url=cfg), [cfg.bin,…]). A
+# param that steers only the *operand/data* of a fixed real boundary (open(path),
+# urlopen(url)) is WELDED for substitution but tagged `inputSimulation`-seam (a
+# separate, weaker tier). The `leg` field below is what the gate uses to compute
+# per-leg lift; classify each *site* (not catalog entry) S/W/A on substitution +
+# a yes/no inputSimulation tag. See docs/spec-layer0.md F18 + "Two-tier seam".
 
 version = "0.1.0-seed"
 language = "python"

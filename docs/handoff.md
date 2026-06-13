@@ -8,18 +8,17 @@ the handoff's original "catalog swap" into a full **(b) testability-surface
 re-centering**. The contract is now in [`docs/spec-layer0.md`](spec-layer0.md)
 (F18–F24 + three new sections). Read those first.
 
-**First action: DECIDE finding C, then run the (b)-axis gate (F24) on `ceal`,
-analyzer-free** (hand/script-sample, *no Rust yet*). Pre-work is done — the catalog
-seed (`catalog/python.toml`) and the harness dogfood control are pre-computed in
-[`docs/dogfood-control.md`](dogfood-control.md). Two pre-decisions it surfaced must
-be settled *before scoring*:
+**First action: run the (b)-axis gate (F24) on `ceal`, analyzer-free** (hand/script-
+sample, *no Rust yet*). Finding C is **RESOLVED** (see below); pre-work is done — the
+catalog seed (`catalog/python.toml`) and the harness dogfood control are pre-computed
+in [`docs/dogfood-control.md`](dogfood-control.md).
 
-- **Finding C (blocker) — config-seam operational test (F18).** On CLI/script glue
-  almost every boundary *target* is param-driven; a loose config-seam rule
-  degenerates (all-seamed = the monkeypatch trap's mirror). Decide: does a bad
-  parameterized *path/url* count as a seam (failure-injectable), or must
-  substitution be at the *client/dependency* level? The harness control swings from
-  welded 1.0 → 0.29 on this choice.
+- **Finding C (blocker) — RESOLVED 2026-06-13 (two-tier / leg-relative, frozen F18).**
+  config-seam is now leg-relative: the headline SEAMED/WELDED bit = **externalSubstitution**
+  (a param selecting a runner-swappable provider/endpoint/client); operand-
+  parameterization (`open(path)`, `urlopen(url)`) is WELDED for substitution but tagged
+  **`inputSimulation`-seam** (separate weaker tier). Classify each *site* on substitution
+  (S/W/A) + a yes/no input-sim tag; gate reports **per-leg lift**.
 - **Finding A (scope) — ceal's agent-API boundaries (LLM/Slack/calendar) are TS/JS,
   0 in Python.** ceal Python is file I/O + subprocess + clock glue. Sample the
   *real* Python surface; the headline agent surface needs a TS frontend (deferred).
@@ -30,9 +29,10 @@ Then run the gate on ceal (the independent corpus that carries the verdict):
 1. Sample N≈30–50 boundary **call/acquisition sites** in ceal's Python — the real
    surface: file I/O (`read_text`/`write_text`/`exists`…), `subprocess.run`
    worker-spawn, clock (`datetime.now`), `os.environ`, small net/db/tz.
-2. Classify each **SEAMED / WELDED / AMBIGUOUS** by the F18/F19 rule (0-hop +
-   one `self.attr`→same-class `__init__` hop; config-seam counts; monkeypatch never
-   upgrades; every `ambiguous` gets a **reason code**).
+2. Classify each site's **substitution bit (SEAMED / WELDED / AMBIGUOUS)** by the
+   F18/F19 rule (0-hop + one `self.attr`→same-class `__init__` hop; config-seam =
+   dependency-substitution only; monkeypatch never upgrades; every `ambiguous` gets a
+   **reason code**) **plus a yes/no `inputSimulation`-seam tag** (two-tier, F18).
 3. Score the F24 metrics: recognizability, decided-fraction, welded-fraction,
    **ambiguous-reason histogram**, cautilus-demand lift. Apply the frozen numbers
    (mute-gate `<0.40`; welded band `[0.15,0.85]`; lift = demand-point welded% >

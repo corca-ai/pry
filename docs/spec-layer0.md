@@ -120,7 +120,7 @@ beating the baselines first (kill-cheaply).
 | F15 | **Packaging = `external_binary` (Rust CLI) + a `pry` agent skill** (the intelligence layer), mirroring `nose` (external_binary) consumed by the `quality` skill. The CLI emits advisory data; the agent-run skill consumes it AND drives validation labeling. For Layer 0 the skill is **enacted by the agent inline** (run mechanics → label → score); the formal `SKILL.md` package + `integrations/tools/pry.json` manifest are deferred to the go path. | The user-confirmed architecture: CLI dumb, intelligence in the agent skill. |
 | F16 | **Frozen, contestable label transcript.** `labels.json` carries, per commit, the verdict + confidence + one-clause reason, keyed to the frozen `corpus_head` + sha — so a skeptic re-runs `git show <sha>` against the frozen corpus and re-judges any label **without re-running the agent**. Labels are *auditable*, not byte-reproducible. | The label-producing step is the one non-deterministic link; a checked-in transcript makes it contestable instead of opaque. |
 | F17 | **High-confidence floor + provenance caveat.** The repo-fit floor (P1) must be cleared by **high-confidence** sites only; borderline/low-confidence commits get a **refute pass** (a second judgment instructed to argue NOT-count). The verdict line (SC5) carries `n`, the high/med/low confidence breakdown, and a "self-labeled, blinded single-pass" caveat. | The rubric already collects confidence; this stops a margin-of-3 floor win being manufactured by low-confidence yes-votes. |
-| F18 | **Seam definition.** A boundary site is **SEAMED** iff its callee/resource is obtained in-band — a function **param**, a `self.attr` injected from an `__init__` **param**, **or config/env-parameterized** (config-seam) — else **WELDED**. **Monkeypatchability / attribute-replacement never upgrades a site to SEAMED.** | §1: failure injection on a *specific path* needs an in-band substitution point; a global patch is the brittle non-seam. cautilus's `externalSubstitution` ("substitute at the same boundary the product uses") makes config/env redirection a real seam → config-seam, else pry over-counts welded vs what cautilus can control. |
+| F18 | **Seam definition (two-tier; finding C resolved 2026-06-13).** The headline **SEAMED/WELDED** bit answers the **`externalSubstitution`** question: is the boundary's *provider/endpoint/client* obtained in-band — a function **param**, a `self.attr` from an `__init__` **param**, or a **config/env-selected dependency the runner can swap for a controllable double** (`OpenAI(base_url=cfg)`, `subprocess([cfg.bin,…])`)? Else **WELDED**. A parameter that selects only the **operand/data** of a *fixed real* boundary (`open(args.out)`, `urlopen(args.url)`) is **WELDED** for substitution but recorded on a separate **`inputSimulation`-seam** tier (runner can redirect input / inject value-shaped failures). **Monkeypatchability / attribute-replacement never upgrades a site to SEAMED.** | Loose "any parameterized target = seam" degenerates on glue (everything is param-driven) — the monkeypatch trap's mirror. cautilus's `externalSubstitution` ("substitute at the same boundary the product uses") is *behavior* substitution (a runner-controlled endpoint/exe/client), distinct from `inputSimulation` (steering a fixed real boundary's data); the two-tier rule keeps them separate so welded-fraction discriminates and per-leg lift is measurable. |
 | F19 | **Analysis depth = nose-grade local + exactly one bounded hop.** 0-hop (param/local via intra-function dataflow; module imports via one-level resolution) **+ one hop** `self.attr`→same-file same-class `__init__`. Beyond (cross-function, cross-file, factory return, dynamic dispatch, depth>1) → **`ambiguous`**, never guessed. | nose proves intra-fn dataflow + one-level import resolution are affordable, but *deliberately omits* `self.attr`→ctor — which pry's seam question (OOP agent runtimes) load-bearingly needs. The mute-gate (F12) backstops an over-tight cap. |
 | F20 | **Lower to a thin pry-IR; analyze the IR, not raw tree-sitter nodes; manual walk, no `.scm` queries.** | nose's model (CST→normalized IL→manual visitor): decouples analysis from grammar specifics, expresses the one-hop resolution queries cannot, keeps determinism controllable. |
 | F21 | **Boundary catalog = data (`catalog/python.toml`), broadened to all recognizable boundaries, each tagged with the cautilus verification *leg* it serves** (`externalSubstitution` / `triggerControl` / `inputSimulation` / `externalObservation`). Two forms: `construct` (resource constructors) + `direct_call` (module/builtin boundary calls). | Catalog precision ↔ required flow depth is a trade-off — rich leaf fingerprints keep analysis shallow. Flat names are data (unlike nose's hardcoded operator semantics); leg tags enable per-leg lift. |
@@ -147,7 +147,8 @@ hiding the leaf) are honestly **under-counted**, never guessed.
 | callee / resource origin | resolution | class |
 |---|---|---|
 | function **param**, or local from a param | 0-hop (intra-fn dataflow) | **SEAMED** (DI) |
-| construction kwarg / target **from config/env/param** (`OpenAI(base_url=cfg.x)`) | 0-hop | **SEAMED** (config) |
+| param selects the boundary's **provider/endpoint/client** (`OpenAI(base_url=cfg)`, `subprocess([cfg.bin,…])`) | 0-hop | **SEAMED** (config-substitution) |
+| param selects only the **operand/data** of a fixed real boundary (`open(args.out)`, `urlopen(args.url)`) | 0-hop | **WELDED** (subst.) + `inputSimulation`-seam tag |
 | `self.attr` ← same-class `__init__` **param** | one hop (same file) | **SEAMED** (DI) |
 | **inline construction** at site, or **imported module** direct call | 0-hop | **WELDED** |
 | `self.attr` ← `__init__` **inline construction** | one hop | **WELDED** (ctor-chokepoint) |
@@ -158,6 +159,21 @@ hiding the leaf) are honestly **under-counted**, never guessed.
 reaches into internals, not "the same boundary the product uses". Each `ambiguous`
 verdict carries a **reason code**; the reason *histogram*, not the bare fraction,
 steers extension vs ceiling (F22/F24).
+
+**Two-tier seam (finding C, frozen 2026-06-13).** Seam-ness is asked *per cautilus
+leg*. The headline `SEAMED/WELDED` bit tracks **`externalSubstitution`** — can the
+runner replace the boundary with an artifact whose *failure behavior it controls*
+(an endpoint it runs, an executable it wrote, an injected client/transport/object)?
+A parameter that merely steers a *fixed real* engine's data/location (a path, a
+filename, a DB file, a url-as-data) does **not** grant behavior substitution (you
+get only the value-shaped failure, e.g. not-found — not disk-full / partial-write /
+dropped-connection); it is recorded as a separate **`inputSimulation`-seam** sub-tag,
+never folded into the headline bit. The litmus: *can you make the boundary fail in
+arbitrary ways via this parameter?* `base_url`→mock-server = yes (substitution);
+`open(path)` = no, only path-shaped (input-sim). This keeps welded-fraction from
+degenerating on parameter-driven glue and lets the gate report **per-leg lift**
+(substitution-welded vs input-welded). The `inputSimulation`-seam set is itself a
+product signal (the cheapest-to-test welds), not noise.
 
 ## Extension ladder (F22)
 
@@ -195,7 +211,8 @@ Metrics: **recognizability** (catalog hit rate), **decided-fraction**
 `(seamed+welded)/recognized` (mute-gate `< 0.40` → map mute), **welded-fraction**
 `welded/decided` (discrimination band `[0.15, 0.85]`), **ambiguous-reason
 histogram** (steers the ladder), **cautilus-demand lift** (welded-fraction among
-`externalSubstitution`/`triggerControl` points vs overall).
+`externalSubstitution`/`triggerControl` points vs overall) — computed **per leg**
+(substitution-welded vs input-sim-welded) per F18's two-tier rule.
 
 Verdict (3-way; numbers frozen per-run, re-tunable between runs, never after seeing
 a run — §13 B.1):
