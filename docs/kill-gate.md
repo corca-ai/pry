@@ -219,20 +219,46 @@ find-value on ceal is **regression-guard + minority-gap-flagging, not a large ba
 pry's leaf+0-hop+one-hop model **transfers to TS** (DI is same-file ctor/param). Catalog
 finding: `new Date(arg)` ≠ clock boundary.
 
-## Cross-axis + cross-language synthesis (4 runs)
+---
+
+## Run 5 — corpus: **ceal TypeScript**, clean re-gate under the lens criterion (2026-06-13)
+
+Author chose recalibrate-then-re-gate. F27 (lens criterion) frozen **before** this run.
+GO test = the **substitution-demand subset** (clock/clients/network/subprocess) only,
+classified **1-by-1**. Full evidence: [`docs/ceal-ts-gate.md`](ceal-ts-gate.md) Run 5.
+
+| metric | value | F27 bar | result |
+|--------|-------|---------|--------|
+| substitution-demand welded (pry leaf model) | **~0.74** | band `[0.15,0.85]` | **IN BAND**, real ~26% seam pop |
+| same, architectural (DI resolved) | ~0.55 | — | rung-3 gap = 0.74→0.55 |
+| bare welded (diagnostic) | ~0.89 | — | fs-swamp, correctly excluded |
+| decided-fraction | ~0.92 | mute `<0.40` | not mute |
+
+**Verdict: GO** (lens criterion) — **the first GO in five runs.** The substitution-demand
+subset discriminates (welded 0.74, in band, seams concentrate in the testable core;
+clock 6S/15W, slack clients param/ctor-injected, LLM inline-welded). pry's existing
+leaf+0-hop+one-hop model **catches** the clock/client seams (same-file DI). **EXTEND
+rider (evidence-backed):** pry under-detects **network + subprocess** seams (injected
+transport/executor wrappers one hop up behind non-catalogued `.request()`/`.exec()`) →
+needs **F22 rung-3 wrapper detection** for TS accuracy (not a GO blocker). **No Rust
+built.** Catalog finding: `new Date(arg)` ≠ clock; DB in TS = 0.
+
+## Cross-axis + cross-language synthesis (5 runs)
 
 | run | corpus | axis/lang | headline | verdict |
 |-----|--------|-----------|----------|---------|
 | 1 | charness | (a) Py | 6 hi-conf sites ≪ 30 | RE-TARGET |
 | 2 | ceal | (a) Py | 2 hi-conf sites ≪ 30 | RE-TARGET |
 | 3 | ceal | (b) Py | welded 0.95, no lift, glue | KILL·HANDOFF |
-| 4 | ceal | (b) **TS** | welded ~0.89 but **mixed, seams at agent boundaries** | **GO-lean / EXTEND** |
+| 4 | ceal | (b) TS | bare welded ~0.89, mixed (fs-swamped metric) | GO-lean / EXTEND |
+| 5 | ceal | (b) TS | **lens: demand-subset welded ~0.74, in band, discriminates** | **GO** |
 
-The four runs converge on a clear map: **the author's *Python* is glue pry can't rank
-(a-axis and b-axis agree); the author's *TS* agent runtime is the surface where pry's
-(b)-thesis has traction** — but it is **already testability-disciplined**, so pry's
-role there is confirm-hygiene + regression-guard, and a *bare-fraction* gate is
-fs-swamped in any language (recalibrate F24 to the lens criterion). **The open
-decision (needs the author):** recalibrate-then-re-gate TS / build the TS frontend now
-/ find a less-disciplined corpus / re-scope to regression-guard. Still **no analyzer
-code** until a corpus clears the (recalibrated) gate.
+The five runs converge on a clear map: **the author's *Python* is glue pry can't rank
+(a- and b-axis agree → KILL); the author's *TS* agent runtime is the surface where
+pry's (b)-thesis holds (lens GO).** The recalibration was decisive — the bare fraction
+was fs-swamped (0.89), the lens demand-subset discriminates (0.74). pry's seam model
+transfers to TS; the one new capability the TS surface demands is **F22 rung-3
+wrapper detection** (transports/executors). **The open decision (needs the author):**
+a frozen GO means *build the Rust map for TS* (reopens the Python-only Layer-0 scope) —
+commit to the TS-frontend build (with rung-3 in scope) or pause. Still **no analyzer
+code** until that call.

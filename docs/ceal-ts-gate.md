@@ -109,3 +109,69 @@ less-disciplined agent corpus.
 4. **Re-scope to regression-guard** — pry as a CI gate that flags *newly-welded*
    cautilus-demand boundaries (catches regressions in already-disciplined codebases
    like ceal), rather than a one-shot backlog finder.
+
+---
+
+# Run 5 — clean re-gate under the recalibrated lens criterion (F27), 2026-06-13
+
+The author chose **recalibrate-then-re-gate** (refined-fork option 1). F27 (lens
+criterion) was frozen **before** this run. Here the GO test is the **substitution-
+demand subset only** (clock / provider-clients / network-transport / subprocess — leg
+`tc`, or `es` on non-value-shaped failures), classified **1-by-1** (not aggregate-
+derived). fs/env/db-path/tz/url-as-data excluded (input-redirectable, F27).
+
+## Substitution-demand subset, classified 1-by-1
+
+| sub-kind | sample | SEAMED | WELDED | pry leaf+1-hop catches it? |
+|---|---|---|---|---|
+| **clock** (`new Date()`/`Date.now()`) | 21 | **6** (`input.now ?? …`, default-param `now = new Date()`) | **15** (bare stamps) | **yes** — same-file `??`/default-param via 0-hop |
+| **slack clients** (`.chat.*`/`.conversations.*`) | ~8 acq | ~6 (connector fns take `webClient: SlackWebClientLike` **param**; `this.webClient` ← ctor `config.webClient`) | ~2 (guardian-child module singleton `new WebClient`) | **yes** — param 0-hop + `this.attr`←ctor one-hop |
+| **LLM** (`.responses.create`/`.messages.create`) | 3 | 0 | 3 (`client ??= new OpenAI(...)` inline lazy) | **yes** — inline `new` via 0-hop → WELDED |
+| **network** (`fetch`) | 12 | 0 leaf / **4 arch** (`NotionHttpTransport`/`ExchangeTokenFetch` defaults) | 12 leaf / 8 arch | **NO** — transport seam is 1 hop up behind non-catalogued `.request()` (**rung-3**) |
+| **subprocess** (`spawn`/`executor.exec`) | ~7 | ~5 arch (injected `executor`/`baseExecutor`) | ~2 leaf (`spawn(process.execPath)`) | **NO** — `executor.exec` uncatalogued; only raw `spawn` leaf seen (**rung-3**) |
+
+**Excluded false matches:** 4 regex `RegExp.exec(text)` (not subprocess). **DB in TS = 0.**
+
+## Lens-criterion metrics (F27)
+
+- **substitution-demand subset welded-fraction (pry leaf model):** ~**0.74**
+  (≈34 W / 46 sampled) — **IN BAND `[0.15,0.85]`**, real ~26% seam population.
+- **same, architectural (full DI resolved):** ~**0.55** — the gap (0.74→0.55) is
+  pry's **rung-3 under-detection** on network+subprocess transport/executor wrappers.
+- **bare welded-fraction (diagnostic, all boundaries):** ~0.89 → the fs/env swamp,
+  now correctly excluded. The recalibration is visible: **0.89 (bare) → 0.74 (lens)**,
+  and the 0.74 reveals the seam population the bare number hid.
+- decided-fraction ~0.92 (not mute); seams **concentrate in the testable core**
+  (registries, request-handlers, connector fns) vs welds in worker-command stamps +
+  inline LLM clients.
+
+## Verdict — **GO** (lens criterion), with an EXTEND rider to F22 rung-3
+
+The substitution-demand subset **discriminates**: welded ≈ 0.74 (leaf) / 0.55 (arch),
+in band, with a real seam population pry's existing model **catches** for clock + clients
+(same-file ctor/param DI). This is the **first GO in five runs** — ceal TS is the
+surface where pry's (b)-thesis holds. **No Rust built yet.**
+
+**EXTEND rider (now evidence-backed):** pry's leaf+one-hop model **under-detects seams
+on network + subprocess** in TS, where the seam is an injected **transport/executor
+interface** one hop up behind a non-catalogued method (`.request()`, `.exec()`).
+Without **F22 rung-3 (boundary-bearing-propagation / wrapper detection)** pry would
+over-report network/subprocess as welded (0.74 vs the true 0.55). Rung-3 was
+deferred pending evidence; **this gate is that evidence** (hidden-wrapper under-count
+is material on TS and clears the F22 rent rule). Rung-3 is **not** a GO blocker — the
+subset already discriminates — but it is required for TS *accuracy*.
+
+**Backlog vs regression-guard (refines Run 4's catch):** under the leaf model ~74% of
+the demand subset is welded → pry would surface a real backlog; after rung-3 the true
+welded-at-demand is ~55%, and the genuine un-seamed gaps are **inline LLM clients +
+raw clocks in worker-commands** (a *moderate* backlog, not huge, not trivial). Both
+the backlog-finder and regression-guard framings are viable on ceal TS.
+
+## Decision this unlocks (needs the author)
+
+A frozen GO under F27 means, per F24, **build the Rust map — for TS** (reopens the
+Python-only Layer-0 language scope, deferred). The call: **commit to the TS-frontend
+build** (Rust + tree-sitter-typescript, TS catalog, the `?? new`/ctor-config/param
+seam patterns, **with rung-3 wrapper detection in scope** for transports/executors) —
+or pause. nose supports TS, and pry's seam model transfers; rung-3 is the one new
+capability the TS surface demands.
