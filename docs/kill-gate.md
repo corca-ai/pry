@@ -186,3 +186,53 @@ frontend** to reach ceal's real agent surface; (2) an **OSS non-glue Python corp
 (§9) where boundaries are mixed; (3) **re-scope** pry's product to the two-tier lens
 output (hard-weld + cautilus-handoff + cheap-test list), dropping the bare-bit ranker.
 Still **no analyzer code** until a corpus clears a gate.
+
+---
+
+## Run 4 — corpus: **ceal TypeScript** — the (b)-axis gate (2026-06-13)
+
+The author chose to gate ceal's **TS agent surface** (finding A: LLM/Slack/calendar
+are 0 in Python, all in TS) as the cheap next step after Run 3. Analyzer-free,
+no build, two-tier F18. Full evidence: [`docs/ceal-ts-gate.md`](ceal-ts-gate.md).
+Hand-sample + aggregate-derived splits → welded-fraction is approximate (±).
+
+| metric | value | vs Run 3 (ceal Py) |
+|--------|-------|--------------------|
+| decided-fraction | ~0.92 (not mute) | 1.00 |
+| welded-fraction (substitution) | **~0.89** (over band, fs-swamped) | 0.95 |
+| **SEAMED population** | **~11–13%, real, at agent boundaries** | ~5%, all in 3 wrappers |
+| **clock injected** | **~25%** (`input.now ?? new Date()`) | **0%** (always hard-weld) |
+| cautilus-demand lift | low (agent boundaries already seamed) | none (uniform weld) |
+
+**Verdict: GO-lean (lens criterion) / formally EXTEND (frozen criterion).** ceal TS is
+a real, DI-disciplined agent runtime — clients injected (`config.webClient ?? new`),
+**clock injected ~25%**, transports injectable (135 interface refs). The welded/seamed
+bit **carries information** here; pry's thesis is **meaningful on the TS surface** —
+the opposite of Python's saturated glue. **This answers the author's question: yes,
+TS is where pry has traction.** No Rust built.
+
+Two honest catches: (1) the bare welded-fraction is **fs-swamped in *both* languages**
+(~0.89 TS / 0.95 Py, both over band) → strongest confirmation that the **bare-fraction
+band is the wrong GO test; the lens (cautilus-demand subset) is** (TS passes it, Python
+fails). (2) ceal TS is **already well-seamed at its agent boundaries** → pry's
+find-value on ceal is **regression-guard + minority-gap-flagging, not a large backlog**.
+pry's leaf+0-hop+one-hop model **transfers to TS** (DI is same-file ctor/param). Catalog
+finding: `new Date(arg)` ≠ clock boundary.
+
+## Cross-axis + cross-language synthesis (4 runs)
+
+| run | corpus | axis/lang | headline | verdict |
+|-----|--------|-----------|----------|---------|
+| 1 | charness | (a) Py | 6 hi-conf sites ≪ 30 | RE-TARGET |
+| 2 | ceal | (a) Py | 2 hi-conf sites ≪ 30 | RE-TARGET |
+| 3 | ceal | (b) Py | welded 0.95, no lift, glue | KILL·HANDOFF |
+| 4 | ceal | (b) **TS** | welded ~0.89 but **mixed, seams at agent boundaries** | **GO-lean / EXTEND** |
+
+The four runs converge on a clear map: **the author's *Python* is glue pry can't rank
+(a-axis and b-axis agree); the author's *TS* agent runtime is the surface where pry's
+(b)-thesis has traction** — but it is **already testability-disciplined**, so pry's
+role there is confirm-hygiene + regression-guard, and a *bare-fraction* gate is
+fs-swamped in any language (recalibrate F24 to the lens criterion). **The open
+decision (needs the author):** recalibrate-then-re-gate TS / build the TS frontend now
+/ find a less-disciplined corpus / re-scope to regression-guard. Still **no analyzer
+code** until a corpus clears the (recalibrated) gate.
