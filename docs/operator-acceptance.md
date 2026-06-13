@@ -45,6 +45,11 @@ When Layer 0 work begins, it is "acceptable" only when **all** hold:
 
 ## How this repo is operated today
 
+- **Build target: Rust binary.** `pry` is built here as a standalone Rust binary
+  and, like `nose` (`corca-ai/nose`), distributed as a prebuilt release and
+  consumed by charness's `quality` skill as an `external_binary`. A maintainer
+  takes over the Rust toolchain and the release/install path, not a Python
+  package. (No `Cargo` surface exists yet — design stage.)
 - Charness durable artifacts live under `charness-artifacts/` and are **repo
   state** — commit meaningful changes with the work they support (see
   `AGENTS.md` → Commit Discipline). The user has approved committing them.

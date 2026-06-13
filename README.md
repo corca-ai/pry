@@ -10,9 +10,17 @@ where a test can substitute a failure, and it focuses on the error-handling
 paths where catastrophic bugs concentrate.
 
 The name encodes the thesis in one word: *no seam, nothing to pry* — un-testable
-code is code you cannot get a lever into. It is the companion to `nose` (which
-sniffs out duplicated *logic*); `pry` finds the boundaries welded into your
-logic where failures hide because nothing can reach in to test them.
+code is code you cannot get a lever into. It is the companion to
+[`nose`](https://github.com/corca-ai/nose) (which sniffs out duplicated
+*logic*); `pry` finds the boundaries welded into your logic where failures hide
+because nothing can reach in to test them.
+
+**Implementation & integration.** `pry` is a standalone **Rust** binary built in
+this repository. Like `nose`, it ships as a prebuilt release (installer +
+Homebrew tap) and is wired into [charness](https://github.com/corca-ai/charness)
+as an `external_binary` that the **`quality`** skill calls to surface testability
+hotspots and error-handling defects — it is not embedded as a Python charness
+skill. Source parsing uses tree-sitter's Rust bindings.
 
 ## Why
 

@@ -16,8 +16,9 @@ so the thesis can actually be falsified.
    error-handling bugfix commits → LLM labeler → SZZ trace to bug-introducing
    commit → churn/LOC baseline → negative control (clean hexagonal / functional-
    core reference apps must score low). Reuse BugsInPy for Python.
-2. **Parse.** tree-sitter for Python (TS/TSX later). Spans on every node so every
-   finding traces to exact lines.
+2. **Parse.** `pry` is a **Rust** binary; parse Python (TS/TSX later) via
+   tree-sitter's Rust bindings. Spans on every node so every finding traces to
+   exact lines.
 3. **Boundary + seam catalog as data** (auditable config, not code) — the moat.
    Start from the Python boundary list in the spec (`requests`/`httpx`, `open`,
    `socket`, `subprocess`, `os`/`os.environ`, `datetime.now`/`time.time`,
@@ -64,4 +65,8 @@ real repos, not decided now.
 - Wire into CI / pre-commit so it runs by default — "remember to run it" = dies.
 - Label the map "risk ranking, not a bug list" from the first pixel.
 - Keep Layer 0 small enough that it pays for itself in week one.
-- Eventually packageable as a charness skill ("check testability hotspots here").
+- Ship as an `external_binary` consumed by the charness **`quality`** skill,
+  mirroring `nose` (`integrations/tools/nose.json`): a prebuilt Rust release
+  (installer + Homebrew tap), detected by `pry --version`, with a quality-side
+  consumer/inventory script. This is §10's "packaging option" made concrete —
+  not a Python charness skill.

@@ -9,6 +9,13 @@ concentrating on error-handling paths where defects cluster. See
 [`initial-plan.md`](initial-plan.md) for the full design thesis and
 [`docs/roadmap.md`](docs/roadmap.md) for ordered priorities.
 
+**Implementation: Rust.** `pry` is a standalone binary built in this repo and,
+like its sibling [`nose`](https://github.com/corca-ai/nose), distributed as a
+prebuilt release and wired into charness as an `external_binary` that the
+**`quality`** skill invokes — it is *not* a Python charness skill. Parsing uses
+tree-sitter's Rust bindings. (This is the concrete form of `initial-plan.md`
+§10's "packaging option".)
+
 Current state: **design stage** — the founding spec exists; no analyzer code has
 been written yet. The first deliverable is Layer 0 (static map + syntactic
 floor) plus its validation harness, run against this author's own Python repos
