@@ -8,13 +8,14 @@ the handoff's original "catalog swap" into a full **(b) testability-surface
 re-centering**. The contract is now in [`docs/spec-layer0.md`](spec-layer0.md)
 (F18–F24 + three new sections). Read those first.
 
-**Five gate runs → first GO → first analyzer BUILT & validated.** The author's
-*Python* is glue pry can't rank (Runs 1–3 → KILL); the author's *TS* agent runtime is
-pry's surface (Run 5 → GO, lens criterion). The author then chose **build the minimal
-TS map (staged)**, and it's done: **`pry map` (Rust + tree-sitter-typescript)
-reproduces the hand-gate** — demand-subset welded **0.7352** (vs ~0.74), deterministic,
-zero-LLM, tested. **First action: DECIDE what's next** — stage-2 rung-3 / gate a 2nd TS
-corpus with the now-built analyzer / wire packaging (below).
+**Six runs → first GO → analyzer BUILT → generalized.** The author's *Python* is glue
+pry can't rank (Runs 1–3 → KILL); *TS agent code* is pry's surface (Run 5 → GO, lens
+criterion). The **Stage-1 TS analyzer is built** (`pry map`, reproduces the hand-gate
+0.7352, deterministic, zero-LLM, tested). **Run 6** ran it across 7 TS codebases →
+**ceal is the disciplined outlier (27% clock-injection); typical TS agent code is
+welded-at-demand (0–18%)** → pry's **backlog-finder** market is broad; regression-guard
+is the ceal-like edge. **First action: DECIDE the next slice** — stage-2 rung-3 /
+per-corpus client catalogs / packaging / commit the backlog-finder framing (below).
 
 **Run 3 — ceal Python (b)-gate → KILL·HANDOFF (glue)** ([`docs/ceal-b-gate.md`](ceal-b-gate.md);
 [`kill-gate.md`](kill-gate.md) Run 3). N=59 sites: decided **1.00**, welded **0.95**
@@ -57,16 +58,28 @@ deps (SC2), pure I/O-free core + 3 tests (F26). Per-kind: clock 51S/135W, slack
 5S/3W/**3 amb**, subprocess 2S/8W, llm 0S/3W, **network 0S/12W (leaf — rung-3 gap)**.
 Frozen evidence: `fixtures/ceal-ts-map.summary.json`.
 
+**Run 6 — cross-corpus generalization → backlog-finder market** ([`docs/ts-cross-corpus.md`](ts-cross-corpus.md);
+[`kill-gate.md`](kill-gate.md) Run 6). 7 TS codebases via the built analyzer; clean
+signal = universal **clock-injection rate**. ceal 27% (outlier) vs craken-agents 18%,
+agent-device/ax-day 9–10%, gstack/agent-browser/corca-bot 0%. Most TS agent code is
+**welded-at-demand** (un-injected clocks/clients, 0.85–1.0) = pry's backlog. Unlike the
+Python KILL (input-redirectable glue), these welds are **actionable** (demand points).
+Reframe: **backlog-finder = primary mode** (broad market), regression-guard = the
+disciplined edge (ceal). Caveats: client catalog is ceal-tuned (cross-corpus claim
+rests on the universal clock signal); rung-3 gap makes demand-welded an upper bound;
+codex excluded (TS thin over Rust).
+
 **The next decision (needs the author):**
 1. **Stage 2 — F22 rung-3 wrapper detection** (transport/executor interfaces): the
-   3 ambiguous slack receivers + leaf-welded network/subprocess are the evidence-backed
-   rung-3 work; resolves leaf-0.74 toward the true ~0.55.
-2. **Gate a 2nd TS corpus** with the now-built analyzer (cheap, analyzer-driven) — de-risk
-   "is ceal idiosyncratically well-engineered?" before more building.
-3. **Wire packaging** — `external_binary` manifest + the `pry` agent skill (the F15
-   path), so `quality` can invoke `pry`.
-4. **Product framing** — settle backlog-finder vs regression-guard (shapes the map's
-   output + skill).
+   3 ambiguous slack receivers + leaf-welded network/subprocess; resolves leaf-0.74
+   toward the true ~0.55. (Whether the network over-count is a *bug* depends on framing
+   — for a backlog-finder it's arguably acceptable signal.)
+2. **Per-corpus client catalogs** — the catalog is ceal-tuned; broaden client/provider
+   fingerprints so the demand subset isn't clock-dominated on other corpora.
+3. **Wire packaging** — `external_binary` manifest + the `pry` agent skill (F15), so
+   `quality` can invoke `pry map`.
+4. **Commit the backlog-finder product framing** (now data-backed) — shape the map's
+   output (rank welded-at-demand) + the skill around it.
 - **Finding C — RESOLVED 2026-06-13 (two-tier F18).** Headline SEAMED/WELDED =
   `externalSubstitution`; operand-parameterization = WELDED + `inputSimulation`-tag.
 - **Finding A — CONFIRMED.** ceal Python = file/subprocess/clock glue (agent-API 0);
@@ -83,9 +96,13 @@ If validation-shaped closeout is needed, route through `quality` per CLAUDE.md.
   first GO). Then **Stage-1 minimal TS map BUILT (F28)**: `pry map` (Rust +
   tree-sitter-typescript) reproduces the hand-gate (demand-subset welded **0.7352** vs
   ~0.74), byte-deterministic (SC3), zero-LLM (SC2), pure I/O-free core + 3 tests (F26).
-  Evidence: `docs/ceal-b-gate.md`, `docs/ceal-ts-gate.md`, `docs/kill-gate.md` Runs
-  3–5, `fixtures/ceal-ts-map.summary.json`. **First real analyzer code shipped**;
-  next decision = stage-2 rung-3 / 2nd corpus / packaging.
+  **Run 6**: ran the built analyzer across 7 TS codebases → ceal is the disciplined
+  **outlier** (27% clock-injection); typical TS agent code is welded-at-demand (0–18%)
+  → **backlog-finder market is broad** (regression-guard = ceal-like edge). Evidence:
+  `docs/ceal-b-gate.md`, `docs/ceal-ts-gate.md`, `docs/ts-cross-corpus.md`,
+  `docs/kill-gate.md` Runs 3–6, `fixtures/ceal-ts-map.summary.json`. **First real
+  analyzer shipped + generalized**; next = stage-2 rung-3 / per-corpus catalogs /
+  packaging / commit backlog-finder framing.
 - **Design seq #1–#5 complete and formalized** (this session): seam definition,
   catalog-recognition + analysis-depth model, extension ladder, the (b)-gate, and
   the cautilus-demand lens. All in `docs/spec-layer0.md` F18–F24 + sections
@@ -136,8 +153,10 @@ If validation-shaped closeout is needed, route through `quality` per CLAUDE.md.
   (b)-axis gate, KILL·HANDOFF) + the cross-axis synthesis.
 - [`docs/ceal-b-gate.md`](ceal-b-gate.md) — Run 3 (ceal **Python** (b)-gate): N=59
   sample table, F24 metrics under the two-tier rule, KILL·HANDOFF verdict.
-- [`docs/ceal-ts-gate.md`](ceal-ts-gate.md) — Run 4 (ceal **TypeScript** (b)-gate):
-  TS seam idioms, architecture, GO-lean verdict, the fs-swamp finding, refined fork.
+- [`docs/ceal-ts-gate.md`](ceal-ts-gate.md) — Runs 4+5 (ceal **TypeScript** (b)-gate):
+  TS seam idioms, GO verdict, fs-swamp finding, + the **Stage-1 analyzer** validation.
+- [`docs/ts-cross-corpus.md`](ts-cross-corpus.md) — Run 6 (7 TS codebases): ceal is the
+  disciplined outlier; ecosystem is welded-at-demand → backlog-finder market.
 - [`docs/ceal-bug-profile.md`](ceal-bug-profile.md) — ceal's recurring clusters +
   the grounded pivot outcome (catalog leg-tags, config-seam, cautilus 4 legs).
 - `../cautilus` — built behavioral verifier; `docs/contracts/runner-verification.md`

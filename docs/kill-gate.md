@@ -243,7 +243,32 @@ transport/executor wrappers one hop up behind non-catalogued `.request()`/`.exec
 needs **F22 rung-3 wrapper detection** for TS accuracy (not a GO blocker). **No Rust
 built.** Catalog finding: `new Date(arg)` ≠ clock; DB in TS = 0.
 
-## Cross-axis + cross-language synthesis (5 runs)
+---
+
+## Run 6 — cross-corpus generalization: 7 other TS codebases (2026-06-14)
+
+Author chose **gate a 2nd TS corpus** (de-risk "is ceal idiosyncratic?"). The built
+Stage-1 analyzer was run on 7 local TS codebases. Clean signal = **clock-injection rate**
+(universal fingerprint). Full evidence: [`docs/ts-cross-corpus.md`](ts-cross-corpus.md).
+
+| corpus | demand-welded | clock seam% | shape |
+|--------|---------------|-------------|-------|
+| **ceal** | 0.74 | **27%** | mixed — disciplined **outlier** |
+| craken-agents | 0.85 | 18% | borderline |
+| ax-day / agent-device | 0.92–0.94 | 9–10% | mostly welded |
+| gstack / agent-browser / corca-bot | ~1.0 | **0%** | fully welded-at-demand |
+| ~~codex~~ | — | — | excluded (TS thin over Rust core) |
+
+**Verdict: GENERALIZES, with a reframe.** ceal is the *disciplined outlier* (27% clock
+injection vs 0–18% elsewhere) → its GO is the **regression-guard** edge case. The other
+six are **mostly welded at the demand points** (un-injected clocks/clients) — pry's
+**backlog-finder** market, and *broad*. Unlike the Python KILL (welds were input-
+redirectable glue), these welds are at demand points = **actionable backlog**. Resolves
+the product-framing fork with data: **backlog-finder is the primary mode**, regression-
+guard the disciplined edge. Caveat: cross-corpus claim rests on the universal clock
+signal (client catalog is ceal-tuned; per-corpus client fingerprints would sharpen it).
+
+## Cross-axis + cross-language + cross-corpus synthesis (6 runs)
 
 | run | corpus | axis/lang | headline | verdict |
 |-----|--------|-----------|----------|---------|
@@ -251,14 +276,16 @@ built.** Catalog finding: `new Date(arg)` ≠ clock; DB in TS = 0.
 | 2 | ceal | (a) Py | 2 hi-conf sites ≪ 30 | RE-TARGET |
 | 3 | ceal | (b) Py | welded 0.95, no lift, glue | KILL·HANDOFF |
 | 4 | ceal | (b) TS | bare welded ~0.89, mixed (fs-swamped metric) | GO-lean / EXTEND |
-| 5 | ceal | (b) TS | **lens: demand-subset welded ~0.74, in band, discriminates** | **GO** |
+| 5 | ceal | (b) TS | **lens: demand-subset welded ~0.74, in band** | **GO** (analyzer-confirmed 0.7352) |
+| 6 | 7× TS | (b) TS | ceal outlier (27% clk-inj); ecosystem welded-at-demand | **GENERALIZES → backlog-finder market** |
 
-The five runs converge on a clear map: **the author's *Python* is glue pry can't rank
-(a- and b-axis agree → KILL); the author's *TS* agent runtime is the surface where
-pry's (b)-thesis holds (lens GO).** The recalibration was decisive — the bare fraction
-was fs-swamped (0.89), the lens demand-subset discriminates (0.74). pry's seam model
-transfers to TS; the one new capability the TS surface demands is **F22 rung-3
-wrapper detection** (transports/executors). **The open decision (needs the author):**
-a frozen GO means *build the Rust map for TS* (reopens the Python-only Layer-0 scope) —
-commit to the TS-frontend build (with rung-3 in scope) or pause. Still **no analyzer
-code** until that call.
+The six runs converge on a clear map: **the author's *Python* is glue pry can't rank
+(a- and b-axis agree → KILL); *TS agent code* is pry's surface (lens GO).** The
+recalibration was decisive — the bare fraction was fs-swamped (0.89), the lens
+demand-subset discriminates (0.74). The Stage-1 analyzer (F28) then **reproduced** the
+ceal-TS hand-gate (0.7352, deterministic, zero-LLM). Run 6 generalized it across 7 TS
+codebases: **ceal is the disciplined outlier; typical TS agent code is welded-at-demand
+→ a broad backlog-finder market**, with regression-guard as the ceal-like edge. **The
+open decision (needs the author):** next slice = **stage-2 rung-3** / per-corpus client
+catalogs / packaging (`external_binary` + `pry` skill) / commit the backlog-finder
+product framing. Analyzer exists; further gating is now cheap.
