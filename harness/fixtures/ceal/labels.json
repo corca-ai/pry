@@ -1,0 +1,256 @@
+{
+  "corpus": "ceal",
+  "corpus_head": "bfb097fb4e91307e1a0c6693bc69dbdbf602a6bf",
+  "labeler_model": "claude-opus-4-8",
+  "labels": {
+    "1f88ce606464f610a2dab6c4e08a8dd495dbf50f": {
+      "confidence": "medium",
+      "date": "2026-04-08T08:58:07+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "adds new GET request mode and retry capability, not repairing a prior failure handler",
+      "subject": "Fix manual Slack API helper for GET endpoints"
+    },
+    "2ce1f9aa8db734c86b2e2b0e9bb00d53e249e1a4": {
+      "confidence": "high",
+      "date": "2026-05-30T00:07:40+00:00",
+      "group": "recall_sample",
+      "is_error_handling_fix": false,
+      "reason": "validator reads docs/index.md instead of AGENTS.md; config-source change",
+      "subject": "fix(agents): restore host-rule fidelity after fresh-eye + setup-drift review (#214)"
+    },
+    "2e41e559a0a831474c454a205ccf7ab818ff389d": {
+      "confidence": "medium",
+      "date": "2026-06-04T05:19:19+00:00",
+      "group": "recall_sample",
+      "is_error_handling_fix": false,
+      "reason": "refines backend preflight readiness/error messaging; correctness/feature not failure repair",
+      "subject": "fix(agent): route workflow intent through skills"
+    },
+    "2fda41cae21f3a3439982927303fa7edf39d92a6": {
+      "confidence": "high",
+      "date": "2026-05-19T04:28:07+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "adds channel-drift validation plus daily cadence; business-rule validation/feature",
+      "subject": "fix: prevent anniversary event channel drift"
+    },
+    "30b84aba447331dd93a1d078f7fa1fef9ee6b3ff": {
+      "confidence": "high",
+      "date": "2026-06-03T12:55:47+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "reverts the proof-ladder validation; business-rule revert",
+      "subject": "fix(skills): restore pinned charness materialization"
+    },
+    "35e5f8489d13bdcd8c56875bc5cf1e82bb94a2b8": {
+      "confidence": "medium",
+      "date": "2026-05-29T12:33:58+00:00",
+      "group": "recall_sample",
+      "is_error_handling_fix": false,
+      "reason": "introduces summary-sharing decision policy; predominantly a new feature",
+      "subject": "#211: survey deadline close records a post-deadline decision, never silent"
+    },
+    "465e6654c553b8358af417c256bd3904dc60e149": {
+      "confidence": "high",
+      "date": "2026-05-08T00:43:51+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": true,
+      "reason": "catches ZoneInfoNotFoundError boundary failure that previously crashed, with fallback",
+      "subject": "fix(anniversary): handle KST without tzdata"
+    },
+    "4a05b3cabf0eed29b3ce96386600bb67595aa508": {
+      "confidence": "high",
+      "date": "2026-05-04T13:14:37+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "refactor adding nested YAML list parsing, no failure-handling bug",
+      "subject": "skills: bump charness-public pin to upstream HEAD"
+    },
+    "4e9f36a45ca3f0400809ed2e5915fb4c33d00b78": {
+      "confidence": "medium",
+      "date": "2026-05-21T09:13:42+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "input validation plus registry feature; handles its own new ValueError",
+      "subject": "Fix survey and scrum workflow regressions"
+    },
+    "4f7e64e07566f1614927adedd7015d1e2ba85fae": {
+      "confidence": "high",
+      "date": "2026-05-19T04:41:30+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "tightens input validation for target ids; business-rule guard",
+      "subject": "fix: require anniversary event target ids"
+    },
+    "53e15e0d418811595fb0caaae19e48f52a5a6ce2": {
+      "confidence": "high",
+      "date": "2026-06-02T03:38:31+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "brand-new mutation-coverage and commit-msg gate scripts",
+      "subject": "chore(skills): sync Charness closeout carrier fix"
+    },
+    "58ef8ea8ce4595b7464edd2f997a17dd4059fd61": {
+      "confidence": "high",
+      "date": "2026-06-03T12:46:14+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "adds new proof-ladder closeout validation; business-rule feature",
+      "subject": "fix(issue): require proof ladder in external closeouts"
+    },
+    "5c25a5a937ae1c39c8a7e168f9b36fe7ffb0b3cd": {
+      "confidence": "medium",
+      "date": "2026-04-08T10:41:48+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "switches to JSON mode and reformats bold; new parse path, feature change",
+      "subject": "Use defuddle --json mode and collapse nested bold in web-fetch"
+    },
+    "5d75e87d2607eb09144cb67783f4e9e3fdd8259e": {
+      "confidence": "medium",
+      "date": "2026-05-13T06:48:31+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "adds new search-based parent-discovery command, a feature",
+      "subject": "Fix daily scrum search parent discovery"
+    },
+    "69b5f487769d51258f87ffdacbdd50ec4f96c683": {
+      "confidence": "medium",
+      "date": "2026-05-12T02:00:45+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "removes raw Slack provider path and fails gracefully; boundary policy change",
+      "subject": "Fix scheduled thread provider boundary regressions"
+    },
+    "75228aea89d80a5715a265fa283f1464327b3d3d": {
+      "confidence": "high",
+      "date": "2026-05-05T02:00:50+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "brand-new batch intake helper module, net-new code",
+      "subject": "skills: extract multi-source batch intake helper"
+    },
+    "7ff84ab3274b642260ffee5fe7a7ba057772130b": {
+      "confidence": "high",
+      "date": "2026-04-03T00:10:32+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "brand-new validation script, no pre-existing bug fixed",
+      "subject": "dev: validate local skill manifests before commit"
+    },
+    "89046613b68c51d86c9e06e5d73ece515231ac17": {
+      "confidence": "high",
+      "date": "2026-05-20T02:50:23+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "adds message-contract validation rules; business logic not boundary failure",
+      "subject": "fix: preserve slack follow-up evidence"
+    },
+    "8ece278a5a9befe999fd3804dd390b9b81558c3a": {
+      "confidence": "high",
+      "date": "2026-04-09T15:20:07+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "YAML parser loop bug fix, business/parsing logic not boundary failure handling",
+      "subject": "Fix expert-debugging adapter list parsing"
+    },
+    "9f69332fa9d4615503543dc668f0593dac6582c9": {
+      "confidence": "high",
+      "date": "2026-06-09T10:10:05+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "rewrites selection-number parser; input-parsing/business logic",
+      "subject": "fix(skills): schedule-match \u2014 close M2 fully with an ALLOW-LIST selection parser"
+    },
+    "a5ea0d20dd18433179c1ce301bb9b94ecdee153a": {
+      "confidence": "medium",
+      "date": "2026-05-08T02:46:42+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "security policy change blocking credential passthrough, not failure-handling repair",
+      "subject": "fix: block agent credential passthrough"
+    },
+    "a851b7a791e724a29a16dbf6d18e91c298accd24": {
+      "confidence": "high",
+      "date": "2026-05-20T03:26:31+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "adds workflow-name inference and contract validation; business logic",
+      "subject": "fix: close slack workflow proof gaps"
+    },
+    "ac5c3a6a417ea159fbf16e740a35c897d354891d": {
+      "confidence": "medium",
+      "date": "2026-05-08T10:26:48+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "removes credential fallback and adds token reader; security/refactor, new code",
+      "subject": "fix: remove raw slack credential fallbacks"
+    },
+    "acaa9105d1818a911d2dd1bb7ff3638d5abaec97": {
+      "confidence": "high",
+      "date": "2026-05-08T05:57:23+00:00",
+      "group": "recall_sample",
+      "is_error_handling_fix": false,
+      "reason": "adds new channel_messages target mode; feature addition",
+      "subject": "Fix Slack event posting semantics"
+    },
+    "cbe82dbdaaa60f280df92d6d132bfb434865a691": {
+      "confidence": "high",
+      "date": "2026-05-20T03:04:36+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "adds workflow-contract requirement validation; business-rule checks",
+      "subject": "fix: require daily follow-up contracts"
+    },
+    "d09ac86214dab6ce536d7dae107d190d1a8241f4": {
+      "confidence": "low",
+      "date": "2026-05-15T11:19:37+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "adds new event-path fallback resolution; reliability feature, not a broken handler",
+      "subject": "fix runtime slack and workflow reliability gaps"
+    },
+    "d0d7b7544a44b67a9910fbca0004d6130050ef22": {
+      "confidence": "medium",
+      "date": "2026-06-09T10:01:07+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": true,
+      "reason": "blocks proposing slots over an unreadable calendar (boundary read failure), plus idempotency guards",
+      "subject": "fix(skills): schedule-match \u2014 close S21 critique findings (B1 silent-slot, M1 stale-confirm, M2 wrong-slot)"
+    },
+    "dec61f606076eb9d45f87d60d20a23838dc043de": {
+      "confidence": "high",
+      "date": "2026-04-30T02:00:21+00:00",
+      "group": "recall_sample",
+      "is_error_handling_fix": false,
+      "reason": "adds company/product anniversary candidate types; new feature",
+      "subject": "Fix retro proposal Slack lifecycle"
+    },
+    "e01610af7a7c511a3a2cf43a3b567b57535ff88b": {
+      "confidence": "high",
+      "date": "2026-05-31T10:41:44+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "brand-new closeout-evidence gate library, net-new code",
+      "subject": "fix(skills): enforce Charness materialization pin"
+    },
+    "ed9903dba6fc41000dd71702f500b2f276d13ad2": {
+      "confidence": "high",
+      "date": "2026-05-22T02:16:56+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "reverts tokenization stopword/mirror-line change; business logic",
+      "subject": "Fix scheduled workflow abort visibility"
+    },
+    "f6d2a1a96c169948722f6f53d25626a57b3059e2": {
+      "confidence": "medium",
+      "date": "2026-06-04T03:44:50+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "adds resume/progress-tracking commands; net-new resumability feature",
+      "subject": "fix(lunch): resume recommendations after group posts"
+    }
+  },
+  "rubric_hash": "39d64e30ffb1479e"
+}

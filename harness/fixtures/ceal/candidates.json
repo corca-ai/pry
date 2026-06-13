@@ -1,0 +1,595 @@
+{
+  "candidates": [
+    {
+      "date": "2026-04-03T00:10:32+00:00",
+      "py_files": [
+        "scripts/validate-skills.py"
+      ],
+      "sha": "7ff84ab3274b642260ffee5fe7a7ba057772130b",
+      "subject": "dev: validate local skill manifests before commit"
+    },
+    {
+      "date": "2026-04-08T08:58:07+00:00",
+      "py_files": [
+        "scripts/slack/api.py"
+      ],
+      "sha": "1f88ce606464f610a2dab6c4e08a8dd495dbf50f",
+      "subject": "Fix manual Slack API helper for GET endpoints"
+    },
+    {
+      "date": "2026-04-08T10:41:48+09:00",
+      "py_files": [
+        "packages/agent-runtime/builtin-skills/web-fetch/scripts/web_fetch.py"
+      ],
+      "sha": "5c25a5a937ae1c39c8a7e168f9b36fe7ffb0b3cd",
+      "subject": "Use defuddle --json mode and collapse nested bold in web-fetch"
+    },
+    {
+      "date": "2026-04-09T15:20:07+09:00",
+      "py_files": [
+        ".agents/skills/expert-debugging/scripts/resolve_adapter.py",
+        ".agents/skills/expert-debugging/scripts/test_resolve_adapter.py"
+      ],
+      "sha": "8ece278a5a9befe999fd3804dd390b9b81558c3a",
+      "subject": "Fix expert-debugging adapter list parsing"
+    },
+    {
+      "date": "2026-05-04T13:14:37+00:00",
+      "py_files": [
+        "packages/official-skills/charness-public/scripts/adapter_lib.py",
+        "packages/official-skills/charness-public/scripts/announcement_adapter_lib.py",
+        "packages/official-skills/charness-public/scripts/artifact_closeout_lib.py",
+        "packages/official-skills/charness-public/scripts/artifact_naming_lib.py",
+        "packages/official-skills/charness-public/scripts/bootstrap_runtime.py",
+        "packages/official-skills/charness-public/scripts/build_debug_seam_risk_index.py",
+        "packages/official-skills/charness-public/scripts/build_retro_lesson_selection_index.py",
+        "packages/official-skills/charness-public/scripts/cautilus_adapter_lib.py",
+        "packages/official-skills/charness-public/scripts/cautilus_scenarios_lib.py",
+        "packages/official-skills/charness-public/scripts/check-doc-links.py",
+        "packages/official-skills/charness-public/scripts/check_changed_surfaces.py",
+        "packages/official-skills/charness-public/scripts/check_cli_skill_surface.py",
+        "packages/official-skills/charness-public/scripts/check_command_docs.py",
+        "packages/official-skills/charness-public/scripts/check_coverage.py",
+        "packages/official-skills/charness-public/scripts/check_coverage_extra_lib.py",
+        "packages/official-skills/charness-public/scripts/check_coverage_lib.py",
+        "packages/official-skills/charness-public/scripts/check_doc_links.py",
+        "packages/official-skills/charness-public/scripts/check_duplicates.py",
+        "packages/official-skills/charness-public/scripts/check_export_safe_imports.py",
+        "packages/official-skills/charness-public/scripts/check_github_actions.py",
+        "packages/official-skills/charness-public/scripts/check_markdown_inline_code.py",
+        "packages/official-skills/charness-public/scripts/check_plugin_import_smoke.py",
+        "packages/official-skills/charness-public/scripts/check_python_filenames.py",
+        "packages/official-skills/charness-public/scripts/check_python_lengths.py",
+        "packages/official-skills/charness-public/scripts/check_python_runtime_inheritance.py",
+        "packages/official-skills/charness-public/scripts/check_skill_contracts.py",
+        "packages/official-skills/charness-public/scripts/check_supply_chain.py",
+        "packages/official-skills/charness-public/scripts/check_supply_chain_online.py",
+        "packages/official-skills/charness-public/scripts/check_test_completeness.py",
+        "packages/official-skills/charness-public/scripts/check_test_production_ratio.py",
+        "packages/official-skills/charness-public/scripts/control_plane_lib.py",
+        "packages/official-skills/charness-public/scripts/control_plane_lifecycle_lib.py",
+        "packages/official-skills/charness-public/scripts/doctor.py",
+        "packages/official-skills/charness-public/scripts/doctor_lib.py",
+        "packages/official-skills/charness-public/scripts/eval_cautilus_chatbot_compare.py",
+        "packages/official-skills/charness-public/scripts/eval_cautilus_chatbot_proposals.py",
+        "packages/official-skills/charness-public/scripts/eval_cautilus_scenarios.py",
+        "packages/official-skills/charness-public/scripts/eval_init_repo.py",
+        "packages/official-skills/charness-public/scripts/eval_registry.py",
+        "packages/official-skills/charness-public/scripts/export_plugin.py",
+        "packages/official-skills/charness-public/scripts/hitl_adaptive_queue_lib.py",
+        "packages/official-skills/charness-public/scripts/hitl_report_mode_lib.py",
+        "packages/official-skills/charness-public/scripts/init_repo_agent_docs_lib.py",
+        "packages/official-skills/charness-public/scripts/init_repo_artifact_policy_lib.py",
+        "packages/official-skills/charness-public/scripts/init_repo_inspect_lib.py",
+        "packages/official-skills/charness-public/scripts/install_machine_local.py",
+        "packages/official-skills/charness-public/scripts/install_provenance_lib.py",
+        "packages/official-skills/charness-public/scripts/install_tools.py",
+        "packages/official-skills/charness-public/scripts/inventory_quality_handoff.py",
+        "packages/official-skills/charness-public/scripts/lint_ignore_inventory_lib.py",
+        "packages/official-skills/charness-public/scripts/list_external_links.py",
+        "packages/official-skills/charness-public/scripts/markdown_preview_bootstrap_lib.py",
+        "packages/official-skills/charness-public/scripts/migrate_backtick_file_refs.py",
+        "packages/official-skills/charness-public/scripts/narrative_adapter_lib.py",
+        "packages/official-skills/charness-public/scripts/operator_acceptance_lib.py",
+        "packages/official-skills/charness-public/scripts/packaging_lib.py",
+        "packages/official-skills/charness-public/scripts/path_portability_lib.py",
+        "packages/official-skills/charness-public/scripts/plan_cautilus_proof.py",
+        "packages/official-skills/charness-public/scripts/plan_risk_interrupt.py",
+        "packages/official-skills/charness-public/scripts/plugin_preamble.py",
+        "packages/official-skills/charness-public/scripts/portable_artifact_lib.py",
+        "packages/official-skills/charness-public/scripts/public_skill_dogfood_lib.py",
+        "packages/official-skills/charness-public/scripts/public_skill_dogfood_validation_lib.py",
+        "packages/official-skills/charness-public/scripts/public_skill_validation_lib.py",
+        "packages/official-skills/charness-public/scripts/quality_adapter_lib.py",
+        "packages/official-skills/charness-public/scripts/quality_bootstrap_detect.py",
+        "packages/official-skills/charness-public/scripts/quality_bootstrap_lib.py",
+        "packages/official-skills/charness-public/scripts/quality_policy_defaults.py",
+        "packages/official-skills/charness-public/scripts/recent_lessons_lib.py",
+        "packages/official-skills/charness-public/scripts/record_quality_runtime.py",
+        "packages/official-skills/charness-public/scripts/render_cli_reference.py",
+        "packages/official-skills/charness-public/scripts/render_issue_57_design_study.py",
+        "packages/official-skills/charness-public/scripts/resolve_artifact_path.py",
+        "packages/official-skills/charness-public/scripts/retro_persistence_lib.py",
+        "packages/official-skills/charness-public/scripts/risk_interrupt_lib.py",
+        "packages/official-skills/charness-public/scripts/run-slice-closeout.py",
+        "packages/official-skills/charness-public/scripts/run_evals.py",
+        "packages/official-skills/charness-public/scripts/run_slice_closeout.py",
+        "packages/official-skills/charness-public/scripts/runtime_bootstrap.py",
+        "packages/official-skills/charness-public/scripts/script_timeout.py",
+        "packages/official-skills/charness-public/scripts/select_verifiers.py",
+        "packages/official-skills/charness-public/scripts/simple_skill_adapter_lib.py",
+        "packages/official-skills/charness-public/scripts/skill_portability_lib.py",
+        "packages/official-skills/charness-public/scripts/skill_runtime_bootstrap.py",
+        "packages/official-skills/charness-public/scripts/source_guard_scan_lib.py",
+        "packages/official-skills/charness-public/scripts/subprocess_guard.py",
+        "packages/official-skills/charness-public/scripts/suggest_public_skill_dogfood.py",
+        "packages/official-skills/charness-public/scripts/suggest_public_skill_validation.py",
+        "packages/official-skills/charness-public/scripts/support_sync_lib.py",
+        "packages/official-skills/charness-public/scripts/sync_root_plugin_manifests.py",
+        "packages/official-skills/charness-public/scripts/sync_support.py",
+        "packages/official-skills/charness-public/scripts/tool_recommendation_lib.py",
+        "packages/official-skills/charness-public/scripts/update_tools.py",
+        "packages/official-skills/charness-public/scripts/upstream_release_lib.py",
+        "packages/official-skills/charness-public/scripts/validate-adapters.py",
+        "packages/official-skills/charness-public/scripts/validate-debug-artifact.py",
+        "packages/official-skills/charness-public/scripts/validate-handoff-artifact.py",
+        "packages/official-skills/charness-public/scripts/validate-quality-artifact.py",
+        "packages/official-skills/charness-public/scripts/validate_adapters.py",
+        "packages/official-skills/charness-public/scripts/validate_cautilus_proof.py",
+        "packages/official-skills/charness-public/scripts/validate_cautilus_scenarios.py",
+        "packages/official-skills/charness-public/scripts/validate_current_pointer_freshness.py",
+        "packages/official-skills/charness-public/scripts/validate_debug_artifact.py",
+        "packages/official-skills/charness-public/scripts/validate_handoff_artifact.py",
+        "packages/official-skills/charness-public/scripts/validate_integrations.py",
+        "packages/official-skills/charness-public/scripts/validate_maintainer_setup.py",
+        "packages/official-skills/charness-public/scripts/validate_packaging.py",
+        "packages/official-skills/charness-public/scripts/validate_packaging_committed.py",
+        "packages/official-skills/charness-public/scripts/validate_packaging_install_surface.py",
+        "packages/official-skills/charness-public/scripts/validate_presets.py",
+        "packages/official-skills/charness-public/scripts/validate_profiles.py",
+        "packages/official-skills/charness-public/scripts/validate_public_skill_dogfood.py",
+        "packages/official-skills/charness-public/scripts/validate_public_skill_validation.py",
+        "packages/official-skills/charness-public/scripts/validate_quality_artifact.py",
+        "packages/official-skills/charness-public/scripts/validate_quality_closeout_contract.py",
+        "packages/official-skills/charness-public/scripts/validate_skill_ergonomics.py",
+        "packages/official-skills/charness-public/scripts/validate_skills.py",
+        "packages/official-skills/charness-public/scripts/validate_surfaces.py",
+        "packages/official-skills/charness-public/scripts/vendored_path_lib.py",
+        "packages/official-skills/charness-public/skills/announcement/scripts/collect_commits.py",
+        "packages/official-skills/charness-public/skills/announcement/scripts/init_adapter.py",
+        "packages/official-skills/charness-public/skills/announcement/scripts/record_announcement.py",
+        "packages/official-skills/charness-public/skills/announcement/scripts/resolve_adapter.py",
+        "packages/official-skills/charness-public/skills/debug/scripts/init_adapter.py",
+        "packages/official-skills/charness-public/skills/debug/scripts/resolve_adapter.py",
+        "packages/official-skills/charness-public/skills/debug/scripts/scaffold_debug_artifact.py",
+        "packages/official-skills/charness-public/skills/find-skills/scripts/capability_sources.py",
+        "packages/official-skills/charness-public/skills/find-skills/scripts/init_adapter.py",
+        "packages/official-skills/charness-public/skills/find-skills/scripts/inventory_artifact.py",
+        "packages/official-skills/charness-public/skills/find-skills/scripts/list_capabilities.py",
+        "packages/official-skills/charness-public/skills/find-skills/scripts/list_capabilities_lib.py",
+        "packages/official-skills/charness-public/skills/find-skills/scripts/resolve_adapter.py",
+        "packages/official-skills/charness-public/skills/find-skills/scripts/resolve_skill_path.py",
+        "packages/official-skills/charness-public/skills/gather/scripts/advise_google_workspace_path.py",
+        "packages/official-skills/charness-public/skills/gather/scripts/init_adapter.py",
+        "packages/official-skills/charness-public/skills/gather/scripts/resolve_adapter.py",
+        "packages/official-skills/charness-public/skills/handoff/scripts/init_adapter.py",
+        "packages/official-skills/charness-public/skills/handoff/scripts/resolve_adapter.py",
+        "packages/official-skills/charness-public/skills/hitl/scripts/bootstrap_review.py",
+        "packages/official-skills/charness-public/skills/hitl/scripts/init_adapter.py",
+        "packages/official-skills/charness-public/skills/hitl/scripts/render_report.py",
+        "packages/official-skills/charness-public/skills/hitl/scripts/resolve_adapter.py",
+        "packages/official-skills/charness-public/skills/impl/scripts/init_adapter.py",
+        "packages/official-skills/charness-public/skills/impl/scripts/resolve_adapter.py",
+        "packages/official-skills/charness-public/skills/impl/scripts/survey_verification.py",
+        "packages/official-skills/charness-public/skills/init-repo/scripts/init_adapter.py",
+        "packages/official-skills/charness-public/skills/init-repo/scripts/init_repo_adapter.py",
+        "packages/official-skills/charness-public/skills/init-repo/scripts/inspect_repo.py",
+        "packages/official-skills/charness-public/skills/init-repo/scripts/render_skill_routing.py",
+        "packages/official-skills/charness-public/skills/init-repo/scripts/resolve_adapter.py",
+        "packages/official-skills/charness-public/skills/init-repo/scripts/seed_dependencies.py",
+        "packages/official-skills/charness-public/skills/init-repo/scripts/seed_retro_memory.py",
+        "packages/official-skills/charness-public/skills/init-repo/scripts/synthesize_operator_acceptance.py",
+        "packages/official-skills/charness-public/skills/narrative/scripts/init_adapter.py",
+        "packages/official-skills/charness-public/skills/narrative/scripts/list_tool_recommendations.py",
+        "packages/official-skills/charness-public/skills/narrative/scripts/map_sources.py",
+        "packages/official-skills/charness-public/skills/narrative/scripts/resolve_adapter.py",
+        "packages/official-skills/charness-public/skills/narrative/scripts/review_adapter.py",
+        "packages/official-skills/charness-public/skills/quality/references/coverage_floor_inventory.py",
+        "packages/official-skills/charness-public/skills/quality/references/find_inline_prompt_bulk.py",
+        "packages/official-skills/charness-public/skills/quality/references/validate_spec_pytest_references.py",
+        "packages/official-skills/charness-public/skills/quality/scripts/adapter_validators.py",
+        "packages/official-skills/charness-public/skills/quality/scripts/bootstrap_adapter.py",
+        "packages/official-skills/charness-public/skills/quality/scripts/bootstrap_markdown_preview.py",
+        "packages/official-skills/charness-public/skills/quality/scripts/check-runtime-budget.py",
+        "packages/official-skills/charness-public/skills/quality/scripts/check_runtime_budget.py",
+        "packages/official-skills/charness-public/skills/quality/scripts/cli_ergonomics_lib.py",
+        "packages/official-skills/charness-public/skills/quality/scripts/cli_side_effect_probe_lib.py",
+        "packages/official-skills/charness-public/skills/quality/scripts/init_adapter.py",
+        "packages/official-skills/charness-public/skills/quality/scripts/inventory_adapter_gate_design.py",
+        "packages/official-skills/charness-public/skills/quality/scripts/inventory_brittle_source_guards.py",
+        "packages/official-skills/charness-public/skills/quality/scripts/inventory_cli_ergonomics.py",
+        "packages/official-skills/charness-public/skills/quality/scripts/inventory_cli_side_effect_probes.py",
+        "packages/official-skills/charness-public/skills/quality/scripts/inventory_dual_implementation.py",
+        "packages/official-skills/charness-public/skills/quality/scripts/inventory_entrypoint_docs_ergonomics.py",
+        "packages/official-skills/charness-public/skills/quality/scripts/inventory_gitignore_scan_hygiene.py",
+        "packages/official-skills/charness-public/skills/quality/scripts/inventory_lint_ignores.py",
+        "packages/official-skills/charness-public/skills/quality/scripts/inventory_public_spec_quality.py",
+        "packages/official-skills/charness-public/skills/quality/scripts/inventory_skill_ergonomics.py",
+        "packages/official-skills/charness-public/skills/quality/scripts/inventory_sloc.py",
+        "packages/official-skills/charness-public/skills/quality/scripts/inventory_standing_gate_verbosity.py",
+        "packages/official-skills/charness-public/skills/quality/scripts/list_tool_recommendations.py",
+        "packages/official-skills/charness-public/skills/quality/scripts/measure_startup_probes.py",
+        "packages/official-skills/charness-public/skills/quality/scripts/public_spec_adapter_policy.py",
+        "packages/official-skills/charness-public/skills/quality/scripts/public_spec_inventory_lib.py",
+        "packages/official-skills/charness-public/skills/quality/scripts/public_spec_quality_lib.py",
+        "packages/official-skills/charness-public/skills/quality/scripts/public_spec_scan_lib.py",
+        "packages/official-skills/charness-public/skills/quality/scripts/render_runtime_summary.py",
+        "packages/official-skills/charness-public/skills/quality/scripts/resolve_adapter.py",
+        "packages/official-skills/charness-public/skills/quality/scripts/run_dead_code_advisory.py",
+        "packages/official-skills/charness-public/skills/quality/scripts/runtime_budget_lib.py",
+        "packages/official-skills/charness-public/skills/quality/scripts/runtime_profile_lib.py",
+        "packages/official-skills/charness-public/skills/quality/scripts/skill_ergonomics_lib.py",
+        "packages/official-skills/charness-public/skills/quality/scripts/standing_gate_discovery_lib.py",
+        "packages/official-skills/charness-public/skills/quality/scripts/standing_gate_verbosity_lib.py",
+        "packages/official-skills/charness-public/skills/quality/scripts/suggest_public_skill_dogfood.py",
+        "packages/official-skills/charness-public/skills/quality/scripts/validate_skill_ergonomics.py",
+        "packages/official-skills/charness-public/skills/release/scripts/bump_version.py",
+        "packages/official-skills/charness-public/skills/release/scripts/check_real_host_proof.py",
+        "packages/official-skills/charness-public/skills/release/scripts/check_requested_review_gate.py",
+        "packages/official-skills/charness-public/skills/release/scripts/current_release.py",
+        "packages/official-skills/charness-public/skills/release/scripts/init_adapter.py",
+        "packages/official-skills/charness-public/skills/release/scripts/publish_release.py",
+        "packages/official-skills/charness-public/skills/release/scripts/publish_release_cli.py",
+        "packages/official-skills/charness-public/skills/release/scripts/publish_release_helpers.py",
+        "packages/official-skills/charness-public/skills/release/scripts/resolve_adapter.py",
+        "packages/official-skills/charness-public/skills/retro/scripts/check_auto_trigger.py",
+        "packages/official-skills/charness-public/skills/retro/scripts/init_adapter.py",
+        "packages/official-skills/charness-public/skills/retro/scripts/persist_retro_artifact.py",
+        "packages/official-skills/charness-public/skills/retro/scripts/probe_host_logs.py",
+        "packages/official-skills/charness-public/skills/retro/scripts/refresh_recent_lessons.py",
+        "packages/official-skills/charness-public/skills/retro/scripts/resolve_adapter.py",
+        "packages/official-skills/charness-support/agent-browser/scripts/runtime_guard.py"
+      ],
+      "sha": "4a05b3cabf0eed29b3ce96386600bb67595aa508",
+      "subject": "skills: bump charness-public pin to upstream HEAD"
+    },
+    {
+      "date": "2026-05-05T02:00:50+00:00",
+      "py_files": [
+        "packages/official-skills/ceal-native/shared/batch_intake/__init__.py",
+        "packages/official-skills/ceal-native/shared/batch_intake/_io.py",
+        "packages/official-skills/ceal-native/shared/batch_intake/candidates.py",
+        "packages/official-skills/ceal-native/shared/batch_intake/commit.py",
+        "packages/official-skills/ceal-native/shared/batch_intake/errors.py",
+        "packages/official-skills/ceal-native/shared/batch_intake/manifest.py",
+        "packages/official-skills/ceal-native/shared/batch_intake/report.py",
+        "packages/official-skills/ceal-native/shared/batch_intake/runner.py",
+        "packages/official-skills/ceal-native/shared/batch_intake/tests/__init__.py",
+        "packages/official-skills/ceal-native/shared/batch_intake/tests/_fixtures.py",
+        "packages/official-skills/ceal-native/shared/batch_intake/tests/test_helper.py",
+        "packages/official-skills/ceal-native/shared/batch_intake/tests/test_processor_baseline.py",
+        "packages/official-skills/ceal-native/shared/batch_intake/validation.py"
+      ],
+      "sha": "75228aea89d80a5715a265fa283f1464327b3d3d",
+      "subject": "skills: extract multi-source batch intake helper"
+    },
+    {
+      "date": "2026-05-08T00:43:51+00:00",
+      "py_files": [
+        "packages/official-skills/ceal-native/skills/anniversary-announcements/scripts/resolve_today_anniversaries.py"
+      ],
+      "sha": "465e6654c553b8358af417c256bd3904dc60e149",
+      "subject": "fix(anniversary): handle KST without tzdata"
+    },
+    {
+      "date": "2026-05-08T02:46:42+00:00",
+      "py_files": [
+        "packages/official-skills/ceal-native/skills/anniversary-roster-sync/scripts/sync_people_roster_via_browser.py",
+        "packages/official-skills/ceal-native/skills/backoffice-receipt-intake/scripts/append_receipt_row.py",
+        "packages/official-skills/ceal-native/skills/backoffice-receipt-intake/scripts/process_org_expense.py",
+        "packages/official-skills/ceal-native/skills/backoffice-receipt-intake/scripts/process_receipt.py",
+        "packages/official-skills/ceal-native/skills/backoffice-receipt-intake/scripts/upload_receipt_to_drive.py",
+        "packages/official-skills/ceal-native/skills/survey/scripts/manage_survey_run.py"
+      ],
+      "sha": "a5ea0d20dd18433179c1ce301bb9b94ecdee153a",
+      "subject": "fix: block agent credential passthrough"
+    },
+    {
+      "date": "2026-05-08T10:26:48+00:00",
+      "py_files": [
+        "scripts/slack/api.py"
+      ],
+      "sha": "ac5c3a6a417ea159fbf16e740a35c897d354891d",
+      "subject": "fix: remove raw slack credential fallbacks"
+    },
+    {
+      "date": "2026-05-12T02:00:45+00:00",
+      "py_files": [
+        "packages/official-skills/ceal-native/skills/backoffice-receipt-intake/scripts/append_receipt_row.py",
+        "packages/official-skills/ceal-native/skills/backoffice-receipt-intake/scripts/process_org_expense.py",
+        "packages/official-skills/ceal-native/skills/backoffice-receipt-intake/scripts/process_receipt.py",
+        "packages/official-skills/ceal-native/skills/backoffice-receipt-intake/scripts/upload_receipt_to_drive.py",
+        "packages/official-skills/ceal-native/skills/survey/scripts/manage_survey_run.py"
+      ],
+      "sha": "69b5f487769d51258f87ffdacbdd50ec4f96c683",
+      "subject": "Fix scheduled thread provider boundary regressions"
+    },
+    {
+      "date": "2026-05-13T06:48:31+00:00",
+      "py_files": [
+        "packages/official-skills/ceal-native/skills/daily-scrum-sharing/scripts/daily_scrum_sharing.py",
+        "packages/official-skills/ceal-native/skills/daily-scrum-sharing/tests/test_daily_scrum_sharing.py"
+      ],
+      "sha": "5d75e87d2607eb09144cb67783f4e9e3fdd8259e",
+      "subject": "Fix daily scrum search parent discovery"
+    },
+    {
+      "date": "2026-05-15T11:19:37+00:00",
+      "py_files": [
+        "packages/official-skills/ceal-native/skills/daily-scrum-sharing/scripts/daily_scrum_sharing.py",
+        "packages/official-skills/ceal-native/skills/daily-scrum-sharing/tests/test_daily_scrum_sharing.py"
+      ],
+      "sha": "d09ac86214dab6ce536d7dae107d190d1a8241f4",
+      "subject": "fix runtime slack and workflow reliability gaps"
+    },
+    {
+      "date": "2026-05-19T04:28:07+00:00",
+      "py_files": [
+        "packages/official-skills/ceal-native/skills/anniversary-roster-sync/scripts/upsert_anniversary_workflow.py"
+      ],
+      "sha": "2fda41cae21f3a3439982927303fa7edf39d92a6",
+      "subject": "fix: prevent anniversary event channel drift"
+    },
+    {
+      "date": "2026-05-19T04:41:30+00:00",
+      "py_files": [
+        "packages/official-skills/ceal-native/skills/anniversary-roster-sync/scripts/upsert_anniversary_workflow.py"
+      ],
+      "sha": "4f7e64e07566f1614927adedd7015d1e2ba85fae",
+      "subject": "fix: require anniversary event target ids"
+    },
+    {
+      "date": "2026-05-20T02:50:23+00:00",
+      "py_files": [
+        "packages/official-skills/ceal-native/shared/event_post_followup/event_post_followup.py",
+        "packages/official-skills/ceal-native/shared/event_post_followup/tests/test_event_post_followup.py"
+      ],
+      "sha": "89046613b68c51d86c9e06e5d73ece515231ac17",
+      "subject": "fix: preserve slack follow-up evidence"
+    },
+    {
+      "date": "2026-05-20T03:04:36+00:00",
+      "py_files": [
+        "packages/official-skills/ceal-native/shared/event_post_followup/event_post_followup.py",
+        "packages/official-skills/ceal-native/shared/event_post_followup/tests/test_event_post_followup.py"
+      ],
+      "sha": "cbe82dbdaaa60f280df92d6d132bfb434865a691",
+      "subject": "fix: require daily follow-up contracts"
+    },
+    {
+      "date": "2026-05-20T03:26:31+00:00",
+      "py_files": [
+        "packages/official-skills/ceal-native/shared/event_post_followup/event_post_followup.py",
+        "packages/official-skills/ceal-native/shared/event_post_followup/tests/test_event_post_followup.py"
+      ],
+      "sha": "a851b7a791e724a29a16dbf6d18e91c298accd24",
+      "subject": "fix: close slack workflow proof gaps"
+    },
+    {
+      "date": "2026-05-21T09:13:42+00:00",
+      "py_files": [
+        "packages/official-skills/ceal-native/skills/daily-scrum-sharing/scripts/daily_scrum_sharing.py",
+        "packages/official-skills/ceal-native/skills/daily-scrum-sharing/tests/test_daily_scrum_sharing.py",
+        "packages/official-skills/ceal-native/skills/survey/scripts/manage_survey_run.py"
+      ],
+      "sha": "4e9f36a45ca3f0400809ed2e5915fb4c33d00b78",
+      "subject": "Fix survey and scrum workflow regressions"
+    },
+    {
+      "date": "2026-05-22T02:16:56+00:00",
+      "py_files": [
+        "packages/official-skills/ceal-native/skills/daily-scrum-sharing/scripts/daily_scrum_sharing.py",
+        "packages/official-skills/ceal-native/skills/daily-scrum-sharing/tests/test_daily_scrum_sharing.py"
+      ],
+      "sha": "ed9903dba6fc41000dd71702f500b2f276d13ad2",
+      "subject": "Fix scheduled workflow abort visibility"
+    },
+    {
+      "date": "2026-05-31T10:41:44+00:00",
+      "py_files": [
+        "packages/official-skills/charness-public/scripts/check_prescribed_skill_executed.py",
+        "packages/official-skills/charness-public/scripts/check_prescribed_skill_executed_lib.py",
+        "packages/official-skills/charness-public/scripts/check_python_lengths.py",
+        "packages/official-skills/charness-public/scripts/classify_push_diff.py",
+        "packages/official-skills/charness-public/scripts/classify_push_diff_lib.py",
+        "packages/official-skills/charness-public/scripts/host_hook_codex_toml_lib.py",
+        "packages/official-skills/charness-public/scripts/host_hook_find_skills.py",
+        "packages/official-skills/charness-public/scripts/host_hook_install_lib.py",
+        "packages/official-skills/charness-public/scripts/session_start_find_skills.py",
+        "packages/official-skills/charness-public/scripts/validate_current_pointer_freshness.py",
+        "packages/official-skills/charness-public/skills/achieve/scripts/check_goal_artifact.py",
+        "packages/official-skills/charness-public/skills/achieve/scripts/goal_artifact_closeout_evidence.py",
+        "packages/official-skills/charness-public/skills/achieve/scripts/goal_artifact_lib.py",
+        "packages/official-skills/charness-public/skills/achieve/scripts/upsert_goal.py",
+        "packages/official-skills/charness-public/skills/create-skill/scripts/resolve_adapter.py",
+        "packages/official-skills/charness-public/skills/handoff/scripts/chunked_routing_auto_draft.py",
+        "packages/official-skills/charness-public/skills/handoff/scripts/chunked_routing_cli.py",
+        "packages/official-skills/charness-public/skills/handoff/scripts/chunked_routing_issue_backend.py",
+        "packages/official-skills/charness-public/skills/handoff/scripts/chunked_routing_issue_source.py",
+        "packages/official-skills/charness-public/skills/handoff/scripts/chunked_routing_lib.py",
+        "packages/official-skills/charness-public/skills/handoff/scripts/chunked_routing_merger.py",
+        "packages/official-skills/charness-public/skills/handoff/scripts/chunked_routing_parser.py",
+        "packages/official-skills/charness-public/skills/handoff/scripts/chunked_routing_types.py",
+        "packages/official-skills/charness-public/skills/handoff/scripts/draft_goal_from_chunk.py",
+        "packages/official-skills/charness-public/skills/handoff/scripts/parse_handoff_entries.py",
+        "packages/official-skills/charness-public/skills/handoff/scripts/prepare_ranker_packet.py",
+        "packages/official-skills/charness-public/skills/handoff/scripts/propose_merges.py",
+        "packages/official-skills/charness-public/skills/issue/scripts/issue_backend.py",
+        "packages/official-skills/charness-public/skills/issue/scripts/issue_close.py",
+        "packages/official-skills/charness-public/skills/issue/scripts/issue_create.py",
+        "packages/official-skills/charness-public/skills/issue/scripts/issue_tool.py",
+        "packages/official-skills/charness-public/skills/issue/scripts/issue_verify_closeout.py",
+        "packages/official-skills/charness-public/skills/issue/scripts/issue_verify_closeout_body.py",
+        "packages/official-skills/charness-public/skills/release/scripts/publish_release_cli.py",
+        "packages/official-skills/charness-public/skills/release/scripts/publish_release_preflight.py",
+        "packages/official-skills/charness-public/skills/setup/scripts/render_skill_routing.py"
+      ],
+      "sha": "e01610af7a7c511a3a2cf43a3b567b57535ff88b",
+      "subject": "fix(skills): enforce Charness materialization pin"
+    },
+    {
+      "date": "2026-06-02T03:38:31+00:00",
+      "py_files": [
+        "packages/official-skills/charness-public/scripts/check_changed_line_mutation_coverage.py",
+        "packages/official-skills/charness-public/scripts/check_issue_closeout_commit_msg.py",
+        "packages/official-skills/charness-public/scripts/check_mutation_score.py",
+        "packages/official-skills/charness-public/scripts/check_python_lengths.py",
+        "packages/official-skills/charness-public/scripts/check_staged_mirror_drift.py",
+        "packages/official-skills/charness-public/scripts/check_staged_reversion.py",
+        "packages/official-skills/charness-public/scripts/check_symbol_residue.py",
+        "packages/official-skills/charness-public/scripts/codex_session_jsonl_audit.py",
+        "packages/official-skills/charness-public/scripts/host_hook_codex_toml_lib.py",
+        "packages/official-skills/charness-public/scripts/host_hook_find_skills.py",
+        "packages/official-skills/charness-public/scripts/host_hook_install_lib.py",
+        "packages/official-skills/charness-public/scripts/host_log_probe_lib.py",
+        "packages/official-skills/charness-public/scripts/mutation_changed_files_lib.py",
+        "packages/official-skills/charness-public/scripts/mutation_manifest_lib.py",
+        "packages/official-skills/charness-public/scripts/mutation_sample_manifest_score_lib.py",
+        "packages/official-skills/charness-public/scripts/portable_artifact_lib.py",
+        "packages/official-skills/charness-public/scripts/reconcile_usage_episodes_host_hooks.py",
+        "packages/official-skills/charness-public/scripts/report_usage_episodes.py",
+        "packages/official-skills/charness-public/scripts/run_cosmic_ray_mutation.py",
+        "packages/official-skills/charness-public/scripts/run_slice_closeout.py",
+        "packages/official-skills/charness-public/scripts/sample_mutation_files.py",
+        "packages/official-skills/charness-public/scripts/session_start_find_skills.py",
+        "packages/official-skills/charness-public/scripts/setup_agent_docs_lib.py",
+        "packages/official-skills/charness-public/scripts/skill_portability_lib.py",
+        "packages/official-skills/charness-public/scripts/staged_commit_gate_plan.py",
+        "packages/official-skills/charness-public/scripts/validate_attention_state_visibility.py",
+        "packages/official-skills/charness-public/scripts/validate_maintainer_setup.py",
+        "packages/official-skills/charness-public/scripts/validate_skills.py",
+        "packages/official-skills/charness-public/skills/achieve/scripts/audit_disposition_corpus.py",
+        "packages/official-skills/charness-public/skills/achieve/scripts/check_goal_artifact.py",
+        "packages/official-skills/charness-public/skills/achieve/scripts/goal_artifact_closeout_evidence.py",
+        "packages/official-skills/charness-public/skills/achieve/scripts/goal_artifact_coordination_floors.py",
+        "packages/official-skills/charness-public/skills/achieve/scripts/goal_artifact_discussion.py",
+        "packages/official-skills/charness-public/skills/achieve/scripts/goal_artifact_disposition.py",
+        "packages/official-skills/charness-public/skills/achieve/scripts/goal_artifact_head_freshness.py",
+        "packages/official-skills/charness-public/skills/achieve/scripts/goal_artifact_lib.py",
+        "packages/official-skills/charness-public/skills/create-skill/scripts/resolve_adapter.py",
+        "packages/official-skills/charness-public/skills/critique/scripts/init_adapter.py",
+        "packages/official-skills/charness-public/skills/find-skills/scripts/list_capabilities.py",
+        "packages/official-skills/charness-public/skills/handoff/scripts/chunked_routing_auto_draft.py",
+        "packages/official-skills/charness-public/skills/handoff/scripts/chunked_routing_issue_backend.py",
+        "packages/official-skills/charness-public/skills/handoff/scripts/chunked_routing_issue_source.py",
+        "packages/official-skills/charness-public/skills/handoff/scripts/chunked_routing_lib.py",
+        "packages/official-skills/charness-public/skills/handoff/scripts/chunked_routing_parser.py",
+        "packages/official-skills/charness-public/skills/handoff/scripts/chunked_routing_types.py",
+        "packages/official-skills/charness-public/skills/handoff/scripts/draft_goal_from_chunk.py",
+        "packages/official-skills/charness-public/skills/handoff/scripts/parse_handoff_entries.py",
+        "packages/official-skills/charness-public/skills/handoff/scripts/prepare_ranker_packet.py",
+        "packages/official-skills/charness-public/skills/handoff/scripts/propose_merges.py",
+        "packages/official-skills/charness-public/skills/handoff/scripts/resolve_adapter.py",
+        "packages/official-skills/charness-public/skills/issue/scripts/issue_resolution_critique.py",
+        "packages/official-skills/charness-public/skills/issue/scripts/issue_tool.py",
+        "packages/official-skills/charness-public/skills/issue/scripts/issue_validate_closeout_draft.py",
+        "packages/official-skills/charness-public/skills/issue/scripts/issue_verify_closeout.py",
+        "packages/official-skills/charness-public/skills/retro/scripts/audit_codex_session.py",
+        "packages/official-skills/charness-public/skills/retro/scripts/probe_host_logs.py",
+        "packages/official-skills/charness-public/skills/setup/scripts/init_adapter.py",
+        "packages/official-skills/charness-public/skills/setup/scripts/render_skill_routing.py"
+      ],
+      "sha": "53e15e0d418811595fb0caaae19e48f52a5a6ce2",
+      "subject": "chore(skills): sync Charness closeout carrier fix"
+    },
+    {
+      "date": "2026-06-03T12:46:14+00:00",
+      "py_files": [
+        "packages/official-skills/charness-public/skills/issue/scripts/issue_verify_closeout_body.py",
+        "packages/official-skills/charness-public/skills/issue/tests/test_issue_verify_closeout_body.py"
+      ],
+      "sha": "58ef8ea8ce4595b7464edd2f997a17dd4059fd61",
+      "subject": "fix(issue): require proof ladder in external closeouts"
+    },
+    {
+      "date": "2026-06-03T12:55:47+00:00",
+      "py_files": [
+        "packages/official-skills/charness-public/skills/issue/scripts/issue_verify_closeout_body.py",
+        "packages/official-skills/charness-public/skills/issue/tests/test_issue_verify_closeout_body.py"
+      ],
+      "sha": "30b84aba447331dd93a1d078f7fa1fef9ee6b3ff",
+      "subject": "fix(skills): restore pinned charness materialization"
+    },
+    {
+      "date": "2026-06-04T03:44:50+00:00",
+      "py_files": [
+        "packages/official-skills/ceal-native/skills/lunch-match-thread-starter/scripts/lunch_match_thread_starter.py",
+        "packages/official-skills/ceal-native/skills/lunch-match-thread-starter/tests/test_lunch_match_thread_starter.py"
+      ],
+      "sha": "f6d2a1a96c169948722f6f53d25626a57b3059e2",
+      "subject": "fix(lunch): resume recommendations after group posts"
+    },
+    {
+      "date": "2026-06-09T10:01:07+00:00",
+      "py_files": [
+        "packages/official-skills/ceal-native/shared/schedule_match/schedule_match.py",
+        "packages/official-skills/ceal-native/shared/schedule_match/tests/test_schedule_match.py"
+      ],
+      "sha": "d0d7b7544a44b67a9910fbca0004d6130050ef22",
+      "subject": "fix(skills): schedule-match \u2014 close S21 critique findings (B1 silent-slot, M1 stale-confirm, M2 wrong-slot)"
+    },
+    {
+      "date": "2026-06-09T10:10:05+00:00",
+      "py_files": [
+        "packages/official-skills/ceal-native/shared/schedule_match/schedule_match.py",
+        "packages/official-skills/ceal-native/shared/schedule_match/tests/test_schedule_match.py"
+      ],
+      "sha": "9f69332fa9d4615503543dc668f0593dac6582c9",
+      "subject": "fix(skills): schedule-match \u2014 close M2 fully with an ALLOW-LIST selection parser"
+    }
+  ],
+  "corpus": "ceal",
+  "corpus_head": "bfb097fb4e91307e1a0c6693bc69dbdbf602a6bf",
+  "corpus_repo": "/home/hwidong/codes/ceal",
+  "counts": {
+    "bugfix_commits": 31,
+    "candidates": 26,
+    "error_handling_diff_commits": 100,
+    "non_matched_bugfix": 5,
+    "py_commits": 135
+  },
+  "heuristics": {
+    "bugfix_msg_regex": "\\b(fix|fixes|fixed|bugfix|hotfix|bug|regression|broke|broken|crash|incorrect)\\b",
+    "error_handling_diff_regex": "except\\b|\\braise\\b|\\btry:|\\bfinally:|\\.rollback\\b|\\bretry|\\btimeout\\b|\\btraceback\\b|contextlib\\.suppress|\\.(error|exception|warning)\\(|\\brequests\\.|\\bhttpx\\.|\\burllib|\\bsocket\\.|\\bsubprocess\\b|os\\.environ|os\\.getenv|datetime\\.now|\\btime\\.time\\b|\\brandom\\.|\\bpsycopg|\\bsqlite3|sqlalchemy|\\bboto3|(^|[^.\\w])open\\(",
+    "pathspec": "*.py"
+  },
+  "miner_version": "0.1.0",
+  "non_matched_bugfix": [
+    {
+      "date": "2026-04-30T02:00:21+00:00",
+      "sha": "dec61f606076eb9d45f87d60d20a23838dc043de",
+      "subject": "Fix retro proposal Slack lifecycle"
+    },
+    {
+      "date": "2026-05-08T05:57:23+00:00",
+      "sha": "acaa9105d1818a911d2dd1bb7ff3638d5abaec97",
+      "subject": "Fix Slack event posting semantics"
+    },
+    {
+      "date": "2026-05-29T12:33:58+00:00",
+      "sha": "35e5f8489d13bdcd8c56875bc5cf1e82bb94a2b8",
+      "subject": "#211: survey deadline close records a post-deadline decision, never silent"
+    },
+    {
+      "date": "2026-05-30T00:07:40+00:00",
+      "sha": "2ce1f9aa8db734c86b2e2b0e9bb00d53e249e1a4",
+      "subject": "fix(agents): restore host-rule fidelity after fresh-eye + setup-drift review (#214)"
+    },
+    {
+      "date": "2026-06-04T05:19:19+00:00",
+      "sha": "2e41e559a0a831474c454a205ccf7ab818ff389d",
+      "subject": "fix(agent): route workflow intent through skills"
+    }
+  ],
+  "regex_engine": "pcre"
+}

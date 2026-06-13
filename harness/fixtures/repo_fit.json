@@ -8,5 +8,5 @@
   "mining_recall_sample": 40,
   "repo_fit_axis": "inconclusive",
   "site_count": 58,
-  "verdict": "RE-TARGET: 6 high-confidence sites (of 58 total) < floor 30 and miner recall looks adequate (1/40 missed). charness may not have this bug shape \u2014 pull ceal or change the target, don't build the analyzer."
+  "verdict": "RE-TARGET: 6 high-confidence sites (of 58 total) < floor 30 and miner recall looks adequate (1/40 missed). This corpus may not have this bug shape \u2014 change the target / try another corpus, don't build the analyzer."
 }

@@ -68,3 +68,53 @@ analyzer code is written until a corpus clears Gate 0.**
 Evidence (frozen): `harness/fixtures/labels.json` (verdicts + confidence +
 one-clause reasons, contestable via `git show <sha>` at corpus_head),
 `label_verdicts.json` (raw agent transcript), `bug_sites.json`, `repo_fit.json`.
+
+---
+
+## Run 2 — corpus: **ceal** @ `bfb097fb` (2026-06-13)
+
+Same analyzer-free gate, same blinded single-rater protocol (model
+`claude-opus-4-8`, rubric `39d64e30`). Evidence under `harness/fixtures/ceal/`.
+
+| signal | value | bar |
+|--------|-------|-----|
+| Python-touching commits (of 2804 total) | 135 | — |
+| Candidates mined | **26** | (already < floor 30 before labeling) |
+| **Confirmed error-handling bugfixes** | **2 / 26** | — |
+| — high-confidence | **1** | — |
+| SZZ bug sites / high-confidence sites | 5 / **2** | high-conf ≥ 30 (F17) |
+| P1b mining-recall | **0 / 5** | — |
+
+**Verdict: RE-TARGET.** 2 high-confidence sites ≪ floor 30; recall adequate
+(0/5 missed). ceal is described as *"a surface-extensible organizational AI agent
+runtime… Slack ingests messages, dispatches to agent workers"* — an
+LLM-orchestration runtime. Its two genuine error-handling fixes are pry-shape (a
+`ZoneInfoNotFoundError` boundary-lookup crash; a calendar-read-failure guard) but
+there are only two. Tool axis not evaluated — killed at Gate 0.
+
+---
+
+## Cross-corpus synthesis (2 of 2 own-repos → RE-TARGET)
+
+| corpus | what it is | confirmed EH fixes | high-conf sites | recall miss | verdict |
+|--------|-----------|--------------------|-----------------|-------------|---------|
+| charness | agent harness / skills tooling | 7 / 126 | 6 | 1/40 | RE-TARGET |
+| ceal | organizational AI agent runtime | 2 / 26 | 2 | 0/5 | RE-TARGET |
+
+**Both of the author's own repos lack the swallowed-boundary-failure /
+network+mutation+rollback bug shape pry targets — and both are AI-agent /
+LLM-orchestration tools.** High miner recall on both rules out miner blindness.
+This is the §13 A.2 outcome, now confirmed twice: pry is *correct about a problem
+these repos don't have much of.* Their real defect surface is LLM orchestration,
+prompt/tool dispatch, and subprocess agent workers — not Yuan's distributed-
+systems shape.
+
+**The first experiment did its job (§9/§13): it cheaply falsified corpus-fit
+before any analyzer was built.** The open strategic fork (needs the author):
+1. **Pivot the target** — validate the *tool* on OSS repos that do have the shape
+   (distributed systems / data pipelines), per §9's "then 20–50 OSS repos".
+2. **Pivot the signal** — redefine the boundary catalog + bug shape for the
+   *agent/LLM* domain (LLM API calls, prompt I/O, tool dispatch, subprocess
+   workers) so pry targets the defect profile these repos actually have.
+3. **Shelve** — accept that error-handling/testability is not the bottleneck for
+   this author's repos and stop here (the honest cheap-kill outcome).

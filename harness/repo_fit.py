@@ -56,9 +56,9 @@ def assess(site_count: int, high_conf_count: int, recall_total: int,
                        f"concluding 'no gradient'.")
         else:
             verdict = (f"RE-TARGET: {tot} < floor {floor} and miner recall looks "
-                       f"adequate ({recall_hits}/{recall_total} missed). charness "
-                       f"may not have this bug shape — pull ceal or change the "
-                       f"target, don't build the analyzer.")
+                       f"adequate ({recall_hits}/{recall_total} missed). This "
+                       f"corpus may not have this bug shape — change the target / "
+                       f"try another corpus, don't build the analyzer.")
     return {
         "repo_fit_axis": axis,
         "site_count": site_count,

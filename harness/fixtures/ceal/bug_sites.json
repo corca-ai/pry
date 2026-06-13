@@ -1,0 +1,58 @@
+{
+  "corpus": "ceal",
+  "corpus_head": "bfb097fb4e91307e1a0c6693bc69dbdbf602a6bf",
+  "labeler_model": "claude-opus-4-8",
+  "site_count": 5,
+  "sites": [
+    {
+      "bug_commits": [
+        "9b5932cb79139cb17033b20259feca59e9a6a731"
+      ],
+      "file": "packages/official-skills/ceal-native/shared/schedule_match/schedule_match.py",
+      "fix_commits": [
+        "d0d7b7544a44b67a9910fbca0004d6130050ef22"
+      ],
+      "qualified_function": "_extract_selection_numbers"
+    },
+    {
+      "bug_commits": [
+        "9b5932cb79139cb17033b20259feca59e9a6a731"
+      ],
+      "file": "packages/official-skills/ceal-native/shared/schedule_match/schedule_match.py",
+      "fix_commits": [
+        "d0d7b7544a44b67a9910fbca0004d6130050ef22"
+      ],
+      "qualified_function": "render_proposal"
+    },
+    {
+      "bug_commits": [
+        "9b5932cb79139cb17033b20259feca59e9a6a731"
+      ],
+      "file": "packages/official-skills/ceal-native/shared/schedule_match/tests/test_schedule_match.py",
+      "fix_commits": [
+        "d0d7b7544a44b67a9910fbca0004d6130050ef22"
+      ],
+      "qualified_function": "StateMachineCliTests.test_full_loop_propose_confirm_deliver_complete"
+    },
+    {
+      "bug_commits": [
+        "8ae7d4e685f7fcc534dfa852bc1f497708f61fe5"
+      ],
+      "file": "packages/official-skills/ceal-native/skills/anniversary-announcements/scripts/resolve_today_anniversaries.py",
+      "fix_commits": [
+        "465e6654c553b8358af417c256bd3904dc60e149"
+      ],
+      "qualified_function": "<module>"
+    },
+    {
+      "bug_commits": [
+        "8ae7d4e685f7fcc534dfa852bc1f497708f61fe5"
+      ],
+      "file": "packages/official-skills/ceal-native/skills/anniversary-announcements/scripts/resolve_today_anniversaries.py",
+      "fix_commits": [
+        "465e6654c553b8358af417c256bd3904dc60e149"
+      ],
+      "qualified_function": "normalize_team"
+    }
+  ]
+}

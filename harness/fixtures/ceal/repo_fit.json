@@ -1,0 +1,12 @@
+{
+  "corpus": "ceal",
+  "corpus_head": "bfb097fb4e91307e1a0c6693bc69dbdbf602a6bf",
+  "floor": 30,
+  "high_confidence_site_count": 2,
+  "mining_recall": 0.0,
+  "mining_recall_hits": 0,
+  "mining_recall_sample": 5,
+  "repo_fit_axis": "inconclusive",
+  "site_count": 5,
+  "verdict": "RE-TARGET: 2 high-confidence sites (of 5 total) < floor 30 and miner recall looks adequate (0/5 missed). This corpus may not have this bug shape \u2014 change the target / try another corpus, don't build the analyzer."
+}
