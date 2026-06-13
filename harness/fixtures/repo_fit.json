@@ -1,0 +1,12 @@
+{
+  "corpus": "charness",
+  "corpus_head": "3b9a2013f57455f0e21275ef54b7d1bdacb31f23",
+  "floor": 30,
+  "high_confidence_site_count": 6,
+  "mining_recall": 0.025,
+  "mining_recall_hits": 1,
+  "mining_recall_sample": 40,
+  "repo_fit_axis": "inconclusive",
+  "site_count": 58,
+  "verdict": "RE-TARGET: 6 high-confidence sites (of 58 total) < floor 30 and miner recall looks adequate (1/40 missed). charness may not have this bug shape \u2014 pull ceal or change the target, don't build the analyzer."
+}

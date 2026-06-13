@@ -1,0 +1,832 @@
+{
+  "e0db17419ddc4f377c53b7a03f2b89b7d59a1385": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Adds new validation gate scripts; profile-drift config fix, not boundary failure handling"
+  },
+  "8a9ad80e7c326e017e6b7fa06ec71c1bfa633962": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "New announcement scripts; packaging/layout fix, no prior failure-handling bug"
+  },
+  "50abbd13f86552ef0a8843b758cb4651935906e3": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "New files; runtime packaging fix, not error handling"
+  },
+  "739ecebca36eb4333743b40eb77a054669e92691": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "New preflight/Bootstrap gate feature, not a failure-handling bugfix"
+  },
+  "258760ee63506b2742301febcf759e79789a7846": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Test-only: new regression test file"
+  },
+  "2d0976ef138606b31cac98dab38ce04f067afa43": {
+    "is_error_handling_fix": false,
+    "confidence": "medium",
+    "reason": "Diff shows test-only addition; production fix not in shown diff"
+  },
+  "7e9d4ed6652ddb30b7bb18a12dea17e020dae173": {
+    "is_error_handling_fix": false,
+    "confidence": "medium",
+    "reason": "Test version-constant changes only in shown diff"
+  },
+  "2eaa4f1587d77eb439dac476ea4bdc4e453dc494": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Feature: multi-file artifacts and optional section, not failure-handling bug"
+  },
+  "6463391723171b70d4338dd7c4a323b07a8eb0c8": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "New detection feature for brittle source guards"
+  },
+  "66a7601816d1ae9caec7f611d654fbed4c6636f9": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Test refactor and assertion updates, not error handling"
+  },
+  "a7d382a566048fb30ab15d7ad9bcc703564745b9": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Surface-root selection logic fix, no boundary failure handling"
+  },
+  "c07bbe5a268430f6d9a8c35fa127528c601c3da4": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Adds new quality policy fields/defaults, a feature not a bugfix"
+  },
+  "f9822e68fd0c96b83f541937e2c2b7a4b682e36a": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Adds ignored dir plus new seed script, not error handling"
+  },
+  "3526ce285c24473ee1b805d5c6a733da03801b85": {
+    "is_error_handling_fix": false,
+    "confidence": "medium",
+    "reason": "Hardens inventory heuristics against false positives, not boundary failure handling"
+  },
+  "709dc24f75817b38486ab21c66fc504d1f11bbcb": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "New worktree readiness/doctor feature"
+  },
+  "2c064abe9d58697eb2d8b0fcc2932e15bfa11cef": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "New adapter-gap detection feature"
+  },
+  "05eee42ef86585cacdd353b06de4cf4934444ac2": {
+    "is_error_handling_fix": false,
+    "confidence": "medium",
+    "reason": "Refactors target parsing and adds default_repo; argument logic, not boundary failure"
+  },
+  "5ea8123b19e2dba99dca0d749ce8384dac8b71aa": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Test fixture dedupe/migration, refactor only"
+  },
+  "b8d417d6a6a8457bf2ae5e832ffcbc4127c5d7ec": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "New worktree audit feature plus fixture guard"
+  },
+  "5ace071fd5697ab4a67da97832e6d0e4810b6135": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Test-only assertions on issue skill docs"
+  },
+  "4bc2e29c2f48dc25dac1da50a060d02e1c250b56": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "New chunk self-check and cwd-default change, a feature not a bugfix"
+  },
+  "e58988d1c4c4dccd9829931686866d6d999597f2": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "New release backend adapter abstraction, a feature"
+  },
+  "5d48956d1ee83de09951552dae647d99827ad240": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "New close_with_comment function; error handling added to brand-new code"
+  },
+  "e1144adef40ab8202a3bfffe971ca4f4a5a926b8": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Refactor extracting close logic into a new module"
+  },
+  "7c13b73242e14dfa21ac8d30bde0bce7678d24e9": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Adds placeholder-allowlist input validation, a new guard not a boundary fix"
+  },
+  "cfbd791ad512321937403315d2c9115c260b64d0": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Backports placeholder-allowlist guard; input validation feature"
+  },
+  "77d87b7244fb4413046039f6b38d021784e63b50": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "New t-events/inventory feature"
+  },
+  "50b990839a89b0bb1fd0966750eddbdde6973fec": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Rename plus new validator feature, not failure-handling bug"
+  },
+  "19478b63b7e27aa29d08ad93e5f31467496ef85e": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "New CI-gate-parity analysis library; new feature, not a failure-handling bugfix"
+  },
+  "d4068d32875e5edff8881e7658f40c36969891a7": {
+    "is_error_handling_fix": false,
+    "confidence": "medium",
+    "reason": "Bootstrap no-op detection and formatting; not boundary failure handling"
+  },
+  "d80262d8025d4e54cd150cee46e583d8aef20d80": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "New preflight enforcement feature with new files; no prior bug"
+  },
+  "1354266512cba1a2614b98145689ed505df3d689": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "New pre-mutation brief contract; feature, not failure-handling fix"
+  },
+  "1f07b353593ae73ee9cdf6c83ae8faecc9e1e598": {
+    "is_error_handling_fix": false,
+    "confidence": "medium",
+    "reason": "Plumbs plugin_root param through support discovery; refactor not failure handling"
+  },
+  "4e7fe877b956f3a4bf084a128e0e7bb6f020bab7": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Generalizes fixture validation; rename/refactor, not failure handling"
+  },
+  "31c2cd5a6931d3a87180fdbef36c77aaaa9e61f8": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Adds CLI auth flags and test renames; config/feature, not failure handling"
+  },
+  "3cf99b87f9b5c7df903dfab7a6548bdd69372f3a": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "New consumer validator plus adapter rule change; new tooling"
+  },
+  "7c70da680b087fc83b7c04722cda189d9a2b09a2": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "New structural guard validators and wrapper; feature, no prior bug"
+  },
+  "ef75211f38e267f108830a742415ede225556700": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Tightens justification-log grammar on new code; hardening, not a fix"
+  },
+  "3eb67f2bd4c01ea0890c7bb2342fc8ad49a20500": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Subcommand renames and error-message text edits; refactor not failure fix"
+  },
+  "7e693248e02d39586542f6ce81749da5ec14d0d8": {
+    "is_error_handling_fix": false,
+    "confidence": "low",
+    "reason": "Stricter binary check inside large portability feature; mostly feature"
+  },
+  "21e86f05ea0c1acc28dce9cbaaf2c5696041291b": {
+    "is_error_handling_fix": false,
+    "confidence": "medium",
+    "reason": "Fail-loud on config typos; not a boundary failure-handling path"
+  },
+  "4eb50cff787aca7f0efd1e3d90c01947ebdf881e": {
+    "is_error_handling_fix": true,
+    "confidence": "medium",
+    "reason": "Wraps previously-uncaught preflight backend RuntimeError instead of crashing"
+  },
+  "8e6c7169073b2af12d0f593dd955bf1056b11b30": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "New critique adapter schema/loader; feature, not failure-handling fix"
+  },
+  "df9072fe390156102983a9e3d0751fdec416cf94": {
+    "is_error_handling_fix": false,
+    "confidence": "medium",
+    "reason": "Schema path-resolution regression fix; config/path, not boundary failure handling"
+  },
+  "a8bc17fce59994e4ce411cbb0ee302b1d7160422": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "New mutation_testing adapter config block; feature"
+  },
+  "8d26e63b5ca9070d99168087fb249765cabbe7ad": {
+    "is_error_handling_fix": true,
+    "confidence": "medium",
+    "reason": "Fixes mishandling of non-success fetch dispositions previously treated as ok"
+  },
+  "7ee40839dcbf3cfd293f6de9e48d11c0c10b6fbc": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "New Slack-routing advisor and template text; feature, not failure fix"
+  },
+  "204e18113d5668ae45dfce97b3aeebf50b3488e5": {
+    "is_error_handling_fix": false,
+    "confidence": "medium",
+    "reason": "Content-persistence and arg-validation logic; business logic, not failure handling"
+  },
+  "82e58acb9f47a6fa020fd30bc0d16eb5148fb853": {
+    "is_error_handling_fix": true,
+    "confidence": "high",
+    "reason": "Adds yaml.YAMLError to except so malformed adapter no longer crashes uncaught"
+  },
+  "3bc4d3eb3b74e865d7bbc843c5dd17515f1c9035": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "New issue closeout verifier; feature, not failure-handling fix"
+  },
+  "104ce78e10cb59f99f301fb919ce3db61b426acb": {
+    "is_error_handling_fix": false,
+    "confidence": "medium",
+    "reason": "Hardens new verifier and refactors release publish; not prior boundary bug"
+  },
+  "3e5e77c1df730026f9012ccfb5867b67807c1015": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "New faster du-based footprint function; performance feature"
+  },
+  "9e0ac1c6d8a9dfe7071d873d8c910e25490ba2aa": {
+    "is_error_handling_fix": false,
+    "confidence": "low",
+    "reason": "Adds net-new subprocess timeout handling; resilience feature, not prior-bug fix"
+  },
+  "4f629b76a216246a4a0c8b376025e1204ac90566": {
+    "is_error_handling_fix": true,
+    "confidence": "medium",
+    "reason": "Fixes prior code to also handle subprocess crash, not just timeout, before dump"
+  },
+  "e385254b14fd7e279b3318e46580b0617f92405c": {
+    "is_error_handling_fix": true,
+    "confidence": "medium",
+    "reason": "Handles dump-subprocess crash, avoids truncated-file masquerade via atomic rename"
+  },
+  "2e49593c24bf1923d3086b9abd20b0d18fcf2376": {
+    "is_error_handling_fix": false,
+    "confidence": "medium",
+    "reason": "Mutation score semantics and sampling; business logic, not failure handling"
+  },
+  "848544ed0fcbadc457c7f0e43c2b1d1cb16651da": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Changes release diff base-ref selection logic; no boundary failure-handling bug"
+  },
+  "33a5c57d12d322c28540bbd3edb6ac6aeda80270": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "New-file feature (T-signal classifier), not a bugfix"
+  },
+  "ad47801ee13b9d4be594f32fcd4b2b1847cf6719": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "New-file feature (hook install lib), not a bugfix"
+  },
+  "e057bfd96e440cf74d30abc546ae6683873bf988": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Adds argparse help= text only; cosmetic/docs change"
+  },
+  "a68902456730281b5117be5194561013ac662dca": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Adds new artifact validators; new feature, not failure-handling fix"
+  },
+  "858da76fb9fa4773fa91d0cd7e535d3d108d3a49": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Refactors validators into shared helper; no boundary failure-handling fix"
+  },
+  "4e69881a6c979ebec841f3025fd3809b2173930f": {
+    "is_error_handling_fix": false,
+    "confidence": "medium",
+    "reason": "Adds input-validation/value checks; pure business-logic validation, no boundary"
+  },
+  "a11eb835291e325654869e80c079349b663537fe": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Mutation-gate scope logic change; no boundary failure-handling"
+  },
+  "2fd31c9c952305881b328ca74a0736531713fee9": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "New-file feature (RCA ledger substrate), not a bugfix"
+  },
+  "044fb026599243324e61ad9eb1694f3194930b03": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "AST analysis logic fixes for quality tooling; no boundary failure-handling"
+  },
+  "59841e067f5c571a8e3a8506910443cdaac437eb": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Refactor extracting shared coverage oracle module"
+  },
+  "c2e897493955914f40857fdccf9e022a7dc1b1e7": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "New skill/feature; new files, not a bugfix"
+  },
+  "58b940aab8eeb14ab9358626852f5f8468ad6d75": {
+    "is_error_handling_fix": false,
+    "confidence": "medium",
+    "reason": "Input-validation hardening and fence-masking; no prior boundary failure-handling bug"
+  },
+  "7f74d7a4ea0105e6187564ff204121f181659e6b": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Display-path logic and test-fixture fixes; no boundary failure-handling"
+  },
+  "7e757c3917e1a1e12375fc34d8a043b3ecd82a11": {
+    "is_error_handling_fix": false,
+    "confidence": "medium",
+    "reason": "Test determinism via env ceiling and importorskip; test-only/config"
+  },
+  "a0b8de0ecefc39c869ab2779e00168c88fd04e36": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "AST-based mutation detection improvement; no boundary failure-handling"
+  },
+  "e44bb88557303d6aab653d2a685c160379498ae7": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "New closeout-gate feature; not a failure-handling bugfix"
+  },
+  "dd3865dc75dbebc95600e1b55c2647ff47eaa182": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "New-file feature (push-diff classifier); not a bugfix"
+  },
+  "5c0850c212c2ca2a8dffc57fea849fd394185119": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Module split refactor to clear line-gate failures; not failure-handling"
+  },
+  "5ec5b62d07ec0ef9b505fb2138b54fe845e12342": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Validator alias-following logic change; no boundary failure-handling"
+  },
+  "9f1a8fc1ea88c7906e7ce8abd4daa4c23f40cdde": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "New evidence-binding logic; except OSError on brand-new code"
+  },
+  "0fc5c0c10029d51fb4f04e7efc967cfc51cde25a": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "New-file SessionStart hook feature; not a bugfix"
+  },
+  "2f15a8ebbf0abf5a0da6bfe1b095d2c15209a6c4": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Moves hook to user-level install; docs/config/test change"
+  },
+  "f2dcc7da8db7ba162ad2547d5bcb8f1ec0ca98f7": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Adds next-step routing payload keys; UX/business-logic, no failure-handling"
+  },
+  "2a4fb824e3c5da9bf1e2b6411731b4cc1e82f211": {
+    "is_error_handling_fix": false,
+    "confidence": "medium",
+    "reason": "Refactor routing body via --body-file to avoid shell-quoting corruption; not failure-handling"
+  },
+  "7111da64ddc06c6931b700f0919e125c3dc54a19": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Hook dedup-by-identity logic; business-logic, no boundary failure-handling"
+  },
+  "86ea3ea157d1b77d45c8724760231e837e454dea": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Adds mutation-killing tests only; test-only change"
+  },
+  "f55be70aef493f9559d710a36e847901a3f3ef99": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "New coordination-floor feature module; not a bugfix"
+  },
+  "c35e0286501e527266f329380909a58ce9787b93": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "New preventive mutation-coverage tooling, not a failure-handling bugfix"
+  },
+  "6030306b2f298ccb713b6855ab21739fa9ca0f6f": {
+    "is_error_handling_fix": true,
+    "confidence": "medium",
+    "reason": "Adds missing cleanup/restore after subprocess kill/timeout left mutated tree (#262)"
+  },
+  "98892bd4e8de0aa96f6756cf8a79034c9fc7f4c8": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "New discussion-readiness feature plus loader refactor, no failure-handling repair"
+  },
+  "b95dc5a406ebdd2873a97ea14f6501db0857d66a": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Package-root resolution refactor and diagnostic threading, not error handling"
+  },
+  "225898a39d3d71cacaa66ec2d0552832712267dc": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "New critique-binding feature plus goal-activation business-logic change"
+  },
+  "e9eda9cec0af23850202afaff206174ccfeafe00": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Adds retro-trigger artifact lines plus refactor, a feature not a fix"
+  },
+  "52d578ca93ecbb2f7cc7f5444db5d0b7c1cc0daa": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "New advisory testability probe, brand-new code with no prior bug"
+  },
+  "0cab1e5ccd3acc6c833de6056e866a5c8d36bbf7": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Classification logic of probe reworked, not a failure-handling path"
+  },
+  "32f4d360976b8e31c8d078db7eaa0e15b54eb7c3": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "New validator enforcement feature for diagnostic dispositions"
+  },
+  "7bd7d1eee605a45af7b6fba31f611c5378925495": {
+    "is_error_handling_fix": false,
+    "confidence": "medium",
+    "reason": "Parses new nose 0.5 success-output shape; result-format adaptation, not failure path"
+  },
+  "5318a9a730943fd5d296c732697c632a237a2cbf": {
+    "is_error_handling_fix": false,
+    "confidence": "medium",
+    "reason": "Largely refactor extracting browser-session helpers into shared module"
+  },
+  "4b76196f5de62df33a373a630126a7b5b0ffbc2d": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "New resume mode plus staleness check, a feature not a failure-handling fix"
+  },
+  "75f30584d3dcd959871e5618a04a44c2416ae93a": {
+    "is_error_handling_fix": true,
+    "confidence": "high",
+    "reason": "Cleanup error clobbered real acquisition error; now preserves original failure signal (#310)"
+  },
+  "618bca293900ab7ae9cb5aa5d1b6c7829685ad24": {
+    "is_error_handling_fix": false,
+    "confidence": "medium",
+    "reason": "Improves operator next-step guidance logic, not boundary-failure mishandling"
+  },
+  "e09444f0d88981ce80a6af3a843fae8c67ed62ce": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Suppresses a write during quality runs to avoid race, not failure handling"
+  },
+  "9f08bdc3ae4eb05f3cf3bda7f1c5962c771179bd": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Comment edits and removal of a duplicate test, no logic fix"
+  },
+  "b92dd9f90738481595f21254d34dd2f87f563d9a": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "New headroom-buffer commit-boundary gate feature"
+  },
+  "9bc40f2ad20f719fcdf9d1976628dd67ee3ff671": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "New closeout-delegation gate feature for sub-goals"
+  },
+  "219ec1ab905a32a7909da7b138152aa100ea0c71": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Test-only: adds coverage for an existing SurfaceError branch"
+  },
+  "69c2df9b736719807e4e7060fc5f40b5bbff2b2a": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "New validator rule enforcing cross-file sibling marker"
+  },
+  "e9805bb4b8b99cc8d222587051282782eb092cda": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "New pre-push coverage-teeth wiring with freshness flags, a feature"
+  },
+  "d91a0f3928c2762554b3fffc2af6272a812b390b": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "New coverage producer plus fingerprint-freshness refactor, not a fix"
+  },
+  "b41597385af23a08f7236696c16e798bcd2b9637": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "New advisory-interpretation contract rollout, a feature"
+  },
+  "2eaf66f8c85d625b5eaa718076d68e14d5243db7": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "New meta-validator and surface-idiom lint feature"
+  },
+  "61933428f7bed08c82957dbde16cc648fc1065e7": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "New near-limit function headroom reporting feature"
+  },
+  "280ad0e705722c2b71a81f7d538f1d38d57f9c0b": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Disposition-escape de-launder enforcement, a validator feature"
+  },
+  "3412b2ade823914d812ef995a8c71073c0fec48a": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Extends de-launder lineage rule to retros, a validator feature"
+  },
+  "2b30d7e44e878325ca6afff445579503a8d8b9df": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Reorders validator-path preference; ordering fix, no failure handling"
+  },
+  "556230355fdb771daa7a80c5730307a8fecb134c": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "new feature adding install-refresh in brand-new code, not a prior bugfix"
+  },
+  "3dc8e79c559c949f93f84ee82d08028f31d866bd": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "new retro-artifact validation floor, no boundary failure-handling"
+  },
+  "c3261b03549b5674eb1a9ccc7ad3cab99c28d667": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "refactor moving validation logic for parity, not a boundary bugfix"
+  },
+  "84dde09706ca61d5e4146530ac8b23d3249145e6": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "reclassifies mutation-gate exclusions, business-logic not failure-handling"
+  },
+  "bebdaa2de3d403571bb22d69bae15780d986a0c4": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "new author-time preflight feature, no prior bug"
+  },
+  "76909cc875495040f81085bf645dc89ac332f182": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "new schema-validation feature with new error handling, no prior bug"
+  },
+  "84dc1db3c12f90c1c92c24577911d8233f71c8c0": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "new Claude session auditor module plus rename refactor, a feature"
+  },
+  "21b068fe3b15c58c9a9185f8739a264c286b8bf6": {
+    "is_error_handling_fix": false,
+    "confidence": "medium",
+    "reason": "YAML parsing hardening plus YouTube feature, not a boundary failure bug"
+  },
+  "3fbf41eb254405df1a7e34cb56fbf6cc96302de0": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "adds transcript UI fallback feature plus refactor, not a fix"
+  },
+  "b6bbf6f7ffe89d0c7efe54d1cda0a602f37d2136": {
+    "is_error_handling_fix": false,
+    "confidence": "medium",
+    "reason": "nose flag rename and test interpreter fix, not boundary failure-handling"
+  },
+  "b99748b1b2df5662fcc1992b427ec9ab6f742301": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "new consistency quality gate plus formatting, a feature"
+  },
+  "3d9a3ad0dfd940d1858d68e44b2bdfdf568923d3": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "new advisory doc-coupling gate, a feature"
+  },
+  "22f3542df5b3d9f4f132ff17403e6fae987150b0": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "new proof-claim gate refusing false proofs, not a boundary bugfix"
+  },
+  "ebff7d50ff106240efc8b69069f88fc35510eac5": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "new goal-artifact placeholder validation floor, a feature"
+  },
+  "238aead61b9a5885c81603d82d77827f00c0322f": {
+    "is_error_handling_fix": false,
+    "confidence": "medium",
+    "reason": "adds new doctor detection where none existed, not fixing prior handling"
+  },
+  "63f6a2eed640955eb006c75a485c31efe07ed560": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "test-only count assertion fix"
+  },
+  "7d4cc3afe8a64830d903334be1533815e7587a1e": {
+    "is_error_handling_fix": false,
+    "confidence": "low",
+    "reason": "visible diff is test-only; no boundary failure-handling shown"
+  },
+  "4993b1d7a915d77e6855d4f9809eb9e1a4c4b872": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "import-path fix for exported tree, not boundary failure-handling"
+  },
+  "76a8a294139d4dcedc000e268ce50b0a230c1eca": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "import sorting for lint, formatting change"
+  },
+  "0092897be71b700d75c0743343767709b2d7e7b3": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "import-path fix for exported tree, not failure-handling"
+  },
+  "81c1aa893b141c16b1963f02c94e7439ac2d677a": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "import relocation fix, not boundary failure-handling"
+  },
+  "053005f3c92c6ce65c0ca51de686300ac620c615": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "test-only version-summary output assertion fix"
+  },
+  "24877a623bda1922dcb3d4973b879273fde853eb": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "whitespace/formatting reformat of a constant"
+  },
+  "4ccae8e42fa4857688baec8fd509ea8e2bf63653": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "test-only repo-copy ignore-pattern fix"
+  },
+  "ee996347d0c64039c43302a5d78cdee9e75aa99a": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "test-only fixture coverage change"
+  },
+  "4d59c660b570ec93ac74a84e5f0e65c2184c5a3d": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "import-sort lint fix, formatting"
+  },
+  "bbf78637896c32faf0a6685053e0f828887355e8": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "test-only URL string drift fix"
+  },
+  "0ed3520a3c67c7d4df5b328dbee4219e62d40891": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "test-only python binary stub for xdist detection"
+  },
+  "9d624bdd2f601ef66c50d74d41f07ab71b95cb90": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Adds --fixture to eval command; config change, no failure handling"
+  },
+  "8941d222610afc7d7b6d4b54d2e4f20cfb429b7a": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Adds new quality_phases field and validator; feature, not bugfix"
+  },
+  "482fc253e1f64479e2e7eb5440f29f9499bacaa9": {
+    "is_error_handling_fix": false,
+    "confidence": "medium",
+    "reason": "Guard against clobbering a curated file; data-safety logic, not boundary failure handling"
+  },
+  "f71019882b2a2c2b19db18da4014d4faba12a0ec": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "New detection rule for doc caveats; feature, not error handling"
+  },
+  "b3312e93356f1e3d35517fc7327dbd6cae4ea3aa": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Test-only path/wording rename"
+  },
+  "78022abb5f2beb65bb5a47f37eb70d6a11d1df76": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Test-only fixture/assertion alignment"
+  },
+  "5e4dfbfce899dd08279c44969291e3a2481d8061": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "New feature: Progressive Operator Path doc section"
+  },
+  "6ed3881f6ca6b2fbd8934930b5cd18bf62a497f2": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Test splitting and validator allowlist; no failure handling"
+  },
+  "424504e273e4cd3c074ea7a0dcafdc65ac9b7f7a": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "New test file for substrate citations; test-only"
+  },
+  "7c46f4a929c9c5c64ecb82843ce001f96c5bf8d5": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Filters orphan skill dirs; scanning logic, not failure handling"
+  },
+  "3d0c8e81fc962682cd55f56ffdb6d969d9507192": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Backfill triggers and advisory hint; feature/refactor"
+  },
+  "efdd903b969f139fc04484e20c2f6096d66a4c69": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Release commit with mixed feature changes"
+  },
+  "d42d11940924ef5b5ea2d74a8da306eeac71a7b2": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Adds new debug template sections; feature/refactor"
+  },
+  "eaf0518819d7b358044fb961ba144eecd0f15309": {
+    "is_error_handling_fix": false,
+    "confidence": "medium",
+    "reason": "Makes arg required and prints provenance; restructure, not broken-failure repair"
+  },
+  "0e4fcd86cd0ace44c5dcc20c5389c7de0f87e5c9": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Regex case-sensitivity validation change; not boundary failure handling"
+  },
+  "8188e73021e2cbddb7570de8e226bdcd20cdac31": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Import refactor and test stub registration"
+  },
+  "f0fd443edb2d8f06a1eac25275ec5a2a02267fa2": {
+    "is_error_handling_fix": true,
+    "confidence": "high",
+    "reason": "Aborts instead of writing record when web-fetch acquisition returns error"
+  },
+  "03648869b337fa17857f57d0a2d3d0aa9daab7f5": {
+    "is_error_handling_fix": false,
+    "confidence": "medium",
+    "reason": "Migrate to symlink-safe writer; safety hardening refactor, not failure-path repair"
+  },
+  "eead33f456ec5b18e713e71c95f56a35c4294ae8": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Test-only env scrub to prevent SHA leak"
+  },
+  "02c34b5635b21283b52710aa6fed200dbdfd889a": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Test-only isolation from live repo state"
+  },
+  "a37ab31756a56471c68cae7fce396acadf9be66c": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Mutation filtering logic for entry guards; feature"
+  },
+  "4bc44d31c9e6c6db62f2f165374591a43af4bc87": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Help-text normalization sweep only"
+  },
+  "ad0f233db8c4e199990e79c3786e1cf3e024e37a": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Test-only assertion covering an existing guard"
+  },
+  "c089ce6263258d38b6fdd061298a258eeb710a7d": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Coverage config source boundary fix plus tests; not failure handling"
+  },
+  "6ab6e8cbf2f538ae4279ed91356d0758863b304c": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "New feature: verbatim public-skill recommendations"
+  },
+  "2844db57b0b24c1dfbcc195f65d827572b229407": {
+    "is_error_handling_fix": false,
+    "confidence": "high",
+    "reason": "Field rename and explanatory note; refactor"
+  }
+}

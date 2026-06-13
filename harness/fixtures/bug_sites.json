@@ -1,0 +1,620 @@
+{
+  "corpus": "charness",
+  "corpus_head": "3b9a2013f57455f0e21275ef54b7d1bdacb31f23",
+  "labeler_model": "claude-opus-4-8",
+  "site_count": 58,
+  "sites": [
+    {
+      "bug_commits": [
+        "4f629b76a216246a4a0c8b376025e1204ac90566",
+        "91891ebf413eb95ae9a15cf6b8054631087d946f",
+        "9e0ac1c6d8a9dfe7071d873d8c910e25490ba2aa",
+        "e385254b14fd7e279b3318e46580b0617f92405c"
+      ],
+      "file": "plugins/charness/scripts/run_cosmic_ray_mutation.py",
+      "fix_commits": [
+        "6030306b2f298ccb713b6855ab21739fa9ca0f6f",
+        "e385254b14fd7e279b3318e46580b0617f92405c"
+      ],
+      "qualified_function": "<module>"
+    },
+    {
+      "bug_commits": [
+        "9e0ac1c6d8a9dfe7071d873d8c910e25490ba2aa"
+      ],
+      "file": "plugins/charness/scripts/run_cosmic_ray_mutation.py",
+      "fix_commits": [
+        "4f629b76a216246a4a0c8b376025e1204ac90566"
+      ],
+      "qualified_function": "_run_exec_with_timeout"
+    },
+    {
+      "bug_commits": [
+        "4f629b76a216246a4a0c8b376025e1204ac90566",
+        "9e0ac1c6d8a9dfe7071d873d8c910e25490ba2aa",
+        "e385254b14fd7e279b3318e46580b0617f92405c"
+      ],
+      "file": "plugins/charness/scripts/run_cosmic_ray_mutation.py",
+      "fix_commits": [
+        "4f629b76a216246a4a0c8b376025e1204ac90566",
+        "6030306b2f298ccb713b6855ab21739fa9ca0f6f",
+        "e385254b14fd7e279b3318e46580b0617f92405c"
+      ],
+      "qualified_function": "main"
+    },
+    {
+      "bug_commits": [
+        "2c064abe9d58697eb2d8b0fcc2932e15bfa11cef"
+      ],
+      "file": "plugins/charness/scripts/setup_adapter_inspect_lib.py",
+      "fix_commits": [
+        "4f629b76a216246a4a0c8b376025e1204ac90566"
+      ],
+      "qualified_function": "<unparseable>"
+    },
+    {
+      "bug_commits": [
+        "232a9980a74e875a6b11f1b8c70cf4d3929d08c8",
+        "4f629b76a216246a4a0c8b376025e1204ac90566",
+        "9e0ac1c6d8a9dfe7071d873d8c910e25490ba2aa"
+      ],
+      "file": "plugins/charness/scripts/setup_adapter_inspect_lib.py",
+      "fix_commits": [
+        "4f629b76a216246a4a0c8b376025e1204ac90566",
+        "e385254b14fd7e279b3318e46580b0617f92405c"
+      ],
+      "qualified_function": "detect_worktree_adapter_normalization"
+    },
+    {
+      "bug_commits": [
+        "f05c779b168603c999a16a74d55b57682337b53b"
+      ],
+      "file": "plugins/charness/scripts/validate_usage_episodes.py",
+      "fix_commits": [
+        "82e58acb9f47a6fa020fd30bc0d16eb5148fb853"
+      ],
+      "qualified_function": "main"
+    },
+    {
+      "bug_commits": [
+        "86857c77250752e31f63649f6aed6917b0d7847f"
+      ],
+      "file": "plugins/charness/skills/gather/scripts/gather_public_url.py",
+      "fix_commits": [
+        "8d26e63b5ca9070d99168087fb249765cabbe7ad"
+      ],
+      "qualified_function": "_render_record"
+    },
+    {
+      "bug_commits": [
+        "f0fd443edb2d8f06a1eac25275ec5a2a02267fa2"
+      ],
+      "file": "plugins/charness/skills/gather/scripts/gather_public_url.py",
+      "fix_commits": [
+        "8d26e63b5ca9070d99168087fb249765cabbe7ad"
+      ],
+      "qualified_function": "main"
+    },
+    {
+      "bug_commits": [
+        "f05c779b168603c999a16a74d55b57682337b53b"
+      ],
+      "file": "plugins/charness/skills/setup/scripts/seed_usage_episodes_adapter.py",
+      "fix_commits": [
+        "82e58acb9f47a6fa020fd30bc0d16eb5148fb853"
+      ],
+      "qualified_function": "<module>"
+    },
+    {
+      "bug_commits": [
+        "86857c77250752e31f63649f6aed6917b0d7847f",
+        "b05bb68fc7e470e2e1c4896f3101805364bbc37f"
+      ],
+      "file": "plugins/charness/support/web-fetch/scripts/acquire_public_url.py",
+      "fix_commits": [
+        "8d26e63b5ca9070d99168087fb249765cabbe7ad"
+      ],
+      "qualified_function": "<module>"
+    },
+    {
+      "bug_commits": [
+        "b05bb68fc7e470e2e1c4896f3101805364bbc37f"
+      ],
+      "file": "plugins/charness/support/web-fetch/scripts/acquire_public_url.py",
+      "fix_commits": [
+        "8d26e63b5ca9070d99168087fb249765cabbe7ad"
+      ],
+      "qualified_function": "AcquisitionAttempt.to_dict"
+    },
+    {
+      "bug_commits": [
+        "b05bb68fc7e470e2e1c4896f3101805364bbc37f"
+      ],
+      "file": "plugins/charness/support/web-fetch/scripts/acquire_public_url.py",
+      "fix_commits": [
+        "8d26e63b5ca9070d99168087fb249765cabbe7ad"
+      ],
+      "qualified_function": "_attempt_from_text"
+    },
+    {
+      "bug_commits": [
+        "5318a9a730943fd5d296c732697c632a237a2cbf"
+      ],
+      "file": "plugins/charness/support/web-fetch/scripts/acquire_public_url.py",
+      "fix_commits": [
+        "75f30584d3dcd959871e5618a04a44c2416ae93a"
+      ],
+      "qualified_function": "_browser_stage"
+    },
+    {
+      "bug_commits": [
+        "86857c77250752e31f63649f6aed6917b0d7847f"
+      ],
+      "file": "plugins/charness/support/web-fetch/scripts/acquire_public_url.py",
+      "fix_commits": [
+        "8d26e63b5ca9070d99168087fb249765cabbe7ad"
+      ],
+      "qualified_function": "_disposition_for_attempts"
+    },
+    {
+      "bug_commits": [
+        "b05bb68fc7e470e2e1c4896f3101805364bbc37f"
+      ],
+      "file": "plugins/charness/support/web-fetch/scripts/acquire_public_url.py",
+      "fix_commits": [
+        "8d26e63b5ca9070d99168087fb249765cabbe7ad"
+      ],
+      "qualified_function": "_elapsed"
+    },
+    {
+      "bug_commits": [
+        "86857c77250752e31f63649f6aed6917b0d7847f"
+      ],
+      "file": "plugins/charness/support/web-fetch/scripts/acquire_public_url.py",
+      "fix_commits": [
+        "8d26e63b5ca9070d99168087fb249765cabbe7ad"
+      ],
+      "qualified_function": "_has_stage"
+    },
+    {
+      "bug_commits": [
+        "86857c77250752e31f63649f6aed6917b0d7847f"
+      ],
+      "file": "plugins/charness/support/web-fetch/scripts/acquire_public_url.py",
+      "fix_commits": [
+        "8d26e63b5ca9070d99168087fb249765cabbe7ad"
+      ],
+      "qualified_function": "_last_content_attempt"
+    },
+    {
+      "bug_commits": [
+        "86857c77250752e31f63649f6aed6917b0d7847f",
+        "b05bb68fc7e470e2e1c4896f3101805364bbc37f"
+      ],
+      "file": "plugins/charness/support/web-fetch/scripts/acquire_public_url.py",
+      "fix_commits": [
+        "8d26e63b5ca9070d99168087fb249765cabbe7ad"
+      ],
+      "qualified_function": "_payload"
+    },
+    {
+      "bug_commits": [
+        "86857c77250752e31f63649f6aed6917b0d7847f"
+      ],
+      "file": "plugins/charness/support/web-fetch/scripts/acquire_public_url.py",
+      "fix_commits": [
+        "8d26e63b5ca9070d99168087fb249765cabbe7ad"
+      ],
+      "qualified_function": "_selected_attempt"
+    },
+    {
+      "bug_commits": [
+        "86857c77250752e31f63649f6aed6917b0d7847f"
+      ],
+      "file": "plugins/charness/support/web-fetch/scripts/acquire_public_url.py",
+      "fix_commits": [
+        "8d26e63b5ca9070d99168087fb249765cabbe7ad"
+      ],
+      "qualified_function": "_should_stop"
+    },
+    {
+      "bug_commits": [
+        "86857c77250752e31f63649f6aed6917b0d7847f"
+      ],
+      "file": "plugins/charness/support/web-fetch/scripts/acquire_public_url.py",
+      "fix_commits": [
+        "8d26e63b5ca9070d99168087fb249765cabbe7ad"
+      ],
+      "qualified_function": "_should_try_browser"
+    },
+    {
+      "bug_commits": [
+        "86857c77250752e31f63649f6aed6917b0d7847f",
+        "b05bb68fc7e470e2e1c4896f3101805364bbc37f"
+      ],
+      "file": "plugins/charness/support/web-fetch/scripts/acquire_public_url.py",
+      "fix_commits": [
+        "8d26e63b5ca9070d99168087fb249765cabbe7ad"
+      ],
+      "qualified_function": "_should_try_defuddle"
+    },
+    {
+      "bug_commits": [
+        "86857c77250752e31f63649f6aed6917b0d7847f"
+      ],
+      "file": "plugins/charness/support/web-fetch/scripts/acquire_public_url.py",
+      "fix_commits": [
+        "8d26e63b5ca9070d99168087fb249765cabbe7ad"
+      ],
+      "qualified_function": "_skip_attempt"
+    },
+    {
+      "bug_commits": [
+        "b05bb68fc7e470e2e1c4896f3101805364bbc37f"
+      ],
+      "file": "plugins/charness/support/web-fetch/scripts/acquire_public_url.py",
+      "fix_commits": [
+        "8d26e63b5ca9070d99168087fb249765cabbe7ad"
+      ],
+      "qualified_function": "_timer"
+    },
+    {
+      "bug_commits": [
+        "86857c77250752e31f63649f6aed6917b0d7847f",
+        "b05bb68fc7e470e2e1c4896f3101805364bbc37f"
+      ],
+      "file": "plugins/charness/support/web-fetch/scripts/acquire_public_url.py",
+      "fix_commits": [
+        "8d26e63b5ca9070d99168087fb249765cabbe7ad"
+      ],
+      "qualified_function": "acquire"
+    },
+    {
+      "bug_commits": [
+        "b05bb68fc7e470e2e1c4896f3101805364bbc37f"
+      ],
+      "file": "plugins/charness/support/web-fetch/scripts/acquire_public_url.py",
+      "fix_commits": [
+        "8d26e63b5ca9070d99168087fb249765cabbe7ad"
+      ],
+      "qualified_function": "main"
+    },
+    {
+      "bug_commits": [
+        "86857c77250752e31f63649f6aed6917b0d7847f",
+        "b05bb68fc7e470e2e1c4896f3101805364bbc37f"
+      ],
+      "file": "plugins/charness/support/web-fetch/scripts/classify_fetch_response.py",
+      "fix_commits": [
+        "8d26e63b5ca9070d99168087fb249765cabbe7ad"
+      ],
+      "qualified_function": "classify"
+    },
+    {
+      "bug_commits": [
+        "4f629b76a216246a4a0c8b376025e1204ac90566",
+        "91891ebf413eb95ae9a15cf6b8054631087d946f",
+        "9e0ac1c6d8a9dfe7071d873d8c910e25490ba2aa",
+        "e385254b14fd7e279b3318e46580b0617f92405c"
+      ],
+      "file": "scripts/run_cosmic_ray_mutation.py",
+      "fix_commits": [
+        "6030306b2f298ccb713b6855ab21739fa9ca0f6f",
+        "e385254b14fd7e279b3318e46580b0617f92405c"
+      ],
+      "qualified_function": "<module>"
+    },
+    {
+      "bug_commits": [
+        "9e0ac1c6d8a9dfe7071d873d8c910e25490ba2aa"
+      ],
+      "file": "scripts/run_cosmic_ray_mutation.py",
+      "fix_commits": [
+        "4f629b76a216246a4a0c8b376025e1204ac90566"
+      ],
+      "qualified_function": "_run_exec_with_timeout"
+    },
+    {
+      "bug_commits": [
+        "4f629b76a216246a4a0c8b376025e1204ac90566",
+        "9e0ac1c6d8a9dfe7071d873d8c910e25490ba2aa",
+        "e385254b14fd7e279b3318e46580b0617f92405c"
+      ],
+      "file": "scripts/run_cosmic_ray_mutation.py",
+      "fix_commits": [
+        "4f629b76a216246a4a0c8b376025e1204ac90566",
+        "6030306b2f298ccb713b6855ab21739fa9ca0f6f",
+        "e385254b14fd7e279b3318e46580b0617f92405c"
+      ],
+      "qualified_function": "main"
+    },
+    {
+      "bug_commits": [
+        "2c064abe9d58697eb2d8b0fcc2932e15bfa11cef"
+      ],
+      "file": "scripts/setup_adapter_inspect_lib.py",
+      "fix_commits": [
+        "4f629b76a216246a4a0c8b376025e1204ac90566"
+      ],
+      "qualified_function": "<unparseable>"
+    },
+    {
+      "bug_commits": [
+        "232a9980a74e875a6b11f1b8c70cf4d3929d08c8",
+        "4f629b76a216246a4a0c8b376025e1204ac90566",
+        "9e0ac1c6d8a9dfe7071d873d8c910e25490ba2aa"
+      ],
+      "file": "scripts/setup_adapter_inspect_lib.py",
+      "fix_commits": [
+        "4f629b76a216246a4a0c8b376025e1204ac90566",
+        "e385254b14fd7e279b3318e46580b0617f92405c"
+      ],
+      "qualified_function": "detect_worktree_adapter_normalization"
+    },
+    {
+      "bug_commits": [
+        "f05c779b168603c999a16a74d55b57682337b53b"
+      ],
+      "file": "scripts/validate_usage_episodes.py",
+      "fix_commits": [
+        "82e58acb9f47a6fa020fd30bc0d16eb5148fb853"
+      ],
+      "qualified_function": "main"
+    },
+    {
+      "bug_commits": [
+        "86857c77250752e31f63649f6aed6917b0d7847f"
+      ],
+      "file": "skills/public/gather/scripts/gather_public_url.py",
+      "fix_commits": [
+        "8d26e63b5ca9070d99168087fb249765cabbe7ad"
+      ],
+      "qualified_function": "_render_record"
+    },
+    {
+      "bug_commits": [
+        "f0fd443edb2d8f06a1eac25275ec5a2a02267fa2"
+      ],
+      "file": "skills/public/gather/scripts/gather_public_url.py",
+      "fix_commits": [
+        "8d26e63b5ca9070d99168087fb249765cabbe7ad"
+      ],
+      "qualified_function": "main"
+    },
+    {
+      "bug_commits": [
+        "f05c779b168603c999a16a74d55b57682337b53b"
+      ],
+      "file": "skills/public/setup/scripts/seed_usage_episodes_adapter.py",
+      "fix_commits": [
+        "82e58acb9f47a6fa020fd30bc0d16eb5148fb853"
+      ],
+      "qualified_function": "<module>"
+    },
+    {
+      "bug_commits": [
+        "86857c77250752e31f63649f6aed6917b0d7847f",
+        "b05bb68fc7e470e2e1c4896f3101805364bbc37f"
+      ],
+      "file": "skills/support/web-fetch/scripts/acquire_public_url.py",
+      "fix_commits": [
+        "8d26e63b5ca9070d99168087fb249765cabbe7ad"
+      ],
+      "qualified_function": "<module>"
+    },
+    {
+      "bug_commits": [
+        "b05bb68fc7e470e2e1c4896f3101805364bbc37f"
+      ],
+      "file": "skills/support/web-fetch/scripts/acquire_public_url.py",
+      "fix_commits": [
+        "8d26e63b5ca9070d99168087fb249765cabbe7ad"
+      ],
+      "qualified_function": "AcquisitionAttempt.to_dict"
+    },
+    {
+      "bug_commits": [
+        "b05bb68fc7e470e2e1c4896f3101805364bbc37f"
+      ],
+      "file": "skills/support/web-fetch/scripts/acquire_public_url.py",
+      "fix_commits": [
+        "8d26e63b5ca9070d99168087fb249765cabbe7ad"
+      ],
+      "qualified_function": "_attempt_from_text"
+    },
+    {
+      "bug_commits": [
+        "5318a9a730943fd5d296c732697c632a237a2cbf"
+      ],
+      "file": "skills/support/web-fetch/scripts/acquire_public_url.py",
+      "fix_commits": [
+        "75f30584d3dcd959871e5618a04a44c2416ae93a"
+      ],
+      "qualified_function": "_browser_stage"
+    },
+    {
+      "bug_commits": [
+        "86857c77250752e31f63649f6aed6917b0d7847f"
+      ],
+      "file": "skills/support/web-fetch/scripts/acquire_public_url.py",
+      "fix_commits": [
+        "8d26e63b5ca9070d99168087fb249765cabbe7ad"
+      ],
+      "qualified_function": "_disposition_for_attempts"
+    },
+    {
+      "bug_commits": [
+        "b05bb68fc7e470e2e1c4896f3101805364bbc37f"
+      ],
+      "file": "skills/support/web-fetch/scripts/acquire_public_url.py",
+      "fix_commits": [
+        "8d26e63b5ca9070d99168087fb249765cabbe7ad"
+      ],
+      "qualified_function": "_elapsed"
+    },
+    {
+      "bug_commits": [
+        "86857c77250752e31f63649f6aed6917b0d7847f"
+      ],
+      "file": "skills/support/web-fetch/scripts/acquire_public_url.py",
+      "fix_commits": [
+        "8d26e63b5ca9070d99168087fb249765cabbe7ad"
+      ],
+      "qualified_function": "_has_stage"
+    },
+    {
+      "bug_commits": [
+        "86857c77250752e31f63649f6aed6917b0d7847f"
+      ],
+      "file": "skills/support/web-fetch/scripts/acquire_public_url.py",
+      "fix_commits": [
+        "8d26e63b5ca9070d99168087fb249765cabbe7ad"
+      ],
+      "qualified_function": "_last_content_attempt"
+    },
+    {
+      "bug_commits": [
+        "86857c77250752e31f63649f6aed6917b0d7847f",
+        "b05bb68fc7e470e2e1c4896f3101805364bbc37f"
+      ],
+      "file": "skills/support/web-fetch/scripts/acquire_public_url.py",
+      "fix_commits": [
+        "8d26e63b5ca9070d99168087fb249765cabbe7ad"
+      ],
+      "qualified_function": "_payload"
+    },
+    {
+      "bug_commits": [
+        "86857c77250752e31f63649f6aed6917b0d7847f"
+      ],
+      "file": "skills/support/web-fetch/scripts/acquire_public_url.py",
+      "fix_commits": [
+        "8d26e63b5ca9070d99168087fb249765cabbe7ad"
+      ],
+      "qualified_function": "_selected_attempt"
+    },
+    {
+      "bug_commits": [
+        "86857c77250752e31f63649f6aed6917b0d7847f"
+      ],
+      "file": "skills/support/web-fetch/scripts/acquire_public_url.py",
+      "fix_commits": [
+        "8d26e63b5ca9070d99168087fb249765cabbe7ad"
+      ],
+      "qualified_function": "_should_stop"
+    },
+    {
+      "bug_commits": [
+        "86857c77250752e31f63649f6aed6917b0d7847f"
+      ],
+      "file": "skills/support/web-fetch/scripts/acquire_public_url.py",
+      "fix_commits": [
+        "8d26e63b5ca9070d99168087fb249765cabbe7ad"
+      ],
+      "qualified_function": "_should_try_browser"
+    },
+    {
+      "bug_commits": [
+        "86857c77250752e31f63649f6aed6917b0d7847f",
+        "b05bb68fc7e470e2e1c4896f3101805364bbc37f"
+      ],
+      "file": "skills/support/web-fetch/scripts/acquire_public_url.py",
+      "fix_commits": [
+        "8d26e63b5ca9070d99168087fb249765cabbe7ad"
+      ],
+      "qualified_function": "_should_try_defuddle"
+    },
+    {
+      "bug_commits": [
+        "86857c77250752e31f63649f6aed6917b0d7847f"
+      ],
+      "file": "skills/support/web-fetch/scripts/acquire_public_url.py",
+      "fix_commits": [
+        "8d26e63b5ca9070d99168087fb249765cabbe7ad"
+      ],
+      "qualified_function": "_skip_attempt"
+    },
+    {
+      "bug_commits": [
+        "b05bb68fc7e470e2e1c4896f3101805364bbc37f"
+      ],
+      "file": "skills/support/web-fetch/scripts/acquire_public_url.py",
+      "fix_commits": [
+        "8d26e63b5ca9070d99168087fb249765cabbe7ad"
+      ],
+      "qualified_function": "_timer"
+    },
+    {
+      "bug_commits": [
+        "86857c77250752e31f63649f6aed6917b0d7847f",
+        "b05bb68fc7e470e2e1c4896f3101805364bbc37f"
+      ],
+      "file": "skills/support/web-fetch/scripts/acquire_public_url.py",
+      "fix_commits": [
+        "8d26e63b5ca9070d99168087fb249765cabbe7ad"
+      ],
+      "qualified_function": "acquire"
+    },
+    {
+      "bug_commits": [
+        "b05bb68fc7e470e2e1c4896f3101805364bbc37f"
+      ],
+      "file": "skills/support/web-fetch/scripts/acquire_public_url.py",
+      "fix_commits": [
+        "8d26e63b5ca9070d99168087fb249765cabbe7ad"
+      ],
+      "qualified_function": "main"
+    },
+    {
+      "bug_commits": [
+        "86857c77250752e31f63649f6aed6917b0d7847f",
+        "b05bb68fc7e470e2e1c4896f3101805364bbc37f"
+      ],
+      "file": "skills/support/web-fetch/scripts/classify_fetch_response.py",
+      "fix_commits": [
+        "8d26e63b5ca9070d99168087fb249765cabbe7ad"
+      ],
+      "qualified_function": "classify"
+    },
+    {
+      "bug_commits": [
+        "b05bb68fc7e470e2e1c4896f3101805364bbc37f"
+      ],
+      "file": "tests/test_web_fetch_support.py",
+      "fix_commits": [
+        "8d26e63b5ca9070d99168087fb249765cabbe7ad"
+      ],
+      "qualified_function": "<module>"
+    },
+    {
+      "bug_commits": [
+        "b05bb68fc7e470e2e1c4896f3101805364bbc37f"
+      ],
+      "file": "tests/test_web_fetch_support.py",
+      "fix_commits": [
+        "8d26e63b5ca9070d99168087fb249765cabbe7ad"
+      ],
+      "qualified_function": "test_acquire_public_url_accepts_weak_direct_success_without_positive_proof"
+    },
+    {
+      "bug_commits": [
+        "86857c77250752e31f63649f6aed6917b0d7847f"
+      ],
+      "file": "tests/test_web_fetch_support.py",
+      "fix_commits": [
+        "8d26e63b5ca9070d99168087fb249765cabbe7ad"
+      ],
+      "qualified_function": "test_acquire_public_url_network_recon_alone_is_not_success"
+    },
+    {
+      "bug_commits": [
+        "86857c77250752e31f63649f6aed6917b0d7847f"
+      ],
+      "file": "tests/test_web_fetch_support.py",
+      "fix_commits": [
+        "8d26e63b5ca9070d99168087fb249765cabbe7ad"
+      ],
+      "qualified_function": "test_acquire_public_url_uses_agent_browser_network_recon_for_collect_intent"
+    }
+  ]
+}

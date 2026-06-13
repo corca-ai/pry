@@ -7,3 +7,6 @@ __pycache__/
 
 # Local env
 .env
+
+# Regenerable labeling worklist (large; reproduce via label_io.py emit)
+harness/fixtures/label_worklist.json

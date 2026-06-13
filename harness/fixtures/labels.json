@@ -1,0 +1,1336 @@
+{
+  "corpus": "charness",
+  "corpus_head": "3b9a2013f57455f0e21275ef54b7d1bdacb31f23",
+  "labeler_model": "claude-opus-4-8",
+  "labels": {
+    "0092897be71b700d75c0743343767709b2d7e7b3": {
+      "confidence": "high",
+      "date": "2026-04-14T05:36:45+00:00",
+      "group": "recall_sample",
+      "is_error_handling_fix": false,
+      "reason": "import-path fix for exported tree, not failure-handling",
+      "subject": "Fix quality scripts imports broken in exported plugin tree"
+    },
+    "02c34b5635b21283b52710aa6fed200dbdfd889a": {
+      "confidence": "high",
+      "date": "2026-05-23T10:29:46+09:00",
+      "group": "recall_sample",
+      "is_error_handling_fix": false,
+      "reason": "Test-only isolation from live repo state",
+      "subject": "Fix #194: isolate session-capture CLI tests from live repo state"
+    },
+    "03648869b337fa17857f57d0a2d3d0aa9daab7f5": {
+      "confidence": "medium",
+      "date": "2026-05-22T09:32:55+09:00",
+      "group": "recall_sample",
+      "is_error_handling_fix": false,
+      "reason": "Migrate to symlink-safe writer; safety hardening refactor, not failure-path repair",
+      "subject": "Migrate hitl artifact writer to symlink-safe helper"
+    },
+    "044fb026599243324e61ad9eb1694f3194930b03": {
+      "confidence": "high",
+      "date": "2026-05-24T18:06:49+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "AST analysis logic fixes for quality tooling; no boundary failure-handling",
+      "subject": "Fix quality sweep proof gaps"
+    },
+    "053005f3c92c6ce65c0ca51de686300ac620c615": {
+      "confidence": "high",
+      "date": "2026-04-18T15:13:47+00:00",
+      "group": "recall_sample",
+      "is_error_handling_fix": false,
+      "reason": "test-only version-summary output assertion fix",
+      "subject": "Fix charness update version summary output"
+    },
+    "05eee42ef86585cacdd353b06de4cf4934444ac2": {
+      "confidence": "medium",
+      "date": "2026-05-08T11:49:28+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Refactors target parsing and adds default_repo; argument logic, not boundary failure",
+      "subject": "Fix issue skill target resolution"
+    },
+    "0cab1e5ccd3acc6c833de6056e866a5c8d36bbf7": {
+      "confidence": "high",
+      "date": "2026-06-03T21:05:21+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Classification logic of probe reworked, not a failure-handling path",
+      "subject": "Fix boundary-bypass inventory classification"
+    },
+    "0e4fcd86cd0ace44c5dcc20c5389c7de0f87e5c9": {
+      "confidence": "high",
+      "date": "2026-05-14T16:28:51+09:00",
+      "group": "recall_sample",
+      "is_error_handling_fix": false,
+      "reason": "Regex case-sensitivity validation change; not boundary failure handling",
+      "subject": "cautilus provenance: land follow-ups (a) and (c)"
+    },
+    "0ed3520a3c67c7d4df5b328dbee4219e62d40891": {
+      "confidence": "high",
+      "date": "2026-04-24T04:36:41+00:00",
+      "group": "recall_sample",
+      "is_error_handling_fix": false,
+      "reason": "test-only python binary stub for xdist detection",
+      "subject": "Fix quality runner xdist detection"
+    },
+    "0fc5c0c10029d51fb4f04e7efc967cfc51cde25a": {
+      "confidence": "high",
+      "date": "2026-05-29T09:27:54+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "New-file SessionStart hook feature; not a bugfix",
+      "subject": "Make session-start routing reliable: SessionStart find-skills trigger + find-skills owns workflow drive (#240, #238, #239)"
+    },
+    "104ce78e10cb59f99f301fb919ce3db61b426acb": {
+      "confidence": "medium",
+      "date": "2026-05-19T15:57:24+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Hardens new verifier and refactors release publish; not prior boundary bug",
+      "subject": "Fix closeout verifier hotfix gaps"
+    },
+    "1354266512cba1a2614b98145689ed505df3d689": {
+      "confidence": "high",
+      "date": "2026-05-11T03:56:51+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "New pre-mutation brief contract; feature, not failure-handling fix",
+      "subject": "Require pre-mutation resolution brief for feature-class issue work"
+    },
+    "19478b63b7e27aa29d08ad93e5f31467496ef85e": {
+      "confidence": "high",
+      "date": "2026-05-09T16:24:39+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "New CI-gate-parity analysis library; new feature, not a failure-handling bugfix",
+      "subject": "Detect required CI gates appended outside the canonical local gate"
+    },
+    "1f07b353593ae73ee9cdf6c83ae8faecc9e1e598": {
+      "confidence": "medium",
+      "date": "2026-05-12T09:54:06+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Plumbs plugin_root param through support discovery; refactor not failure handling",
+      "subject": "Fix agent-browser update routing"
+    },
+    "204e18113d5668ae45dfce97b3aeebf50b3488e5": {
+      "confidence": "medium",
+      "date": "2026-05-17T13:39:12+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Content-persistence and arg-validation logic; business logic, not failure handling",
+      "subject": "Fix gathered content persistence boundaries"
+    },
+    "219ec1ab905a32a7909da7b138152aa100ea0c71": {
+      "confidence": "high",
+      "date": "2026-06-06T12:15:56+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Test-only: adds coverage for an existing SurfaceError branch",
+      "subject": "fix(quality): cover staged_commit_gate_plan SurfaceError branch (#320)"
+    },
+    "21b068fe3b15c58c9a9185f8739a264c286b8bf6": {
+      "confidence": "medium",
+      "date": "2026-06-11T11:59:49+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "YAML parsing hardening plus YouTube feature, not a boundary failure bug",
+      "subject": "gather: support YouTube sources and harden adapter YAML rendering"
+    },
+    "21e86f05ea0c1acc28dce9cbaaf2c5696041291b": {
+      "confidence": "medium",
+      "date": "2026-05-13T17:47:28+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Fail-loud on config typos; not a boundary failure-handling path",
+      "subject": "Fail-loud unresolved surface ids in retro/release adapter triggers (#160)"
+    },
+    "225898a39d3d71cacaa66ec2d0552832712267dc": {
+      "confidence": "high",
+      "date": "2026-06-02T06:45:20+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "New critique-binding feature plus goal-activation business-logic change",
+      "subject": "Resolve issue #277 closeout binding."
+    },
+    "22f3542df5b3d9f4f132ff17403e6fae987150b0": {
+      "confidence": "high",
+      "date": "2026-06-13T01:30:59+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "new proof-claim gate refusing false proofs, not a boundary bugfix",
+      "subject": "Refuse citing dispatch-green mutation runs as changed-line proof (#358 tripwire response)"
+    },
+    "238aead61b9a5885c81603d82d77827f00c0322f": {
+      "confidence": "medium",
+      "date": "2026-04-09T22:28:52+00:00",
+      "group": "recall_sample",
+      "is_error_handling_fix": false,
+      "reason": "adds new doctor detection where none existed, not fixing prior handling",
+      "subject": "Detect broken support sync in doctor"
+    },
+    "24877a623bda1922dcb3d4973b879273fde853eb": {
+      "confidence": "high",
+      "date": "2026-04-20T19:24:18+00:00",
+      "group": "recall_sample",
+      "is_error_handling_fix": false,
+      "reason": "whitespace/formatting reformat of a constant",
+      "subject": "Fix debug artifact and runtime guard gate regressions"
+    },
+    "258760ee63506b2742301febcf759e79789a7846": {
+      "confidence": "high",
+      "date": "2026-04-12T10:59:18+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Test-only: new regression test file",
+      "subject": "Add update propagation regression test"
+    },
+    "280ad0e705722c2b71a81f7d538f1d38d57f9c0b": {
+      "confidence": "high",
+      "date": "2026-06-08T10:24:03+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Disposition-escape de-launder enforcement, a validator feature",
+      "subject": "feat(achieve): de-launder the disposition escape (recurrence-lineage rung 1d + rung-2 mandate)"
+    },
+    "2844db57b0b24c1dfbcc195f65d827572b229407": {
+      "confidence": "high",
+      "date": "2026-05-27T00:47:34+00:00",
+      "group": "recall_sample",
+      "is_error_handling_fix": false,
+      "reason": "Field rename and explanatory note; refactor",
+      "subject": "Address second fresh-eye critique of achieve slice"
+    },
+    "2a4fb824e3c5da9bf1e2b6411731b4cc1e82f211": {
+      "confidence": "medium",
+      "date": "2026-05-29T21:00:03+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Refactor routing body via --body-file to avoid shell-quoting corruption; not failure-handling",
+      "subject": "Slice B: route issue body via --body-file to fix #232 shell-quoting corruption"
+    },
+    "2b30d7e44e878325ca6afff445579503a8d8b9df": {
+      "confidence": "high",
+      "date": "2026-06-08T14:51:59+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Reorders validator-path preference; ordering fix, no failure handling",
+      "subject": "fix(scaffolds): cite the repo-local scripts/ validator, not the installed plugin's (Slice 2)"
+    },
+    "2c064abe9d58697eb2d8b0fcc2932e15bfa11cef": {
+      "confidence": "high",
+      "date": "2026-05-07T11:59:32+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "New adapter-gap detection feature",
+      "subject": "Surface worktree-adapter and init-repo-adapter gaps from init-repo inspector"
+    },
+    "2d0976ef138606b31cac98dab38ce04f067afa43": {
+      "confidence": "medium",
+      "date": "2026-04-12T19:08:48+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Diff shows test-only addition; production fix not in shown diff",
+      "subject": "Fix charness update refreshing installed CLI"
+    },
+    "2e49593c24bf1923d3086b9abd20b0d18fcf2376": {
+      "confidence": "medium",
+      "date": "2026-05-20T18:27:04+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Mutation score semantics and sampling; business logic, not failure handling",
+      "subject": "Fix mutation sampling and score semantics"
+    },
+    "2eaa4f1587d77eb439dac476ea4bdc4e453dc494": {
+      "confidence": "high",
+      "date": "2026-04-13T22:14:11+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Feature: multi-file artifacts and optional section, not failure-handling bug",
+      "subject": "Support multi-file debug artifacts and optional Related Prior Incidents"
+    },
+    "2eaf66f8c85d625b5eaa718076d68e14d5243db7": {
+      "confidence": "high",
+      "date": "2026-06-07T19:21:32+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "New meta-validator and surface-idiom lint feature",
+      "subject": "Add advisory-interpretation meta-validator + surface-idiom lint"
+    },
+    "2f15a8ebbf0abf5a0da6bfe1b095d2c15209a6c4": {
+      "confidence": "high",
+      "date": "2026-05-29T10:22:54+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Moves hook to user-level install; docs/config/test change",
+      "subject": "Move find-skills SessionStart hook from repo dogfood to user-level install (#240)"
+    },
+    "2fd31c9c952305881b328ca74a0736531713fee9": {
+      "confidence": "high",
+      "date": "2026-05-24T12:23:18+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "New-file feature (RCA ledger substrate), not a bugfix",
+      "subject": "Add RCA-to-learning conversion ledger substrate (slice 1, #184/#185)"
+    },
+    "31c2cd5a6931d3a87180fdbef36c77aaaa9e61f8": {
+      "confidence": "high",
+      "date": "2026-05-12T15:32:12+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Adds CLI auth flags and test renames; config/feature, not failure handling",
+      "subject": "Preserve Codex auth in eval runner"
+    },
+    "32f4d360976b8e31c8d078db7eaa0e15b54eb7c3": {
+      "confidence": "high",
+      "date": "2026-06-04T20:24:56+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "New validator enforcement feature for diagnostic dispositions",
+      "subject": "Enforce abstraction-up diagnostic dispositions"
+    },
+    "33a5c57d12d322c28540bbd3edb6ac6aeda80270": {
+      "confidence": "high",
+      "date": "2026-05-22T21:59:13+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "New-file feature (T-signal classifier), not a bugfix",
+      "subject": "Implement usage-episodes Slice A: schema + classifier + emitter wiring"
+    },
+    "3412b2ade823914d812ef995a8c71073c0fec48a": {
+      "confidence": "high",
+      "date": "2026-06-08T10:49:05+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Extends de-launder lineage rule to retros, a validator feature",
+      "subject": "feat(achieve): extend de-launder to standalone retro + close out the goal"
+    },
+    "3526ce285c24473ee1b805d5c6a733da03801b85": {
+      "confidence": "medium",
+      "date": "2026-05-04T22:09:19+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Hardens inventory heuristics against false positives, not boundary failure handling",
+      "subject": "quality: harden inventories against silent-empty, vendored, runtime-install, and small-spec false positives (#95, #96, #97, #98) (#99)"
+    },
+    "3bc4d3eb3b74e865d7bbc843c5dd17515f1c9035": {
+      "confidence": "high",
+      "date": "2026-05-19T15:24:51+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "New issue closeout verifier; feature, not failure-handling fix",
+      "subject": "Add issue closeout verifier"
+    },
+    "3cf99b87f9b5c7df903dfab7a6548bdd69372f3a": {
+      "confidence": "high",
+      "date": "2026-05-13T08:00:45+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "New consumer validator plus adapter rule change; new tooling",
+      "subject": "Close consumer-side of issue #145: enforce non-headline field engagement"
+    },
+    "3d0c8e81fc962682cd55f56ffdb6d969d9507192": {
+      "confidence": "high",
+      "date": "2026-05-10T02:55:44+00:00",
+      "group": "recall_sample",
+      "is_error_handling_fix": false,
+      "reason": "Backfill triggers and advisory hint; feature/refactor",
+      "subject": "Backfill intent_triggers and add task-text empty-result hint for #139"
+    },
+    "3d9a3ad0dfd940d1858d68e44b2bdfdf568923d3": {
+      "confidence": "high",
+      "date": "2026-06-12T22:03:56+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "new advisory doc-coupling gate, a feature",
+      "subject": "Gate exported reusable guidance against issue/version hard coupling"
+    },
+    "3dc8e79c559c949f93f84ee82d08028f31d866bd": {
+      "confidence": "high",
+      "date": "2026-06-08T20:27:04+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "new retro-artifact validation floor, no boundary failure-handling",
+      "subject": "achieve: add structural-follow-up destination floor (rung 1e) for transferable waste (#337)"
+    },
+    "3e5e77c1df730026f9012ccfb5867b67807c1015": {
+      "confidence": "high",
+      "date": "2026-05-20T07:29:06+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "New faster du-based footprint function; performance feature",
+      "subject": "Land remaining next gates: depth-bounded du + release contract doc + audit"
+    },
+    "3eb67f2bd4c01ea0890c7bb2342fc8ad49a20500": {
+      "confidence": "high",
+      "date": "2026-05-13T11:12:49+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Subcommand renames and error-message text edits; refactor not failure fix",
+      "subject": "Refresh cautilus surface for 0.15.4 (eval -> evaluate; add skill-experiment mode)"
+    },
+    "3fbf41eb254405df1a7e34cb56fbf6cc96302de0": {
+      "confidence": "high",
+      "date": "2026-06-11T13:30:49+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "adds transcript UI fallback feature plus refactor, not a fix",
+      "subject": "gather: add YouTube transcript UI fallback"
+    },
+    "424504e273e4cd3c074ea7a0dcafdc65ac9b7f7a": {
+      "confidence": "high",
+      "date": "2026-05-09T14:12:48+00:00",
+      "group": "recall_sample",
+      "is_error_handling_fix": false,
+      "reason": "New test file for substrate citations; test-only",
+      "subject": "impl: debug \u2194 issue substrate-vs-target First Implementation Slice"
+    },
+    "482fc253e1f64479e2e7eb5440f29f9499bacaa9": {
+      "confidence": "medium",
+      "date": "2026-05-07T11:08:09+00:00",
+      "group": "recall_sample",
+      "is_error_handling_fix": false,
+      "reason": "Guard against clobbering a curated file; data-safety logic, not boundary failure handling",
+      "subject": "Guard retro persistence from silent recent-lessons.md overwrite"
+    },
+    "4993b1d7a915d77e6855d4f9809eb9e1a4c4b872": {
+      "confidence": "high",
+      "date": "2026-04-14T05:09:25+00:00",
+      "group": "recall_sample",
+      "is_error_handling_fix": false,
+      "reason": "import-path fix for exported tree, not boundary failure-handling",
+      "subject": "Fix quality skill imports broken in exported plugin tree"
+    },
+    "4b76196f5de62df33a373a630126a7b5b0ffbc2d": {
+      "confidence": "high",
+      "date": "2026-06-05T19:25:59+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "New resume mode plus staleness check, a feature not a failure-handling fix",
+      "subject": "fix(release): make publish resumable, installed-cache-safe, and staleness-checked"
+    },
+    "4bc2e29c2f48dc25dac1da50a060d02e1c250b56": {
+      "confidence": "high",
+      "date": "2026-05-09T03:03:11+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "New chunk self-check and cwd-default change, a feature not a bugfix",
+      "subject": "issue/hitl: cwd-default repo-root, chunk self-check, agent-assessment invariant"
+    },
+    "4bc44d31c9e6c6db62f2f165374591a43af4bc87": {
+      "confidence": "high",
+      "date": "2026-05-23T17:22:06+09:00",
+      "group": "recall_sample",
+      "is_error_handling_fix": false,
+      "reason": "Help-text normalization sweep only",
+      "subject": "Fixes #196: normalize help= sweep corpus"
+    },
+    "4ccae8e42fa4857688baec8fd509ea8e2bf63653": {
+      "confidence": "high",
+      "date": "2026-04-21T06:50:00+00:00",
+      "group": "recall_sample",
+      "is_error_handling_fix": false,
+      "reason": "test-only repo-copy ignore-pattern fix",
+      "subject": "Fix packaging validation repo-copy tests"
+    },
+    "4d59c660b570ec93ac74a84e5f0e65c2184c5a3d": {
+      "confidence": "high",
+      "date": "2026-04-23T03:14:16+00:00",
+      "group": "recall_sample",
+      "is_error_handling_fix": false,
+      "reason": "import-sort lint fix, formatting",
+      "subject": "Fix bootstrap install lint regressions"
+    },
+    "4e69881a6c979ebec841f3025fd3809b2173930f": {
+      "confidence": "medium",
+      "date": "2026-05-23T20:57:29+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Adds input-validation/value checks; pure business-logic validation, no boundary",
+      "subject": "Fix four latent input-validation defects across issue/release/validator surfaces"
+    },
+    "4e7fe877b956f3a4bf084a128e0e7bb6f020bab7": {
+      "confidence": "high",
+      "date": "2026-05-12T13:11:49+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Generalizes fixture validation; rename/refactor, not failure handling",
+      "subject": "Resolve grouped issue chunks"
+    },
+    "4eb50cff787aca7f0efd1e3d90c01947ebdf881e": {
+      "confidence": "medium",
+      "date": "2026-05-13T21:16:20+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": true,
+      "reason": "Wraps previously-uncaught preflight backend RuntimeError instead of crashing",
+      "subject": "issue/gather: wrap preflight RuntimeError, document adapter-slot boundary, pin gather-provider contract"
+    },
+    "4f629b76a216246a4a0c8b376025e1204ac90566": {
+      "confidence": "medium",
+      "date": "2026-05-20T10:38:33+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": true,
+      "reason": "Fixes prior code to also handle subprocess crash, not just timeout, before dump",
+      "subject": "Address fifth-pass critique gaps in worktree-probe and mutation-exec paths"
+    },
+    "50abbd13f86552ef0a8843b758cb4651935906e3": {
+      "confidence": "high",
+      "date": "2026-04-10T23:08:47+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "New files; runtime packaging fix, not error handling",
+      "subject": "Fix installed gather runtime packaging"
+    },
+    "50b990839a89b0bb1fd0966750eddbdde6973fec": {
+      "confidence": "high",
+      "date": "2026-05-09T12:02:25+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Rename plus new validator feature, not failure-handling bug",
+      "subject": "feat(setup): hard rename init-repo -> setup + seed_t_events_adapter (#135 Leg 6)"
+    },
+    "52d578ca93ecbb2f7cc7f5444db5d0b7c1cc0daa": {
+      "confidence": "high",
+      "date": "2026-06-03T19:21:23+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "New advisory testability probe, brand-new code with no prior bug",
+      "subject": "Add boundary-bypass testability probe (advisory) + initiative doc"
+    },
+    "5318a9a730943fd5d296c732697c632a237a2cbf": {
+      "confidence": "medium",
+      "date": "2026-06-05T18:56:52+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Largely refactor extracting browser-session helpers into shared module",
+      "subject": "fix(web-fetch): guarantee gather browser close and fail-visible clean-runtime proof"
+    },
+    "556230355fdb771daa7a80c5730307a8fecb134c": {
+      "confidence": "high",
+      "date": "2026-06-08T19:08:02+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "new feature adding install-refresh in brand-new code, not a prior bugfix",
+      "subject": "feat(release): auto-run the maintainer install-refresh after a verified publish"
+    },
+    "58b940aab8eeb14ab9358626852f5f8468ad6d75": {
+      "confidence": "medium",
+      "date": "2026-05-27T01:18:53+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Input-validation hardening and fence-masking; no prior boundary failure-handling bug",
+      "subject": "Harden achieve goal helpers and close the behavior-proof gap"
+    },
+    "59841e067f5c571a8e3a8506910443cdaac437eb": {
+      "confidence": "high",
+      "date": "2026-05-26T08:26:35+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Refactor extracting shared coverage oracle module",
+      "subject": "Share mutation line coverage oracle"
+    },
+    "5ace071fd5697ab4a67da97832e6d0e4810b6135": {
+      "confidence": "high",
+      "date": "2026-05-09T02:22:08+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Test-only assertions on issue skill docs",
+      "subject": "issue: ledger closeout, target durability, external-source identity"
+    },
+    "5c0850c212c2ca2a8dffc57fea849fd394185119": {
+      "confidence": "high",
+      "date": "2026-05-28T21:41:05+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Module split refactor to clear line-gate failures; not failure-handling",
+      "subject": "Clear standing-gate failures blocking the push of the 22 prior commits"
+    },
+    "5d48956d1ee83de09951552dae647d99827ad240": {
+      "confidence": "high",
+      "date": "2026-05-09T03:42:09+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "New close_with_comment function; error handling added to brand-new code",
+      "subject": "issue/public-skills: file-backed close-comment, Ceal lesson upstream"
+    },
+    "5e4dfbfce899dd08279c44969291e3a2481d8061": {
+      "confidence": "high",
+      "date": "2026-05-09T10:51:32+00:00",
+      "group": "recall_sample",
+      "is_error_handling_fix": false,
+      "reason": "New feature: Progressive Operator Path doc section",
+      "subject": "feat(operator-acceptance): add Progressive Operator Path (Leg 4 of issue #135)"
+    },
+    "5ea8123b19e2dba99dca0d749ce8384dac8b71aa": {
+      "confidence": "high",
+      "date": "2026-05-08T22:29:06+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Test fixture dedupe/migration, refactor only",
+      "subject": "tests: dedupe REPO_COPY_IGNORE and migrate fixtures to seeded charness repo"
+    },
+    "5ec5b62d07ec0ef9b505fb2138b54fe845e12342": {
+      "confidence": "high",
+      "date": "2026-05-28T21:48:16+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Validator alias-following logic change; no boundary failure-handling",
+      "subject": "Revert find-skills inventory verbatim contract; teach validator to follow alias"
+    },
+    "6030306b2f298ccb713b6855ab21739fa9ca0f6f": {
+      "confidence": "medium",
+      "date": "2026-05-31T13:14:03+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": true,
+      "reason": "Adds missing cleanup/restore after subprocess kill/timeout left mutated tree (#262)",
+      "subject": "#262 Slice 1: defensively restore module-path files on exec exit/interrupt"
+    },
+    "618bca293900ab7ae9cb5aa5d1b6c7829685ad24": {
+      "confidence": "medium",
+      "date": "2026-06-05T21:52:34+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Improves operator next-step guidance logic, not boundary-failure mishandling",
+      "subject": "fix(agent-browser-guard): distinguish reap-able orphan tree from init residue (#309)"
+    },
+    "61933428f7bed08c82957dbde16cc648fc1065e7": {
+      "confidence": "high",
+      "date": "2026-06-08T06:32:56+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "New near-limit function headroom reporting feature",
+      "subject": "feat(quality-gates): surface near-limit functions in check_python_lengths --headroom (#332)"
+    },
+    "63f6a2eed640955eb006c75a485c31efe07ed560": {
+      "confidence": "high",
+      "date": "2026-04-11T09:19:25+00:00",
+      "group": "recall_sample",
+      "is_error_handling_fix": false,
+      "reason": "test-only count assertion fix",
+      "subject": "Fix eval count quality gate after init-repo scenario"
+    },
+    "6463391723171b70d4338dd7c4a323b07a8eb0c8": {
+      "confidence": "high",
+      "date": "2026-04-16T00:14:37+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "New detection feature for brittle source guards",
+      "subject": "Detect brittle fixed source guards"
+    },
+    "66a7601816d1ae9caec7f611d654fbed4c6636f9": {
+      "confidence": "high",
+      "date": "2026-04-19T01:38:46+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Test refactor and assertion updates, not error handling",
+      "subject": "Fix release gates and sync plugin export"
+    },
+    "69c2df9b736719807e4e7060fc5f40b5bbff2b2a": {
+      "confidence": "high",
+      "date": "2026-06-06T15:57:57+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "New validator rule enforcing cross-file sibling marker",
+      "subject": "debug(validator): enforce cross-file sibling marker on latest.md (#2b, slice 2)"
+    },
+    "6ab6e8cbf2f538ae4279ed91356d0758863b304c": {
+      "confidence": "high",
+      "date": "2026-05-26T21:08:41+09:00",
+      "group": "recall_sample",
+      "is_error_handling_fix": false,
+      "reason": "New feature: verbatim public-skill recommendations",
+      "subject": "find-skills: surface verbatim-named public skills in task-text recommendations"
+    },
+    "6ed3881f6ca6b2fbd8934930b5cd18bf62a497f2": {
+      "confidence": "high",
+      "date": "2026-05-09T12:47:03+00:00",
+      "group": "recall_sample",
+      "is_error_handling_fix": false,
+      "reason": "Test splitting and validator allowlist; no failure handling",
+      "subject": "fix: cross-validator allowlist + split setup tests, refresh cautilus proof for #135 close"
+    },
+    "709dc24f75817b38486ab21c66fc504d1f11bbcb": {
+      "confidence": "high",
+      "date": "2026-05-07T09:20:21+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "New worktree readiness/doctor feature",
+      "subject": "Add worktree readiness contract for charness consumers"
+    },
+    "7111da64ddc06c6931b700f0919e125c3dc54a19": {
+      "confidence": "high",
+      "date": "2026-05-29T21:27:56+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Hook dedup-by-identity logic; business-logic, no boundary failure-handling",
+      "subject": "Slice D: dedup SessionStart hooks by logical identity, not abs path (#245)"
+    },
+    "739ecebca36eb4333743b40eb77a054669e92691": {
+      "confidence": "high",
+      "date": "2026-04-10T23:15:01+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "New preflight/Bootstrap gate feature, not a failure-handling bugfix",
+      "subject": "Add lazy binary preflight philosophy and Bootstrap gate"
+    },
+    "75f30584d3dcd959871e5618a04a44c2416ae93a": {
+      "confidence": "high",
+      "date": "2026-06-05T21:50:41+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": true,
+      "reason": "Cleanup error clobbered real acquisition error; now preserves original failure signal (#310)",
+      "subject": "fix(web-fetch): preserve acquisition .error when cleanup also fails (#310)"
+    },
+    "76909cc875495040f81085bf645dc89ac332f182": {
+      "confidence": "high",
+      "date": "2026-06-10T11:57:16+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "new schema-validation feature with new error handling, no prior bug",
+      "subject": "impl: pull adapter-vs-integration-schema validation to commit time (slice 1)"
+    },
+    "76a8a294139d4dcedc000e268ce50b0a230c1eca": {
+      "confidence": "high",
+      "date": "2026-04-14T05:11:14+00:00",
+      "group": "recall_sample",
+      "is_error_handling_fix": false,
+      "reason": "import sorting for lint, formatting change",
+      "subject": "Sort imports in quality resolve_adapter to satisfy ruff"
+    },
+    "77d87b7244fb4413046039f6b38d021784e63b50": {
+      "confidence": "high",
+      "date": "2026-05-09T08:44:00+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "New t-events/inventory feature",
+      "subject": "feat: t-events emit + Skill-T inventory (issue 135 PR 2: Leg 2 + Leg 1)"
+    },
+    "78022abb5f2beb65bb5a47f37eb70d6a11d1df76": {
+      "confidence": "high",
+      "date": "2026-05-09T09:57:38+00:00",
+      "group": "recall_sample",
+      "is_error_handling_fix": false,
+      "reason": "Test-only fixture/assertion alignment",
+      "subject": "fix: align test fixtures and assertions to cautilus eval-only mode (corca-ai/cautilus#32 follow-up)"
+    },
+    "7bd7d1eee605a45af7b6fba31f611c5378925495": {
+      "confidence": "medium",
+      "date": "2026-06-05T14:54:05+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Parses new nose 0.5 success-output shape; result-format adaptation, not failure path",
+      "subject": "feat(quality): adapt nose clone inventory to nose 0.5 + refresh baseline"
+    },
+    "7c13b73242e14dfa21ac8d30bde0bce7678d24e9": {
+      "confidence": "high",
+      "date": "2026-05-09T06:06:43+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Adds placeholder-allowlist input validation, a new guard not a boundary fix",
+      "subject": "issue: enforce per-op placeholder allowlist in close_with_comment (#134 follow-up)"
+    },
+    "7c46f4a929c9c5c64ecb82843ce001f96c5bf8d5": {
+      "confidence": "high",
+      "date": "2026-05-09T23:31:52+00:00",
+      "group": "recall_sample",
+      "is_error_handling_fix": false,
+      "reason": "Filters orphan skill dirs; scanning logic, not failure handling",
+      "subject": "Require SKILL.md when scanning public-skill ids"
+    },
+    "7c70da680b087fc83b7c04722cda189d9a2b09a2": {
+      "confidence": "high",
+      "date": "2026-05-13T09:54:44+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "New structural guard validators and wrapper; feature, no prior bug",
+      "subject": "Land script-silence layer-3 structural guard (cautilus on-demand + #145 v2)"
+    },
+    "7d4cc3afe8a64830d903334be1533815e7587a1e": {
+      "confidence": "low",
+      "date": "2026-04-12T23:13:38+00:00",
+      "group": "recall_sample",
+      "is_error_handling_fix": false,
+      "reason": "visible diff is test-only; no boundary failure-handling shown",
+      "subject": "Fix Codex cache selection and remove probe skill"
+    },
+    "7e693248e02d39586542f6ce81749da5ec14d0d8": {
+      "confidence": "low",
+      "date": "2026-05-13T13:17:22+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Stricter binary check inside large portability feature; mostly feature",
+      "subject": "Wire host/worker boundary portability for issue/gather/release public skills"
+    },
+    "7e757c3917e1a1e12375fc34d8a043b3ecd82a11": {
+      "confidence": "medium",
+      "date": "2026-05-27T11:36:48+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Test determinism via env ceiling and importorskip; test-only/config",
+      "subject": "Make the pre-push quality gate deterministic (#225)"
+    },
+    "7e9d4ed6652ddb30b7bb18a12dea17e020dae173": {
+      "confidence": "medium",
+      "date": "2026-04-12T22:55:58+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Test version-constant changes only in shown diff",
+      "subject": "Fix managed bootstrap upstream and probe validation"
+    },
+    "7ee40839dcbf3cfd293f6de9e48d11c0c10b6fbc": {
+      "confidence": "high",
+      "date": "2026-05-17T11:50:14+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "New Slack-routing advisor and template text; feature, not failure fix",
+      "subject": "Fix gather Slack routing and debug sibling scans"
+    },
+    "7f74d7a4ea0105e6187564ff204121f181659e6b": {
+      "confidence": "high",
+      "date": "2026-05-27T05:34:36+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Display-path logic and test-fixture fixes; no boundary failure-handling",
+      "subject": "Fix attention-state and find-skills capability test regressions"
+    },
+    "8188e73021e2cbddb7570de8e226bdcd20cdac31": {
+      "confidence": "high",
+      "date": "2026-05-14T17:26:06+09:00",
+      "group": "recall_sample",
+      "is_error_handling_fix": false,
+      "reason": "Import refactor and test stub registration",
+      "subject": "fix: resolve pre-existing pre-push hook blockers"
+    },
+    "81c1aa893b141c16b1963f02c94e7439ac2d677a": {
+      "confidence": "high",
+      "date": "2026-04-16T07:27:53+00:00",
+      "group": "recall_sample",
+      "is_error_handling_fix": false,
+      "reason": "import relocation fix, not boundary failure-handling",
+      "subject": "Fix dogfood helper imports for plugin export"
+    },
+    "82e58acb9f47a6fa020fd30bc0d16eb5148fb853": {
+      "confidence": "high",
+      "date": "2026-05-17T17:47:55+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": true,
+      "reason": "Adds yaml.YAMLError to except so malformed adapter no longer crashes uncaught",
+      "subject": "Tighten usage episode critique fixes"
+    },
+    "848544ed0fcbadc457c7f0e43c2b1d1cb16651da": {
+      "confidence": "high",
+      "date": "2026-05-20T23:09:32+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Changes release diff base-ref selection logic; no boundary failure-handling bug",
+      "subject": "Fix release proof base selection"
+    },
+    "84dc1db3c12f90c1c92c24577911d8233f71c8c0": {
+      "confidence": "high",
+      "date": "2026-06-10T18:26:22+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "new Claude session auditor module plus rename refactor, a feature",
+      "subject": "impl: Claude-host per-goal metric scoping for goal-closeout metrics (slice 2)"
+    },
+    "84dde09706ca61d5e4146530ac8b23d3249145e6": {
+      "confidence": "high",
+      "date": "2026-06-09T14:28:43+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "reclassifies mutation-gate exclusions, business-logic not failure-handling",
+      "subject": "achieve: reclassify per-file-cap mutation drops as advisory + kill resolve_adapter main() mutants (slice 1, #341)"
+    },
+    "858da76fb9fa4773fa91d0cd7e535d3d108d3a49": {
+      "confidence": "high",
+      "date": "2026-05-23T20:10:36+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Refactors validators into shared helper; no boundary failure-handling fix",
+      "subject": "Fixes #198 #202 #203 #204 #205 #206: open-issue sweep + sampler attribution fix"
+    },
+    "86ea3ea157d1b77d45c8724760231e837e454dea": {
+      "confidence": "high",
+      "date": "2026-05-30T07:03:29+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Adds mutation-killing tests only; test-only change",
+      "subject": "Cover mutation-gate blocking trio + kill survived mutants (#251)"
+    },
+    "8941d222610afc7d7b6d4b54d2e4f20cfb429b7a": {
+      "confidence": "high",
+      "date": "2026-05-04T18:59:42+09:00",
+      "group": "recall_sample",
+      "is_error_handling_fix": false,
+      "reason": "Adds new quality_phases field and validator; feature, not bugfix",
+      "subject": "Surface external-API smoke and named-target verification rules (#92, #93) (#94)"
+    },
+    "8a9ad80e7c326e017e6b7fa06ec71c1bfa633962": {
+      "confidence": "high",
+      "date": "2026-04-10T22:16:59+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "New announcement scripts; packaging/layout fix, no prior failure-handling bug",
+      "subject": "Fix checked-in plugin install layout"
+    },
+    "8d26e63b5ca9070d99168087fb249765cabbe7ad": {
+      "confidence": "medium",
+      "date": "2026-05-16T12:34:42+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": true,
+      "reason": "Fixes mishandling of non-success fetch dispositions previously treated as ok",
+      "subject": "Fix gather push critique blockers"
+    },
+    "8e6c7169073b2af12d0f593dd955bf1056b11b30": {
+      "confidence": "high",
+      "date": "2026-05-14T08:11:34+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "New critique adapter schema/loader; feature, not failure-handling fix",
+      "subject": "Critique prepare packet contract: schema + adapter + runner + dogfood (#161)"
+    },
+    "98892bd4e8de0aa96f6756cf8a79034c9fc7f4c8": {
+      "confidence": "high",
+      "date": "2026-06-01T22:16:31+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "New discussion-readiness feature plus loader refactor, no failure-handling repair",
+      "subject": "Resolve reviewer tier issue closeout"
+    },
+    "9bc40f2ad20f719fcdf9d1976628dd67ee3ff671": {
+      "confidence": "high",
+      "date": "2026-06-06T09:43:23+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "New closeout-delegation gate feature for sub-goals",
+      "subject": "feat(achieve): orchestrator-owned closeout-proof delegation for sub-goals"
+    },
+    "9d624bdd2f601ef66c50d74d41f07ab71b95cb90": {
+      "confidence": "high",
+      "date": "2026-04-30T06:02:46+00:00",
+      "group": "recall_sample",
+      "is_error_handling_fix": false,
+      "reason": "Adds --fixture to eval command; config change, no failure handling",
+      "subject": "Fix Cautilus proof command fixture"
+    },
+    "9e0ac1c6d8a9dfe7071d873d8c910e25490ba2aa": {
+      "confidence": "low",
+      "date": "2026-05-20T09:38:36+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Adds net-new subprocess timeout handling; resilience feature, not prior-bug fix",
+      "subject": "Fix worktree-adapter seeds and mutation-test resilience"
+    },
+    "9f08bdc3ae4eb05f3cf3bda7f1c5962c771179bd": {
+      "confidence": "high",
+      "date": "2026-06-05T22:26:37+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Comment edits and removal of a duplicate test, no logic fix",
+      "subject": "fix(quality): clear bundle-gate blockers \u2014 portable issue anchors + dup boundary-bypass"
+    },
+    "9f1a8fc1ea88c7906e7ce8abd4daa4c23f40cdde": {
+      "confidence": "high",
+      "date": "2026-05-29T07:01:32+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "New evidence-binding logic; except OSError on brand-new code",
+      "subject": "#233 (partial): bind achieve closeout evidence to goal context (F1)"
+    },
+    "a0b8de0ecefc39c869ab2779e00168c88fd04e36": {
+      "confidence": "high",
+      "date": "2026-05-27T21:34:14+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "AST-based mutation detection improvement; no boundary failure-handling",
+      "subject": "Detect mutation annotation-union equivalents by AST position (#224, #219)"
+    },
+    "a11eb835291e325654869e80c079349b663537fe": {
+      "confidence": "high",
+      "date": "2026-05-24T00:46:37+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Mutation-gate scope logic change; no boundary failure-handling",
+      "subject": "Fixes #208: scope mutation changed-file gap to changed lines"
+    },
+    "a37ab31756a56471c68cae7fce396acadf9be66c": {
+      "confidence": "high",
+      "date": "2026-05-23T17:10:32+09:00",
+      "group": "recall_sample",
+      "is_error_handling_fix": false,
+      "reason": "Mutation filtering logic for entry guards; feature",
+      "subject": "Fix #195: skip-mark trivial entry-guard mutations"
+    },
+    "a68902456730281b5117be5194561013ac662dca": {
+      "confidence": "high",
+      "date": "2026-05-23T18:47:16+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Adds new artifact validators; new feature, not failure-handling fix",
+      "subject": "Fixes #199 #200 #201: sibling follow-up, lint gate survey, structured critique"
+    },
+    "a7d382a566048fb30ab15d7ad9bcc703564745b9": {
+      "confidence": "high",
+      "date": "2026-04-19T10:22:37+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Surface-root selection logic fix, no boundary failure handling",
+      "subject": "Fix find-skills startup artifact drift"
+    },
+    "a8bc17fce59994e4ce411cbb0ee302b1d7160422": {
+      "confidence": "high",
+      "date": "2026-05-14T18:19:17+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "New mutation_testing adapter config block; feature",
+      "subject": "quality: stack-agnostic mutation_testing adapter block + propose flow"
+    },
+    "ad0f233db8c4e199990e79c3786e1cf3e024e37a": {
+      "confidence": "high",
+      "date": "2026-05-24T06:01:16+09:00",
+      "group": "recall_sample",
+      "is_error_handling_fix": false,
+      "reason": "Test-only assertion covering an existing guard",
+      "subject": "Fixes #209: cover changed_line_numbers empty-base guard (mutation gate self-recurrence)"
+    },
+    "ad47801ee13b9d4be594f32fcd4b2b1847cf6719": {
+      "confidence": "high",
+      "date": "2026-05-23T07:10:59+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "New-file feature (hook install lib), not a bugfix",
+      "subject": "Implement usage-episodes Slice B: SessionStart hook + host hook install + session-capture CLI"
+    },
+    "b3312e93356f1e3d35517fc7327dbd6cae4ea3aa": {
+      "confidence": "high",
+      "date": "2026-05-09T09:29:45+00:00",
+      "group": "recall_sample",
+      "is_error_handling_fix": false,
+      "reason": "Test-only path/wording rename",
+      "subject": "fix: PR-1 (Leg 5) wording + path sweep so push gate goes green"
+    },
+    "b41597385af23a08f7236696c16e798bcd2b9637": {
+      "confidence": "high",
+      "date": "2026-06-07T15:09:11+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "New advisory-interpretation contract rollout, a feature",
+      "subject": "feat(quality,find-skills): roll out advisory-interpretation contract to inference-layer surfaces (Close #322)"
+    },
+    "b6bbf6f7ffe89d0c7efe54d1cda0a602f37d2136": {
+      "confidence": "medium",
+      "date": "2026-06-11T19:42:35+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "nose flag rename and test interpreter fix, not boundary failure-handling",
+      "subject": "Fix mutation changed-line subprocess coverage"
+    },
+    "b8d417d6a6a8457bf2ae5e832ffcbc4127c5d7ec": {
+      "confidence": "high",
+      "date": "2026-05-08T22:46:58+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "New worktree audit feature plus fixture guard",
+      "subject": "worktree audit + fixture invariants guard"
+    },
+    "b92dd9f90738481595f21254d34dd2f87f563d9a": {
+      "confidence": "high",
+      "date": "2026-06-06T09:12:25+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "New headroom-buffer commit-boundary gate feature",
+      "subject": "feat(quality): gate SKILL.md core_nonempty headroom buffer at the commit boundary"
+    },
+    "b95dc5a406ebdd2873a97ea14f6501db0857d66a": {
+      "confidence": "high",
+      "date": "2026-06-01T22:38:11+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Package-root resolution refactor and diagnostic threading, not error handling",
+      "subject": "Address post-commit critique findings"
+    },
+    "b99748b1b2df5662fcc1992b427ec9ab6f742301": {
+      "confidence": "high",
+      "date": "2026-06-12T21:59:13+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "new consistency quality gate plus formatting, a feature",
+      "subject": "Machine-own bootstrap shim consistency with a repo quality gate"
+    },
+    "bbf78637896c32faf0a6685053e0f828887355e8": {
+      "confidence": "high",
+      "date": "2026-04-23T22:20:56+00:00",
+      "group": "recall_sample",
+      "is_error_handling_fix": false,
+      "reason": "test-only URL string drift fix",
+      "subject": "Fix quality review validation drift"
+    },
+    "bebdaa2de3d403571bb22d69bae15780d986a0c4": {
+      "confidence": "high",
+      "date": "2026-06-09T23:02:57+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "new author-time preflight feature, no prior bug",
+      "subject": "achieve(slice 1): author-time closeout preflight for closeout-draft + goal-closeout"
+    },
+    "c07bbe5a268430f6d9a8c35fa127528c601c3da4": {
+      "confidence": "high",
+      "date": "2026-04-30T11:56:57+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Adds new quality policy fields/defaults, a feature not a bugfix",
+      "subject": "Fix public spec quality heuristics"
+    },
+    "c089ce6263258d38b6fdd061298a258eeb710a7d": {
+      "confidence": "high",
+      "date": "2026-05-25T08:58:06+09:00",
+      "group": "recall_sample",
+      "is_error_handling_fix": false,
+      "reason": "Coverage config source boundary fix plus tests; not failure handling",
+      "subject": "Fix mutation coverage probe source boundary"
+    },
+    "c2e897493955914f40857fdccf9e022a7dc1b1e7": {
+      "confidence": "high",
+      "date": "2026-05-27T00:38:02+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "New skill/feature; new files, not a bugfix",
+      "subject": "Add achieve goal-lifecycle skill + goal-aware coordination"
+    },
+    "c3261b03549b5674eb1a9ccc7ad3cab99c28d667": {
+      "confidence": "high",
+      "date": "2026-06-09T07:00:18+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "refactor moving validation logic for parity, not a boundary bugfix",
+      "subject": "issue+achieve: proof-mismatch parity on verify-closeout + #339 goal closeout"
+    },
+    "c35e0286501e527266f329380909a58ce9787b93": {
+      "confidence": "high",
+      "date": "2026-05-31T06:02:09+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "New preventive mutation-coverage tooling, not a failure-handling bugfix",
+      "subject": "#260 Slice 4: preventive changed-line mutation-coverage teeth"
+    },
+    "cfbd791ad512321937403315d2c9115c260b64d0": {
+      "confidence": "high",
+      "date": "2026-05-09T06:22:43+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Backports placeholder-allowlist guard; input validation feature",
+      "subject": "release: backport per-op placeholder allowlist to backend_command (Slice C+D integration)"
+    },
+    "d4068d32875e5edff8881e7658f40c36969891a7": {
+      "confidence": "medium",
+      "date": "2026-05-11T01:47:03+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Bootstrap no-op detection and formatting; not boundary failure handling",
+      "subject": "Surface silent doctor.py coverage regression and bootstrap no-op"
+    },
+    "d42d11940924ef5b5ea2d74a8da306eeac71a7b2": {
+      "confidence": "high",
+      "date": "2026-05-13T15:21:27+09:00",
+      "group": "recall_sample",
+      "is_error_handling_fix": false,
+      "reason": "Adds new debug template sections; feature/refactor",
+      "subject": "Move detection-gap and sibling-search lenses to debug substrate"
+    },
+    "d80262d8025d4e54cd150cee46e583d8aef20d80": {
+      "confidence": "high",
+      "date": "2026-05-11T02:59:11+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "New preflight enforcement feature with new files; no prior bug",
+      "subject": "Enforce adapter-declared source surfaces in announcement preflight"
+    },
+    "d91a0f3928c2762554b3fffc2af6272a812b390b": {
+      "confidence": "high",
+      "date": "2026-06-07T08:15:39+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "New coverage producer plus fingerprint-freshness refactor, not a fix",
+      "subject": "impl(mutation-gate): land changed-line coverage producer + content-fingerprint freshness (slice 2)"
+    },
+    "dd3865dc75dbebc95600e1b55c2647ff47eaa182": {
+      "confidence": "high",
+      "date": "2026-05-28T14:26:48+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "New-file feature (push-diff classifier); not a bugfix",
+      "subject": "Slice 7: push-gate batching - docs-only subset router with stop-condition"
+    },
+    "df9072fe390156102983a9e3d0751fdec416cf94": {
+      "confidence": "medium",
+      "date": "2026-05-14T10:54:15+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Schema path-resolution regression fix; config/path, not boundary failure handling",
+      "subject": "issue: resolve #163 find-skills bootstrap regression in fresh shells and monorepo splits"
+    },
+    "e057bfd96e440cf74d30abc546ae6683873bf988": {
+      "confidence": "high",
+      "date": "2026-05-23T11:43:17+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Adds argparse help= text only; cosmetic/docs change",
+      "subject": "Fix #193: add help= text to 254 argparse add_argument calls across 14 skills"
+    },
+    "e09444f0d88981ce80a6af3a843fae8c67ed62ce": {
+      "confidence": "high",
+      "date": "2026-06-05T22:03:00+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Suppresses a write during quality runs to avoid race, not failure handling",
+      "subject": "fix(closeout): read-only-safe usage episode inside quality runs (#312)"
+    },
+    "e0db17419ddc4f377c53b7a03f2b89b7d59a1385": {
+      "confidence": "high",
+      "date": "2026-04-09T10:48:07+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Adds new validation gate scripts; profile-drift config fix, not boundary failure handling",
+      "subject": "Add self-validation gates and fix profile drift"
+    },
+    "e1144adef40ab8202a3bfffe971ca4f4a5a926b8": {
+      "confidence": "high",
+      "date": "2026-05-09T04:07:40+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Refactor extracting close logic into a new module",
+      "subject": "fixup: pre-push gate compliance (file lengths, handoff conciseness)"
+    },
+    "e385254b14fd7e279b3318e46580b0617f92405c": {
+      "confidence": "medium",
+      "date": "2026-05-20T11:32:33+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": true,
+      "reason": "Handles dump-subprocess crash, avoids truncated-file masquerade via atomic rename",
+      "subject": "Honor unconditional probe_unavailable claim and preserve exec returncode on dump crash"
+    },
+    "e44bb88557303d6aab653d2a685c160379498ae7": {
+      "confidence": "high",
+      "date": "2026-05-28T14:10:20+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "New closeout-gate feature; not a failure-handling bugfix",
+      "subject": "Slice 4: issue closeout guard - resolution-critique carrier-header gate"
+    },
+    "e58988d1c4c4dccd9829931686866d6d999597f2": {
+      "confidence": "high",
+      "date": "2026-05-09T03:26:17+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "New release backend adapter abstraction, a feature",
+      "subject": "release/closeout: backend adapter, shared closeout-discipline propagation"
+    },
+    "e9805bb4b8b99cc8d222587051282782eb092cda": {
+      "confidence": "high",
+      "date": "2026-06-06T22:28:00+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "New pre-push coverage-teeth wiring with freshness flags, a feature",
+      "subject": "impl(mutation-gate): wire pre-push changed-line coverage teeth (consumer, slice 1)"
+    },
+    "e9eda9cec0af23850202afaff206174ccfeafe00": {
+      "confidence": "high",
+      "date": "2026-06-03T11:18:39+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Adds retro-trigger artifact lines plus refactor, a feature not a fix",
+      "subject": "Preserve release retro trigger closeout"
+    },
+    "eaf0518819d7b358044fb961ba144eecd0f15309": {
+      "confidence": "medium",
+      "date": "2026-05-14T11:52:46+09:00",
+      "group": "recall_sample",
+      "is_error_handling_fix": false,
+      "reason": "Makes arg required and prints provenance; restructure, not broken-failure repair",
+      "subject": "cautilus(wrapper): require --justification-log and auto-print provenance block to prevent orphan runs"
+    },
+    "ebff7d50ff106240efc8b69069f88fc35510eac5": {
+      "confidence": "high",
+      "date": "2026-06-13T08:53:32+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "new goal-artifact placeholder validation floor, a feature",
+      "subject": "Block complete goals with pending section placeholders"
+    },
+    "ee996347d0c64039c43302a5d78cdee9e75aa99a": {
+      "confidence": "high",
+      "date": "2026-04-22T04:37:39+00:00",
+      "group": "recall_sample",
+      "is_error_handling_fix": false,
+      "reason": "test-only fixture coverage change",
+      "subject": "Fix contract validator fixture coverage"
+    },
+    "eead33f456ec5b18e713e71c95f56a35c4294ae8": {
+      "confidence": "high",
+      "date": "2026-05-22T10:53:20+09:00",
+      "group": "recall_sample",
+      "is_error_handling_fix": false,
+      "reason": "Test-only env scrub to prevent SHA leak",
+      "subject": "Scrub MUTATION_BASE_SHA leak into sampler probe test"
+    },
+    "ef75211f38e267f108830a742415ede225556700": {
+      "confidence": "high",
+      "date": "2026-05-13T10:24:05+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Tightens justification-log grammar on new code; hardening, not a fix",
+      "subject": "Close cautilus layer-3 deferred follow-ups before live eval"
+    },
+    "efdd903b969f139fc04484e20c2f6096d66a4c69": {
+      "confidence": "high",
+      "date": "2026-05-12T16:00:31+09:00",
+      "group": "recall_sample",
+      "is_error_handling_fix": false,
+      "reason": "Release commit with mixed feature changes",
+      "subject": "Release charness 0.5.24"
+    },
+    "f0fd443edb2d8f06a1eac25275ec5a2a02267fa2": {
+      "confidence": "high",
+      "date": "2026-05-16T12:13:01+09:00",
+      "group": "recall_sample",
+      "is_error_handling_fix": true,
+      "reason": "Aborts instead of writing record when web-fetch acquisition returns error",
+      "subject": "Fix gather public URL error handling"
+    },
+    "f2dcc7da8db7ba162ad2547d5bcb8f1ec0ca98f7": {
+      "confidence": "high",
+      "date": "2026-05-29T12:47:19+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Adds next-step routing payload keys; UX/business-logic, no failure-handling",
+      "subject": "Resolve #246: route handoff chunker next-move through achieve Before-phase, not /goal"
+    },
+    "f55be70aef493f9559d710a36e847901a3f3ef99": {
+      "confidence": "high",
+      "date": "2026-05-30T19:10:12+09:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "New coordination-floor feature module; not a bugfix",
+      "subject": "achieve: goal-doc coordination cues \u2014 find-skills routing carrier + gather/release closeout floors"
+    },
+    "f71019882b2a2c2b19db18da4014d4faba12a0ec": {
+      "confidence": "high",
+      "date": "2026-05-07T23:19:25+00:00",
+      "group": "recall_sample",
+      "is_error_handling_fix": false,
+      "reason": "New detection rule for doc caveats; feature, not error handling",
+      "subject": "Flag weakening caveats inside Subagent Delegation section"
+    },
+    "f9822e68fd0c96b83f541937e2c2b7a4b682e36a": {
+      "confidence": "high",
+      "date": "2026-05-04T05:25:05+00:00",
+      "group": "candidate",
+      "is_error_handling_fix": false,
+      "reason": "Adds ignored dir plus new seed script, not error handling",
+      "subject": "Tighten splitlines ratio honesty and seed dependencies from init-repo"
+    }
+  },
+  "rubric_hash": "39d64e30ffb1479e"
+}
