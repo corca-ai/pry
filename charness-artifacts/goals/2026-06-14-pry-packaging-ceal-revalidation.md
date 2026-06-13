@@ -1,6 +1,6 @@
 # Achieve Goal: pry packaging (external_binary + F15 skill) + ceal re-validation
 
-Status: draft
+Status: active
 Created: 2026-06-14
 Activation: `/goal @charness-artifacts/goals/2026-06-14-pry-packaging-ceal-revalidation.md`
 
@@ -9,12 +9,12 @@ runs the activation command.
 
 ## Active Operating Frame
 
-- Current slice: before activation.
-- Current slice intent: before activation. The reviewable-intent unit in progress
-  and the commits it spans; critique and broad proof do not re-fire within one
-  unchanged intent — update it when the intent changes, not per commit
-  (meaningful-slice-cadence).
-- Next action: activate with `/goal @charness-artifacts/goals/2026-06-14-pry-packaging-ceal-revalidation.md`.
+- Current slice: S3 — charness `integrations/tools/pry.json` external_binary manifest + lock.
+- Current slice intent: wire packaging into charness so `quality` can detect/invoke
+  `pry map`, mirroring `nose.json`. S1 (build/smoke) + S2 (ceal re-validate/re-freeze)
+  are DONE and committed. Spans the charness manifest commit (+ any lock/index regen).
+- Next action: write `pry.json` in charness mirroring `nose.json`; validate against
+  `manifest.schema.json`; run charness integrations validation test.
 - Verification cadence: cheap deterministic checks at commit boundaries
   (`cargo build --release`, `cargo test`, JSON determinism diff); fresh-eye
   critique + manifest schema validation at slice boundaries; the end-to-end
@@ -176,6 +176,34 @@ during the run:
   in Off-Goal Findings, not closed by this goal.`
 
 ## Slice Log
+
+### Slice 1: Build + confirm detect/healthcheck surface
+
+- Objective: Green release binary + capture the exact strings the charness manifest will assert
+- Why this approach:
+- Commits:
+- What changed:
+- Alternatives rejected:
+- Targeted verification: cargo build --release (ok), cargo test (3/3 classify_smoke pass), pry --version -> 'pry 0.1.0', pry map --help -> 'risk ranking, NOT a bug list'. Both manifest detect/healthcheck strings confirmed present.
+- Test duplication pressure:
+- Critique:
+- Off-goal findings:
+- Lessons carried forward:
+- Metrics:
+
+### Slice 2: ceal re-validation + re-freeze
+
+- Objective: Run pry map on fresh ceal main (cdd31884) and re-freeze the fixture with an explained delta
+- Why this approach:
+- Commits:
+- What changed:
+- Alternatives rejected:
+- Targeted verification: Deterministic (run x2 byte-identical). Corpus moved 8238b245->cdd31884: files_scanned 457->461 (+4 new non-test src files), ALL boundary counts unchanged (850 total, demand-welded 0.75). Verified the 4 new error-handling files have ZERO boundary-pattern hits (grep: Date/fetch/fs/random/exec/http/crypto/setTimeout) -> 0-new-boundaries is correct, not a silent miss. Fixture re-frozen with _provenance block.
+- Test duplication pressure:
+- Critique:
+- Off-goal findings:
+- Lessons carried forward:
+- Metrics:
 
 ## Context Sources
 

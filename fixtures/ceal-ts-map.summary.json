@@ -1,4 +1,12 @@
 {
+  "_provenance": {
+    "ceal_sha": "cdd318849356400a73482bd4aa4e59feb05dd71d",
+    "ceal_sha_short": "cdd31884",
+    "delta_vs_prior": "files_scanned 457->461 (+4 new non-test src files: ceal-agent/run-error-user-message, slack/{message-action-idempotency,thread-dispatch-state,thread-run-state-notice}); ALL boundary counts unchanged (850 total, demand-welded 0.75). The 4 new error-handling files contain zero catalogued boundary calls (verified: no Date/fetch/fs/random/exec/http/crypto/setTimeout) -> pure logic over injected inputs.",
+    "frozen": "2026-06-14",
+    "prior_ceal_sha_short": "8238b245",
+    "pry_version": "0.1.0"
+  },
   "corpus": "/home/hwidong/codes/ceal/packages",
   "note": "risk ranking, not a bug list",
   "summary": {
@@ -47,7 +55,7 @@
       }
     },
     "decided_fraction": 0.9965,
-    "files_scanned": 457,
+    "files_scanned": 461,
     "seamed": 58,
     "substitution_demand_subset": {
       "ambiguous": 3,
