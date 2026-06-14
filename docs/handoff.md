@@ -27,24 +27,36 @@ prior "Python frontend next" trigger is superseded (see Discuss).
     lever'd classifier).
 - **Two fresh-eye critique rounds** (S3: 3 angles + counterweight; S5 bundle: 2 +
   counterweight). All Act-Before-Close findings fixed.
-- **Known deferrals (not bugs):** no published release; no `git push`; **quality
-  does not auto-invoke pry** (no dispatch path — pry is agent-invoked via the F15
-  skill + `PRY_BIN`); Stage-2 rung-3 wrapper detection unbuilt (demand-welded is
-  an upper bound).
+- **Released: v0.1.0 on `corca-ai/pry`** (cargo-dist, nose model). `main` pushed,
+  tag `v0.1.0`, GitHub Release published with `pry-installer.sh` + 4 platform
+  tarballs (mac/linux × arm64/x86_64) + checksums. Config: `dist-workspace.toml`
+  (shell installer; homebrew deferred — needs a tap-token secret).
+- **Open after release:**
+  - **Repo is PRIVATE** → the `curl | sh` installer 404s anonymously. The
+    nose-model public installer needs the repo to go **public** (operator's call).
+  - **charness `pry.json` NOT updated** — still says manual/no-release/`PRY_BIN`.
+    Update its install to the real `pry-installer.sh` URL only after (a) the repo
+    is public AND (b) charness-side coordination (the S3 commit `754e82ba` is
+    still local/unpushed, held for that coordination per operator).
+  - **quality does not auto-invoke pry** (no dispatch path — agent-invoked via the
+    F15 skill + `PRY_BIN`); Stage-2 rung-3 wrapper detection unbuilt (demand-welded
+    is an upper bound).
 - charness working tree also carries unrelated uncommitted `validate_debug_artifact`
   work (not ours; left untouched).
 
 ## Next Session
 
 Pick one (none forced):
-1. **Formal goal closeout** — `/achieve` After-phase on the packaging goal: retro
+1. **Make `corca-ai/pry` public** (if intended) → then the `curl | sh` installer
+   works anonymously; then update charness `pry.json` install to it (post-coordination).
+2. **charness coordination** — loop in the charness side on the held-local S3
+   commit (`754e82ba`); decide push + manifest install-URL update together.
+3. **Formal goal closeout** — `/achieve` After-phase on the packaging goal: retro
    + standalone disposition artifact → flip Status to `complete`.
-2. **Real release** — cargo-dist (the nose model), then point `pry.json` install at
-   a real installer + remove the experimental/source-build caveat.
-3. **Deepen TS** — Stage-2 F22 rung-3 wrapper detection (closes the
-   network/subprocess under-detection; sharpens demand-welded).
-4. **Python, only on a non-glue corpus** — an OSS distributed-systems/data-pipeline
-   repo, NOT the author's repos (those are a recorded KILL).
+4. **Deepen TS** — Stage-2 F22 rung-3 wrapper detection (closes the
+   network/subprocess under-detection; sharpens demand-welded). Or homebrew
+   installer (add tap + token). Or Python only on a *non-glue OSS* corpus (author's
+   repos are a recorded KILL).
 
 ## Discuss
 
