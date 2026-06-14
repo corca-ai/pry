@@ -128,6 +128,33 @@ recompute precision/filter-recall from the labels, no new LLM call.
    scoped re-examination — but it needs cross-file analysis and risks
    false-seaming, so gate any rule hard against this labelset + the recall arm.
 
+## Projected lever impact (dev, against the frozen labelset)
+
+What each lever buys, computed by applying it to the 4 frozen labelsets (demote =
+remove from the demand-welded decided set). "EXACT" = the lever only touches
+findings already labeled, so both the precision lift and the recall cost are
+directly read off the labels. "CEILING" = assumes a *perfect* syntactic filter
+(real ones are imperfect) — an upper bound, not a promise.
+
+| applied lever | precision | genuine welds lost | basis |
+|---|---|---|---|
+| baseline (existing pry) | 315/556 = **56.7%** | — | — |
+| + cosmetic-random (drop 79 `random`) | 315/477 = **66.0%** | **0 / 79** | EXACT |
+| + test-file heuristic (drop 29 `.vitest`/`-sol`/`sandbox`) | 315/448 = **70.3%** | **0 / 29** | EXACT |
+| + stronger cosmetic-clock (drop 119 cosmetic clock) | 315/329 = **95.7%** | 0 | CEILING |
+| + rung-3 / remaining false-welds (drop 11) | 315/318 = **99.1%** | 0 | CEILING |
+
+**Across all four levers, zero of the 315 genuine welds are lost** (in the labeled
+set). The two EXACT levers — cosmetic-random and the test-file heuristic — lift dev
+precision **56.7% → 70.3% at zero recall cost**, and they are *directly
+gate-checkable today*: they only demote findings already labeled COSMETIC/FALSE-WELD,
+so E5's recall condition holds on dev by construction (no bare-pool labeling needed
+for *these two*). They still need the **held-out arm** before shipping (E5/SC2) —
+this is the dev-side evidence, not the ship decision. The clock/rung-3 ceilings need
+real (imperfect) filters + the Slice-2 recall arm, so treat them as the prize, not a
+guarantee. **Build order:** cosmetic-random first (biggest exact lift, simplest), then
+the test-file heuristic, then the harder clock/rung-3 work behind Slice 2.
+
 ## Seamed-control — a recall flag for Slice 2
 
 The blind pry-**seamed** control sample (E4) is the false-seam probe: a pry-seamed

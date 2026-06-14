@@ -67,11 +67,17 @@ behind the recall arm):
 1. **Slice 2 — filter-recall arm** (E5/SC3/AC3): label a bare-pool sample, compute
    baseline filter-recall, document the gate rule with a worked example. Its own
    panel run (size the sample when it starts, PQ3). **Unblocks every lever.**
-2. **Cosmetic-random filter (#1 lever):** `random` is 0/79 genuine across all 4
-   repos — demote it from `demand` by default (mirror the cosmetic-clock filter).
-   Then re-derive precision/filter-recall from the frozen labelset (E8, no LLM);
-   gate on E5 (dev precision↑ ∧ held-out filter-recall held). Then the stronger
-   clock filter + the `.vitest` test-file heuristic (eval-gate.md taxonomy).
+2. **Cosmetic-random + test-file levers (the two EXACT, zero-cost wins):**
+   `random` is 0/79 genuine and the `.vitest`/`-sol`/`sandbox` test-file leak is
+   0-genuine too — demoting both lifts dev precision **56.7% → 70.3% losing zero
+   genuine welds** ([`eval-gate.md`](eval-gate.md) "Projected lever impact",
+   computed against the frozen labelset). They are *directly E5-gate-checkable on
+   dev today* (they only demote already-labeled COSMETIC/FALSE-WELD findings, so no
+   bare-pool labeling is needed for these two) — but still need the **held-out arm**
+   before shipping. Build cosmetic-random first (mirror the cosmetic-clock filter
+   in `src/classify.rs`); NB it changes validated fixtures (ceal 68→67) + the
+   skill's cited self-test number, so do it with the operator in the loop. Then the
+   harder stronger-clock + rung-3 levers (ceilings → ~95–99%) behind Slice 2.
 3. **Rung-3 stage-2 REOPEN** (eval-gate.md #4): continue's injected-`customFetch`
    seam — scoped re-exam, cross-file, gate hard against the labelset + Slice 2.
 4. **E9 SZZ structural-improvement** pass on an EH-bugfix-rich OSS repo (reuse
