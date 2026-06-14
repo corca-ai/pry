@@ -331,6 +331,14 @@ fn enclosing_subtraction<'t>(n: Node<'t>, src: &[u8]) -> Option<Node<'t>> {
     None
 }
 
+/// Binding-hop recursion cap: `value_reaches_control` <-> `name_used_in_control`
+/// <-> `use_is_control` chain through `const a = …b…; const b = …` binding hops.
+/// Real dataflow chains are a handful of hops; this is a hard backstop so a
+/// self-referential declarator (`const d = Date.now() - d`, a TDZ bug that still
+/// parses) cannot stack-overflow the whole scan (main.rs has no per-file panic
+/// isolation). Exceeding the cap returns "not control" (precision-favoring).
+const MAX_BINDING_HOPS: u32 = 32;
+
 /// Does this expression's value ultimately reach a relational comparison or branch
 /// condition (control), versus terminating in a record/log/return/argument sink?
 /// Climbs through arithmetic (a duration in other units is still a duration) and
@@ -340,7 +348,10 @@ fn enclosing_subtraction<'t>(n: Node<'t>, src: &[u8]) -> Option<Node<'t>> {
 /// sink hop that separates `if (Date.now() - started > timeout)` (control, kept)
 /// from `rec.ms = Date.now() - started` / `log(Date.now() - started)` (record,
 /// demoted) — the cautilus duration-record class lever 3 over-kept.
-fn value_reaches_control(node: Node, src: &[u8]) -> bool {
+fn value_reaches_control(node: Node, src: &[u8], depth: u32) -> bool {
+    if depth >= MAX_BINDING_HOPS {
+        return false;
+    }
     let mut prev = node;
     let mut cur = node.parent();
     while let Some(p) = cur {
@@ -371,7 +382,7 @@ fn value_reaches_control(node: Node, src: &[u8]) -> bool {
             "variable_declarator" => {
                 if p.child_by_field_name("value").map(|v| v.id() == prev.id()).unwrap_or(false) {
                     if let Some(nm) = p.child_by_field_name("name") {
-                        return name_used_in_control(p, text(nm, src), prev.id(), src);
+                        return name_used_in_control(p, text(nm, src), nm.id(), src, depth + 1);
                     }
                 }
                 return false;
@@ -388,16 +399,19 @@ fn value_reaches_control(node: Node, src: &[u8]) -> bool {
 /// whose result reaches control, or otherwise in timing arithmetic/relational
 /// (`x + ttl`, `x > deadline`, `x / 1000`). A use that only feeds a record/log sink
 /// is not control.
-fn use_is_control(use_node: Node, src: &[u8]) -> bool {
+fn use_is_control(use_node: Node, src: &[u8], depth: u32) -> bool {
     if let Some(sub) = enclosing_subtraction(use_node, src) {
-        return value_reaches_control(sub, src);
+        return value_reaches_control(sub, src, depth);
     }
     in_arith_relational(use_node, src)
 }
 
 /// Scan the enclosing function body for identifier uses of `name` (excluding the
-/// binding node `exclude_id`) and return true if any is a control use.
-fn name_used_in_control(anchor: Node, name: &str, exclude_id: usize, src: &[u8]) -> bool {
+/// declared name node `exclude_id`) and return true if any is a control use.
+fn name_used_in_control(anchor: Node, name: &str, exclude_id: usize, src: &[u8], depth: u32) -> bool {
+    if depth >= MAX_BINDING_HOPS {
+        return false;
+    }
     let Some(body) = enclosing_function(anchor).and_then(|f| f.child_by_field_name("body")) else {
         return false;
     };
@@ -406,7 +420,7 @@ fn name_used_in_control(anchor: Node, name: &str, exclude_id: usize, src: &[u8])
         if nd.kind() == "identifier"
             && nd.id() != exclude_id
             && text(nd, src) == name
-            && use_is_control(nd, src)
+            && use_is_control(nd, src, depth)
         {
             return true;
         }
@@ -429,8 +443,9 @@ fn clock_binding_is_control(n: Node, src: &[u8]) -> Option<bool> {
     {
         return None;
     }
-    let name = p.child_by_field_name("name").map(|x| text(x, src))?.to_string();
-    Some(name_used_in_control(n, &name, n.id(), src))
+    let name_node = p.child_by_field_name("name")?;
+    let name = text(name_node, src).to_string();
+    Some(name_used_in_control(n, &name, name_node.id(), src, 0))
 }
 
 /// Lever 3 (one-hop) + the duration-record sink hop: a bare welded clock that is
@@ -443,7 +458,7 @@ fn clock_is_logsink(n: Node, src: &[u8]) -> bool {
     // duration-record sink hop: clock as the minuend of `-` whose elapsed result
     // only records (field/log/return/arg) -> cosmetic; KEEP if it feeds a branch.
     if let Some(sub) = clock_subtraction_minuend(n, src) {
-        return !value_reaches_control(sub, src);
+        return !value_reaches_control(sub, src, 0);
     }
     if in_arith_relational(n, src) {
         return false; // relational / addition / division / clock-as-subtrahend -> control

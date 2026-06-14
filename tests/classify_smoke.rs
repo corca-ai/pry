@@ -220,6 +220,20 @@ fn injected_callee_is_seamed() {
     assert_eq!((real.class, real.demand), (Class::Welded, true), "global spawnSync must stay a demand weld");
 }
 
+// A self-referential declarator (`const d = Date.now() - d`) is a TDZ bug at
+// runtime but parses fine; the binding-hop dataflow must not recurse forever on it
+// (main.rs has no per-file panic isolation, so a stack overflow would abort the
+// whole scan). Regression guard for the MAX_BINDING_HOPS cap.
+#[test]
+fn self_referential_declarator_terminates() {
+    let fs = analyze_str(
+        "export function f() { const d = Date.now() - d; return d; }\n",
+        "selfref.ts",
+    );
+    // must classify (not crash) and emit the clock finding
+    assert!(fs.iter().any(|f| f.kind == "clock"), "self-ref clock still found, no overflow");
+}
+
 #[test]
 fn demand_subset_discriminates() {
     // The lens metric: among the substitution-demand subset, both seamed and welded
