@@ -9,12 +9,18 @@ runs the activation command.
 
 ## Active Operating Frame
 
-- Current slice: S3 — charness `integrations/tools/pry.json` external_binary manifest + lock.
-- Current slice intent: wire packaging into charness so `quality` can detect/invoke
-  `pry map`, mirroring `nose.json`. S1 (build/smoke) + S2 (ceal re-validate/re-freeze)
-  are DONE and committed. Spans the charness manifest commit (+ any lock/index regen).
-- Next action: write `pry.json` in charness mirroring `nose.json`; validate against
-  `manifest.schema.json`; run charness integrations validation test.
+- Current slice: COMPLETE — all slices S1–S5 done and committed.
+- Outcome: packaging shipped. S1 build, S2 ceal re-freeze, S3 charness pry.json
+  manifest (charness `754e82ba`, local), S4 F15 skill+consumer (pry `5282d9c`),
+  S5 dogfood proof + bundle critique (pry `5c25d5c`). pry is now discoverable as
+  a validation-role tool for `quality`; the dogfood loop runs via the F15 skill +
+  consumer + `PRY_BIN`. No quality AUTO-invoke driver was built (deliberate defer).
+- Next action: engineering is DONE. Formal `/achieve` After-phase closeout
+  (retro + standalone disposition artifact, which would flip Status to
+  `complete`) is left to the operator — the retro auto-trigger did not fire, so a
+  retro was not forced just to satisfy the gate. Follow-ups (separate goals):
+  real release (cargo-dist nose model), Stage-2 rung-3 wrapper detection, quality
+  auto-invoke dispatch path.
 - Verification cadence: cheap deterministic checks at commit boundaries
   (`cargo build --release`, `cargo test`, JSON determinism diff); fresh-eye
   critique + manifest schema validation at slice boundaries; the end-to-end
@@ -293,15 +299,18 @@ rejected-alternatives reason.
 
 ## Plan Critique Findings
 
-Not yet run. Recommended first action at activation (or fold into S1): a bounded
-fresh-eye plan critique focused on the two highest-leverage risks —
-(1) cross-repo manifest correctness (will the charness integrations validation /
-recommendation tests accept a new tool with `recommendation_role: validation` and
-`supports_public_skills: [quality]`, or does adding a tool require touching a
-registry/index that this plan under-scopes?), and (2) the re-freeze guardrail
-(does the slice plan make a classifier regression *distinguishable* from an
-expected corpus delta, rather than rubber-stamping any number move?). Record
-blockers folded + reviewer provenance here when run.
+RESOLVED during S3 via a bounded fresh-eye critique (3 angles + counterweight).
+Both pre-registered risks materialized and were handled:
+(1) Adding a tool manifest DID cascade beyond the plan — it required regenerating
+the plugin mirror (`sync_root_plugin_manifests.py`) AND the find-skills inventory
+(`charness-artifacts/find-skills/latest.json`, checked by
+`validate_current_pointer_freshness.py`). Both done; all 7 charness pre-commit
+gates green. The recommendation/validation surface accepts the new tool
+(recommendation_role=validation, supports_public_skills=[quality]; pry now
+appears in the quality validation tool_recs).
+(2) The re-freeze guardrail held: the live `pry map` summary matches
+`fixtures/ceal-ts-map.summary.json` on every field (incl. by_kind), so the
+fixture is current vs the lever'd classifier — not a rubber-stamp.
 
 ## Off-Goal Findings
 
@@ -313,16 +322,40 @@ Closeout evidence — replace each `TODO` with a bound `<path>` (a checked-in
 retro / host-log probe / disposition-review artifact) or an explicit
 `skipped: <allowed-reason>: <detail>`.
 
-Retro: TODO — run `retro` at closeout
-Host log probe: TODO — `retro`'s `probe_host_logs.py`, or skip with reason
-Disposition review: TODO — fresh-eye disposition review at closeout
+Engineering complete; the lines below state what evidence exists today. Flipping
+Status to `complete` would require the operator's `/achieve` After-phase closeout
+to bind a retro artifact + a standalone disposition artifact (the gate's allowed
+skip reasons do not cover "retro auto-trigger not fired").
+
+Retro: pending operator `/achieve` closeout — `check_auto_trigger` returned triggered=false; a retro was not forced. Transferable lessons are captured per-slice in the Slice Log.
+Host log probe: n/a — no host/provider roundtrip in scope (local `PRY_BIN` dogfood only, Q2).
+Disposition review: DONE inline (not yet a standalone bound artifact) — S3 critique (3 fresh-eye angles + counterweight) + S5 bundle critique (2 angles + counterweight). Both Act-Before-Close findings (consumer false-all-clear guard; goal "quality driver" over-claim) were fixed before report.
 
 ## User Verification Instructions
 
-(filled at closeout — will mirror User Acceptance with concrete commands + the
-observed re-frozen numbers and the charness commit SHA.)
+Run these to verify completion directly:
+
+1. Binary + surface (this repo):
+   `cargo build --release && ./target/release/pry --version`  → `pry 0.1.0`
+   `./target/release/pry map --help | grep "risk ranking"`    → present
+2. Fixture current at ceal `cdd31884`:
+   `./target/release/pry map ../ceal/packages --summary-only`  → demand-welded
+   68/142 (lens 0.4892); matches `fixtures/ceal-ts-map.summary.json` on every
+   field incl. by_kind.
+3. charness manifest (sibling, commit `754e82ba`, local):
+   `cd ../charness && python3 scripts/validate_integrations.py --repo-root .`
+   → `13 integration manifests ... 7 declared tool dependencies`
+   `grep -A2 supports_public_skills integrations/tools/pry.json` → `[quality]`
+4. End-to-end dogfood loop (no published binary):
+   `PRY_BIN=$(pwd)/target/release/pry python3 skills/pry/scripts/rank_backlog.py ../ceal/packages --top 18`
+   → deterministic `WELDED-AT-DEMAND BACKLOG: 68` (subprocess 16 / network 9 /
+   clock 37 / llm 3 / slack 2 / random 1).
+
+Skipped proof levels (Q2, by design): no published GitHub release, no remote
+push/CI, no quality AUTO-invoke (pry is agent-invoked via the F15 skill +
+`PRY_BIN`, not auto-dispatched by quality). The charness commit is LOCAL only.
 
 ## Auto-Retro
 
-Retro dispositions: TODO — disposition every surfaced improvement, or record the explicit no-improvement opt-out
-Structural follow-up: TODO — when the retro names a transferable waste item (a `## Sibling Search` trigger), classify its structural destination (`applied: <gate/hook/validator/test/contract change>` / `issue #N (recurs:|novel: <reason>)` / `repo-local guard: <path>` / `none — <reason>`); delete this line when no transferable waste was named
+Retro dispositions: no-improvement opt-out — retro auto-trigger not fired; transferable lessons already captured in the Slice Log (manifest-add cascade to plugin mirror + find-skills inventory; discoverable != invocable).
+Structural follow-up: none — the manifest-add cascade is already guarded by the existing charness pre-commit gates (`check_staged_mirror_drift`, `validate_current_pointer_freshness`), which caught it; no new gate/issue/guard warranted.
