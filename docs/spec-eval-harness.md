@@ -183,6 +183,21 @@ the filter-recall arm (E5) before any lever ships.
   pry have traction on this Python?" with **no frontend** — saturated glue (like
   the author's) ⇒ no lift; build a frontend only on a per-corpus GO. So "deferred"
   means "no frontend yet," not "no Python answer."
+- **SZZ consequentiality + independent detection-recall arm (dev-validation, not
+  product).** A complementary axis — reuse the *existing* kill-gate machinery
+  (`harness/mine.py` + `szz.py` + the commit labeler) to trace OSS error-handling
+  bug-fixes and (a) test whether pry's welded findings land where bugs *actually*
+  occurred — the **(c)-axis "does it matter"** the LLM panel structurally cannot
+  measure (`precision-gate.md` caveat) — and (b) serve as the **independent
+  detection-recall arm** the critique flagged the bare pool lacks (a real EH bug
+  site pry flagged *nothing* at = a catalog/parse miss, the nose-`jscpd` analog).
+  **One-directional booster only** (a welded site that *bit* = strong signal;
+  absence of a historical bug ≠ a safe site, so it cannot *reject* a finding),
+  **noisy** (`git blame -w` over-attributes ~8 fns/fix, kill-gate), and yield
+  depends on a repo having a rich EH-bugfix corpus (the author's repos did not; OSS
+  apps vary). Stays **dev-internal validation**; a marketed prediction claim is the
+  dropped (a)-axis (Deliberately Not Doing). *Reopen when:* the panel precision loop
+  is running on the dev slate AND a slate repo shows a rich EH-bugfix history.
 - **Held-out expansion / per-corpus client fingerprints / SARIF emit.** *Reopen
   when:* the dev gate is green and generalization or tooling needs sharpening.
 - **Homebrew tap (packaging polish).** *Reopen when:* a tap repo + token exist.
@@ -208,12 +223,13 @@ the filter-recall arm (E5) before any lever ships.
 - **Own-repo / library validation corpus** — rejected: representativeness
   (libraries are more seamed; pry deploys on apps) + independence (self-corpus is
   the exact gap). Own repos stay as dogfood only (E6).
-- **SZZ / bug-history predictive validity** — deliberately dropped (the kill-gate
-  *(a)-axis*). This eval is **testability-only** (*(b)-axis*): the panel labels
-  whether a finding is a genuine *injectability gap*, **not** whether it predicts a
-  historical bug. `harness/szz.py` belongs to the finished kill-gate *experiment*,
-  not the product — the shipped `pry` binary has no SZZ / churn / bug-prediction.
-  Re-adding SZZ would re-introduce the prediction angle the operator removed.
+- **SZZ as a *product* / marketed prediction claim** — dropped (the kill-gate
+  *(a)-axis*). The shipped `pry` binary stays **testability-only** (*(b)-axis*),
+  "risk ranking, NOT a bug list" — no SZZ / churn / bug-prediction in the product.
+  A *marketed* "welded predicts bugs" claim re-introduces the prediction angle the
+  operator removed. **NOTE — SZZ as *dev-time validation* is NOT dropped; it is a
+  Deferred complementary axis** (see Deferred: it plugs two real holes the panel
+  can't — consequentiality and independent detection-recall).
 
 ## Constraints
 
