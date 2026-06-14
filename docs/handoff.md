@@ -31,13 +31,15 @@ prior "Python frontend next" trigger is superseded (see Discuss).
   tag `v0.1.0`, GitHub Release published with `pry-installer.sh` + 4 platform
   tarballs (mac/linux × arm64/x86_64) + checksums. Config: `dist-workspace.toml`
   (shell installer; homebrew deferred — needs a tap-token secret).
+- **Repo is PUBLIC; v0.1.0 installer verified end-to-end** — `curl -LsSf
+  https://github.com/corca-ai/pry/releases/latest/download/pry-installer.sh | sh`
+  installs a working `pry 0.1.0` (detect/healthcheck strings match the charness
+  manifest). The nose-model install path now works for anyone.
 - **Open after release:**
-  - **Repo is PRIVATE** → the `curl | sh` installer 404s anonymously. The
-    nose-model public installer needs the repo to go **public** (operator's call).
   - **charness `pry.json` NOT updated** — still says manual/no-release/`PRY_BIN`.
-    Update its install to the real `pry-installer.sh` URL only after (a) the repo
-    is public AND (b) charness-side coordination (the S3 commit `754e82ba` is
-    still local/unpushed, held for that coordination per operator).
+    Now that the repo is public + released, update its install to the
+    `pry-installer.sh` URL — but only after **charness-side coordination** (the S3
+    commit `754e82ba` is still local/unpushed, held for that coordination per operator).
   - **quality does not auto-invoke pry** (no dispatch path — agent-invoked via the
     F15 skill + `PRY_BIN`); Stage-2 rung-3 wrapper detection unbuilt (demand-welded
     is an upper bound).
@@ -47,16 +49,15 @@ prior "Python frontend next" trigger is superseded (see Discuss).
 ## Next Session
 
 Pick one (none forced):
-1. **Make `corca-ai/pry` public** (if intended) → then the `curl | sh` installer
-   works anonymously; then update charness `pry.json` install to it (post-coordination).
-2. **charness coordination** — loop in the charness side on the held-local S3
-   commit (`754e82ba`); decide push + manifest install-URL update together.
-3. **Formal goal closeout** — `/achieve` After-phase on the packaging goal: retro
+1. **charness coordination** — loop in the charness side on the held-local S3
+   commit (`754e82ba`); decide push + update `pry.json` install to the released
+   `pry-installer.sh` URL together (repo is public + released, so it's ready).
+2. **Formal goal closeout** — `/achieve` After-phase on the packaging goal: retro
    + standalone disposition artifact → flip Status to `complete`.
-4. **Deepen TS** — Stage-2 F22 rung-3 wrapper detection (closes the
-   network/subprocess under-detection; sharpens demand-welded). Or homebrew
-   installer (add tap + token). Or Python only on a *non-glue OSS* corpus (author's
-   repos are a recorded KILL).
+3. **Deepen TS** — Stage-2 F22 rung-3 wrapper detection (closes the
+   network/subprocess under-detection; sharpens demand-welded).
+4. **Polish release** — homebrew installer (add tap repo + token secret), or
+   Python only on a *non-glue OSS* corpus (author's repos are a recorded KILL).
 
 ## Discuss
 
