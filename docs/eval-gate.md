@@ -53,8 +53,14 @@ Two findings, both decisive:
 
 1. **The core thesis holds off-corca.** Every one of 261 `network`/`subprocess`
    demand-welds across 4 independent repos is GENUINE (100%), and the whole
-   non-cosmetic surface is **89.3% — matching the ceal hand-validation (88%)**.
-   pry's welded-at-demand signal is *not* a corca artifact.
+   non-cosmetic surface is **89.3% ≈ the ceal hand-validation (88%)**. pry's
+   welded-at-demand signal is **not a *ceal* artifact** (it generalizes off-corca
+   on the welded-end population). *Two caveats on the comparison:* (a) ceal's 88%
+   was measured **after** the rung-3 false-weld filter, whereas this 89.3% still
+   **includes** rung-3 false-welds (lever #4, unbuilt) — so the eval number is, if
+   anything, *conservative* vs ceal; (b) all 4 repos are welded-end (low-DI), so
+   this shows generalization to that population, not yet to the DI-disciplined end
+   (where precision should be lower — that is the held-out / spectrum gap below).
 2. **The cosmetic clock/random tail is the entire precision drag.** It is 209/556
    (38%) of the raw backlog at **2.4%** genuine. The raw pooled 56.7% is almost
    entirely this tail pulling down a near-perfect core — and it is exactly what
@@ -141,14 +147,39 @@ conclusion, it is a **flag**. It is exactly the signal **Slice 2 (filter-recall,
 E5)** exists to quantify properly against the larger bare pool. Do not act on it
 before Slice 2.
 
-## Panel quality
+## Panel quality — and why the agreement rate is weak evidence
 
 589 findings × 3 personas. Reconciliation: **469 unanimous (79.6%), 118 majority
-(2-1), 2 tie-break, 0 arbiter, 0 undecidable.** High agreement — but note this
-partly reflects E4's *weak blinding* (personas can reconstruct the rule from
-`source_context`) and same-model correlation, so **high agreement is not high
-accuracy**. The human-labeled calibration subset (E4, operator-pending) is what
-bounds accuracy; until then the panel error rate is unmeasured.
+(2-1), 2 tie-break, 0 arbiter, 0 undecidable.**
+
+**Read the 79.6% agreement with strong caution — it is not 3 independent
+confirmations.** Three compounding reasons, in increasing severity:
+
+1. *Weak blinding (E4):* the worklist hides pry's verdict bit, but `source_context`
+   + a taxonomy rubric let a persona reconstruct pry's rule.
+2. *Same-model correlation:* all 3 personas are `claude-opus-4-8`, so their errors
+   are correlated; "2/3 agree" overstates confidence.
+3. ***Shared full-source access (the decisive one):*** the personas were
+   explicitly allowed to open the repo files (not just the ±12-line window) to
+   check for an injected seam before deciding. This was a deliberate choice for
+   label **accuracy** (you often cannot tell GENUINE from FALSE-WELD without the
+   constructor/imports) — but it means the three votes are **not independent at the
+   evidence level**: they converge on the *same source*, so the agreement largely
+   measures "one source read three times," not three independent judgments. The
+   tell is in the data: **AMBIGUOUS was emitted once in 1,770 votes (0.06%)** —
+   impossible for raters confined to 25 lines, expected when they read the whole
+   file.
+
+Net: the panel was optimized for per-label accuracy over vote independence, so the
+agreement rate is **not** the confidence signal it looks like. The only real
+accuracy bound is the **human-labeled calibration subset (E4, operator-pending)**;
+until that exists the panel's error rate is unmeasured. Treat the numbers as a
+strong directional result, not a measured ground truth.
+
+The full audit trail is checked in: `harness/fixtures/eval/votes/<repo>/{pragmatic,
+skeptic,neutral}.json` (each persona's label + confidence + one-clause reason) and
+`continue/tiebreak.json`. The blinded worklist (the exact `source_context` shown)
+is reproducible via `finding_io.py emit` against the pinned corpus.
 
 ## Gate status (SC2)
 
@@ -168,8 +199,10 @@ Every label is contestable via its `file:line:kind` against the pinned corpus
 (AC2); each carries its 3 persona votes + reconciled decision.
 
 ```sh
-# frozen labelsets (checked in):
+# frozen labelsets (checked in; reconciled label + 3 votes + decision per finding):
 harness/fixtures/eval/{outline,flowise,continue,librechat}-labels.json
+# per-persona audit trail (label + confidence + reason, + the one tie-break round):
+harness/fixtures/eval/votes/<repo>/{pragmatic,skeptic,neutral}.json
 
 # re-derive any number above from the frozen labels (no LLM):
 python3 - <<'PY'

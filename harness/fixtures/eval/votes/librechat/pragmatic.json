@@ -1,0 +1,1142 @@
+{
+ "api/app/clients/BaseClient.js:164:20:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "global fetch welded into client request path, no injectable seam to force a network failure"
+ },
+ "api/app/clients/BaseClient.js:166:18:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "global fetch welded into client request path, no injectable seam to force a network failure"
+ },
+ "api/app/clients/BaseClient.js:214:46:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "randomUUID generates a conversation id, a record value with no failure to inject"
+ },
+ "api/app/clients/BaseClient.js:217:64:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "randomUUID generates a message id, a record value with no failure to inject"
+ },
+ "api/app/clients/BaseClient.js:218:55:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "randomUUID generates a response message id, a record value with no failure to inject"
+ },
+ "api/app/clients/BaseClient.js:224:27:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "randomUUID for edited response id, record value with no failure to inject"
+ },
+ "api/app/clients/BaseClient.js:230:27:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "randomUUID for regenerate response id, record value with no failure to inject"
+ },
+ "api/app/clients/OllamaClient.js:73:28:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.get welded, no injectable client to force the tags request to fail"
+ },
+ "api/app/clients/TextStream.js:18:7:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "setTimeout schedules a stream chunk delay, no failure worth injecting"
+ },
+ "api/app/clients/TextStream.js:32:23:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Math.random sizes a stream chunk, cosmetic randomness with no failure"
+ },
+ "api/app/clients/prompts/createContextHandlers.js:26:14:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.get to RAG API welded, no seam to force the context fetch to fail"
+ },
+ "api/app/clients/prompts/createContextHandlers.js:33:12:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.post to RAG API welded, no seam to force the query to fail"
+ },
+ "api/app/clients/tools/structured/DALLE3.js:193:35:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "global fetch of generated image welded, no seam to inject a fetch failure"
+ },
+ "api/app/clients/tools/structured/DALLE3.js:93:19:llm": {
+  "label": "FALSE-WELD",
+  "confidence": "medium",
+  "reason": "OpenAI client constructed from config; this.openai is substitutable in tests, and construction is not a failing network call"
+ },
+ "api/app/clients/tools/structured/FluxAPI.js:245:28:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.post welded inside try/catch error path, no injectable client"
+ },
+ "api/app/clients/tools/structured/FluxAPI.js:272:38:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.get polling welded inside try/catch, no injectable client"
+ },
+ "api/app/clients/tools/structured/FluxAPI.js:313:37:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "global fetch of image welded inside try/catch, no seam to inject failure"
+ },
+ "api/app/clients/tools/structured/FluxAPI.js:383:30:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.get finetunes welded inside try/catch, no injectable client"
+ },
+ "api/app/clients/tools/structured/FluxAPI.js:393:42:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.get details welded inside try/catch, no injectable client"
+ },
+ "api/app/clients/tools/structured/FluxAPI.js:480:28:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.post welded inside try/catch error path, no injectable client"
+ },
+ "api/app/clients/tools/structured/FluxAPI.js:506:38:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.get polling welded inside try/catch, no injectable client"
+ },
+ "api/app/clients/tools/structured/FluxAPI.js:545:37:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "global fetch of image welded inside try/catch, no seam to inject failure"
+ },
+ "api/app/clients/tools/structured/GoogleSearch.js:58:28:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "global fetch welded into _call, no seam to force the search request to fail"
+ },
+ "api/app/clients/tools/structured/OpenAIImageTools.js:134:22:llm": {
+  "label": "FALSE-WELD",
+  "confidence": "medium",
+  "reason": "OpenAI client constructed from clientConfig; the client object is substitutable and construction is not a failing call"
+ },
+ "api/app/clients/tools/structured/OpenAIImageTools.js:362:32:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.post welded, no injectable client to force the edit request to fail"
+ },
+ "api/app/clients/tools/structured/OpenWeather.js:138:23:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "global fetch welded into geocodeCity, no seam to force the request to fail"
+ },
+ "api/app/clients/tools/structured/OpenWeather.js:339:30:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "global fetch welded inside try/catch on error path, no injectable seam"
+ },
+ "api/app/clients/tools/structured/StableDiffusion.js:119:34:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.post welded inside try/catch error path, no injectable client"
+ },
+ "api/app/clients/tools/structured/TavilySearch.js:35:30:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "global fetch welded, no seam to force the Tavily request to fail"
+ },
+ "api/app/clients/tools/structured/TavilySearchResults.js:127:28:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "global fetch welded, no seam to force the Tavily request to fail"
+ },
+ "api/app/clients/tools/structured/TraversaalSearch.js:55:30:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "global fetch welded inside try/catch, no seam to force failure"
+ },
+ "api/app/clients/tools/structured/Wolfram.js:63:30:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.get welded inside try/catch that rethrows, no injectable client"
+ },
+ "api/app/clients/tools/util/fileSearch.js:118:9:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.post to RAG welded with .catch error handling, no injectable client"
+ },
+ "api/cache/getLogStores.js:89:22:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now computes a cache expiry threshold, clock read with no failure to inject"
+ },
+ "api/db/utils.js:3:48:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "setTimeout implements a sleep helper, no failure worth injecting"
+ },
+ "api/server/controllers/AuthController.js:294:30:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now compares token expiry, clock read with no failure to inject"
+ },
+ "api/server/controllers/agents/openai.js:193:30:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now sets a response created timestamp, display/record value only"
+ },
+ "api/server/controllers/agents/openai.js:603:15:llm": {
+  "label": "FALSE-WELD",
+  "confidence": "medium",
+  "reason": "streamText is a local handler closure, not a boundary call; substitutable, no external failure here"
+ },
+ "api/server/controllers/agents/request.js:195:39:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "randomUUID generates a conversation id, record value with no failure"
+ },
+ "api/server/controllers/agents/request.js:56:63:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "new Date timestamp anchor in catch fallback, record value with no failure to inject"
+ },
+ "api/server/controllers/agents/request.js:754:39:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "randomUUID generates a conversation id, record value with no failure"
+ },
+ "api/server/controllers/auth/oauth.js:51:27:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now computes session expiresAt, record value with no failure to inject"
+ },
+ "api/server/experimental.js:120:17:db": {
+  "label": "GENUINE",
+  "confidence": "medium",
+  "reason": "Redis client constructed from imported class and immediately used; no injectable client to force a connection failure on this flush path"
+ },
+ "api/server/middleware/checkBan.js:112:34:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now computes ban time-left, clock read with no failure to inject"
+ },
+ "api/server/middleware/denyRequest.js:30:38:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "randomUUID for conversation id, record value with no failure"
+ },
+ "api/server/middleware/denyRequest.js:34:29:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "randomUUID for message id, record value with no failure"
+ },
+ "api/server/middleware/denyRequest.js:58:16:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "randomUUID for error message id, record value with no failure"
+ },
+ "api/server/middleware/error.js:35:29:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "randomUUID for error message id, record value with no failure"
+ },
+ "api/server/middleware/moderateText.js:14:28:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.post to moderation API welded inside try, no injectable client"
+ },
+ "api/server/routes/admin/auth.js:105:10:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "randomBytes generates an OAuth state string, record value with no failure"
+ },
+ "api/server/routes/files/multer.js:23:19:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "randomUUID assigns an upload file id, record value with no failure"
+ },
+ "api/server/routes/mcp.js:302:51:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now computes flow age, clock read with no failure to inject"
+ },
+ "api/server/routes/presets.js:18:41:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "randomUUID assigns a preset id, record value with no failure"
+ },
+ "api/server/routes/skills.js:220:20:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "randomUUID assigns a skill file id, record value with no failure"
+ },
+ "api/server/services/AuthService.js:367:38:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "setTimeout sleeps to equalize timing, no failure worth injecting"
+ },
+ "api/server/services/Config/loadCustomConfig.js:77:30:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.get of remote config welded inside try/catch error path, no injectable client"
+ },
+ "api/server/services/Endpoints/agents/skillDeps.js:79:18:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "randomUUID assigns a skill file id, record value with no failure"
+ },
+ "api/server/services/Endpoints/assistants/initalize.js:60:18:llm": {
+  "label": "FALSE-WELD",
+  "confidence": "medium",
+  "reason": "OpenAI client constructed and returned; substitutable downstream, construction is not a failing call"
+ },
+ "api/server/services/Endpoints/azureAssistants/initialize.js:172:18:llm": {
+  "label": "FALSE-WELD",
+  "confidence": "medium",
+  "reason": "OpenAI client constructed and returned; substitutable downstream, construction is not a failing call"
+ },
+ "api/server/services/Files/Audio/STTService.js:311:30:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.post welded inside try/catch error path, no injectable client"
+ },
+ "api/server/services/Files/Audio/TTSService.js:275:20:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.post welded inside try/catch that rethrows, no injectable client"
+ },
+ "api/server/services/Files/Audio/streamAudio.js:17:34:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Math.random picks a voice id, cosmetic randomness with no failure"
+ },
+ "api/server/services/Files/Azure/crud.js:236:28:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios stream request welded inside try/catch, no injectable client"
+ },
+ "api/server/services/Files/Azure/crud.js:66:28:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "global fetch of URL welded inside try/catch, no injectable seam"
+ },
+ "api/server/services/Files/Code/crud.js:101:15:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios request welded in retry loop with error handling, no injectable client"
+ },
+ "api/server/services/Files/Code/crud.js:173:28:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.post upload welded inside try/catch, no injectable client"
+ },
+ "api/server/services/Files/Code/crud.js:245:26:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.post batch upload welded, no injectable client to force failure"
+ },
+ "api/server/services/Files/Code/crud.js:49:28:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios download welded inside try/catch, no injectable client"
+ },
+ "api/server/services/Files/Code/process.js:1015:28:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios exec request welded inside try, no injectable client"
+ },
+ "api/server/services/Files/Code/process.js:1099:28:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios exec request welded inside try, no injectable client"
+ },
+ "api/server/services/Files/Code/process.js:326:23:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "new Date stamps a file's current date, record value with no failure to inject"
+ },
+ "api/server/services/Files/Code/process.js:347:28:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios download welded inside try, no injectable client to force failure"
+ },
+ "api/server/services/Files/Code/process.js:699:28:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios object download welded inside try, no injectable client"
+ },
+ "api/server/services/Files/Firebase/crud.js:241:28:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios stream request welded inside try/catch, no injectable client"
+ },
+ "api/server/services/Files/Firebase/crud.js:60:26:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "global fetch of URL welded, no injectable seam to force failure"
+ },
+ "api/server/services/Files/Local/crud.js:118:28:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios request welded inside try, no injectable client to force failure"
+ },
+ "api/server/services/Files/VectorDB/crud.js:27:18:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.delete to RAG welded inside try/catch, no injectable client"
+ },
+ "api/server/services/Files/VectorDB/crud.js:88:28:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.post embed welded, no injectable client to force failure"
+ },
+ "api/server/services/Files/images/avatar.js:46:26:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "global fetch of avatar welded, no injectable seam to force failure"
+ },
+ "api/server/services/Files/images/encode.js:63:28:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.get image welded inside try/catch that throws, no injectable client"
+ },
+ "api/server/services/MCP.js:84:15:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now for cache eviction comparison, clock read with no failure"
+ },
+ "api/server/services/OboTokenService.js:63:34:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "setTimeout implements a delay helper, no failure worth injecting"
+ },
+ "api/server/services/Runs/methods.js:55:28:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.get retrieveRun welded inside try/catch that throws, no injectable client"
+ },
+ "api/server/services/ToolService.js:628:77:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now seeds a flow id string, record value with no failure"
+ },
+ "api/server/services/twoFactorService.js:73:47:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now is a default forTime param for TOTP, clock read with no failure"
+ },
+ "api/server/utils/queue.js:52:20:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "setInterval drives a leaky-bucket queue, no failure worth injecting"
+ },
+ "api/server/utils/sendEmail.js:38:28:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.post mailgun welded inside try/catch that throws, no injectable client"
+ },
+ "api/strategies/openidStrategy.js:148:21:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "randomBytes generates an OAuth nonce, record value with no failure"
+ },
+ "client/src/data-provider/Files/sharepoint.ts:134:36:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "global fetch of SharePoint download welded inside try/catch, no injectable seam"
+ },
+ "client/src/data-provider/Files/sharepoint.ts:45:30:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "global fetch of SharePoint download welded with error throw, no injectable seam"
+ },
+ "client/src/data-provider/connection.ts:89:25:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now reads interaction time for health check, clock read with no failure"
+ },
+ "client/src/hooks/Conversations/useParameterEffects.ts:28:21:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "setTimeout debounces a parameter update, no failure worth injecting"
+ },
+ "client/src/hooks/Files/useFileHandling.ts:136:9:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "setTimeout defers file preview cache update, no failure worth injecting"
+ },
+ "client/src/hooks/Input/useSpeechToTextBrowser.ts:82:28:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "setTimeout auto-sends transcription, no failure worth injecting"
+ },
+ "client/src/hooks/Input/useUserKey.ts:33:25:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "new Date compares key expiry, clock read with no failure to inject"
+ },
+ "client/src/hooks/MCP/useMCPServerManager.ts:327:23:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "setTimeout schedules next poll, no failure worth injecting"
+ },
+ "client/src/hooks/Mermaid/useDebouncedMermaid.ts:165:26:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "setTimeout debounces mermaid render, no failure worth injecting"
+ },
+ "client/src/hooks/Messages/useProgress.ts:50:17:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "setTimeout drives a progress animation, no failure worth injecting"
+ },
+ "client/src/hooks/SSE/useEventHandlers.ts:1005:32:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "global fetch of abort endpoint welded inside try, no injectable seam in this hook"
+ },
+ "client/src/hooks/SSE/useResumableSSE.ts:892:41:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "setTimeout schedules SSE reconnect delay, no failure worth injecting"
+ },
+ "client/src/hooks/useFavorites.ts:105:9:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "setTimeout clears a mutation guard flag, no failure worth injecting"
+ },
+ "client/src/lib/rum/useRum.ts:159:49:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Math.random samples RUM sessions, cosmetic randomness with no failure"
+ },
+ "client/src/utils/convos.ts:530:43:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "new Date stamps updatedAt, record value with no failure to inject"
+ },
+ "client/src/utils/timestamps.ts:50:15:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now computes value age for cleanup, clock read with no failure"
+ },
+ "config/connect.js:20:15:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "setTimeout prints slow-connection warnings, no failure worth injecting"
+ },
+ "config/deployed-update.js:14:10:subprocess": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "execSync git command welded in dev script, subprocess failure not substitutable"
+ },
+ "config/deployed-update.js:26:3:subprocess": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "execSync git fetch welded, subprocess failure not substitutable"
+ },
+ "config/deployed-update.js:29:5:subprocess": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "execSync git checkout welded, subprocess failure not substitutable"
+ },
+ "config/deployed-update.js:31:5:subprocess": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "execSync git pull welded, subprocess failure not substitutable"
+ },
+ "config/deployed-update.js:35:5:subprocess": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "execSync git rebase welded, subprocess failure not substitutable"
+ },
+ "config/deployed-update.js:41:3:subprocess": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "execSync docker compose down welded, subprocess failure not substitutable"
+ },
+ "config/deployed-update.js:46:23:subprocess": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "execSync docker images welded, subprocess failure not substitutable"
+ },
+ "config/deployed-update.js:55:7:subprocess": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "execSync docker rmi welded, subprocess failure not substitutable"
+ },
+ "config/deployed-update.js:62:3:subprocess": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "execSync docker compose pull welded, subprocess failure not substitutable"
+ },
+ "config/helpers.js:47:5:subprocess": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "execSync docker info welded inside try/catch, subprocess failure not substitutable"
+ },
+ "config/migrate-prompt-permissions.js:173:36:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "setTimeout paces migration batches, no failure worth injecting"
+ },
+ "config/packages.js:33:3:subprocess": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "execSync npm cache clean welded, subprocess failure not substitutable"
+ },
+ "config/packages.js:37:3:subprocess": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "execSync npm install welded, subprocess failure not substitutable"
+ },
+ "config/translations/anthropic.ts:15:10:llm": {
+  "label": "FALSE-WELD",
+  "confidence": "medium",
+  "reason": "Anthropic client constructed and returned by getClient; substitutable downstream, construction is not a failing call"
+ },
+ "config/update.js:101:5:subprocess": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "execSync shell command welded in update script, subprocess failure not substitutable"
+ },
+ "config/update.js:107:5:subprocess": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "execSync shell command welded in update script, subprocess failure not substitutable"
+ },
+ "config/update.js:114:5:subprocess": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "execSync shell command welded in update script, subprocess failure not substitutable"
+ },
+ "config/update.js:118:5:subprocess": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "execSync shell command welded in update script, subprocess failure not substitutable"
+ },
+ "config/update.js:122:5:subprocess": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "execSync shell command welded in update script, subprocess failure not substitutable"
+ },
+ "config/update.js:74:5:subprocess": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "execSync shell command welded in update script, subprocess failure not substitutable"
+ },
+ "config/update.js:78:5:subprocess": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "execSync shell command welded in update script, subprocess failure not substitutable"
+ },
+ "config/update.js:82:5:subprocess": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "execSync shell command welded in update script, subprocess failure not substitutable"
+ },
+ "config/update.js:91:5:subprocess": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "execSync shell command welded in update script, subprocess failure not substitutable"
+ },
+ "config/update.js:96:7:subprocess": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "execSync shell command welded in update script, subprocess failure not substitutable"
+ },
+ "e2e/setup/env.ts:10:38:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "randomBytes generates a test JWT refresh secret, record value with no failure"
+ },
+ "e2e/setup/env.ts:7:29:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "randomBytes generates a test creds key, record value with no failure"
+ },
+ "e2e/setup/env.ts:8:28:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "randomBytes generates a test creds IV, record value with no failure"
+ },
+ "e2e/setup/env.ts:9:30:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "randomBytes generates a test JWT secret, record value with no failure"
+ },
+ "e2e/setup/record.js:241:10:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now drives a wait-for-URL deadline loop, clock read with no failure"
+ },
+ "e2e/setup/record.js:245:30:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "global fetch health probe welded inside try, no injectable seam in this script"
+ },
+ "e2e/setup/record.js:259:17:subprocess": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "spawn child process welded, subprocess failure not substitutable"
+ },
+ "e2e/setup/record.js:363:19:subprocess": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "spawn playwright codegen welded, subprocess failure not substitutable"
+ },
+ "e2e/setup/record.js:90:10:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "randomBytes generates a hex string, record value with no failure"
+ },
+ "e2e/specs/mock/agents.helpers.ts:39:41:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now and Math.random build a unique test name, record value with no failure"
+ },
+ "e2e/specs/mock/agents.helpers.ts:74:36:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "setTimeout paces a polling retry, no failure worth injecting"
+ },
+ "e2e/specs/mock/helpers.ts:152:30:network": {
+  "label": "GENUINE",
+  "confidence": "medium",
+  "reason": "global fetch inside page.evaluate welded, no injectable seam in this helper"
+ },
+ "e2e/specs/mock/helpers.ts:99:28:network": {
+  "label": "GENUINE",
+  "confidence": "medium",
+  "reason": "global fetch refresh inside page.evaluate welded, no injectable seam"
+ },
+ "packages/api/src/agents/responses/service.ts:295:27:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now sets response createdAt, record value with no failure to inject"
+ },
+ "packages/api/src/app/build.ts:15:17:subprocess": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "execFileSync git welded inside try/catch, subprocess failure not substitutable"
+ },
+ "packages/api/src/app/checks.ts:144:28:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "global fetch health check welded inside try/catch, no injectable seam"
+ },
+ "packages/api/src/auth/codeapi.ts:349:26:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now computes current epoch for token cache, clock read with no failure"
+ },
+ "packages/api/src/auth/exchange.ts:114:24:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "randomBytes generates an exchange code, record value with no failure"
+ },
+ "packages/api/src/cache/redisClients.ts:157:35:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Math.random adds reconnect jitter, cosmetic randomness with no failure"
+ },
+ "packages/api/src/cache/redisClients.ts:33:33:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Math.random adds reconnect jitter, cosmetic randomness with no failure"
+ },
+ "packages/api/src/cache/redisClients.ts:77:41:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Math.random adds cluster reconnect jitter, cosmetic randomness with no failure"
+ },
+ "packages/api/src/cache/redisUtils.ts:72:20:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now measures operation duration for logging, clock read with no failure"
+ },
+ "packages/api/src/cdn/cloudfront-cookies.ts:440:38:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now computes cookie issued/expiry epoch, record value with no failure"
+ },
+ "packages/api/src/cluster/LeaderElection.ts:27:27:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "randomUUID seeds the server UUID, record value with no failure"
+ },
+ "packages/api/src/cluster/LeaderElection.ts:56:21:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Math.random sets a leader-election backoff delay, cosmetic randomness"
+ },
+ "packages/api/src/endpoints/models.ts:217:23:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.get models welded inside try/catch error path, no injectable client"
+ },
+ "packages/api/src/files/documents/libreoffice.ts:171:19:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "setTimeout enforces a subprocess timeout, no failure worth injecting at this call"
+ },
+ "packages/api/src/files/mistral/crud.ts:124:10:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.get signed URL welded with .catch that throws, no injectable client"
+ },
+ "packages/api/src/files/mistral/crud.ts:170:10:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.post OCR welded, no injectable client to force failure"
+ },
+ "packages/api/src/files/mistral/crud.ts:219:26:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.delete welded inside try/catch, no injectable client"
+ },
+ "packages/api/src/files/mistral/crud.ts:587:26:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.post token exchange welded, no injectable client to force failure"
+ },
+ "packages/api/src/files/mistral/crud.ts:660:10:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.post Vertex welded with .catch that throws, no injectable client"
+ },
+ "packages/api/src/files/mistral/crud.ts:95:10:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.post files welded with .catch that throws, no injectable client"
+ },
+ "packages/api/src/files/rag.ts:38:11:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.delete to RAG welded inside try/catch error path, no injectable client"
+ },
+ "packages/api/src/files/retention.ts:79:69:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "new Date is a default now param for an expiry comparison, clock read with no failure"
+ },
+ "packages/api/src/files/text.ts:72:34:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.get health welded inside try/catch fallback, no injectable client"
+ },
+ "packages/api/src/files/text.ts:95:28:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.post RAG text welded inside try, no injectable client to force failure"
+ },
+ "packages/api/src/flow/manager.ts:407:36:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "setTimeout spaces a double-check on flow state, no failure worth injecting"
+ },
+ "packages/api/src/flow/manager.ts:87:44:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now compares token expiry, clock read with no failure to inject"
+ },
+ "packages/api/src/langfuse/feedback.ts:77:23:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "global fetch DELETE score welded with status-based throw, no injectable seam"
+ },
+ "packages/api/src/langfuse/feedback.ts:99:21:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "global fetch POST score welded with status-based throw, no injectable seam"
+ },
+ "packages/api/src/mcp/MCPConnectionFactory.ts:1281:15:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now computes completed flow age, clock read with no failure"
+ },
+ "packages/api/src/mcp/MCPConnectionFactory.ts:880:24:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now computes replay expiry, clock read with no failure"
+ },
+ "packages/api/src/mcp/UserConnectionManager.ts:761:17:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now reads now for idle-connection check, clock read with no failure"
+ },
+ "packages/api/src/mcp/connection.ts:1762:33:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Math.random adds reconnect jitter, cosmetic randomness with no failure"
+ },
+ "packages/api/src/mcp/connection.ts:1778:40:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "setTimeout applies a reconnect backoff delay, no failure worth injecting"
+ },
+ "packages/api/src/mcp/oauth/OAuthReconnectionManager.ts:94:9:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "setTimeout staggers reconnect attempts, no failure worth injecting"
+ },
+ "packages/api/src/mcp/oauth/OAuthReconnectionTracker.ts:58:22:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now checks reconnection timeout, clock read with no failure"
+ },
+ "packages/api/src/mcp/oauth/hardenedFetch.ts:83:12:network": {
+  "label": "GENUINE",
+  "confidence": "medium",
+  "reason": "global fetch wrapped here is not substitutable; only the dispatcher is configurable, the fetch call itself has no seam"
+ },
+ "packages/api/src/mcp/oauth/tokens.ts:147:50:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now computes access-token expiry, record value with no failure"
+ },
+ "packages/api/src/mcp/oauth/tokens.ts:203:22:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now computes refresh-token expiry, record value with no failure"
+ },
+ "packages/api/src/mcp/registry/MCPServersInitializer.ts:69:35:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "performance.now marks follower wait start, clock read with no failure"
+ },
+ "packages/api/src/mcp/registry/cache/ServerConfigsCacheRedisAggregateKey.ts:93:19:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now checks local snapshot expiry, clock read with no failure"
+ },
+ "packages/api/src/middleware/remoteAgentAuth.ts:72:15:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now prunes expired cache entries, clock read with no failure"
+ },
+ "packages/api/src/oauth/tokens.ts:217:28:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios token refresh welded, no injectable client to force failure"
+ },
+ "packages/api/src/oauth/tokens.ts:324:28:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios token exchange welded inside try/catch, no injectable client"
+ },
+ "packages/api/src/rum/proxy.ts:125:19:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "setTimeout arms an abort timeout, no failure worth injecting at this call"
+ },
+ "packages/api/src/rum/proxy.ts:127:28:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "global fetch proxy forward welded inside try, no injectable seam"
+ },
+ "packages/api/src/skills/handlers.ts:165:36:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "new Date fallback for createdAt serialization, record value with no failure"
+ },
+ "packages/api/src/skills/handlers.ts:194:36:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "new Date fallback for updatedAt serialization, record value with no failure"
+ },
+ "packages/api/src/skills/handlers.ts:217:35:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "new Date fallback for file updatedAt serialization, record value with no failure"
+ },
+ "packages/api/src/skills/import.ts:506:22:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "randomUUID assigns an imported file id, record value with no failure"
+ },
+ "packages/api/src/skills/sync/github.ts:1301:20:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "randomUUID assigns a synced file id, record value with no failure"
+ },
+ "packages/api/src/skills/sync/github.ts:1807:45:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "randomUUID seeds a sync lock owner string, record value with no failure"
+ },
+ "packages/api/src/storage/cloudfront/crud.ts:245:30:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "randomUUID is a CloudFront CallerReference, record value with no failure"
+ },
+ "packages/api/src/storage/cloudfront/crud.ts:97:23:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now computes signed-URL expiry, record value with no failure"
+ },
+ "packages/api/src/storage/s3/crud.ts:554:28:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "global fetch of source URL welded inside try with status throw, no injectable seam"
+ },
+ "packages/api/src/stream/GenerationJobManager.ts:867:5:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "setImmediate defers a late-subscriber notification, no failure worth injecting"
+ },
+ "packages/api/src/stream/implementations/RedisJobStore.ts:132:28:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "setInterval schedules periodic cleanup, no failure worth injecting"
+ },
+ "packages/api/src/utils/files.ts:112:11:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "randomBytes builds a filename suffix, record value with no failure"
+ },
+ "packages/api/src/utils/generators.ts:38:20:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "global fetch in generated request fn welded, no injectable seam to force failure"
+ },
+ "packages/api/src/utils/generators.ts:40:18:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "global fetch in generated request fn welded, no injectable seam to force failure"
+ },
+ "packages/api/src/utils/key.ts:57:30:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.get service key welded inside try/catch, no injectable client"
+ },
+ "packages/api/src/utils/memory.ts:135:14:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "setInterval schedules memory snapshots, no failure worth injecting"
+ },
+ "packages/client/src/components/DataTable/DataTable.hooks.ts:8:16:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "setTimeout debounces a value, no failure worth injecting"
+ },
+ "packages/client/src/utils/cloudfront.ts:111:26:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "global fetch cookie refresh welded, no injectable seam in this client util"
+ },
+ "packages/data-provider/src/actions.ts:339:14:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.get welded into request dispatcher, no injectable client"
+ },
+ "packages/data-provider/src/actions.ts:341:14:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.post welded into request dispatcher, no injectable client"
+ },
+ "packages/data-provider/src/actions.ts:343:14:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.put welded into request dispatcher, no injectable client"
+ },
+ "packages/data-provider/src/actions.ts:345:14:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.delete welded into request dispatcher, no injectable client"
+ },
+ "packages/data-provider/src/request.ts:13:16:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.get welded into shared request helper, no injectable client"
+ },
+ "packages/data-provider/src/request.ts:17:26:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.post welded into shared request helper, no injectable client"
+ },
+ "packages/data-provider/src/request.ts:24:26:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.post multipart welded into helper, no injectable client"
+ },
+ "packages/data-provider/src/request.ts:304:26:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios retry call welded in interceptor, no injectable client"
+ },
+ "packages/data-provider/src/request.ts:32:26:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.post TTS welded into helper, no injectable client"
+ },
+ "packages/data-provider/src/request.ts:41:26:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.put welded into shared request helper, no injectable client"
+ },
+ "packages/data-provider/src/request.ts:48:26:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.delete welded into shared request helper, no injectable client"
+ },
+ "packages/data-provider/src/request.ts:53:26:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.delete-with-options welded into helper, no injectable client"
+ },
+ "packages/data-provider/src/request.ts:8:26:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.get welded into shared request helper, no injectable client"
+ },
+ "packages/data-schemas/src/crypto/index.ts:127:17:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "randomBytes generates an encryption IV, record value with no failure"
+ },
+ "packages/data-schemas/src/methods/agentApiKey.ts:78:60:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "new Date compares API key expiry, clock read with no failure to inject"
+ },
+ "packages/data-schemas/src/methods/prompt.ts:550:30:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Math.random shuffles categories, cosmetic randomness with no failure"
+ },
+ "packages/data-schemas/src/methods/session.ts:237:11:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now computes refresh-token expiry, record value with no failure"
+ },
+ "packages/data-schemas/src/methods/session.ts:56:52:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now computes session expiration, record value with no failure"
+ },
+ "packages/data-schemas/src/methods/skillSync.ts:327:17:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "new Date computes lock refresh timestamp, record value with no failure"
+ },
+ "packages/data-schemas/src/methods/transaction.ts:277:24:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Math.random adds retry jitter, cosmetic randomness with no failure"
+ },
+ "packages/data-schemas/src/methods/transaction.ts:278:40:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "setTimeout applies retry backoff delay, no failure worth injecting"
+ },
+ "packages/data-schemas/src/models/plugins/mongoMeili.ts:377:44:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "setTimeout spaces cleanup batches, no failure worth injecting"
+ },
+ "packages/data-schemas/src/utils/retry.ts:63:33:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Math.random adds backoff jitter, cosmetic randomness with no failure"
+ }
+}

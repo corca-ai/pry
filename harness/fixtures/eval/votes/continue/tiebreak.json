@@ -1,0 +1,12 @@
+{
+  "manual-testing-sandbox/next-edit/next-edit-9-5-sol.ts:477:22:db": {
+    "label": "COSMETIC",
+    "confidence": "high",
+    "reason": "Illustrative SOLID-refactoring sandbox sample where Database is an in-memory Map stub with no real failure path, and the new Database() only wires a constructor-injected dependency."
+  },
+  "manual-testing-sandbox/next-edit/next-edit-9-5-sol.ts:498:22:db": {
+    "label": "COSMETIC",
+    "confidence": "high",
+    "reason": "Same illustrative factory sample: Database is an in-memory stub with no injectable failure, and CartService receives it by constructor parameter so consumers stay substitutable."
+  }
+}

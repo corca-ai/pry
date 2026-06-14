@@ -1,0 +1,1142 @@
+{
+ "api/app/clients/BaseClient.js:164:20:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "global fetch called directly inside instance method, no injectable seam"
+ },
+ "api/app/clients/BaseClient.js:166:18:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "global fetch called directly inside instance method, no injectable seam"
+ },
+ "api/app/clients/BaseClient.js:214:46:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "crypto.randomUUID id only stored, failure path irrelevant and unswappable"
+ },
+ "api/app/clients/BaseClient.js:217:64:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "crypto.randomUUID id only stored as identifier"
+ },
+ "api/app/clients/BaseClient.js:218:55:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "crypto.randomUUID id only stored as identifier"
+ },
+ "api/app/clients/BaseClient.js:224:27:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "crypto.randomUUID id only stored as identifier"
+ },
+ "api/app/clients/BaseClient.js:230:27:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "crypto.randomUUID id only stored as identifier"
+ },
+ "api/app/clients/OllamaClient.js:73:28:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "axios.get called directly on module import, no seam"
+ },
+ "api/app/clients/TextStream.js:18:7:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "setTimeout schedules chunk emit; timer cannot fail and only times streaming"
+ },
+ "api/app/clients/TextStream.js:32:23:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Math.random only sizes a chunk, value-only"
+ },
+ "api/app/clients/prompts/createContextHandlers.js:26:14:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "axios.get called directly, no injectable seam"
+ },
+ "api/app/clients/prompts/createContextHandlers.js:33:12:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "axios.post called directly, no injectable seam"
+ },
+ "api/app/clients/tools/structured/DALLE3.js:193:35:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "global fetch called directly, no seam"
+ },
+ "api/app/clients/tools/structured/DALLE3.js:93:19:llm": {
+  "label": "GENUINE",
+  "confidence": "medium",
+  "reason": "new OpenAI constructed in place and stored on this, no injection seam"
+ },
+ "api/app/clients/tools/structured/FluxAPI.js:245:28:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "axios.post called directly inside try, no seam"
+ },
+ "api/app/clients/tools/structured/FluxAPI.js:272:38:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "axios.get called directly, no seam"
+ },
+ "api/app/clients/tools/structured/FluxAPI.js:313:37:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "global fetch called directly, no seam"
+ },
+ "api/app/clients/tools/structured/FluxAPI.js:383:30:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "axios.get called directly, no seam"
+ },
+ "api/app/clients/tools/structured/FluxAPI.js:393:42:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "axios.get called directly, no seam"
+ },
+ "api/app/clients/tools/structured/FluxAPI.js:480:28:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "axios.post called directly, no seam"
+ },
+ "api/app/clients/tools/structured/FluxAPI.js:506:38:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "axios.get called directly, no seam"
+ },
+ "api/app/clients/tools/structured/FluxAPI.js:545:37:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "global fetch called directly, no seam"
+ },
+ "api/app/clients/tools/structured/GoogleSearch.js:58:28:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "global fetch called directly, no seam"
+ },
+ "api/app/clients/tools/structured/OpenAIImageTools.js:134:22:llm": {
+  "label": "GENUINE",
+  "confidence": "medium",
+  "reason": "new OpenAI constructed in place, no injection seam"
+ },
+ "api/app/clients/tools/structured/OpenAIImageTools.js:362:32:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "axios.post called directly, no seam"
+ },
+ "api/app/clients/tools/structured/OpenWeather.js:138:23:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "global fetch called directly, no seam"
+ },
+ "api/app/clients/tools/structured/OpenWeather.js:339:30:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "global fetch called directly inside try/catch, no seam"
+ },
+ "api/app/clients/tools/structured/StableDiffusion.js:119:34:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "axios.post called directly inside try/catch, no seam"
+ },
+ "api/app/clients/tools/structured/TavilySearch.js:35:30:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "global fetch called directly, no seam"
+ },
+ "api/app/clients/tools/structured/TavilySearchResults.js:127:28:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "global fetch called directly, no seam"
+ },
+ "api/app/clients/tools/structured/TraversaalSearch.js:55:30:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "global fetch called directly, no seam"
+ },
+ "api/app/clients/tools/structured/Wolfram.js:63:30:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "axios.get called directly inside try/catch, no seam"
+ },
+ "api/app/clients/tools/util/fileSearch.js:118:9:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "axios.post called directly with .catch, no seam"
+ },
+ "api/cache/getLogStores.js:89:22:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now read for expiry math; clock cannot fail and only computes a cutoff"
+ },
+ "api/db/utils.js:3:48:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "setTimeout in sleep helper; timer cannot fail, only delays"
+ },
+ "api/server/controllers/AuthController.js:294:30:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now compared for token expiry; clock cannot be made to fail"
+ },
+ "api/server/controllers/agents/openai.js:193:30:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now used for created timestamp, value-only"
+ },
+ "api/server/controllers/agents/openai.js:603:15:llm": {
+  "label": "AMBIGUOUS",
+  "confidence": "low",
+  "reason": "streamText is a closure param; cannot tell from context if injectable"
+ },
+ "api/server/controllers/agents/request.js:195:39:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "crypto.randomUUID conversationId only stored as identifier"
+ },
+ "api/server/controllers/agents/request.js:56:63:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "new Date timestamp only stored, clock cannot fail"
+ },
+ "api/server/controllers/agents/request.js:754:39:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "crypto.randomUUID conversationId only stored as identifier"
+ },
+ "api/server/controllers/auth/oauth.js:51:27:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now computes expiry passed downstream, clock cannot fail"
+ },
+ "api/server/experimental.js:120:17:db": {
+  "label": "GENUINE",
+  "confidence": "medium",
+  "reason": "new Redis constructed directly then pinged; no injection seam"
+ },
+ "api/server/middleware/checkBan.js:112:34:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now computes time-left for ban; clock cannot fail"
+ },
+ "api/server/middleware/denyRequest.js:30:38:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "crypto.randomUUID id only stored as identifier"
+ },
+ "api/server/middleware/denyRequest.js:34:29:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "crypto.randomUUID id only stored as identifier"
+ },
+ "api/server/middleware/denyRequest.js:58:16:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "crypto.randomUUID id only stored as identifier"
+ },
+ "api/server/middleware/error.js:35:29:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "crypto.randomUUID id only stored as identifier"
+ },
+ "api/server/middleware/moderateText.js:14:28:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "axios.post called directly inside try, no seam"
+ },
+ "api/server/routes/admin/auth.js:105:10:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "crypto.randomBytes generates state string, value-only"
+ },
+ "api/server/routes/files/multer.js:23:19:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "crypto.randomUUID file_id only stored as identifier"
+ },
+ "api/server/routes/mcp.js:302:51:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now computes flow age; clock cannot fail"
+ },
+ "api/server/routes/presets.js:18:41:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "crypto.randomUUID presetId only stored as identifier"
+ },
+ "api/server/routes/skills.js:220:20:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "crypto.randomUUID fileId only stored as identifier"
+ },
+ "api/server/services/AuthService.js:367:38:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "setTimeout sleep for timing-attack mitigation; timer cannot fail"
+ },
+ "api/server/services/Config/loadCustomConfig.js:77:30:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "axios.get called directly inside try/catch, no seam"
+ },
+ "api/server/services/Endpoints/agents/skillDeps.js:79:18:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "crypto.randomUUID fileId only stored as identifier"
+ },
+ "api/server/services/Endpoints/assistants/initalize.js:60:18:llm": {
+  "label": "GENUINE",
+  "confidence": "medium",
+  "reason": "new OpenAI constructed in place and returned, no injection seam"
+ },
+ "api/server/services/Endpoints/azureAssistants/initialize.js:172:18:llm": {
+  "label": "GENUINE",
+  "confidence": "medium",
+  "reason": "new OpenAI constructed in place, no injection seam"
+ },
+ "api/server/services/Files/Audio/STTService.js:311:30:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "axios.post called directly inside try/catch, no seam"
+ },
+ "api/server/services/Files/Audio/TTSService.js:275:20:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "axios.post called directly inside try/catch, no seam"
+ },
+ "api/server/services/Files/Audio/streamAudio.js:17:34:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Math.random picks a voice index, value-only"
+ },
+ "api/server/services/Files/Azure/crud.js:236:28:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "axios() called directly inside try/catch, no seam"
+ },
+ "api/server/services/Files/Azure/crud.js:66:28:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "global fetch called directly inside try/catch, no seam"
+ },
+ "api/server/services/Files/Code/crud.js:101:15:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "axios() called directly inside try/catch, no seam"
+ },
+ "api/server/services/Files/Code/crud.js:173:28:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "axios.post called directly inside try/catch, no seam"
+ },
+ "api/server/services/Files/Code/crud.js:245:26:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "axios.post called directly, no seam"
+ },
+ "api/server/services/Files/Code/crud.js:49:28:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "axios(options) called directly inside try/catch, no seam"
+ },
+ "api/server/services/Files/Code/process.js:1015:28:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "axios() called directly inside try/catch, no seam"
+ },
+ "api/server/services/Files/Code/process.js:1099:28:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "axios() called directly inside try/catch, no seam"
+ },
+ "api/server/services/Files/Code/process.js:326:23:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "new Date currentDate timestamp, value-only, clock cannot fail"
+ },
+ "api/server/services/Files/Code/process.js:347:28:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "axios() called directly inside try, no seam"
+ },
+ "api/server/services/Files/Code/process.js:699:28:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "axios() called directly inside try, no seam"
+ },
+ "api/server/services/Files/Firebase/crud.js:241:28:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "axios() called directly inside try/catch, no seam"
+ },
+ "api/server/services/Files/Firebase/crud.js:60:26:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "global fetch called directly, error caught later, no seam"
+ },
+ "api/server/services/Files/Local/crud.js:118:28:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "axios() called directly inside try, no seam"
+ },
+ "api/server/services/Files/VectorDB/crud.js:27:18:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "axios.delete called directly inside try/catch, no seam"
+ },
+ "api/server/services/Files/VectorDB/crud.js:88:28:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "axios.post called directly, no seam"
+ },
+ "api/server/services/Files/images/avatar.js:46:26:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "global fetch called directly, no seam"
+ },
+ "api/server/services/Files/images/encode.js:63:28:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "axios.get called directly inside try/catch, no seam"
+ },
+ "api/server/services/MCP.js:84:15:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now for stale eviction; clock cannot fail"
+ },
+ "api/server/services/OboTokenService.js:63:34:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "setTimeout in delay helper; timer cannot fail"
+ },
+ "api/server/services/Runs/methods.js:55:28:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "axios.get called directly inside try/catch, no seam"
+ },
+ "api/server/services/ToolService.js:628:77:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now embedded in flowId string, value-only identifier"
+ },
+ "api/server/services/twoFactorService.js:73:47:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now default arg for TOTP time; clock cannot fail"
+ },
+ "api/server/utils/queue.js:52:20:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "setInterval drives queue timer; timer cannot fail"
+ },
+ "api/server/utils/sendEmail.js:38:28:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "axios.post called directly inside try/catch, no seam"
+ },
+ "api/strategies/openidStrategy.js:148:21:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "crypto.randomBytes nonce only stored, value-only"
+ },
+ "client/src/data-provider/Files/sharepoint.ts:134:36:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "global fetch called directly inside try, no seam"
+ },
+ "client/src/data-provider/Files/sharepoint.ts:45:30:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "global fetch called directly, no seam"
+ },
+ "client/src/data-provider/connection.ts:89:25:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now read for interaction interval; clock cannot fail"
+ },
+ "client/src/hooks/Conversations/useParameterEffects.ts:28:21:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "setTimeout debounce; timer cannot fail, value-only timing"
+ },
+ "client/src/hooks/Files/useFileHandling.ts:136:9:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "setTimeout defers cache update; timer cannot fail"
+ },
+ "client/src/hooks/Input/useSpeechToTextBrowser.ts:82:28:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "setTimeout auto-send delay; timer cannot fail"
+ },
+ "client/src/hooks/Input/useUserKey.ts:33:25:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "new Date for expiry comparison; clock cannot fail"
+ },
+ "client/src/hooks/MCP/useMCPServerManager.ts:327:23:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "setTimeout schedules next poll; timer cannot fail"
+ },
+ "client/src/hooks/Mermaid/useDebouncedMermaid.ts:165:26:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "setTimeout render debounce; timer cannot fail"
+ },
+ "client/src/hooks/Messages/useProgress.ts:50:17:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "setTimeout/setInterval progress animation; timer cannot fail"
+ },
+ "client/src/hooks/SSE/useEventHandlers.ts:1005:32:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "global fetch called directly inside try, no seam"
+ },
+ "client/src/hooks/SSE/useResumableSSE.ts:892:41:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "setTimeout schedules reconnect; timer cannot fail"
+ },
+ "client/src/hooks/useFavorites.ts:105:9:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "setTimeout resets mutating flag; timer cannot fail"
+ },
+ "client/src/lib/rum/useRum.ts:159:49:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Math.random sampling decision, value-only"
+ },
+ "client/src/utils/convos.ts:530:43:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "new Date updatedAt timestamp, value-only, clock cannot fail"
+ },
+ "client/src/utils/timestamps.ts:50:15:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now age computation; clock cannot fail"
+ },
+ "config/connect.js:20:15:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "setTimeout warning timers; timer cannot fail"
+ },
+ "config/deployed-update.js:14:10:subprocess": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "execSync git called directly via global, no seam"
+ },
+ "config/deployed-update.js:26:3:subprocess": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "execSync git fetch called directly, no seam"
+ },
+ "config/deployed-update.js:29:5:subprocess": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "execSync git checkout called directly, no seam"
+ },
+ "config/deployed-update.js:31:5:subprocess": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "execSync git pull called directly, no seam"
+ },
+ "config/deployed-update.js:35:5:subprocess": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "execSync git rebase called directly, no seam"
+ },
+ "config/deployed-update.js:41:3:subprocess": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "execSync docker images called directly, no seam"
+ },
+ "config/deployed-update.js:46:23:subprocess": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "execSync docker images called directly, no seam"
+ },
+ "config/deployed-update.js:55:7:subprocess": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "execSync docker rmi called directly, no seam"
+ },
+ "config/deployed-update.js:62:3:subprocess": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "execSync docker pull called directly, no seam"
+ },
+ "config/helpers.js:47:5:subprocess": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "execSync docker info called directly inside try/catch returning bool, no seam"
+ },
+ "config/migrate-prompt-permissions.js:173:36:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "setTimeout batch pacing delay; timer cannot fail"
+ },
+ "config/packages.js:33:3:subprocess": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "execSync npm cache clean called directly, no seam"
+ },
+ "config/packages.js:37:3:subprocess": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "execSync npm install called directly, no seam"
+ },
+ "config/translations/anthropic.ts:15:10:llm": {
+  "label": "GENUINE",
+  "confidence": "medium",
+  "reason": "new Anthropic constructed in place and returned, no injection seam"
+ },
+ "config/update.js:101:5:subprocess": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "execSync docker prune called directly, no seam"
+ },
+ "config/update.js:107:5:subprocess": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "execSync docker build called directly, no seam"
+ },
+ "config/update.js:114:5:subprocess": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "execSync npm cache clean called directly, no seam"
+ },
+ "config/update.js:118:5:subprocess": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "execSync npm ci called directly, no seam"
+ },
+ "config/update.js:122:5:subprocess": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "execSync frontend build called directly, no seam"
+ },
+ "config/update.js:74:5:subprocess": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "execSync git fetch called directly, no seam"
+ },
+ "config/update.js:78:5:subprocess": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "execSync git checkout called directly, no seam"
+ },
+ "config/update.js:82:5:subprocess": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "execSync git pull called directly, no seam"
+ },
+ "config/update.js:91:5:subprocess": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "execSync docker down called directly, no seam"
+ },
+ "config/update.js:96:7:subprocess": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "execSync docker rmi inside try/catch, no seam"
+ },
+ "e2e/setup/env.ts:10:38:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "crypto.randomBytes generates test secret, value-only"
+ },
+ "e2e/setup/env.ts:7:29:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "crypto.randomBytes generates test creds key, value-only"
+ },
+ "e2e/setup/env.ts:8:28:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "crypto.randomBytes generates test IV, value-only"
+ },
+ "e2e/setup/env.ts:9:30:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "crypto.randomBytes generates test secret, value-only"
+ },
+ "e2e/setup/record.js:241:10:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now loop deadline check; clock cannot fail"
+ },
+ "e2e/setup/record.js:245:30:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "global fetch called directly inside try, no seam"
+ },
+ "e2e/setup/record.js:259:17:subprocess": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "spawn called directly, no injectable seam"
+ },
+ "e2e/setup/record.js:363:19:subprocess": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "spawn called directly inside promise, no seam"
+ },
+ "e2e/setup/record.js:90:10:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "crypto.randomBytes hex helper, value-only"
+ },
+ "e2e/specs/mock/agents.helpers.ts:39:41:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now/Math.random build a unique test name string, value-only"
+ },
+ "e2e/specs/mock/agents.helpers.ts:74:36:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "setTimeout polling delay; timer cannot fail"
+ },
+ "e2e/specs/mock/helpers.ts:152:30:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "global fetch called directly in page.evaluate, no seam"
+ },
+ "e2e/specs/mock/helpers.ts:99:28:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "global fetch called directly in page.evaluate, no seam"
+ },
+ "packages/api/src/agents/responses/service.ts:295:27:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now createdAt timestamp, value-only, clock cannot fail"
+ },
+ "packages/api/src/app/build.ts:15:17:subprocess": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "execFileSync git called directly inside try/catch returning null, no seam"
+ },
+ "packages/api/src/app/checks.ts:144:28:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "global fetch health check called directly inside try/catch, no seam"
+ },
+ "packages/api/src/auth/codeapi.ts:349:26:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now for token cache 'now'; clock cannot fail"
+ },
+ "packages/api/src/auth/exchange.ts:114:24:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "crypto.randomBytes exchange code only stored, value-only"
+ },
+ "packages/api/src/cache/redisClients.ts:157:35:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Math.random reconnect jitter, value-only"
+ },
+ "packages/api/src/cache/redisClients.ts:33:33:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Math.random reconnect jitter, value-only"
+ },
+ "packages/api/src/cache/redisClients.ts:77:41:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Math.random reconnect jitter, value-only"
+ },
+ "packages/api/src/cache/redisUtils.ts:72:20:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now duration metric for logging; clock cannot fail"
+ },
+ "packages/api/src/cdn/cloudfront-cookies.ts:440:38:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now cookie issuedAt; clock cannot fail"
+ },
+ "packages/api/src/cluster/LeaderElection.ts:27:27:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "crypto.randomUUID instance UUID only stored as identifier"
+ },
+ "packages/api/src/cluster/LeaderElection.ts:56:21:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Math.random election backoff delay, value-only"
+ },
+ "packages/api/src/endpoints/models.ts:217:23:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "axios.get called directly inside try/catch, no seam"
+ },
+ "packages/api/src/files/documents/libreoffice.ts:171:19:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "setTimeout version-call timeout; timer cannot fail"
+ },
+ "packages/api/src/files/mistral/crud.ts:124:10:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "axios.get called directly with .catch, no seam"
+ },
+ "packages/api/src/files/mistral/crud.ts:170:10:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "axios.post called directly, no seam"
+ },
+ "packages/api/src/files/mistral/crud.ts:219:26:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "axios.delete called directly inside try/catch, no seam"
+ },
+ "packages/api/src/files/mistral/crud.ts:587:26:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "axios.post called directly, no seam"
+ },
+ "packages/api/src/files/mistral/crud.ts:660:10:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "axios.post called directly with .catch, no seam"
+ },
+ "packages/api/src/files/mistral/crud.ts:95:10:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "axios.post called directly with .catch, no seam"
+ },
+ "packages/api/src/files/rag.ts:38:11:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "axios.delete called directly inside try/catch, no seam"
+ },
+ "packages/api/src/files/retention.ts:79:69:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "new Date default 'now' arg for comparison; clock cannot fail"
+ },
+ "packages/api/src/files/text.ts:72:34:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "axios.get health check called directly inside try/catch, no seam"
+ },
+ "packages/api/src/files/text.ts:95:28:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "axios.post called directly inside try, no seam"
+ },
+ "packages/api/src/flow/manager.ts:407:36:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "setTimeout dedup wait; timer cannot fail"
+ },
+ "packages/api/src/flow/manager.ts:87:44:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now token-expiry comparison; clock cannot fail"
+ },
+ "packages/api/src/langfuse/feedback.ts:77:23:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "global fetch DELETE called directly, no seam"
+ },
+ "packages/api/src/langfuse/feedback.ts:99:21:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "global fetch POST called directly, no seam"
+ },
+ "packages/api/src/mcp/MCPConnectionFactory.ts:1281:15:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now flow age comparison; clock cannot fail"
+ },
+ "packages/api/src/mcp/MCPConnectionFactory.ts:880:24:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now replay-expiry comparison; clock cannot fail"
+ },
+ "packages/api/src/mcp/UserConnectionManager.ts:761:17:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now idle-check 'now'; clock cannot fail"
+ },
+ "packages/api/src/mcp/connection.ts:1762:33:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Math.random reconnect jitter, value-only"
+ },
+ "packages/api/src/mcp/connection.ts:1778:40:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "setTimeout reconnect backoff delay; timer cannot fail"
+ },
+ "packages/api/src/mcp/oauth/OAuthReconnectionManager.ts:94:9:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "setTimeout staggered reconnect; timer cannot fail"
+ },
+ "packages/api/src/mcp/oauth/OAuthReconnectionTracker.ts:58:22:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now reconnection-timeout check; clock cannot fail"
+ },
+ "packages/api/src/mcp/oauth/hardenedFetch.ts:83:12:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "global fetch called directly in returned closure, no seam"
+ },
+ "packages/api/src/mcp/oauth/tokens.ts:147:50:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now token expiry math; clock cannot fail"
+ },
+ "packages/api/src/mcp/oauth/tokens.ts:203:22:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now refresh-token expiry math; clock cannot fail"
+ },
+ "packages/api/src/mcp/registry/MCPServersInitializer.ts:69:35:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "performance.now wait timestamp; clock cannot fail"
+ },
+ "packages/api/src/mcp/registry/cache/ServerConfigsCacheRedisAggregateKey.ts:93:19:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now snapshot TTL check; clock cannot fail"
+ },
+ "packages/api/src/middleware/remoteAgentAuth.ts:72:15:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now cache prune 'now'; clock cannot fail"
+ },
+ "packages/api/src/oauth/tokens.ts:217:28:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "axios() POST called directly, no seam"
+ },
+ "packages/api/src/oauth/tokens.ts:324:28:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "axios() POST called directly inside try, no seam"
+ },
+ "packages/api/src/rum/proxy.ts:125:19:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "setTimeout abort timer; timer cannot fail"
+ },
+ "packages/api/src/rum/proxy.ts:127:28:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "global fetch called directly inside try, no seam"
+ },
+ "packages/api/src/skills/handlers.ts:165:36:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "new Date fallback createdAt, value-only, clock cannot fail"
+ },
+ "packages/api/src/skills/handlers.ts:194:36:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "new Date fallback updatedAt, value-only"
+ },
+ "packages/api/src/skills/handlers.ts:217:35:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "new Date fallback updatedAt, value-only"
+ },
+ "packages/api/src/skills/import.ts:506:22:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "crypto.randomUUID fileId only stored as identifier"
+ },
+ "packages/api/src/skills/sync/github.ts:1301:20:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "crypto.randomUUID fileId only stored as identifier"
+ },
+ "packages/api/src/skills/sync/github.ts:1807:45:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "crypto.randomUUID lock owner only stored as identifier"
+ },
+ "packages/api/src/storage/cloudfront/crud.ts:245:30:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "crypto.randomUUID CallerReference only stored as identifier"
+ },
+ "packages/api/src/storage/cloudfront/crud.ts:97:23:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now signed-url expiry math; clock cannot fail"
+ },
+ "packages/api/src/storage/s3/crud.ts:554:28:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "global fetch called directly inside try, no seam"
+ },
+ "packages/api/src/stream/GenerationJobManager.ts:867:5:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "setImmediate defers callback; timer cannot fail"
+ },
+ "packages/api/src/stream/implementations/RedisJobStore.ts:132:28:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "setInterval cleanup timer; timer cannot fail"
+ },
+ "packages/api/src/utils/files.ts:112:11:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "crypto.randomBytes filename suffix, value-only"
+ },
+ "packages/api/src/utils/generators.ts:38:20:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "global fetch called directly in returned function, no seam"
+ },
+ "packages/api/src/utils/generators.ts:40:18:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "global fetch called directly in returned function, no seam"
+ },
+ "packages/api/src/utils/key.ts:57:30:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "axios.get called directly inside try/catch, no seam"
+ },
+ "packages/api/src/utils/memory.ts:135:14:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "setInterval memory-diag timer; timer cannot fail"
+ },
+ "packages/client/src/components/DataTable/DataTable.hooks.ts:8:16:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "setTimeout debounce; timer cannot fail"
+ },
+ "packages/client/src/utils/cloudfront.ts:111:26:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "global fetch called directly, no seam"
+ },
+ "packages/data-provider/src/actions.ts:339:14:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.get called directly, no injectable seam"
+ },
+ "packages/data-provider/src/actions.ts:341:14:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.post called directly, no seam"
+ },
+ "packages/data-provider/src/actions.ts:343:14:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.put called directly, no seam"
+ },
+ "packages/data-provider/src/actions.ts:345:14:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.delete called directly, no seam"
+ },
+ "packages/data-provider/src/request.ts:13:16:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.get called directly, no seam"
+ },
+ "packages/data-provider/src/request.ts:17:26:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.post called directly, no seam"
+ },
+ "packages/data-provider/src/request.ts:24:26:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.post called directly, no seam"
+ },
+ "packages/data-provider/src/request.ts:304:26:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios() retry called directly, no seam"
+ },
+ "packages/data-provider/src/request.ts:32:26:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.post called directly, no seam"
+ },
+ "packages/data-provider/src/request.ts:41:26:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.put called directly, no seam"
+ },
+ "packages/data-provider/src/request.ts:48:26:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.delete called directly, no seam"
+ },
+ "packages/data-provider/src/request.ts:53:26:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.delete called directly, no seam"
+ },
+ "packages/data-provider/src/request.ts:8:26:network": {
+  "label": "GENUINE",
+  "confidence": "high",
+  "reason": "module axios.get called directly, no seam"
+ },
+ "packages/data-schemas/src/crypto/index.ts:127:17:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "crypto.randomBytes IV only used in cipher, value-only"
+ },
+ "packages/data-schemas/src/methods/agentApiKey.ts:78:60:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "new Date expiry comparison; clock cannot fail"
+ },
+ "packages/data-schemas/src/methods/prompt.ts:550:30:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Math.random Fisher-Yates shuffle index, value-only"
+ },
+ "packages/data-schemas/src/methods/session.ts:237:11:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now refresh-token expiry math; clock cannot fail"
+ },
+ "packages/data-schemas/src/methods/session.ts:56:52:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Date.now session expiration math; clock cannot fail"
+ },
+ "packages/data-schemas/src/methods/skillSync.ts:327:17:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "new Date lock 'now', value-only, clock cannot fail"
+ },
+ "packages/data-schemas/src/methods/transaction.ts:277:24:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Math.random retry jitter, value-only"
+ },
+ "packages/data-schemas/src/methods/transaction.ts:278:40:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "setTimeout retry backoff delay; timer cannot fail"
+ },
+ "packages/data-schemas/src/models/plugins/mongoMeili.ts:377:44:clock": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "setTimeout inter-batch delay; timer cannot fail"
+ },
+ "packages/data-schemas/src/utils/retry.ts:63:33:random": {
+  "label": "COSMETIC",
+  "confidence": "high",
+  "reason": "Math.random retry jitter, value-only"
+ }
+}
