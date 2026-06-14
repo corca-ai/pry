@@ -179,7 +179,79 @@ backlog-finder, a trustworthy top-of-list beats catching every weld. The residua
 **Net:** `pry map`'s welded-at-demand backlog on ceal is now ~88% genuine,
 actionable failure-injection gaps — the gate's "reliably useful" bar, met.
 
+## Cross-corpus: cautilus (JS) — does ~88% hold? (2026-06-14)
+
+First test outside ceal, enabled by the JS frontend (`is_source` now accepts
+`.mjs`/`.cjs`/`.js`, parsed with the same TS-superset grammar). **Corpus:**
+cautilus `3027ba4` `scripts/` — 143 files, all tracked `.mjs` (cautilus is a Go
+project; its
+JS is build/release/eval **automation**, a deliberately different shape from
+ceal's DI-disciplined agent runtime). 546 boundaries; **92 demand-welds**, hand-
+labeled as a **full census** (every finding read or deterministically classified;
+the 5 FALSE-WELDs and all 28 clocks are exact, ~29 of 62 subprocess are
+shape-extrapolated from a verified global-callee census + 33 spot-reads).
+
+| kind | total | genuine | false-weld | cosmetic | precision |
+|---|---|---|---|---|---|
+| subprocess | 62 | 57 | 5 | 0 | 92% |
+| clock | 28 | 5 | 0 | 23 | 18% |
+| network | 2 | 2 | 0 | 0 | 100% |
+| **demand-welded** | **92** | **64** | **5** | **23** | **~70%** |
+
+**ceal's ~88% does NOT directly transfer — cautilus ships at ~70% raw.** But H1's
+*second clause holds again*: the 30% noise is **two nameable, cheap-to-filter
+classes**, and after filtering, cautilus precision ≈ ceal's:
+
+1. **Duration-record clock — 23 (25% of all demand-welds).** `const started =
+   Date.now(); … const durationMs = Date.now() - started;` where `durationMs`
+   only flows to a recorded field / log / `metrics.duration_ms` — never a control
+   branch. **This is a lever-3 *over-keep*:** lever 3 treats arithmetic as control,
+   but `now - start` feeding a *recorded* elapsed is a display value, not a
+   deadline. ceal didn't surface this because its cosmetic clocks were record
+   *fields* (`created_at: new Date().toISOString()`, caught by lever 1); cautilus's
+   are *subtractions* (caught by neither filter). *Next lever (the high-leverage
+   one): a duration-record sink filter — a clock in bare subtraction (`now - X`,
+   clock as minuend) whose result is assigned/logged/returned and never feeds a
+   relational is cosmetic. Must KEEP ceal's genuine timing (`X > Date.now()`
+   relational, `Date.now() + ttl` addition, `deadline - Date.now()` clock-as-
+   subtrahend) — that distinction is the recall guard, validate on both corpora.*
+2. **Injected-callee subprocess — 5.** `spawn("git"/"sh"/"glow", …)` where the
+   enclosing fn takes `spawn = spawnSync` as a default param (`preview-markdown.mjs`
+   ×4 — a fully DI'd file pry mislabels entirely — + `run-verify.mjs` ×1). pry's
+   seam checks cover the injected *receiver* (`receiver-param-injected`) and the
+   injected *executable arg* (`exe-param-injected`), but **not the injected
+   *callee identity***. Deterministic census: exactly 5/62, the rest are real
+   global `spawnSync`/`execFileSync` callees. *Lever (cheap, low-risk): when a
+   global_call subprocess/network callee resolves to an enclosing param, classify
+   Seamed — the same rung the receiver/executable checks already implement.*
+
+Curated precision climbs the same way ceal's did: **raw ~70% → after the
+duration-record filter ~93% (64/69) → after also fixing injected-callee, the
+demand-welded subset is essentially all-genuine.** The genuine 64 are exactly
+pry's thesis: inline `spawnSync`/`execFileSync` on git/codex/claude/go orchestration
+with `status !== 0` / ENOENT / `result.error` handling (57), real timeouts that
+kill or reject a child (`setTimeout(…→child.kill)`, 5 clock), and bare `fetch` /
+`new WebSocket` (2). **Verdict: the thesis generalizes — the genuine subset is real
+and dominant once two corpus-specific noise classes are filtered — but pry as
+*shipped* is corpus-sensitive (70% here vs 88% on ceal), and the two filters above
+are the named work to close that gap.**
+
 ## Caveats
+
+- **cautilus is a single second corpus, and an automation one** — its 67%
+  subprocess mix is why raw precision (70%) beats ceal's raw (32%) despite no new
+  levers (subprocess is ~92% genuine; ceal's clock-heavy mix was mostly cosmetic).
+  A third corpus with a different mix could shift the picture again. The
+  duration-record + injected-callee levers are *motivated* but **not yet
+  implemented or recall-validated** at the time of this row.
+- Clock figures are a 32/135 (24%) sample extrapolation, not a census; non-clock
+  is a full census. The ~32%/~71%/~80% line should be read ±a few points.
+- Single corpus (ceal), which is DI-disciplined — a welded-at-demand repo
+  (0%-injection; Run 6's broad market) may shift the cosmetic/genuine mix. H3
+  (broad-market value test) remains the complementary unrun gate.
+- "Genuine" here = *structural* testability gap. Whether the author would *act* on
+  each (wantedness, the (c) axis) is not measured — that needs author judgment or
+  H4 (end-to-end one-example proof).
 
 - Clock figures are a 32/135 (24%) sample extrapolation, not a census; non-clock
   is a full census. The ~32%/~71%/~80% line should be read ±a few points.
