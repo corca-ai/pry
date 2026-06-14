@@ -122,8 +122,11 @@ fn is_enclosing_param(n: Node, name: &str, src: &[u8]) -> bool {
     false
 }
 
-/// Acquisition is in a `?? new X()` / nullish-default or a default-parameter
-/// value -> the boundary has an in-band injectable alternative (SEAMED, F18).
+/// Acquisition is in a `?? new X()` / nullish-default, a default-parameter value,
+/// a `<param-selector> ? … : new X()` factory ternary, or a `?? (() => new X())`
+/// default-factory closure -> the boundary has an in-band injectable alternative
+/// (SEAMED, F18). The ternary + arrow-default arms fix two 0-hop seams the leaf
+/// model previously mis-called welded (`input.clientFactory ? …`, `input.now ??`).
 fn nullish_or_default_context(n: Node, src: &[u8]) -> bool {
     let mut cur = n.parent();
     while let Some(p) = cur {
@@ -135,17 +138,159 @@ fn nullish_or_default_context(n: Node, src: &[u8]) -> bool {
                     }
                 }
             }
+            // `<param-selector> ? … : <boundary>`: an in-band conditional
+            // alternative gated by the *presence* of an injectable dependency.
+            "ternary_expression" => {
+                if let Some(cond) = p.child_by_field_name("condition") {
+                    if is_factory_selector(cond, p, src) {
+                        return true;
+                    }
+                }
+            }
             // default-param value lives inside the parameter list, not the body
             "formal_parameters" | "required_parameter" | "optional_parameter"
             | "assignment_pattern" => return true,
-            // stop at a function/body boundary
+            // a `?? (() => new Date())` default factory: the inner boundary is the
+            // default *behind* an injectable seam -> recurse on the wrapper fn.
+            k if FUNCTION_KINDS.contains(&k) => return nullish_or_default_context(p, src),
+            // stop at a statement boundary
             "statement_block" => break,
-            k if FUNCTION_KINDS.contains(&k) => break,
             _ => {}
         }
         cur = p.parent();
     }
     false
+}
+
+/// A ternary condition that selects on the *presence* of an injectable dependency
+/// (`input.clientFactory ? …`, `factory ? …`) — a bare param/param-member
+/// truthiness test, NOT a value comparison like `x > 0 ? new A() : new B()`.
+fn is_factory_selector(cond: Node, scope: Node, src: &[u8]) -> bool {
+    match cond.kind() {
+        "identifier" => is_enclosing_param(scope, text(cond, src), src),
+        "member_expression" => member_root_ident(cond)
+            .map(|r| is_enclosing_param(scope, text(r, src), src))
+            .unwrap_or(false),
+        _ => false,
+    }
+}
+
+const SERIALIZE_METHODS: &[&str] = &[
+    "toISOString", "toString", "toLocaleString", "toLocaleDateString",
+    "toLocaleTimeString", "toUTCString", "toDateString", "toTimeString", "toJSON",
+];
+
+/// A clock/randomness value used purely for display/record rather than control
+/// flow: serialized via a `to*String`/`toJSON` method, embedded in a template
+/// string, or placed directly as an object-property value. These have no failure
+/// to inject, so they are NOT substitution-demand points (precision filter:
+/// `new Date().toISOString()` record fields are ~half of ceal's raw demand-welds).
+fn cosmetic_value_context(n: Node, src: &[u8]) -> bool {
+    // (a) directly serialized: `new Date().toISOString()`, `Date.now().toString()`
+    if let Some(p) = n.parent() {
+        if p.kind() == "member_expression"
+            && p.child_by_field_name("object").map(|o| o.id() == n.id()).unwrap_or(false)
+        {
+            if let Some(prop) = p.child_by_field_name("property") {
+                if SERIALIZE_METHODS.contains(&text(prop, src)) {
+                    return true;
+                }
+            }
+        }
+        // a `() => new Date()` / `() => Date.now()` thunk is a clock *provider*
+        // definition (the injectable itself), not a consumption weld.
+        if p.kind() == "arrow_function"
+            && p.child_by_field_name("body").map(|b| b.id() == n.id()).unwrap_or(false)
+        {
+            return true;
+        }
+    }
+    // (b) inside a template substitution, or (c) the value of an object pair
+    let mut prev = n;
+    let mut cur = n.parent();
+    while let Some(p) = cur {
+        match p.kind() {
+            "template_substitution" => return true,
+            "pair" => {
+                return p
+                    .child_by_field_name("value")
+                    .map(|v| v.id() == prev.id())
+                    .unwrap_or(false);
+            }
+            // a call argument may feed control flow (setTimeout, cache.set(TTL)) —
+            // do not treat as cosmetic.
+            "arguments" => return false,
+            "statement_block" | "expression_statement" => break,
+            k if FUNCTION_KINDS.contains(&k) => break,
+            _ => {}
+        }
+        prev = p;
+        cur = p.parent();
+    }
+    false
+}
+
+/// F22 rung-3: the leaf boundary lives inside a *named implementation of an
+/// injectable interface* — a `class … implements I` method, or a typed impl
+/// `const x: I = (…) => {…}` / `{ method(){…} }`. The seam is interface `I`, not
+/// the leaf, so consumers inject a fake `I`. Returns `I`. The typed-const arm
+/// requires an intervening function so a plain `const r: T = await fetch()` (where
+/// `T` is the result type, not an injected interface) is NOT treated as a seam.
+fn injectable_impl_context(n: Node, src: &[u8]) -> Option<String> {
+    let mut crossed_fn = false;
+    let mut cur = n.parent();
+    while let Some(p) = cur {
+        match p.kind() {
+            k if FUNCTION_KINDS.contains(&k) => crossed_fn = true,
+            "class_declaration" | "class" => {
+                if let Some(name) = implements_name(p, src) {
+                    return Some(name);
+                }
+            }
+            "variable_declarator" if crossed_fn => {
+                if let Some(t) = p.child_by_field_name("type") {
+                    if let Some(name) = type_ann_name(t, src) {
+                        return Some(name);
+                    }
+                }
+            }
+            _ => {}
+        }
+        cur = p.parent();
+    }
+    None
+}
+
+/// First `implements` type name of a class node, if any.
+fn implements_name(class_node: Node, src: &[u8]) -> Option<String> {
+    let mut c = class_node.walk();
+    for ch in class_node.named_children(&mut c) {
+        if ch.kind() == "class_heritage" {
+            let mut c2 = ch.walk();
+            for h in ch.named_children(&mut c2) {
+                if h.kind() == "implements_clause" {
+                    let mut c3 = h.walk();
+                    for t in h.named_children(&mut c3) {
+                        if t.kind() == "type_identifier" {
+                            return Some(text(t, src).to_string());
+                        }
+                    }
+                }
+            }
+        }
+    }
+    None
+}
+
+/// Named type of a `: TypeName` annotation (interface-like only).
+fn type_ann_name(type_ann: Node, src: &[u8]) -> Option<String> {
+    let mut c = type_ann.walk();
+    for ch in type_ann.named_children(&mut c) {
+        if ch.kind() == "type_identifier" {
+            return Some(text(ch, src).to_string());
+        }
+    }
+    None
 }
 
 fn enclosing_class_body<'t>(n: Node<'t>) -> Option<Node<'t>> {
@@ -377,7 +522,12 @@ fn match_node(node: Node, src: &[u8], file: &str, cat: &Catalog) -> Option<Findi
                             Class::Welded
                         };
                         let reason = if class == Class::Seamed { "clock-injected" } else { "clock-inline" };
-                        return Some(finding(node, b, file, class, false, reason));
+                        let mut f = finding(node, b, file, class, false, reason);
+                        if class == Class::Welded && cosmetic_value_context(node, src) {
+                            f.demand = false;
+                            f.reason = format!("{reason}-cosmetic");
+                        }
+                        return Some(f);
                     }
                     // provider client construction
                     let class = if nullish_or_default_context(node, src) {
@@ -398,6 +548,13 @@ fn match_node(node: Node, src: &[u8], file: &str, cat: &Catalog) -> Option<Findi
                     let name = text(func, src);
                     for b in &cat.boundary {
                         if b.form == "global_call" && b.callee.as_deref() == Some(name) {
+                            // F22 rung-3: leaf inside a named injectable-interface impl
+                            // (the seam is the interface, not this leaf).
+                            if matches!(b.kind.as_str(), "network" | "subprocess") {
+                                if let Some(iface) = injectable_impl_context(node, src) {
+                                    return Some(finding(node, b, file, Class::Seamed, true, &format!("impl-interface:{iface}")));
+                                }
+                            }
                             // subprocess spawn with an injected (param) executable -> seam
                             if b.kind == "subprocess" {
                                 if let Some(arg0) = first_arg(node) {
@@ -440,12 +597,26 @@ fn match_node(node: Node, src: &[u8], file: &str, cat: &Catalog) -> Option<Findi
                                 };
                                 let is = kind_input_sim(&b.kind);
                                 let reason = if class == Class::Seamed { "builtin-injected" } else { "builtin-inline" };
-                                return Some(finding(node, b, file, class, is, reason));
+                                let mut f = finding(node, b, file, class, is, reason);
+                                if class == Class::Welded
+                                    && matches!(b.kind.as_str(), "clock" | "random")
+                                    && cosmetic_value_context(node, src)
+                                {
+                                    f.demand = false;
+                                    f.reason = format!("{reason}-cosmetic");
+                                }
+                                return Some(f);
                             }
                             if b.form == "ns_call"
                                 && b.object.as_deref() == Some(obj_name)
                                 && b.method.as_deref() == Some(prop)
                             {
+                                // F22 rung-3: leaf inside a named injectable-interface impl.
+                                if matches!(b.kind.as_str(), "network" | "subprocess") {
+                                    if let Some(iface) = injectable_impl_context(node, src) {
+                                        return Some(finding(node, b, file, Class::Seamed, true, &format!("impl-interface:{iface}")));
+                                    }
+                                }
                                 if b.kind == "subprocess" {
                                     if let Some(arg0) = first_arg(node) {
                                         if arg0.kind() == "identifier"

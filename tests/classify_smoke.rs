@@ -77,6 +77,42 @@ fn determinism_same_input_same_output() {
     }
 }
 
+const SRC2: &str = r#"
+export function rec() { return { ts: new Date().toISOString(), n: Date.now() }; }
+export function clk() { const c = { now: () => new Date() }; return c; }
+export function tern(input: { make?: () => any }) { return input.make ? input.make() : new WebClient("t"); }
+export function arrowDef(input: { now?: () => number }) { const now = input.now ?? (() => Date.now()); return now(); }
+class LocalExec implements Executor { run(cmd: string) { return spawn(cmd, []); } }
+const transport: HttpTransport = { request(u: string) { return fetch(u); } };
+export async function bareGet(u: string) { return await fetch(u); }
+"#;
+
+#[test]
+fn precision_filters_and_rung3() {
+    let fs = analyze_str(SRC2, "p.ts");
+
+    // lever 1 — cosmetic clock (record field / serialize) stays welded but is NOT
+    // a substitution-demand point.
+    let cos = fs.iter().find(|f| f.kind == "clock" && f.reason.contains("cosmetic")).expect("no cosmetic clock");
+    assert_eq!(cos.class, Class::Welded);
+    assert!(!cos.demand, "cosmetic timestamp must drop out of the demand subset");
+    // `now: () => new Date()` thunk -> provider definition, demoted
+    assert!(fs.iter().any(|f| f.kind == "clock" && f.line == 3 && !f.demand), "clock thunk not demoted");
+
+    // lever 2a — the two 0-hop seam bugs are fixed
+    assert!(fs.iter().any(|f| f.line == 4 && f.class == Class::Seamed), "ternary-factory seam missed");
+    assert!(fs.iter().any(|f| f.line == 5 && f.kind == "clock" && f.class == Class::Seamed), "arrow-?? default seam missed");
+
+    // lever 2b — rung-3: leaf inside a named injectable-interface impl -> seamed
+    assert!(fs.iter().any(|f| f.line == 6 && f.reason.contains("impl-interface:Executor") && f.class == Class::Seamed), "implements rung-3 missed");
+    assert!(fs.iter().any(|f| f.line == 7 && f.reason.contains("impl-interface:HttpTransport") && f.class == Class::Seamed), "typed-const rung-3 missed");
+
+    // guardrail — a genuine bare fetch (not inside an impl) stays welded + demand
+    let bare = fs.iter().find(|f| f.line == 8 && f.kind == "network").expect("no bare fetch");
+    assert_eq!(bare.class, Class::Welded);
+    assert!(bare.demand, "genuine bare fetch must remain a demand weld");
+}
+
 #[test]
 fn demand_subset_discriminates() {
     // The lens metric: among the substitution-demand subset, both seamed and welded
