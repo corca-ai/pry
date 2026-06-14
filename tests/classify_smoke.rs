@@ -114,8 +114,12 @@ fn precision_filters_and_rung3() {
 }
 
 const SRC3: &str = r#"
-export function deadline(d: number) { if (Date.now() > d) return 0; return Date.now() - d; }
+export function rel(d: number) { return Date.now() > d; }
 export function ttl(m: Map<string, number>) { m.set("k", Date.now() + 1000); return m; }
+export function remaining(deadline: number) { return deadline - Date.now(); }
+export function guarded(started: number, timeout: number) { if (Date.now() - started > timeout) return 1; return 0; }
+export function recordField(started: number, rec: { ms?: number }) { rec.ms = Date.now() - started; return rec; }
+export function durationArg(started: number) { return formatDuration(Date.now() - started); }
 export function elapsed() { const startedAt = Date.now(); doWork(); return Date.now() - startedAt; }
 export function logOnly(rec: { at?: number }) { const now = Date.now(); rec.at = now; return rec; }
 export function concat() { return "at " + Date.now(); }
@@ -128,17 +132,26 @@ fn lever3_clock_timing_vs_logsink() {
         fs.iter().find(|f| f.line == line && f.kind == "clock").map(|f| f.demand)
     };
 
-    // timing math (relational / subtraction / numeric `+ ttl`) -> stays a demand weld
+    // KEEP — genuine timing the recall guard must preserve.
     assert_eq!(demand_clock(2), Some(true), "`Date.now() > d` relational must stay demand");
-    assert_eq!(demand_clock(3), Some(true), "`Date.now() + 1000` TTL must stay demand");
-    // one-hop: `const startedAt = Date.now()` later used in `Date.now() - startedAt`
-    assert!(fs.iter().any(|f| f.line == 4 && f.kind == "clock" && f.demand),
-        "elapsed-anchor binding used in timing math must stay demand");
+    assert_eq!(demand_clock(3), Some(true), "`Date.now() + 1000` TTL addition must stay demand");
+    assert_eq!(demand_clock(4), Some(true), "`deadline - Date.now()` clock-as-subtrahend must stay demand");
+    assert_eq!(demand_clock(5), Some(true), "`Date.now() - started > timeout` duration feeds a relational -> keep");
 
-    // pure record/log sink -> demoted out of the demand subset
-    assert_eq!(demand_clock(5), Some(false), "`const now = Date.now(); rec.at = now` is a log sink");
-    // `"at " + Date.now()` is string concatenation, not timing arithmetic -> log sink
-    assert_eq!(demand_clock(6), Some(false), "string-concat clock is a log sink");
+    // DEMOTE — duration-record sink hop (the new lever): a clock subtraction whose
+    // elapsed result only records (field / call arg / return) is cosmetic.
+    assert_eq!(demand_clock(6), Some(false), "duration assigned to a record field is cosmetic");
+    assert_eq!(demand_clock(7), Some(false), "duration passed as a call argument is cosmetic");
+    // elapsed(): the revised expectation — a *returned* bare duration is a record
+    // sink, so BOTH the minuend read and its anchor binding demote.
+    let l8: Vec<_> = fs.iter().filter(|f| f.line == 8 && f.kind == "clock").collect();
+    assert!(l8.len() >= 2, "elapsed() has an anchor read and a subtraction read");
+    assert!(l8.iter().all(|f| !f.demand),
+        "a returned bare duration demotes both the `Date.now() - startedAt` read and the `startedAt` anchor");
+
+    // DEMOTE — existing lever 3 (no arithmetic at all).
+    assert_eq!(demand_clock(9), Some(false), "`const now = Date.now(); rec.at = now` is a log sink");
+    assert_eq!(demand_clock(10), Some(false), "string-concat clock is a log sink");
 }
 
 // Type-free JavaScript (a `.mjs`-shaped string with no annotations). The frontend

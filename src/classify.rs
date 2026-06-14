@@ -273,9 +273,155 @@ fn in_arith_relational(n: Node, src: &[u8]) -> bool {
     false
 }
 
+const RELATIONAL_OPS: &[&str] = &["<", ">", "<=", ">=", "==", "===", "!=", "!=="];
+const ARITHMETIC_OPS: &[&str] = &["-", "+", "*", "/", "%"];
+
+/// Wrapper kinds that pass an expression's value through unchanged when climbing.
+fn is_value_wrapper(kind: &str) -> bool {
+    matches!(
+        kind,
+        "member_expression"
+            | "call_expression"
+            | "parenthesized_expression"
+            | "non_null_expression"
+            | "as_expression"
+    )
+}
+
+/// If `n` (through value wrappers) is the *minuend* — the left operand — of a `-`
+/// subtraction, return that subtraction node. A clock minuend (`Date.now() - X`) is
+/// a duration/elapsed shape, the candidate for the duration-record sink hop. The
+/// clock as a *subtrahend* (`deadline - Date.now()` = remaining time) or in any
+/// other operator returns None, so the recall guard keeps it.
+fn clock_subtraction_minuend<'t>(n: Node<'t>, src: &[u8]) -> Option<Node<'t>> {
+    let mut prev = n;
+    let mut cur = n.parent();
+    while let Some(p) = cur {
+        match p.kind() {
+            k if is_value_wrapper(k) => {}
+            "binary_expression" => {
+                let op = p.child_by_field_name("operator").map(|o| text(o, src)).unwrap_or("");
+                let is_left = p.child_by_field_name("left").map(|l| l.id() == prev.id()).unwrap_or(false);
+                return if op == "-" && is_left { Some(p) } else { None };
+            }
+            _ => return None,
+        }
+        prev = p;
+        cur = p.parent();
+    }
+    None
+}
+
+/// The enclosing `-` subtraction `n` is an operand of (either side), through value
+/// wrappers, if any. Used for a *binding anchor's* uses, where the anchor can be
+/// either operand (`Date.now() - started` reads `started` as the subtrahend).
+fn enclosing_subtraction<'t>(n: Node<'t>, src: &[u8]) -> Option<Node<'t>> {
+    let mut cur = n.parent();
+    while let Some(p) = cur {
+        match p.kind() {
+            k if is_value_wrapper(k) => {}
+            "binary_expression" => {
+                let op = p.child_by_field_name("operator").map(|o| text(o, src)).unwrap_or("");
+                return if op == "-" { Some(p) } else { None };
+            }
+            _ => return None,
+        }
+        cur = p.parent();
+    }
+    None
+}
+
+/// Does this expression's value ultimately reach a relational comparison or branch
+/// condition (control), versus terminating in a record/log/return/argument sink?
+/// Climbs through arithmetic (a duration in other units is still a duration) and
+/// `?:`/parenthesized value-arms; a relational operator or an `if`/`while`/`?:`
+/// *condition* is control; a `const` binding hops to its uses; any other terminal
+/// (return, call argument, object pair, field assignment) is a sink. This is the
+/// sink hop that separates `if (Date.now() - started > timeout)` (control, kept)
+/// from `rec.ms = Date.now() - started` / `log(Date.now() - started)` (record,
+/// demoted) — the cautilus duration-record class lever 3 over-kept.
+fn value_reaches_control(node: Node, src: &[u8]) -> bool {
+    let mut prev = node;
+    let mut cur = node.parent();
+    while let Some(p) = cur {
+        match p.kind() {
+            "parenthesized_expression" | "non_null_expression" | "as_expression" => {}
+            "binary_expression" => {
+                let op = p.child_by_field_name("operator").map(|o| text(o, src)).unwrap_or("");
+                if RELATIONAL_OPS.contains(&op) {
+                    return true;
+                }
+                if !ARITHMETIC_OPS.contains(&op) {
+                    return false; // logical / `??` / bitwise -> not a timing comparison
+                }
+                // arithmetic: the value flows on (e.g. `(now - start) / 1000`)
+            }
+            "ternary_expression" => {
+                // only the condition is control; a value-arm propagates the value
+                if p.child_by_field_name("condition").map(|c| c.id() == prev.id()).unwrap_or(false) {
+                    return true;
+                }
+            }
+            "if_statement" | "while_statement" | "do_statement" | "for_statement" => {
+                return p
+                    .child_by_field_name("condition")
+                    .map(|c| c.id() == prev.id())
+                    .unwrap_or(false);
+            }
+            "variable_declarator" => {
+                if p.child_by_field_name("value").map(|v| v.id() == prev.id()).unwrap_or(false) {
+                    if let Some(nm) = p.child_by_field_name("name") {
+                        return name_used_in_control(p, text(nm, src), prev.id(), src);
+                    }
+                }
+                return false;
+            }
+            _ => return false,
+        }
+        prev = p;
+        cur = p.parent();
+    }
+    false
+}
+
+/// A use of an in-scope name is a *control* use if it participates in a subtraction
+/// whose result reaches control, or otherwise in timing arithmetic/relational
+/// (`x + ttl`, `x > deadline`, `x / 1000`). A use that only feeds a record/log sink
+/// is not control.
+fn use_is_control(use_node: Node, src: &[u8]) -> bool {
+    if let Some(sub) = enclosing_subtraction(use_node, src) {
+        return value_reaches_control(sub, src);
+    }
+    in_arith_relational(use_node, src)
+}
+
+/// Scan the enclosing function body for identifier uses of `name` (excluding the
+/// binding node `exclude_id`) and return true if any is a control use.
+fn name_used_in_control(anchor: Node, name: &str, exclude_id: usize, src: &[u8]) -> bool {
+    let Some(body) = enclosing_function(anchor).and_then(|f| f.child_by_field_name("body")) else {
+        return false;
+    };
+    let mut stack = vec![body];
+    while let Some(nd) = stack.pop() {
+        if nd.kind() == "identifier"
+            && nd.id() != exclude_id
+            && text(nd, src) == name
+            && use_is_control(nd, src)
+        {
+            return true;
+        }
+        let mut c = nd.walk();
+        for ch in nd.named_children(&mut c) {
+            stack.push(ch);
+        }
+    }
+    false
+}
+
 /// One-hop: a clock bound to `const x = <clock>` is control iff some later use of
-/// `x` participates in timing arithmetic (`Date.now() - x`, `x > deadline`).
-/// `None` = not a simple local binding (caller falls back to the zero-hop test).
+/// `x` is a control use (`Date.now() - x` feeding a comparison, `x > deadline`,
+/// `x + ttl`). A binding whose only uses feed record/log sinks (incl. a recorded
+/// `Date.now() - x` duration) is NOT control. `None` = not a simple local binding.
 fn clock_binding_is_control(n: Node, src: &[u8]) -> Option<bool> {
     let p = n.parent()?;
     if p.kind() != "variable_declarator"
@@ -284,32 +430,26 @@ fn clock_binding_is_control(n: Node, src: &[u8]) -> Option<bool> {
         return None;
     }
     let name = p.child_by_field_name("name").map(|x| text(x, src))?.to_string();
-    let body = enclosing_function(n)?.child_by_field_name("body")?;
-    let mut stack = vec![body];
-    while let Some(nd) = stack.pop() {
-        if nd.kind() == "identifier" && nd.id() != n.id() && text(nd, src) == name
-            && in_arith_relational(nd, src)
-        {
-            return Some(true);
-        }
-        let mut c = nd.walk();
-        for ch in nd.named_children(&mut c) {
-            stack.push(ch);
-        }
-    }
-    Some(false)
+    Some(name_used_in_control(n, &name, n.id(), src))
 }
 
-/// Lever 3 (one-hop): a bare welded clock that is neither timing arithmetic nor a
-/// control-used local binding is a record/log sink — not a substitution-demand
-/// point. Splits the ambiguous `Date.now()`/`new Date()` tail the cosmetic filter
-/// could not (it has no serialization marker).
+/// Lever 3 (one-hop) + the duration-record sink hop: a bare welded clock that is
+/// neither timing control nor a control-used binding is a record/log sink — not a
+/// substitution-demand point. Splits the ambiguous `Date.now()`/`new Date()` tail
+/// the cosmetic filter could not (it has no serialization marker), and the
+/// duration-record tail (`Date.now() - started` recorded, not compared) lever 3
+/// previously over-kept as "arithmetic = control".
 fn clock_is_logsink(n: Node, src: &[u8]) -> bool {
+    // duration-record sink hop: clock as the minuend of `-` whose elapsed result
+    // only records (field/log/return/arg) -> cosmetic; KEEP if it feeds a branch.
+    if let Some(sub) = clock_subtraction_minuend(n, src) {
+        return !value_reaches_control(sub, src);
+    }
     if in_arith_relational(n, src) {
-        return false; // timing math -> control
+        return false; // relational / addition / division / clock-as-subtrahend -> control
     }
     if clock_binding_is_control(n, src) == Some(true) {
-        return false; // elapsed/deadline anchor -> control
+        return false; // elapsed/deadline anchor used in timing math -> control
     }
     true
 }
