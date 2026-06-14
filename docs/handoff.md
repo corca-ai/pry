@@ -14,10 +14,10 @@ prior "Python frontend next" trigger is superseded (see Discuss).
 - **pry is now packaged + dogfood-proven.** TS/JS analyzer was already a validated
   GO (precision 88% ceal / 97% cautilus; see `docs/precision-gate.md`). This
   session wired it into charness and shipped the agent layer:
-  - **S3** — `integrations/tools/pry.json` external_binary manifest in charness
-    (commit `754e82ba`, **local, not pushed**), mirroring `nose.json` honestly
-    (experimental / manual / `PRY_BIN`, no fake release). pry now surfaces as a
-    `validation`-role tool for `quality`. All 7 charness pre-commit gates green.
+  - **S3** — `integrations/tools/pry.json` external_binary manifest in charness,
+    mirroring `nose.json`. **Now on charness `main`** (`754e82ba` integrated by
+    the charness side + their test fix `91d47352`; install-URL update `d7ef98ee`).
+    pry surfaces as a `validation`-role tool for `quality`.
   - **S4** — F15 `pry` agent skill in this repo (`skills/pry/SKILL.md` +
     `skills/pry/scripts/rank_backlog.py`, `PRY_BIN`-honoring). Commits `5282d9c`,
     `5c25d5c`.
@@ -35,23 +35,18 @@ prior "Python frontend next" trigger is superseded (see Discuss).
   https://github.com/corca-ai/pry/releases/latest/download/pry-installer.sh | sh`
   installs a working `pry 0.1.0` (detect/healthcheck strings match the charness
   manifest). The nose-model install path now works for anyone.
-- **Open after release:**
-  - **charness `pry.json` NOT updated** — still says manual/no-release/`PRY_BIN`.
-    Now that the repo is public + released, update its install to the
-    `pry-installer.sh` URL — but only after **charness-side coordination** (the S3
-    commit `754e82ba` is still local/unpushed, held for that coordination per operator).
-  - **quality does not auto-invoke pry** (no dispatch path — agent-invoked via the
-    F15 skill + `PRY_BIN`); Stage-2 rung-3 wrapper detection unbuilt (demand-welded
-    is an upper bound).
-- charness working tree also carries unrelated uncommitted `validate_debug_artifact`
-  work (not ours; left untouched).
+- **charness wiring DONE + on `main`** — coordination complete; manifest install
+  now points at the released `pry-installer.sh`; `quality` can detect/recommend pry.
+- **Open (follow-ups):** `quality` does not *auto-invoke* pry yet (no dispatch path
+  — agent-invoked via the F15 skill + `PRY_BIN`); Stage-2 rung-3 wrapper detection
+  unbuilt (demand-welded is an upper bound); homebrew installer not yet added.
 
 ## Next Session
 
 Pick one (none forced):
-1. **charness coordination** — loop in the charness side on the held-local S3
-   commit (`754e82ba`); decide push + update `pry.json` install to the released
-   `pry-installer.sh` URL together (repo is public + released, so it's ready).
+1. **quality auto-invoke** — wire a `quality` driver that runs `pry map` on TS/JS
+   dirs as an advisory inventory (mirror nose's `inventory_nose_clones.py`), so pry
+   runs inside standing quality, not just on-request via the F15 skill.
 2. **Formal goal closeout** — `/achieve` After-phase on the packaging goal: retro
    + standalone disposition artifact → flip Status to `complete`.
 3. **Deepen TS** — Stage-2 F22 rung-3 wrapper detection (closes the
@@ -76,4 +71,4 @@ Pick one (none forced):
 - `docs/precision-gate.md` — validated TS precision + labeling taxonomy.
 - `docs/kill-gate.md` — why TS-only (Python KILL).
 - `skills/pry/SKILL.md` + `skills/pry/scripts/rank_backlog.py` — the F15 skill.
-- `../charness/integrations/tools/pry.json` (commit `754e82ba`, local) — the manifest.
+- `../charness/integrations/tools/pry.json` (on charness `main`, `d7ef98ee`) — the manifest.
