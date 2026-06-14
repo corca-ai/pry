@@ -205,6 +205,20 @@ during the run:
 - Lessons carried forward:
 - Metrics:
 
+### Slice 3: Slice 3: charness pry.json external_binary manifest
+
+- Objective: Wire pry as a quality-advisory external_binary in charness so it is discoverable/doctor-checkable; mirror nose.json honestly given no published release.
+- Why this approach: Mirror nose.json (external_binary) not cautilus (external_binary_with_skill): pry's F15 skill ships in the pry repo, so charness only needs the binary manifest. Honest pre-release shape (experimental/manual/PRY_BIN) over a fake release installer.
+- Commits: charness 754e82ba (local, no push)
+- What changed: NEW integrations/tools/pry.json (+plugin mirror); +pry in dependencies.json (+mirror); regenerated plugin mirror (sync_root_plugin_manifests.py) + find-skills inventory (latest.json/.md). 6 files, 237 insertions.
+- Alternatives rejected: Rejected access_modes=[binary,env,degraded] (env forces capability_requirements.env_vars, over-asserts the PRY_BIN crutch as first-class) -> kept [binary,degraded] mirroring nose. Rejected external_binary_with_skill (skill ships in pry repo).
+- Targeted verification: validate_integrations exit0 (13 manifests/7 deps); validate_current_pointer_freshness exit0; check_staged_mirror_drift exit0; pytest control_plane/test_integrations_validation 15 passed; all 7 charness pre-commit gates passed. detect/healthcheck strings confirmed vs real binary (pry 0.1.0; 'risk ranking').
+- Test duplication pressure:
+- Critique: full: 3 fresh-eye angle subagents (schema/cascade=PASS; honesty; wiring) + 1 counterweight. Acted: dropped unevidenced 'db' from summary boundary-kinds (DB-in-TS=0); reworded host_note implying quality already invokes pry. Deferred: access_modes aspirational (revisit at real release). Over-worry: dead corca-ai/pry link (neutralized by experimental+notes).
+- Off-goal findings: charness working tree carries unrelated uncommitted changes (scripts/validate_debug_artifact.py + mirror, tests/test_debug_artifact.py) from commit a930cc5f line; left untouched/unstaged.
+- Lessons carried forward: Adding a tool manifest cascades to: plugin mirror (sync_root_plugin_manifests.py) AND find-skills inventory (latest.json freshness check) -> both must regen or pre-commit gates fail. No per-tool lock needed (nose has none).
+- Metrics: S3 discoverable-not-invocable by design; quality driver = S4.
+
 ## Context Sources
 
 Durable references this goal was shaped from. A fresh session can reconstruct the
