@@ -305,6 +305,33 @@ written to a field then compared via that field — needs member-alias tracking.
 these to filters only if a third corpus surfaces them. (A self-referential-declarator
 stack overflow the critique also found was fixed, not deferred — `MAX_BINDING_HOPS`.)
 
+## Rung-3 stage-2 census (2026-06-14) — gap not material on ceal, deferred
+
+The kill-gate Run 5 EXTEND rider flagged a possible recall gap: network/subprocess
+seams hidden behind an *injected transport/executor wrapper* one hop up, which the
+leaf+0-hop+1-hop model would mis-call welded (rung-3 stage-2 / "form-B"). Before
+building it, scouted the actual welded set on ceal `cdd31884`:
+
+- **Network: 8/9 welds are genuine** inline `fetch()` in plain module functions or
+  direct call sites (no injected transport): `google-workspace-rest-client.ts:71/84/302`
+  (OAuth token fetches), `ceal-agent/src/tools/runtime.ts:99`, `image-generation-turn-bridge.ts:254`,
+  `ceal-runtime/src/slack-guardian-child.ts:116`, the `slack-api.mjs` vendor pair.
+  The lone non-genuine is `connectors/slack/src/store.ts:285` — a class with an
+  injected `fileDownloader` seam but a hardwired `fetch` **fallback** (correctly welded).
+- **Subprocess: genuine** inline `spawnSync`/`execFileSync` in module functions
+  (`control-auto-commit.ts:133`, `observability.ts:58`, …). Injected executors are
+  already seamed (`exe-param-injected` / `callee-param-injected` / `impl-interface`).
+
+**Verdict: do NOT build rung-3 stage-2 now.** The "form-B" wrapper gap is not
+materially present on ceal — the welds are real testability gaps, not false-welds,
+so demand-welded is **not** a meaningful overcount (the "upper bound" caveat is
+largely theoretical here). Building it would also need **cross-file analysis** ("is
+this wrapper class injected elsewhere?"), beyond pry's intra-file model — and a
+naive local rule risks **false-seaming genuine welds** (e.g. `store.ts:285`'s
+fallback), hurting precision. Promote to a real filter only if a corpus surfaces a
+material wrapper-injection pattern (same discipline as W1–W3). Form-A
+(`implements I` / typed-const impl, `injectable_impl_context`) stays as-is.
+
 ## Caveats
 
 - **cautilus is a single second corpus, and an automation one** — its 67%

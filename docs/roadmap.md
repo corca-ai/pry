@@ -28,17 +28,25 @@ The Layer-0 *prediction* channel is built, validated, and released:
 path, bare `except`). pry today ships the *map* (prediction); the *floor* (claim)
 does not exist. SARIF emit is also future (JSON only today).
 
-## Now — sharpen the map, then add the floor
+## Now — add the floor, then auto-invoke
 
-1. **Stage-2 rung-3 wrapper detection (F22).** pry under-detects network/subprocess
-   seams behind an injected transport/executor wrapper one hop up → welded-at-demand
-   is an upper bound. The highest-value accuracy increment on the validated TS/JS
-   surface (pre-registered in `kill-gate.md` Run 5's EXTEND rider).
-2. **Syntactic floor.** Build the un-built Layer-0 claim channel, kept physically
-   separate from the map output. High precision + `# pry-ignore` escape hatch.
-3. **quality auto-invoke** (charness-side): a `quality` driver that runs `pry map`
+1. **Syntactic floor.** Build the un-built Layer-0 claim channel (empty catch,
+   swallowed error, log-and-continue on a mutating path), kept physically separate
+   from the map output. High precision + `# pry-ignore` escape hatch. This is the
+   genuine un-built Layer-0 deliverable.
+2. **quality auto-invoke** (charness-side): a `quality` driver that runs `pry map`
    as a standing advisory inventory, mirroring nose's consumer. Today pry is
    agent-invoked on-request via the `skills/pry/` F15 skill, not auto-run.
+
+### Deferred (scouted, not material)
+
+**Stage-2 rung-3 wrapper detection (F22, "form-B").** The `kill-gate.md` Run 5
+EXTEND rider flagged network/subprocess seams behind an injected transport/executor
+wrapper one hop up. A census on ceal found the gap **not material** (the welds are
+genuine inline calls) and a safe rule would need cross-file analysis + risks
+false-seaming genuine welds. Deferred until a corpus surfaces it — see
+[`precision-gate.md`](precision-gate.md) "Rung-3 stage-2 census". Form-A
+(`implements I` / typed-const impl) is already built.
 
 ## Next — Layer 1 (only after Layer 0 is stable and validated)
 

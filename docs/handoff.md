@@ -38,8 +38,14 @@ prior "Python frontend next" trigger is superseded (see Discuss).
 - **charness wiring DONE + on `main`** — coordination complete; manifest install
   now points at the released `pry-installer.sh`; `quality` can detect/recommend pry.
 - **Open (follow-ups):** `quality` does not *auto-invoke* pry yet (no dispatch path
-  — agent-invoked via the F15 skill + `PRY_BIN`); Stage-2 rung-3 wrapper detection
-  unbuilt (demand-welded is an upper bound); homebrew installer not yet added.
+  — agent-invoked via the F15 skill + `PRY_BIN`); the **syntactic floor** (Layer-0
+  claim channel) is genuinely un-built; homebrew installer not yet added.
+- **Rung-3 stage-2 — scouted, deferred (NOT a next step).** Censused ceal's
+  network/subprocess welds: the "injected transport/executor wrapper" gap is **not
+  material** (welds are genuine inline calls; demand-welded is *not* a meaningful
+  overcount). A safe rule needs cross-file analysis + risks false-seaming genuine
+  welds → deferred until a corpus surfaces it. See `docs/precision-gate.md`
+  "Rung-3 stage-2 census". (Form-A `implements I` is already built.)
 
 ## Next Session
 
@@ -49,8 +55,9 @@ Pick one (none forced):
    runs inside standing quality, not just on-request via the F15 skill.
 2. **Formal goal closeout** — `/achieve` After-phase on the packaging goal: retro
    + standalone disposition artifact → flip Status to `complete`.
-3. **Deepen TS** — Stage-2 F22 rung-3 wrapper detection (closes the
-   network/subprocess under-detection; sharpens demand-welded).
+3. **Deepen — the syntactic floor** (Layer-0 claim channel: empty catch, swallowed
+   error, log-and-continue on a mutating path), kept physically separate from the
+   map. The real un-built Layer-0 deliverable. (Rung-3 stage-2 is deferred — see above.)
 4. **Polish release** — homebrew installer (add tap repo + token secret), or
    Python only on a *non-glue OSS* corpus (author's repos are a recorded KILL).
 

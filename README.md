@@ -90,9 +90,11 @@ bindings.
   uniformly welded *glue* with no discrimination, so pry's ranker gets no
   traction there. See [`docs/kill-gate.md`](docs/kill-gate.md). A *non-glue* OSS
   Python corpus could revisit this.
-- **Known limitation:** pry under-detects network/subprocess seams hidden behind
-  an injected transport/executor wrapper one hop up, so the welded-at-demand count
-  is an upper bound (Stage-2 rung-3 detection is the planned fix).
+- **Scouted, deferred:** a possible recall gap — network/subprocess seams behind
+  an injected transport/executor wrapper one hop up (rung-3 stage-2) — was
+  censused on ceal and found *not material* (the welds there are genuine inline
+  calls, not false-welds). Deferred until a corpus surfaces it; see
+  [`docs/precision-gate.md`](docs/precision-gate.md).
 
 ## Reference docs
 
