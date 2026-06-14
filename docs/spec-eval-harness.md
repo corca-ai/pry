@@ -87,7 +87,11 @@ the filter-recall arm (E5) before any lever ships.
   guards (PQ2): (a) a **control sample of pry-seamed findings** so the panel can
   catch pry's false-*seams* (the FALSE-WELD inverse), not only grade pry's
   positives; (b) **one persona prompted from a neutral "is this testable?"** frame
-  *without* the pry taxonomy, to break rubric-circularity.
+  *without* the pry taxonomy, to break rubric-circularity. **Rater independence
+  (operator-decided): same model for all 3 personas (prompt-differentiated) + a
+  small human-labeled calibration set** — 3 same-model votes are *correlated*, so
+  "2/3 agreement" alone overstates confidence; the human-labeled subset quantifies
+  the panel's own error rate and bounds it. Multi-model personas: not needed now.
 - **E5 — metric = precision AND *filter* recall; gate = dev precision↑ ∧ held-out
   filter-recall held.** Precision on the demand-welded subset. **"Recall" here =
   *filter recall within pry-recognized boundaries*:** the denominator is pry's
@@ -125,6 +129,27 @@ the filter-recall arm (E5) before any lever ships.
   'src/smoke-*.ts'` drops the 8 smoke-harness welds, keeps the 3 genuine
   identity/kit-runtime welds). Inline `// pry-ignore` remains future, ideally with
   the floor.
+- **E8 — the LLM panel is a *one-time* improvement campaign, not a standing
+  harness** (operator: *"LLM is for algorithm improvement, once"*). The panel runs
+  a bounded number of times to produce a **frozen, checked-in labelset** (the
+  ground truth). Thereafter **every lever/filter change is gated deterministically
+  against the frozen labelset** — recompute precision/filter-recall from the frozen
+  labels, **no new LLM call** — exactly like pry's existing frozen fixtures +
+  `classify_smoke.rs`. Re-label only on a *deliberate corpus refresh* (new repos,
+  or pry changes enough that findings no longer map). This is what makes E5's "keeps
+  every future change honest" affordable: **LLM once → deterministic regression
+  forever after.**
+- **E9 — SZZ is an *active* structural-improvement input** (operator: *"use SZZ to
+  improve the structural algorithm"*), **dev-time only**. Reusing the existing
+  kill-gate machinery (`harness/mine.py` + `szz.py` + the commit labeler), trace
+  OSS error-handling bug-fixes to make the **structural detector** better:
+  (a) **detection-recall / catalog completeness** — a real EH bug at a site pry
+  flagged *nothing* = a boundary the catalog missed → add it (the independent arm
+  the bare pool structurally cannot be); (b) **calibration** — which weld
+  categories actually bite → prioritize. Part of the one-time improvement campaign
+  (E8), run where a repo has rich EH-bugfix history. **The product stays
+  structural-only** — SZZ never ships as a prediction claim (Deliberately Not
+  Doing); it only makes the deterministic structural detector better.
 
 ## Probe Questions
 
@@ -183,21 +208,16 @@ the filter-recall arm (E5) before any lever ships.
   pry have traction on this Python?" with **no frontend** — saturated glue (like
   the author's) ⇒ no lift; build a frontend only on a per-corpus GO. So "deferred"
   means "no frontend yet," not "no Python answer."
-- **SZZ consequentiality + independent detection-recall arm (dev-validation, not
-  product).** A complementary axis — reuse the *existing* kill-gate machinery
-  (`harness/mine.py` + `szz.py` + the commit labeler) to trace OSS error-handling
-  bug-fixes and (a) test whether pry's welded findings land where bugs *actually*
-  occurred — the **(c)-axis "does it matter"** the LLM panel structurally cannot
-  measure (`precision-gate.md` caveat) — and (b) serve as the **independent
-  detection-recall arm** the critique flagged the bare pool lacks (a real EH bug
-  site pry flagged *nothing* at = a catalog/parse miss, the nose-`jscpd` analog).
-  **One-directional booster only** (a welded site that *bit* = strong signal;
-  absence of a historical bug ≠ a safe site, so it cannot *reject* a finding),
-  **noisy** (`git blame -w` over-attributes ~8 fns/fix, kill-gate), and yield
-  depends on a repo having a rich EH-bugfix corpus (the author's repos did not; OSS
-  apps vary). Stays **dev-internal validation**; a marketed prediction claim is the
-  dropped (a)-axis (Deliberately Not Doing). *Reopen when:* the panel precision loop
-  is running on the dev slate AND a slate repo shows a rich EH-bugfix history.
+- **SZZ structural-improvement use is now ACTIVE — see E9** (not deferred). Only
+  the *consequentiality-as-a-product-metric* variant stays deferred: shipping a
+  "welded findings correlate with real bugs" number as pry output re-opens the
+  dropped (a)-axis. The *dev-time* use (catalog-recall + calibration feeding the
+  structural detector, E9) is part of the improvement campaign. Caveats carried
+  into E9 use: SZZ is **noisy** (`git blame -w` over-attributes ~8 fns/fix,
+  kill-gate), a **one-directional** signal (a welded site that *bit* = strong;
+  absence of a historical bug ≠ safe, so it cannot *reject* a finding), and its
+  yield depends on a repo's EH-bugfix history (the author's repos had little; OSS
+  apps vary).
 - **Held-out expansion / per-corpus client fingerprints / SARIF emit.** *Reopen
   when:* the dev gate is green and generalization or tooling needs sharpening.
 - **Homebrew tap (packaging polish).** *Reopen when:* a tap repo + token exist.
@@ -227,9 +247,9 @@ the filter-recall arm (E5) before any lever ships.
   *(a)-axis*). The shipped `pry` binary stays **testability-only** (*(b)-axis*),
   "risk ranking, NOT a bug list" — no SZZ / churn / bug-prediction in the product.
   A *marketed* "welded predicts bugs" claim re-introduces the prediction angle the
-  operator removed. **NOTE — SZZ as *dev-time validation* is NOT dropped; it is a
-  Deferred complementary axis** (see Deferred: it plugs two real holes the panel
-  can't — consequentiality and independent detection-recall).
+  operator removed. **NOTE — SZZ as a *dev-time structural-improvement input* is
+  ACTIVE (E9)**: it makes the deterministic structural detector better
+  (catalog-recall + calibration); it just never ships as a product prediction.
 
 ## Constraints
 
