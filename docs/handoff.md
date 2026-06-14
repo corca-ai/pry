@@ -2,59 +2,57 @@
 
 ## Workflow Trigger
 
-**Next step = implement the duration-record clock filter** — the remaining
-high-leverage precision lever (`docs/precision-gate.md` → "duration-record
-lever"). It takes cautilus's demand-welded precision ~74% → ~93%. It is **not a
-simple filter**: it reopens lever 3's "arithmetic = control" call with a **sink
-hop** — demote a clock subtraction (`Date.now() - started`) whose result flows
-only to a field / log / return / metric, but KEEP it when the difference feeds a
-relational/branch (`if (Date.now() - started > timeout)`). **Validate bi-corpus
-before committing:** cautilus precision ↑ AND ceal recall = no genuine timing
-demoted (`X > Date.now()`, `Date.now() + ttl`, `deadline - Date.now()` must
-survive). The `lever3_clock_timing_vs_logsink` `elapsed()` expectation will need
-revising — that revision *is* the design decision. Read `docs/precision-gate.md`
-"Cross-corpus" + "duration-record lever" first.
+**Next step = the Python frontend (third corpus, founding Layer-0 deliverable).**
+The two cross-corpus precision levers are done; the TS/JS path ships at ceal ~88%+ /
+cautilus 97%. Python is the next frontier AND the founding charness deliverable. It is
+**not** a free reuse of the JS path: `analyze_source` is hardwired to the
+tree-sitter-*typescript* grammar and TS/JS node kinds (`required_parameter`,
+`variable_declarator`, `member_expression`, `binary_expression`…). Python needs
+tree-sitter-python + a Python-aware classifier branch. `catalog/python.toml` is
+already seeded (215 lines) — read it first. The live risk is **reproducing the Runs
+1–3 "Python = glue" KILL** (`docs/kill-gate.md`): if Python repos are mostly glue with
+no demand-welded error-handling surface, the corpus is a KILL, not a frontend bug.
+**Scout before building:** hand-census a charness/Python repo's boundary density and
+demand-weld shape against the kill-gate criteria BEFORE writing the classifier.
 
 ## Current State
 
-- **JS frontend shipped** (`c038487`). `is_source` (was `is_ts_source`) accepts
-  `.mjs`/`.cjs`/`.js`, parsed with the SAME tree-sitter-typescript grammar — TS
-  is a JS superset and node kinds are grammar-determined, so the classifier works
-  unchanged. (Adding tree-sitter-javascript would REGRESS param/default seam
-  detection — JS-grammar params lack the `required_parameter` wrapper.) 0 parse
-  errors on 227 cautilus + ceal `.mjs`.
-- **cautilus cross-corpus precision measured** — the prior handoff's next step,
-  done. Full census of 92 demand-welds (cautilus `3027ba4` `scripts/`): **~70%
-  raw** vs ceal's 88% post-lever. ceal's 88% does NOT directly transfer, but the
-  noise is again two nameable classes. **Injected-callee subprocess lever DONE**
-  (`2ba9538`: 92→87 demand-welds). The duration-record clock class (23, 25%) is
-  the remaining work → the trigger above.
-- **No ceal TS regression.** ceal/packages `.ts` is byte-identical (850/776,
-  demand-welded 67) — confirmed three ways incl. building the freeze commit.
-  Fixture re-frozen for the JS frontend (now 900; +7 of ceal's own JS files).
+- **Duration-record clock lever shipped** (`2157ccc`, `000d6dc`, `024d1c0`). The
+  sink hop demotes a clock that is the *minuend* of a `-` whose result only records
+  (field/log/return/call-arg), keeps it when it feeds a relational/branch. Recall
+  guards (`X > Date.now()`, `Date.now()+ttl`, `deadline - Date.now()`) untouched.
+  Bi-corpus validated: **cautilus demand-welded 87→66, precision 74%→97%** (21
+  duration-records, full census); **ceal recall held** — 3 demotions, all
+  log-durations (precision gain, no genuine timing). Deterministic. 8 tests green.
+- **Fresh-eye critique run** — caught + fixed a stack-overflow blocker (self-ref
+  declarator `const d = Date.now() - d`; `MAX_BINDING_HOPS` cap). 3 dormant recall
+  holes (W1–W3) documented as known limitations, not yet in any corpus.
+- **Both cross-corpus noise classes now filtered** (injected-callee + duration-record);
+  pry no longer corpus-sensitive on the TS/JS path.
 
 ## Next Session
 
-1. Implement the duration-record clock filter (sink hop) per the trigger.
-2. Re-run the cautilus precision census (`docs/precision-gate.md` method); confirm
-   ~74% → ~93% and that ceal recall holds.
-3. (Then / parallel) **Python frontend for charness** — the THIRD corpus and the
-   founding Layer-0 deliverable; new classifier, `catalog/python.toml` seeded;
-   risks reproducing the Runs 1–3 "Python = glue" KILL (`docs/kill-gate.md`).
+1. Scout a charness/Python repo against `docs/kill-gate.md` (boundary density +
+   demand-weld error-handling shape) — confirm it is NOT a "Python = glue" KILL.
+2. If it survives: tree-sitter-python frontend + Python classifier branch in
+   `src/classify.rs` (seam/cosmetic/duration logic re-expressed for Python AST kinds),
+   driven by `catalog/python.toml`. Census precision the same way (`docs/precision-gate.md`).
+3. (Deferred) standalone packaging (nose cargo-dist model) — once the third corpus settles.
 
 ## Discuss
 
-- **Duration-record lever first, or Python/charness next?** Lean: **lever first**
-  — evidence-backed, closes the cautilus gap, reuses the TS path; charness is a
-  new classifier + KILL risk.
-- **Standalone packaging (nose cargo-dist model) stays deferred** until cross-
-  corpus precision is settled.
+- **Python KILL risk is real and pre-registered.** Lean: scout-then-build, and be
+  willing to record a KILL rather than force a third frontend. The TS/JS result already
+  validates the thesis on two corpora.
+- W1–W3 (dormant duration-record recall holes) — promote to filters only if a third
+  corpus surfaces them; don't pre-build.
 
 ## References
 
-- `docs/precision-gate.md` — **canonical**: H1 gate, the levers, ceal ~88% +
-  cautilus ~70% census + the duration-record lever design. Read first.
-- `src/classify.rs` + `tests/classify_smoke.rs` — levers + guards (`lever3_*` is
-  the test to revise); `src/main.rs::is_source` — the JS frontend.
-- `docs/kill-gate.md` (Python-KILL), `catalog/python.toml`,
-  `fixtures/ceal-ts-map.summary.json` (packages-scoped, JS-frontend re-frozen).
+- `docs/precision-gate.md` — **canonical**: H1 gate, all levers, ceal ~88% + cautilus
+  74%→97% census, "After the duration-record lever" + known-limitations. Read first.
+- `docs/kill-gate.md` — the Python-KILL criteria. Read before scouting.
+- `catalog/python.toml` (seeded), `catalog/typescript.toml` — boundary catalogs.
+- `src/classify.rs` (TS/JS-hardwired classifier; lever3 + sink hop + `MAX_BINDING_HOPS`),
+  `tests/classify_smoke.rs`, `src/main.rs::is_source`/`run_map` (TS-grammar parser).
+- `fixtures/ceal-ts-map.summary.json` (re-frozen, demand-subset 145→142).
