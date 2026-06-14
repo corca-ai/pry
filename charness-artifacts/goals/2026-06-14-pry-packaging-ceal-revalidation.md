@@ -217,7 +217,7 @@ during the run:
 - Critique: full: 3 fresh-eye angle subagents (schema/cascade=PASS; honesty; wiring) + 1 counterweight. Acted: dropped unevidenced 'db' from summary boundary-kinds (DB-in-TS=0); reworded host_note implying quality already invokes pry. Deferred: access_modes aspirational (revisit at real release). Over-worry: dead corca-ai/pry link (neutralized by experimental+notes).
 - Off-goal findings: charness working tree carries unrelated uncommitted changes (scripts/validate_debug_artifact.py + mirror, tests/test_debug_artifact.py) from commit a930cc5f line; left untouched/unstaged.
 - Lessons carried forward: Adding a tool manifest cascades to: plugin mirror (sync_root_plugin_manifests.py) AND find-skills inventory (latest.json freshness check) -> both must regen or pre-commit gates fail. No per-tool lock needed (nose has none).
-- Metrics: S3 discoverable-not-invocable by design; quality driver = S4.
+- Metrics: S3 makes pry discoverable + doctor-checkable; it does NOT make quality auto-invoke pry. No quality dispatch/driver code path ships in either repo (S4 ships the F15 skill + consumer, not a quality auto-invoke). The dogfood loop is "F15 skill + consumer via PRY_BIN"; auto-invoke-from-quality is a deliberate, unbuilt deferral.
 
 ### Slice 4: Slice 4: F15 pry agent skill (PRY_BIN-honoring)
 
@@ -232,6 +232,20 @@ during the run:
 - Off-goal findings:
 - Lessons carried forward: The F15 demand-welded backlog on ceal is 68 (down from precision-gate's pre-lever 174) -> the cosmetic-clock + duration-record levers are doing the precision work end-to-end through the packaged consumer.
 - Metrics: ceal demand-welded: 68 (clock 37 / subprocess 16 / network 9 / llm 3 / slack 2 / random 1); lens fraction 0.4892.
+
+### Slice 5: Slice 5: end-to-end dogfood proof + bundle critique
+
+- Objective: Prove the packaged loop locally (PRY_BIN -> F15 skill/consumer -> welded-at-demand ranking) and run the final bundle critique over the F15 skill + proof.
+- Why this approach: Final bundle boundary per the goal's verification cadence.
+- Commits: (this commit)
+- What changed: Bundle-critique fixes: rank_backlog.py guards files_scanned==0 (kill false all-clear on bad path), clamps negative --top, by_kind uses .get; SKILL.md degraded note no longer implies quality has pry omit-logic; goal S3 metrics corrected (no quality auto-invoke driver shipped).
+- Alternatives rejected: Rejected flipping goal to complete while the artifact still implied a delivered quality driver (honesty gate).
+- Targeted verification: DOGFOOD PROVEN: PRY_BIN -> rank_backlog.py ../ceal/packages = 68 welded-at-demand findings (subprocess 16/network 9/clock 37/llm 3/slack 2/random 1), deterministic (byte-identical x2), live pry map == frozen fixture on every field. Post-fix: bad path now degrades exit1 (was false all-clear); --top -1 -> 0; py_compile clean.
+- Test duplication pressure:
+- Critique: full bundle (2 fresh-eye angle subagents: consumer-correctness + SKILL-honesty/proof; 1 counterweight). Act-before-close: A2 false-all-clear guard + B2a goal honesty (no quality driver delivered) -> both applied. Bundled: A1/A4 hygiene + B2b SKILL reword -> applied. Over-worry: none. This bundle critique also serves as the goal's closeout fresh-eye disposition review (angle B reviewed final-proof + user-acceptance honesty).
+- Off-goal findings:
+- Lessons carried forward: Discoverable != invocable: a tool manifest + an agent skill make pry usable BY AN AGENT via PRY_BIN, but NOT auto-invoked by quality (no dispatch path). Keep that distinction explicit in every closeout claim.
+- Metrics: Dogfood loop = F15 skill + consumer via PRY_BIN (proven). Auto-invoke-from-quality = unbuilt, deliberately deferred.
 
 ## Context Sources
 

@@ -133,20 +133,38 @@ def payload_for_args(args: argparse.Namespace) -> dict[str, Any]:
             "backlog": [],
         }
     pry_map = run["map"]
+    summary = pry_map.get("summary", {})
+    if summary.get("files_scanned", 0) == 0:
+        # No source scanned: almost always a wrong/typo'd path. `pry map` exits 0
+        # with an empty map either way, so guard here — never report a false
+        # "all clear" for a path that scanned nothing.
+        return {
+            "tool": "pry",
+            "note": "risk ranking, not a bug list",
+            "status": "degraded",
+            "reason": (
+                f"No source files scanned at {target}. Check the path — pry analyzes "
+                ".ts/.tsx/.js/.mjs/.cjs and skips test dirs."
+            ),
+            "pry_bin": pry_bin,
+            "target": str(target),
+            "backlog": [],
+        }
     findings = pry_map.get("findings", [])
     backlog = rank_backlog(findings)
     if args.top is not None:
-        backlog = backlog[: args.top]
+        backlog = backlog[: max(0, args.top)]
     by_kind: dict[str, int] = {}
     for f in backlog:
-        by_kind[f["kind"]] = by_kind.get(f["kind"], 0) + 1
+        kind = f.get("kind", "?")
+        by_kind[kind] = by_kind.get(kind, 0) + 1
     return {
         "tool": "pry",
         "note": "risk ranking, not a bug list",
         "status": "ok",
         "pry_bin": pry_bin,
         "target": str(target),
-        "summary": pry_map.get("summary", {}),
+        "summary": summary,
         "backlog_size": len(backlog),
         "backlog_by_kind": dict(sorted(by_kind.items())),
         "backlog": backlog,

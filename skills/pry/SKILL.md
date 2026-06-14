@@ -73,10 +73,10 @@ ranking. Validated against `../ceal/packages` (68 findings, matches the frozen
 
 ## Degraded behavior
 
-No binary → the consumer returns `status: degraded` with a build/PRY_BIN hint and
-exit 1. Quality keeps its deterministic gates authoritative and omits the
-testability backlog; do not claim a testability review succeeded without a
-healthy binary.
+No binary — or a path that scans nothing — → the consumer returns
+`status: degraded` with a hint and exit 1. Treat the testability backlog as
+simply unavailable; pry is advisory and standalone, so nothing else is affected.
+Do not claim a testability review succeeded without a healthy binary.
 
 ## References
 
