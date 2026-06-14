@@ -354,10 +354,16 @@ under `harness/fixtures/eval/` (created on first panel run).
    verdict-bit leak). Bounded fresh-eye critique done (no BLOCKERs; two NOTEs —
    escalation-schema + PQ3 `ceil` sampling — fixed). *Remaining in step 2:*
    nothing — the plumbing is complete and slate-agnostic.
-3. **Run the 3-subagent panel** (2 taxonomy personas + 1 neutral, E4/PQ2) on
-   demand-welded findings per the PQ3 design, with a pry-seamed control sample.
-4. **Report** per-repo / per-stratum / pooled precision (with CI) + noise taxonomy
-   in `docs/eval-gate.md`. This **opens** (not closes) the H3 gate (SC2).
+3. **Run the 3-subagent panel — DONE** (4 dev repos: outline `d85ead5` / flowise
+   `f4e2794` / continue `eaa23c5` / librechat `8154a31`; 589 findings labeled by
+   3 same-model personas, reconciled — 469 unanimous / 118 majority / 2 tie-break;
+   frozen to `harness/fixtures/eval/*-labels.json`). Panel-labeled,
+   human-calibration pending (E4).
+4. **Report — DONE** ([`eval-gate.md`](eval-gate.md)): per-repo / per-kind / per-
+   stratum / pooled precision with Wilson CIs + the noise taxonomy. **Result:**
+   network+subprocess 100% (261/261), ex-cosmetic-tail 89.3% (≈ ceal 88%), raw
+   pooled 56.7% (clock/random tail is the drag). H3 gate **OPENED, not closed**
+   (SC2): held-out arm + a DI-disciplined exemplar + human calibration still owed.
 
 **Slice 2 — filter-recall arm (before any lever):** label a bare-pool sample;
 compute filter-recall; document the gate rule with a worked example (SC3/AC3).

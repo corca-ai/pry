@@ -20,6 +20,12 @@ The Layer-0 *prediction* channel is built, validated, and released:
   glue → KILL; *TS/JS* is pry's surface → GO across 8 corpora. The analyzer
   therefore targets **TS/JS**; demand-subset precision ~88% (ceal) / ~97%
   (cautilus). See [`precision-gate.md`](precision-gate.md).
+- **First off-corca evidence (H3 gate OPENED):** the finding-eval panel ran on 4
+  independent third-party app-shaped repos (outline/flowise/continue/librechat).
+  **network + subprocess = 100% (261/261); ex-cosmetic-tail = 89.3%** (matches
+  ceal's 88%) — the core signal is not a corca artifact. See
+  [`eval-gate.md`](eval-gate.md). (Panel-labeled, human-calibration pending; gate
+  opened, not closed.)
 - **Packaged + released:** prebuilt binary (cargo-dist installer), wired into
   charness as an `external_binary` for the `quality` skill.
 
@@ -28,7 +34,26 @@ The Layer-0 *prediction* channel is built, validated, and released:
 path, bare `except`). pry today ships the *map* (prediction); the *floor* (claim)
 does not exist. SARIF emit is also future (JSON only today).
 
-## Now — add the floor, then auto-invoke
+## Now — precision levers (eval-gated) + the floor
+
+**Precision levers (named by [`eval-gate.md`](eval-gate.md), ranked by lift).**
+Sequenced behind **Slice 2 (filter-recall arm)** — the spec requires the recall
+arm online before any precision filter ships (a filter that over-demotes a genuine
+weld must be catchable). Each lever then gates on E5: dev precision↑ ∧ held-out
+filter-recall held, recomputed deterministically against the frozen labelset (E8).
+
+0a. **Slice 2 — filter-recall arm** (`spec-eval-harness.md` SC3/AC3): label a
+    bare-pool sample, compute baseline filter-recall, document the gate rule.
+    Unblocks every lever below.
+0b. **Cosmetic-random filter** (#1 lever): `random` is **0/79** genuine across all
+    4 repos — demote it from `demand` by default, mirroring the cosmetic-clock
+    filter. Highest-lift, lowest-risk.
+0c. **Stronger cosmetic-clock filter:** `clock` is **5/130** (3.8%); keep only
+    clock reads feeding a control-flow comparison.
+0d. **Extend the test-file heuristic** (`is_source`) to `.vitest.`/`.e2e.` + obvious
+    fixture dirs (`manual-testing-sandbox/`) — drove continue's llm crater.
+
+Then the structural deepeners:
 
 1. **Syntactic floor.** Build the un-built Layer-0 claim channel (empty catch,
    swallowed error, log-and-continue on a mutating path), kept physically separate
@@ -40,15 +65,17 @@ does not exist. SARIF emit is also future (JSON only today).
    as a standing advisory inventory, mirroring nose's consumer. Today pry is
    agent-invoked on-request via the `skills/pry/` F15 skill, not auto-run.
 
-### Deferred (scouted, not material)
+### Reopened by H3 — stage-2 rung-3 wrapper detection (F22, "form-B")
 
-**Stage-2 rung-3 wrapper detection (F22, "form-B").** The `kill-gate.md` Run 5
-EXTEND rider flagged network/subprocess seams behind an injected transport/executor
-wrapper one hop up. A census on ceal found the gap **not material** (the welds are
-genuine inline calls) and a safe rule would need cross-file analysis + risks
-false-seaming genuine welds. Deferred until a corpus surfaces it — see
-[`precision-gate.md`](precision-gate.md) "Rung-3 stage-2 census". Form-A
-(`implements I` / typed-const impl) is already built.
+The `kill-gate.md` Run 5 EXTEND rider flagged network/subprocess seams behind an
+injected transport/executor wrapper one hop up. A census on ceal found the gap
+**not material** and it was deferred "until a corpus surfaces it." **continue
+surfaces it:** its `openai-adapters` llm calls go through an injectable
+`customFetch(config.requestOptions)` seam one hop up, driving the llm precision
+crater (2/35) — see [`eval-gate.md`](eval-gate.md) taxonomy #4. **Reopen for a
+scoped re-examination**, but it needs cross-file analysis + risks false-seaming,
+so gate any rule hard against the frozen labelset + the Slice-2 recall arm.
+Form-A (`implements I` / typed-const impl) is already built.
 
 ## Next — Layer 1 (only after Layer 0 is stable and validated)
 
