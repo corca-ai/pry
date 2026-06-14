@@ -329,8 +329,9 @@ No forced debug interrupt reported by the risk planner for this contract.
 
 This doc (`docs/spec-eval-harness.md`) is canonical during implementation.
 Results land in a new **`docs/eval-gate.md`** (the H3 result doc, sibling to
-`precision-gate.md`). Harness code extends `harness/` (new `finding_io.py` +
-reconcile, mirroring `label_io.py`); fixtures under `harness/fixtures/eval/`.
+`precision-gate.md`). Harness code extends `harness/` (`finding_io.py` +
+reconcile **built**, mirroring `label_io.py`); panel verdict/labelset fixtures
+under `harness/fixtures/eval/` (created on first panel run).
 
 ## First Implementation Slice
 
@@ -339,9 +340,20 @@ reconcile, mirroring `label_io.py`); fixtures under `harness/fixtures/eval/`.
    commits (+ scout one higher-injection exemplar to span the spectrum), pruned.
    Record the slate (ids, commits, file count, split, clock-inj stratum) in
    `docs/eval-gate.md`.
-2. **Build the mechanical harness:** `finding_io.py emit` (worklist) +
-   `reconcile`/`freeze` (majority ≥2/3, tie-break, schema-validated,
-   provenance-stamped), extending `label_io.py`. No LLM in scripts.
+2. **Build the mechanical harness — BUILT** (`harness/finding_io.py`;
+   `harness/test_finding_io.py`, 8 stdlib-unittest cases green; config in
+   `harness/config.py`). `emit` (blinded worklist from a `pry map` JSON: PQ3
+   census/sample + E4 seamed-control, verdict bit hidden) + `reconcile`
+   (3-persona majority ≥2/3 → 1-1-1 tie-break worklist → arbiter → undecidable;
+   escalation votes get the same schema guard as the panel) + `freeze`
+   (schema/completeness-validated, provenance-stamped, votes retained; precision
+   recovered over the demand-weld group). No LLM in scripts (E2). Proven on the
+   synthetic fixture (refuse paths = AC1, tie-break + arbiter loops,
+   malformed-escalation refuse, determinism) **and** on a real `pry map`
+   (ceal/packages: 68 demand-welded → 41-graded + 15 seamed-control worklist, no
+   verdict-bit leak). Bounded fresh-eye critique done (no BLOCKERs; two NOTEs —
+   escalation-schema + PQ3 `ceil` sampling — fixed). *Remaining in step 2:*
+   nothing — the plumbing is complete and slate-agnostic.
 3. **Run the 3-subagent panel** (2 taxonomy personas + 1 neutral, E4/PQ2) on
    demand-welded findings per the PQ3 design, with a pry-seamed control sample.
 4. **Report** per-repo / per-stratum / pooled precision (with CI) + noise taxonomy

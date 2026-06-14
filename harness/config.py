@@ -88,3 +88,36 @@ ERROR_HANDLING_DIFF_REGEX = "|".join(
 PYTHON_PATHSPEC = "*.py"
 
 MINER_VERSION = "0.1.0"
+
+# --- finding-eval harness (H3 broad-market gate, docs/spec-eval-harness.md) ----
+# The unit here is a pry *finding* (a welded-at-demand boundary), not a commit.
+# finding_io.py emit/reconcile/freeze is the mechanical plumbing around a
+# 3-persona coding-subagent panel (E2: no LLM in scripts). Outputs live under a
+# dedicated eval/ subdir so they never collide with the Slice-0 commit labels.
+EVAL_DIR = FIXTURES_DIR / "eval"
+
+# Source context placed around each finding in the (blinded) worklist. Enough to
+# judge the call site without revealing pry's verdict bit (E4 weak-blinding: the
+# worklist hides class/demand/input_sim; kind + location are legitimate context).
+FINDING_CONTEXT_LINES = 12       # source lines shown each side of the finding
+FINDING_CONTEXT_CHAR_CAP = 4000  # max context chars per finding (mirrors LABEL cap)
+
+# The three independent panel lenses (PQ2). Two keyed to the testability taxonomy
+# (pragmatic, skeptic) + one NEUTRAL "can you inject a failure here?" lens whose
+# rubric never names pry/weld/seam, to break rubric-circularity (E4).
+FINDING_PERSONAS = ("pragmatic", "skeptic", "neutral")
+
+# The 4-way label vocabulary, reused verbatim from precision-gate.md (E4).
+FINDING_LABELS = ("GENUINE", "FALSE-WELD", "COSMETIC", "AMBIGUOUS")
+
+# PQ3 pre-registered sampling: non-clock demand-welds are a full census (the
+# high-value, smaller set); clock demand-welds are sampled (cosmetic-heavy, large).
+# Deterministic stride sampling (no RNG) keeps the worklist byte-reproducible.
+FINDING_CLOCK_SAMPLE_FRACTION = 0.25   # >=25% of clock demand-welds (PQ3)
+# A control sample of pry-SEAMED findings, mixed in blind, so the panel can also
+# catch pry's false-*seams* (the FALSE-WELD inverse), not only grade its positives
+# (E4). Sampled deterministically from the demand-seamed pool.
+FINDING_SEAMED_CONTROL_FRACTION = 0.20
+FINDING_SEAMED_CONTROL_FLOOR = 10      # but at least this many when the pool allows
+
+FINDING_HARNESS_VERSION = "0.1.0"
