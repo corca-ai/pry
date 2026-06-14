@@ -24,14 +24,15 @@ recorded KILL (`docs/kill-gate.md`). pry analyzes `.ts/.tsx/.js/.mjs/.cjs` only.
 
 ## Prerequisite: the binary
 
-pry has no published release yet. Resolve it in this order (the consumer does
+pry **v0.1.0 is published**. Resolve the binary in this order (the consumer does
 this for you):
 
-1. `PRY_BIN=/abs/path/to/pry/target/release/pry` (maintainer-local override).
+1. `PRY_BIN=/abs/path/to/pry/target/release/pry` (maintainer-local override —
+   prefer when testing a sibling checkout).
 2. `pry` on `PATH`.
-3. a `target/release/pry` build inside the pry checkout.
-
-If none exist: `cargo build --release` in the pry repo, then set `PRY_BIN`.
+3. install the published release (prebuilt binary):
+   `curl --proto '=https' --tlsv1.2 -LsSf https://github.com/corca-ai/pry/releases/latest/download/pry-installer.sh | sh`
+4. a `target/release/pry` build inside the pry checkout (`cargo build --release`).
 
 ## Workflow: run → rank → label
 
