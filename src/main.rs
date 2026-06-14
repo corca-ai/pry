@@ -1,7 +1,8 @@
 //! pry — static testability-surface analyzer (F1: deterministic, zero intelligence).
 //!
-//! Stage-1 minimal TS map (F28): `pry map <path>` parses TypeScript via
-//! tree-sitter, matches the boundary catalog, classifies seamed/welded/ambiguous
+//! Stage-1 minimal TS/JS map (F28): `pry map <path>` parses TypeScript and
+//! JavaScript via tree-sitter (one TS-superset grammar — see `is_source`),
+//! matches the boundary catalog, classifies seamed/welded/ambiguous
 //! with the two-tier inputSimulation tag, and emits a deterministic JSON map +
 //! coverage summary (the F27 lens metric on the substitution-demand subset).
 
@@ -21,7 +22,7 @@ struct Cli {
 
 #[derive(Subcommand)]
 enum Cmd {
-    /// Emit the risk map (risk ranking, NOT a bug list) for a path of .ts files.
+    /// Emit the risk map (risk ranking, NOT a bug list) for a path of TS/JS files.
     Map {
         /// File or directory to analyze.
         path: PathBuf,
@@ -37,21 +38,36 @@ fn main() -> Result<()> {
     }
 }
 
-fn is_ts_source(p: &Path) -> bool {
+/// Accept TypeScript and JavaScript source. JS (`.mjs`/`.cjs`/`.js`) is parsed
+/// with the same tree-sitter-*typescript* grammar: TS is a syntactic superset of
+/// JS and node kinds are grammar-determined, so the TS-targeted classifier (e.g.
+/// the `required_parameter`/`optional_parameter` default-param seam logic) keeps
+/// working on JS. Genuinely TS-only signals (`implements`, `: Type` rung-3) simply
+/// don't appear in JS source — expected, not a bug.
+fn is_source(p: &Path) -> bool {
     let Some(name) = p.file_name().and_then(|n| n.to_str()) else {
         return false;
     };
-    if !name.ends_with(".ts") || name.ends_with(".d.ts") {
+    let is_ts = name.ends_with(".ts") && !name.ends_with(".d.ts");
+    let is_js = name.ends_with(".js") || name.ends_with(".mjs") || name.ends_with(".cjs");
+    if !is_ts && !is_js {
         return false;
     }
-    if name.ends_with(".test.ts")
-        || name.ends_with(".spec.ts")
-        || name.ends_with("-test-support.ts")
-    {
+    // drop test/spec/support files across both languages
+    let is_test_stem = ["test", "spec"].iter().any(|s| {
+        [".ts", ".tsx", ".js", ".mjs", ".cjs"]
+            .iter()
+            .any(|ext| name.ends_with(&format!(".{s}{ext}")))
+    });
+    if is_test_stem || name.ends_with("-test-support.ts") {
         return false;
     }
     let s = p.to_string_lossy();
-    if s.contains("/__tests__/") || s.contains("/test/") || s.contains("/node_modules/") {
+    if s.contains("/__tests__/")
+        || s.contains("/test/")
+        || s.contains("/tests/")
+        || s.contains("/node_modules/")
+    {
         return false;
     }
     true
@@ -60,14 +76,14 @@ fn is_ts_source(p: &Path) -> bool {
 fn discover(root: &Path) -> Vec<PathBuf> {
     let mut files = Vec::new();
     if root.is_file() {
-        if is_ts_source(root) {
+        if is_source(root) {
             files.push(root.to_path_buf());
         }
         return files;
     }
     for entry in ignore::WalkBuilder::new(root).hidden(false).build().flatten() {
         let p = entry.path();
-        if p.is_file() && is_ts_source(p) {
+        if p.is_file() && is_source(p) {
             files.push(p.to_path_buf());
         }
     }

@@ -141,6 +141,44 @@ fn lever3_clock_timing_vs_logsink() {
     assert_eq!(demand_clock(6), Some(false), "string-concat clock is a log sink");
 }
 
+// Type-free JavaScript (a `.mjs`-shaped string with no annotations). The frontend
+// parses JS with the same TS-superset grammar, so the 0-hop param/default seam
+// logic must keep working. What's lost is only the TS-only rung-3 signal
+// (`implements` / `: Type`), which has no JS analog — verified absent below.
+const SRC_JS: &str = r#"
+export function stampRaw() { return new Date().toISOString(); }
+export function stampInjected(now = new Date()) { return now.toISOString(); }
+export function deadline(input) { const now = input.now ?? Date.now(); return now > input.until; }
+export async function get(url) { return await fetch(url); }
+export function spawnGit(args) { return execFileSync("git", args); }
+export class LocalExec { run(args) { return spawn("git", args); } }
+"#;
+
+#[test]
+fn js_frontend_parses_and_classifies() {
+    // production path: analyze_str always uses the TS grammar; a `.mjs` name just
+    // documents intent. Type-free JS must still classify by structure.
+    let fs = analyze_str(SRC_JS, "j.mjs");
+
+    // default-param injected clock -> seamed (the param wrapper logic survives on JS)
+    assert_eq!(find(&fs, 3).class, Class::Seamed);
+    // `?? Date.now()` nullish default -> seamed, even with no type annotation
+    assert_eq!(find(&fs, 4).kind, "clock");
+    assert_eq!(find(&fs, 4).class, Class::Seamed);
+    // bare global fetch -> welded network, stays a demand weld
+    let net = find(&fs, 5);
+    assert_eq!((net.kind.as_str(), net.class, net.demand), ("network", Class::Welded, true));
+    // inline execFileSync("git", …) -> welded subprocess
+    assert!(fs.iter().any(|f| f.line == 6 && f.kind == "subprocess" && f.class == Class::Welded));
+
+    // TS-only rung-3 is correctly INERT on JS: `class LocalExec { run(){ spawn } }`
+    // has no `implements`, so its spawn is welded (no false impl-interface seam).
+    let spawn = find(&fs, 7);
+    assert_eq!(spawn.kind, "subprocess");
+    assert_eq!(spawn.class, Class::Welded);
+    assert!(!spawn.reason.contains("impl-interface"), "JS class without `implements` must not fake a rung-3 seam");
+}
+
 #[test]
 fn demand_subset_discriminates() {
     // The lens metric: among the substitution-demand subset, both seamed and welded
