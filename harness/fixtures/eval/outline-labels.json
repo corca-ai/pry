@@ -1,0 +1,923 @@
+{
+  "corpus": "outline@d85ead5",
+  "harness_version": "0.1.0",
+  "labeler_model": "claude-opus-4-8",
+  "labels": {
+    "app/components/DelayedMount.ts:12:21:clock": {
+      "decision": "unanimous",
+      "file": "app/components/DelayedMount.ts",
+      "group": "demand_weld",
+      "kind": "clock",
+      "label": "COSMETIC",
+      "line": 12,
+      "votes": {
+        "neutral": "COSMETIC",
+        "pragmatic": "COSMETIC",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "app/hooks/useInterval.ts:26:18:clock": {
+      "decision": "unanimous",
+      "file": "app/hooks/useInterval.ts",
+      "group": "demand_weld",
+      "kind": "clock",
+      "label": "COSMETIC",
+      "line": 26,
+      "votes": {
+        "neutral": "COSMETIC",
+        "pragmatic": "COSMETIC",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "app/scenes/Document/components/MarkAsViewed.ts:15:27:clock": {
+      "decision": "unanimous",
+      "file": "app/scenes/Document/components/MarkAsViewed.ts",
+      "group": "demand_weld",
+      "kind": "clock",
+      "label": "COSMETIC",
+      "line": 15,
+      "votes": {
+        "neutral": "COSMETIC",
+        "pragmatic": "COSMETIC",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "app/stores/DocumentPresenceStore.ts:91:15:clock": {
+      "decision": "unanimous",
+      "file": "app/stores/DocumentPresenceStore.ts",
+      "group": "demand_weld",
+      "kind": "clock",
+      "label": "COSMETIC",
+      "line": 91,
+      "votes": {
+        "neutral": "COSMETIC",
+        "pragmatic": "COSMETIC",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "app/utils/download.ts:78:11:clock": {
+      "decision": "unanimous",
+      "file": "app/utils/download.ts",
+      "group": "demand_weld",
+      "kind": "clock",
+      "label": "COSMETIC",
+      "line": 78,
+      "votes": {
+        "neutral": "COSMETIC",
+        "pragmatic": "COSMETIC",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "plugins/figma/server/figma.ts:106:23:network": {
+      "decision": "unanimous",
+      "file": "plugins/figma/server/figma.ts",
+      "group": "demand_weld",
+      "kind": "network",
+      "label": "GENUINE",
+      "line": 106,
+      "votes": {
+        "neutral": "GENUINE",
+        "pragmatic": "GENUINE",
+        "skeptic": "GENUINE"
+      }
+    },
+    "plugins/figma/server/figma.ts:154:27:network": {
+      "decision": "unanimous",
+      "file": "plugins/figma/server/figma.ts",
+      "group": "demand_weld",
+      "kind": "network",
+      "label": "GENUINE",
+      "line": 154,
+      "votes": {
+        "neutral": "GENUINE",
+        "pragmatic": "GENUINE",
+        "skeptic": "GENUINE"
+      }
+    },
+    "plugins/figma/server/figma.ts:65:23:network": {
+      "decision": "unanimous",
+      "file": "plugins/figma/server/figma.ts",
+      "group": "demand_weld",
+      "kind": "network",
+      "label": "GENUINE",
+      "line": 65,
+      "votes": {
+        "neutral": "GENUINE",
+        "pragmatic": "GENUINE",
+        "skeptic": "GENUINE"
+      }
+    },
+    "plugins/figma/server/figma.ts:90:23:network": {
+      "decision": "unanimous",
+      "file": "plugins/figma/server/figma.ts",
+      "group": "demand_weld",
+      "kind": "network",
+      "label": "GENUINE",
+      "line": 90,
+      "votes": {
+        "neutral": "GENUINE",
+        "pragmatic": "GENUINE",
+        "skeptic": "GENUINE"
+      }
+    },
+    "plugins/gitlab/server/gitlab.ts:296:23:network": {
+      "decision": "unanimous",
+      "file": "plugins/gitlab/server/gitlab.ts",
+      "group": "demand_weld",
+      "kind": "network",
+      "label": "GENUINE",
+      "line": 296,
+      "votes": {
+        "neutral": "GENUINE",
+        "pragmatic": "GENUINE",
+        "skeptic": "GENUINE"
+      }
+    },
+    "plugins/gitlab/server/gitlab.ts:338:23:network": {
+      "decision": "unanimous",
+      "file": "plugins/gitlab/server/gitlab.ts",
+      "group": "demand_weld",
+      "kind": "network",
+      "label": "GENUINE",
+      "line": 338,
+      "votes": {
+        "neutral": "GENUINE",
+        "pragmatic": "GENUINE",
+        "skeptic": "GENUINE"
+      }
+    },
+    "plugins/iframely/server/iframely.ts:22:25:network": {
+      "decision": "unanimous",
+      "file": "plugins/iframely/server/iframely.ts",
+      "group": "demand_weld",
+      "kind": "network",
+      "label": "GENUINE",
+      "line": 22,
+      "votes": {
+        "neutral": "GENUINE",
+        "pragmatic": "GENUINE",
+        "skeptic": "GENUINE"
+      }
+    },
+    "plugins/linear/server/linear.ts:51:23:network": {
+      "decision": "unanimous",
+      "file": "plugins/linear/server/linear.ts",
+      "group": "demand_weld",
+      "kind": "network",
+      "label": "GENUINE",
+      "line": 51,
+      "votes": {
+        "neutral": "GENUINE",
+        "pragmatic": "GENUINE",
+        "skeptic": "GENUINE"
+      }
+    },
+    "plugins/linear/server/linear.ts:78:23:network": {
+      "decision": "unanimous",
+      "file": "plugins/linear/server/linear.ts",
+      "group": "demand_weld",
+      "kind": "network",
+      "label": "GENUINE",
+      "line": 78,
+      "votes": {
+        "neutral": "GENUINE",
+        "pragmatic": "GENUINE",
+        "skeptic": "GENUINE"
+      }
+    },
+    "plugins/linear/server/linear.ts:98:11:network": {
+      "decision": "unanimous",
+      "file": "plugins/linear/server/linear.ts",
+      "group": "demand_weld",
+      "kind": "network",
+      "label": "GENUINE",
+      "line": 98,
+      "votes": {
+        "neutral": "GENUINE",
+        "pragmatic": "GENUINE",
+        "skeptic": "GENUINE"
+      }
+    },
+    "plugins/notion/server/notion.ts:145:44:clock": {
+      "decision": "majority",
+      "file": "plugins/notion/server/notion.ts",
+      "group": "demand_weld",
+      "kind": "clock",
+      "label": "GENUINE",
+      "line": 145,
+      "votes": {
+        "neutral": "GENUINE",
+        "pragmatic": "GENUINE",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "plugins/notion/server/notion.ts:199:23:network": {
+      "decision": "unanimous",
+      "file": "plugins/notion/server/notion.ts",
+      "group": "demand_weld",
+      "kind": "network",
+      "label": "GENUINE",
+      "line": 199,
+      "votes": {
+        "neutral": "GENUINE",
+        "pragmatic": "GENUINE",
+        "skeptic": "GENUINE"
+      }
+    },
+    "plugins/oidc/server/oidcDiscovery.ts:49:28:network": {
+      "decision": "unanimous",
+      "file": "plugins/oidc/server/oidcDiscovery.ts",
+      "group": "demand_weld",
+      "kind": "network",
+      "label": "GENUINE",
+      "line": 49,
+      "votes": {
+        "neutral": "GENUINE",
+        "pragmatic": "GENUINE",
+        "skeptic": "GENUINE"
+      }
+    },
+    "plugins/slack/server/processors/SlackProcessor.ts:133:11:network": {
+      "decision": "unanimous",
+      "file": "plugins/slack/server/processors/SlackProcessor.ts",
+      "group": "demand_weld",
+      "kind": "network",
+      "label": "GENUINE",
+      "line": 133,
+      "votes": {
+        "neutral": "GENUINE",
+        "pragmatic": "GENUINE",
+        "skeptic": "GENUINE"
+      }
+    },
+    "plugins/slack/server/processors/SlackProcessor.ts:64:11:network": {
+      "decision": "unanimous",
+      "file": "plugins/slack/server/processors/SlackProcessor.ts",
+      "group": "demand_weld",
+      "kind": "network",
+      "label": "GENUINE",
+      "line": 64,
+      "votes": {
+        "neutral": "GENUINE",
+        "pragmatic": "GENUINE",
+        "skeptic": "GENUINE"
+      }
+    },
+    "plugins/slack/server/slack.ts:24:28:network": {
+      "decision": "unanimous",
+      "file": "plugins/slack/server/slack.ts",
+      "group": "demand_weld",
+      "kind": "network",
+      "label": "GENUINE",
+      "line": 24,
+      "votes": {
+        "neutral": "GENUINE",
+        "pragmatic": "GENUINE",
+        "skeptic": "GENUINE"
+      }
+    },
+    "plugins/slack/server/slack.ts:72:28:network": {
+      "decision": "unanimous",
+      "file": "plugins/slack/server/slack.ts",
+      "group": "demand_weld",
+      "kind": "network",
+      "label": "GENUINE",
+      "line": 72,
+      "votes": {
+        "neutral": "GENUINE",
+        "pragmatic": "GENUINE",
+        "skeptic": "GENUINE"
+      }
+    },
+    "plugins/webhooks/server/tasks/DeliverWebhookTask.ts:809:24:network": {
+      "decision": "unanimous",
+      "file": "plugins/webhooks/server/tasks/DeliverWebhookTask.ts",
+      "group": "demand_weld",
+      "kind": "network",
+      "label": "GENUINE",
+      "line": 809,
+      "votes": {
+        "neutral": "GENUINE",
+        "pragmatic": "GENUINE",
+        "skeptic": "GENUINE"
+      }
+    },
+    "server/logging/sentry.ts:37:17:random": {
+      "decision": "unanimous",
+      "file": "server/logging/sentry.ts",
+      "group": "demand_weld",
+      "kind": "random",
+      "label": "COSMETIC",
+      "line": 37,
+      "votes": {
+        "neutral": "COSMETIC",
+        "pragmatic": "COSMETIC",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "server/middlewares/authentication.ts:176:47:clock": {
+      "decision": "unanimous",
+      "file": "server/middlewares/authentication.ts",
+      "group": "demand_weld",
+      "kind": "clock",
+      "label": "GENUINE",
+      "line": 176,
+      "votes": {
+        "neutral": "GENUINE",
+        "pragmatic": "GENUINE",
+        "skeptic": "GENUINE"
+      }
+    },
+    "server/middlewares/csp.ts:85:26:random": {
+      "decision": "unanimous",
+      "file": "server/middlewares/csp.ts",
+      "group": "demand_weld",
+      "kind": "random",
+      "label": "COSMETIC",
+      "line": 85,
+      "votes": {
+        "neutral": "COSMETIC",
+        "pragmatic": "COSMETIC",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "server/migrations/20211221031430-create-pins.js:86:17:random": {
+      "decision": "unanimous",
+      "file": "server/migrations/20211221031430-create-pins.js",
+      "group": "demand_weld",
+      "kind": "random",
+      "label": "COSMETIC",
+      "line": 86,
+      "votes": {
+        "neutral": "COSMETIC",
+        "pragmatic": "COSMETIC",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "server/migrations/20220419052832-create-team-domains.js:81:25:random": {
+      "decision": "unanimous",
+      "file": "server/migrations/20220419052832-create-team-domains.js",
+      "group": "demand_weld",
+      "kind": "random",
+      "label": "COSMETIC",
+      "line": 81,
+      "votes": {
+        "neutral": "COSMETIC",
+        "pragmatic": "COSMETIC",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "server/migrations/20230815063834-migrate-emoji-in-document-title.js:22:5:subprocess": {
+      "decision": "majority",
+      "file": "server/migrations/20230815063834-migrate-emoji-in-document-title.js",
+      "group": "demand_weld",
+      "kind": "subprocess",
+      "label": "GENUINE",
+      "line": 22,
+      "votes": {
+        "neutral": "GENUINE",
+        "pragmatic": "GENUINE",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "server/migrations/20230827234031-migrate-emoji-in-revision-title.js:22:5:subprocess": {
+      "decision": "majority",
+      "file": "server/migrations/20230827234031-migrate-emoji-in-revision-title.js",
+      "group": "demand_weld",
+      "kind": "subprocess",
+      "label": "GENUINE",
+      "line": 22,
+      "votes": {
+        "neutral": "GENUINE",
+        "pragmatic": "GENUINE",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "server/migrations/20240930113921-hash-api-keys.js:23:5:subprocess": {
+      "decision": "majority",
+      "file": "server/migrations/20240930113921-hash-api-keys.js",
+      "group": "demand_weld",
+      "kind": "subprocess",
+      "label": "GENUINE",
+      "line": 23,
+      "votes": {
+        "neutral": "GENUINE",
+        "pragmatic": "GENUINE",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "server/migrations/20250327062414-resolve-collection-index-collisions.js:23:5:subprocess": {
+      "decision": "majority",
+      "file": "server/migrations/20250327062414-resolve-collection-index-collisions.js",
+      "group": "demand_weld",
+      "kind": "subprocess",
+      "label": "GENUINE",
+      "line": 23,
+      "votes": {
+        "neutral": "GENUINE",
+        "pragmatic": "GENUINE",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "server/models/User.ts:809:23:random": {
+      "decision": "unanimous",
+      "file": "server/models/User.ts",
+      "group": "demand_weld",
+      "kind": "random",
+      "label": "COSMETIC",
+      "line": 809,
+      "votes": {
+        "neutral": "COSMETIC",
+        "pragmatic": "COSMETIC",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "server/models/decorators/CounterCache.ts:82:9:clock": {
+      "decision": "unanimous",
+      "file": "server/models/decorators/CounterCache.ts",
+      "group": "demand_weld",
+      "kind": "clock",
+      "label": "COSMETIC",
+      "line": 82,
+      "votes": {
+        "neutral": "COSMETIC",
+        "pragmatic": "COSMETIC",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "server/queues/HealthMonitor.ts:26:5:clock": {
+      "decision": "unanimous",
+      "file": "server/queues/HealthMonitor.ts",
+      "group": "demand_weld",
+      "kind": "clock",
+      "label": "COSMETIC",
+      "line": 26,
+      "votes": {
+        "neutral": "COSMETIC",
+        "pragmatic": "COSMETIC",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "server/queues/queue.ts:28:18:db": {
+      "decision": "majority",
+      "file": "server/queues/queue.ts",
+      "group": "demand_weld",
+      "kind": "db",
+      "label": "GENUINE",
+      "line": 28,
+      "votes": {
+        "neutral": "GENUINE",
+        "pragmatic": "GENUINE",
+        "skeptic": "FALSE-WELD"
+      }
+    },
+    "server/queues/tasks/ImportTask.ts:464:64:clock": {
+      "decision": "unanimous",
+      "file": "server/queues/tasks/ImportTask.ts",
+      "group": "seamed_control",
+      "kind": "clock",
+      "label": "COSMETIC",
+      "line": 464,
+      "votes": {
+        "neutral": "COSMETIC",
+        "pragmatic": "COSMETIC",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "server/queues/tasks/UpdateDocumentsPopularityScoreTask.ts:81:22:random": {
+      "decision": "unanimous",
+      "file": "server/queues/tasks/UpdateDocumentsPopularityScoreTask.ts",
+      "group": "demand_weld",
+      "kind": "random",
+      "label": "COSMETIC",
+      "line": 81,
+      "votes": {
+        "neutral": "COSMETIC",
+        "pragmatic": "COSMETIC",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "server/routes/api/documents/documents.ts:668:28:clock": {
+      "decision": "unanimous",
+      "file": "server/routes/api/documents/documents.ts",
+      "group": "seamed_control",
+      "kind": "clock",
+      "label": "COSMETIC",
+      "line": 668,
+      "votes": {
+        "neutral": "COSMETIC",
+        "pragmatic": "COSMETIC",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "server/routes/api/documents/schema.ts:461:41:clock": {
+      "decision": "unanimous",
+      "file": "server/routes/api/documents/schema.ts",
+      "group": "demand_weld",
+      "kind": "clock",
+      "label": "COSMETIC",
+      "line": 461,
+      "votes": {
+        "neutral": "COSMETIC",
+        "pragmatic": "COSMETIC",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "server/scripts/release.js:91:5:subprocess": {
+      "decision": "majority",
+      "file": "server/scripts/release.js",
+      "group": "demand_weld",
+      "kind": "subprocess",
+      "label": "GENUINE",
+      "line": 91,
+      "votes": {
+        "neutral": "GENUINE",
+        "pragmatic": "GENUINE",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "server/scripts/release.js:92:5:subprocess": {
+      "decision": "majority",
+      "file": "server/scripts/release.js",
+      "group": "demand_weld",
+      "kind": "subprocess",
+      "label": "GENUINE",
+      "line": 92,
+      "votes": {
+        "neutral": "GENUINE",
+        "pragmatic": "GENUINE",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "server/scripts/release.js:93:5:subprocess": {
+      "decision": "majority",
+      "file": "server/scripts/release.js",
+      "group": "demand_weld",
+      "kind": "subprocess",
+      "label": "GENUINE",
+      "line": 93,
+      "votes": {
+        "neutral": "GENUINE",
+        "pragmatic": "GENUINE",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "server/scripts/release.js:94:5:subprocess": {
+      "decision": "majority",
+      "file": "server/scripts/release.js",
+      "group": "demand_weld",
+      "kind": "subprocess",
+      "label": "GENUINE",
+      "line": 94,
+      "votes": {
+        "neutral": "GENUINE",
+        "pragmatic": "GENUINE",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "server/scripts/release.js:95:5:subprocess": {
+      "decision": "majority",
+      "file": "server/scripts/release.js",
+      "group": "demand_weld",
+      "kind": "subprocess",
+      "label": "GENUINE",
+      "line": 95,
+      "votes": {
+        "neutral": "GENUINE",
+        "pragmatic": "GENUINE",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "server/scripts/release.js:96:5:subprocess": {
+      "decision": "majority",
+      "file": "server/scripts/release.js",
+      "group": "demand_weld",
+      "kind": "subprocess",
+      "label": "GENUINE",
+      "line": 96,
+      "votes": {
+        "neutral": "GENUINE",
+        "pragmatic": "GENUINE",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "server/services/collaboration.ts:51:13:db": {
+      "decision": "majority",
+      "file": "server/services/collaboration.ts",
+      "group": "demand_weld",
+      "kind": "db",
+      "label": "FALSE-WELD",
+      "line": 51,
+      "votes": {
+        "neutral": "GENUINE",
+        "pragmatic": "FALSE-WELD",
+        "skeptic": "FALSE-WELD"
+      }
+    },
+    "server/services/cron.ts:32:3:clock": {
+      "decision": "unanimous",
+      "file": "server/services/cron.ts",
+      "group": "demand_weld",
+      "kind": "clock",
+      "label": "COSMETIC",
+      "line": 32,
+      "votes": {
+        "neutral": "COSMETIC",
+        "pragmatic": "COSMETIC",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "server/storage/files/BaseStorage.ts:198:27:network": {
+      "decision": "unanimous",
+      "file": "server/storage/files/BaseStorage.ts",
+      "group": "demand_weld",
+      "kind": "network",
+      "label": "GENUINE",
+      "line": 198,
+      "votes": {
+        "neutral": "GENUINE",
+        "pragmatic": "GENUINE",
+        "skeptic": "GENUINE"
+      }
+    },
+    "server/storage/redis.ts:98:25:clock": {
+      "decision": "majority",
+      "file": "server/storage/redis.ts",
+      "group": "demand_weld",
+      "kind": "clock",
+      "label": "GENUINE",
+      "line": 98,
+      "votes": {
+        "neutral": "GENUINE",
+        "pragmatic": "GENUINE",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "server/utils/embeds.ts:138:28:network": {
+      "decision": "unanimous",
+      "file": "server/utils/embeds.ts",
+      "group": "demand_weld",
+      "kind": "network",
+      "label": "GENUINE",
+      "line": 138,
+      "votes": {
+        "neutral": "GENUINE",
+        "pragmatic": "GENUINE",
+        "skeptic": "GENUINE"
+      }
+    },
+    "server/utils/getInstallationInfo.ts:25:30:network": {
+      "decision": "unanimous",
+      "file": "server/utils/getInstallationInfo.ts",
+      "group": "demand_weld",
+      "kind": "network",
+      "label": "GENUINE",
+      "line": 25,
+      "votes": {
+        "neutral": "GENUINE",
+        "pragmatic": "GENUINE",
+        "skeptic": "GENUINE"
+      }
+    },
+    "server/utils/jwt.ts:48:39:clock": {
+      "decision": "unanimous",
+      "file": "server/utils/jwt.ts",
+      "group": "demand_weld",
+      "kind": "clock",
+      "label": "GENUINE",
+      "line": 48,
+      "votes": {
+        "neutral": "GENUINE",
+        "pragmatic": "GENUINE",
+        "skeptic": "GENUINE"
+      }
+    },
+    "server/utils/oauth.ts:130:24:network": {
+      "decision": "unanimous",
+      "file": "server/utils/oauth.ts",
+      "group": "demand_weld",
+      "kind": "network",
+      "label": "GENUINE",
+      "line": 130,
+      "votes": {
+        "neutral": "GENUINE",
+        "pragmatic": "GENUINE",
+        "skeptic": "GENUINE"
+      }
+    },
+    "server/utils/oauth.ts:89:24:network": {
+      "decision": "unanimous",
+      "file": "server/utils/oauth.ts",
+      "group": "demand_weld",
+      "kind": "network",
+      "label": "GENUINE",
+      "line": 89,
+      "votes": {
+        "neutral": "GENUINE",
+        "pragmatic": "GENUINE",
+        "skeptic": "GENUINE"
+      }
+    },
+    "server/utils/oauth/OAuthInterface.ts:250:47:random": {
+      "decision": "unanimous",
+      "file": "server/utils/oauth/OAuthInterface.ts",
+      "group": "demand_weld",
+      "kind": "random",
+      "label": "COSMETIC",
+      "line": 250,
+      "votes": {
+        "neutral": "COSMETIC",
+        "pragmatic": "COSMETIC",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "server/utils/oauth/OAuthInterface.ts:294:47:random": {
+      "decision": "unanimous",
+      "file": "server/utils/oauth/OAuthInterface.ts",
+      "group": "demand_weld",
+      "kind": "random",
+      "label": "COSMETIC",
+      "line": 294,
+      "votes": {
+        "neutral": "COSMETIC",
+        "pragmatic": "COSMETIC",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "server/utils/oauth/OAuthInterface.ts:58:55:random": {
+      "decision": "unanimous",
+      "file": "server/utils/oauth/OAuthInterface.ts",
+      "group": "demand_weld",
+      "kind": "random",
+      "label": "COSMETIC",
+      "line": 58,
+      "votes": {
+        "neutral": "COSMETIC",
+        "pragmatic": "COSMETIC",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "server/utils/oauth/OAuthInterface.ts:69:56:random": {
+      "decision": "unanimous",
+      "file": "server/utils/oauth/OAuthInterface.ts",
+      "group": "demand_weld",
+      "kind": "random",
+      "label": "COSMETIC",
+      "line": 69,
+      "votes": {
+        "neutral": "COSMETIC",
+        "pragmatic": "COSMETIC",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "server/utils/oauth/OAuthInterface.ts:80:64:random": {
+      "decision": "unanimous",
+      "file": "server/utils/oauth/OAuthInterface.ts",
+      "group": "demand_weld",
+      "kind": "random",
+      "label": "COSMETIC",
+      "line": 80,
+      "votes": {
+        "neutral": "COSMETIC",
+        "pragmatic": "COSMETIC",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "server/utils/passport.ts:110:23:random": {
+      "decision": "unanimous",
+      "file": "server/utils/passport.ts",
+      "group": "demand_weld",
+      "kind": "random",
+      "label": "COSMETIC",
+      "line": 110,
+      "votes": {
+        "neutral": "COSMETIC",
+        "pragmatic": "COSMETIC",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "server/utils/passport.ts:199:26:network": {
+      "decision": "unanimous",
+      "file": "server/utils/passport.ts",
+      "group": "demand_weld",
+      "kind": "network",
+      "label": "GENUINE",
+      "line": 199,
+      "votes": {
+        "neutral": "GENUINE",
+        "pragmatic": "GENUINE",
+        "skeptic": "GENUINE"
+      }
+    },
+    "server/utils/updates.ts:38:28:network": {
+      "decision": "unanimous",
+      "file": "server/utils/updates.ts",
+      "group": "demand_weld",
+      "kind": "network",
+      "label": "GENUINE",
+      "line": 38,
+      "votes": {
+        "neutral": "GENUINE",
+        "pragmatic": "GENUINE",
+        "skeptic": "GENUINE"
+      }
+    },
+    "shared/editor/lib/FileHelper.ts:381:28:network": {
+      "decision": "unanimous",
+      "file": "shared/editor/lib/FileHelper.ts",
+      "group": "demand_weld",
+      "kind": "network",
+      "label": "GENUINE",
+      "line": 381,
+      "votes": {
+        "neutral": "GENUINE",
+        "pragmatic": "GENUINE",
+        "skeptic": "GENUINE"
+      }
+    },
+    "shared/editor/lib/FileHelper.ts:56:28:network": {
+      "decision": "unanimous",
+      "file": "shared/editor/lib/FileHelper.ts",
+      "group": "demand_weld",
+      "kind": "network",
+      "label": "GENUINE",
+      "line": 56,
+      "votes": {
+        "neutral": "GENUINE",
+        "pragmatic": "GENUINE",
+        "skeptic": "GENUINE"
+      }
+    },
+    "shared/editor/nodes/TableView.ts:38:7:clock": {
+      "decision": "unanimous",
+      "file": "shared/editor/nodes/TableView.ts",
+      "group": "demand_weld",
+      "kind": "clock",
+      "label": "COSMETIC",
+      "line": 38,
+      "votes": {
+        "neutral": "COSMETIC",
+        "pragmatic": "COSMETIC",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "shared/editor/plugins/SuggestionsMenuPlugin.ts:119:13:clock": {
+      "decision": "unanimous",
+      "file": "shared/editor/plugins/SuggestionsMenuPlugin.ts",
+      "group": "demand_weld",
+      "kind": "clock",
+      "label": "COSMETIC",
+      "line": 119,
+      "votes": {
+        "neutral": "COSMETIC",
+        "pragmatic": "COSMETIC",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "shared/editor/plugins/UploadPlugin.ts:82:20:network": {
+      "decision": "unanimous",
+      "file": "shared/editor/plugins/UploadPlugin.ts",
+      "group": "demand_weld",
+      "kind": "network",
+      "label": "GENUINE",
+      "line": 82,
+      "votes": {
+        "neutral": "GENUINE",
+        "pragmatic": "GENUINE",
+        "skeptic": "GENUINE"
+      }
+    },
+    "shared/random.ts:9:14:random": {
+      "decision": "unanimous",
+      "file": "shared/random.ts",
+      "group": "demand_weld",
+      "kind": "random",
+      "label": "COSMETIC",
+      "line": 9,
+      "votes": {
+        "neutral": "COSMETIC",
+        "pragmatic": "COSMETIC",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "shared/utils/parseNaturalLanguageDate.ts:43:25:clock": {
+      "decision": "majority",
+      "file": "shared/utils/parseNaturalLanguageDate.ts",
+      "group": "seamed_control",
+      "kind": "clock",
+      "label": "FALSE-WELD",
+      "line": 43,
+      "votes": {
+        "neutral": "COSMETIC",
+        "pragmatic": "FALSE-WELD",
+        "skeptic": "FALSE-WELD"
+      }
+    }
+  },
+  "personas": [
+    "pragmatic",
+    "skeptic",
+    "neutral"
+  ],
+  "rubric_hash": "35b8e3a960452ccc"
+}
