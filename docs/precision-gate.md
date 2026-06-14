@@ -215,26 +215,41 @@ classes**, and after filtering, cautilus precision ≈ ceal's:
    relational is cosmetic. Must KEEP ceal's genuine timing (`X > Date.now()`
    relational, `Date.now() + ttl` addition, `deadline - Date.now()` clock-as-
    subtrahend) — that distinction is the recall guard, validate on both corpora.*
-2. **Injected-callee subprocess — 5.** `spawn("git"/"sh"/"glow", …)` where the
-   enclosing fn takes `spawn = spawnSync` as a default param (`preview-markdown.mjs`
-   ×4 — a fully DI'd file pry mislabels entirely — + `run-verify.mjs` ×1). pry's
-   seam checks cover the injected *receiver* (`receiver-param-injected`) and the
-   injected *executable arg* (`exe-param-injected`), but **not the injected
-   *callee identity***. Deterministic census: exactly 5/62, the rest are real
-   global `spawnSync`/`execFileSync` callees. *Lever (cheap, low-risk): when a
-   global_call subprocess/network callee resolves to an enclosing param, classify
-   Seamed — the same rung the receiver/executable checks already implement.*
+2. **Injected-callee subprocess — 5. ✅ FIXED (commit `2ba9538`).** `spawn("git"/
+   "sh"/"glow", …)` where the enclosing fn takes `spawn = spawnSync` as a default
+   param (`preview-markdown.mjs` ×4 — a fully DI'd file pry mislabeled entirely —
+   + `run-verify.mjs` ×1). pry's seam checks covered the injected *receiver*
+   (`receiver-param-injected`) and the injected *executable arg*
+   (`exe-param-injected`) but **not the injected *callee identity***. Deterministic
+   census: exactly 5/62. Now: a global_call subprocess/network callee that resolves
+   to an enclosing param → Seamed (`callee-param-injected`), the same rung the
+   receiver/executable checks implement. cautilus demand-welded **92 → 87**; ceal
+   `.ts` unchanged (0 hits — no regression); ceal's own `.mjs` gained 2 correct
+   seams.
 
-Curated precision climbs the same way ceal's did: **raw ~70% → after the
-duration-record filter ~93% (64/69) → after also fixing injected-callee, the
-demand-welded subset is essentially all-genuine.** The genuine 64 are exactly
-pry's thesis: inline `spawnSync`/`execFileSync` on git/codex/claude/go orchestration
-with `status !== 0` / ENOENT / `result.error` handling (57), real timeouts that
-kill or reject a child (`setTimeout(…→child.kill)`, 5 clock), and bare `fetch` /
+Curated precision climbs the same way ceal's did: **raw ~70% → injected-callee
+fixed → ~74% (64/87) → after the duration-record filter (the remaining lever)
+~93%+ (64/64), essentially all-genuine.** The genuine 64 are exactly pry's thesis:
+inline `spawnSync`/`execFileSync` on git/codex/claude/go orchestration with
+`status !== 0` / ENOENT / `result.error` handling (57), real timeouts that kill or
+reject a child (`setTimeout(…→child.kill)`, 5 clock), and bare `fetch` /
 `new WebSocket` (2). **Verdict: the thesis generalizes — the genuine subset is real
 and dominant once two corpus-specific noise classes are filtered — but pry as
-*shipped* is corpus-sensitive (70% here vs 88% on ceal), and the two filters above
-are the named work to close that gap.**
+*shipped* is corpus-sensitive (70% here vs 88% on ceal). Injected-callee is now
+fixed; the duration-record clock filter is the remaining (high-leverage) lever.**
+
+**The duration-record lever — why it's deferred, and its design.** It is *not* a
+simple filter: lever 3 deliberately keeps `Date.now() - started` arithmetic as a
+demand weld (the `elapsed()` case in `lever3_clock_timing_vs_logsink`), on the
+theory arithmetic = control. cautilus shows that's an *over-keep* — `Date.now() -
+started` feeding a **recorded** `durationMs` is cosmetic. Separating the two needs
+a **sink hop**: demote a clock subtraction whose result flows only to a field /
+log / return / metric, but KEEP it when the difference feeds a relational/branch
+(`if (Date.now() - started > timeout)`). The recall guard is ceal's genuine
+timing, which must survive: `X > Date.now()` (relational), `Date.now() + ttl`
+(addition), `deadline - Date.now()` (clock as *subtrahend*, not minuend). Implement
+with bi-corpus validation (cautilus precision ↑, ceal recall = no genuine demoted)
+before committing — same discipline as lever 3's `+`-exclusion fix.
 
 ## Caveats
 
@@ -242,8 +257,8 @@ are the named work to close that gap.**
   subprocess mix is why raw precision (70%) beats ceal's raw (32%) despite no new
   levers (subprocess is ~92% genuine; ceal's clock-heavy mix was mostly cosmetic).
   A third corpus with a different mix could shift the picture again. The
-  duration-record + injected-callee levers are *motivated* but **not yet
-  implemented or recall-validated** at the time of this row.
+  injected-callee lever is now implemented (`2ba9538`); the duration-record lever
+  is *motivated* but **not yet implemented or recall-validated**.
 - Clock figures are a 32/135 (24%) sample extrapolation, not a census; non-clock
   is a full census. The ~32%/~71%/~80% line should be read ±a few points.
 - Single corpus (ceal), which is DI-disciplined — a welded-at-demand repo
