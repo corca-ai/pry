@@ -5,42 +5,40 @@ Ordered by dependency, following the design in
 injection needs seams, seams come from the map, the map needs the catalog. Stop
 at any layer and the result still stands.
 
-## Now — Layer 0 + validation, on this author's own repos
+## Shipped — Layer 0 static map (v0.1.0)
 
-The first experiment's real job is **not** "is the tool accurate" but **"does my
-repo even have this bottleneck"** (a testability gradient and the swallowed-
-boundary-failure bug shape). Build the validation harness *before* the analyzer
-so the thesis can actually be falsified.
+The Layer-0 *prediction* channel is built, validated, and released:
 
-1. **Validation harness first** (the `nose-eval` analog). Git-history miner for
-   error-handling bugfix commits → LLM labeler → SZZ trace to bug-introducing
-   commit → churn/LOC baseline → negative control (clean hexagonal / functional-
-   core reference apps must score low). Reuse BugsInPy for Python.
-2. **Parse.** `pry` is a **Rust** binary; parse Python (TS/TSX later) via
-   tree-sitter's Rust bindings. Spans on every node so every finding traces to
-   exact lines.
-3. **Boundary + seam catalog as data** (auditable config, not code) — the moat.
-   Start from the Python boundary list in the spec (`requests`/`httpx`, `open`,
-   `socket`, `subprocess`, `os`/`os.environ`, `datetime.now`/`time.time`,
-   `random`, DB drivers, `boto3`). Enforce the functional-core exemption: only
-   flag *boundary-crossing* code that lacks a seam.
-4. **Dataflow-lite.** Classify each boundary call **seamed vs welded**,
-   conservatively (§7 central risk). Surface an explicit **"ambiguous" bucket**
-   rather than going silent. Record weld depth as a *measured* ranking input.
-5. **Syntactic floor** (Aspirator-derived): empty catch; catch-all → abort/
-   continue; log-and-continue on a mutating path; swallowed error; Python bare
-   `except`; un-handled `await` in `try`. High precision + `# pry-ignore`.
-6. **Emit.** Deterministic JSON + a human risk map + SARIF for CI. Determinism
-   is a hard invariant (byte-identical across runs/threads/machines). Keep the
-   map (prediction) and the floor (claim) in **physically separate** outputs.
+- **Validation harness** (`harness/`, the `nose-eval` analog): git-history miner
+  → LLM labeler → SZZ trace → repo-fit gate. It did its job — see
+  [`kill-gate.md`](kill-gate.md).
+- **Parse + catalog + dataflow-lite + emit.** Rust binary, tree-sitter parsing,
+  boundary catalog as data (`catalog/`), seamed/welded/ambiguous classification
+  with a substitution-demand flag and cosmetic-clock + duration-record filters,
+  deterministic JSON (`pry map`).
+- **Kill-gate verdict (the experiment ran):** the author's *Python* is welded
+  glue → KILL; *TS/JS* is pry's surface → GO across 8 corpora. The analyzer
+  therefore targets **TS/JS**; demand-subset precision ~88% (ceal) / ~97%
+  (cautilus). See [`precision-gate.md`](precision-gate.md).
+- **Packaged + released:** prebuilt binary (cargo-dist installer), wired into
+  charness as an `external_binary` for the `quality` skill.
 
-### Kill gate (write the line down before measuring)
+**Not built yet in Layer 0:** the **syntactic floor** (the zero-false-positive
+*claim* channel — empty catch, swallowed error, log-and-continue on a mutating
+path, bare `except`). pry today ships the *map* (prediction); the *floor* (claim)
+does not exist. SARIF emit is also future (JSON only today).
 
-Produce one number: *"Z% of error-handling bugfix commits touched code the map
-pre-flagged, vs a churn baseline of B%, at F% false-flag on the negative
-control."* **Real lift over churn → unfold Layer 1. No lift → stop or pivot the
-signal.** Do not set N/M/K thresholds a priori; set them from the measured churn
-baseline.
+## Now — sharpen the map, then add the floor
+
+1. **Stage-2 rung-3 wrapper detection (F22).** pry under-detects network/subprocess
+   seams behind an injected transport/executor wrapper one hop up → welded-at-demand
+   is an upper bound. The highest-value accuracy increment on the validated TS/JS
+   surface (pre-registered in `kill-gate.md` Run 5's EXTEND rider).
+2. **Syntactic floor.** Build the un-built Layer-0 claim channel, kept physically
+   separate from the map output. High precision + `# pry-ignore` escape hatch.
+3. **quality auto-invoke** (charness-side): a `quality` driver that runs `pry map`
+   as a standing advisory inventory, mirroring nose's consumer. Today pry is
+   agent-invoked on-request via the `skills/pry/` F15 skill, not auto-run.
 
 ## Next — Layer 1 (only after Layer 0 is stable and validated)
 
@@ -66,7 +64,8 @@ real repos, not decided now.
 - Label the map "risk ranking, not a bug list" from the first pixel.
 - Keep Layer 0 small enough that it pays for itself in week one.
 - Ship as an `external_binary` consumed by the charness **`quality`** skill,
-  mirroring `nose` (`integrations/tools/nose.json`): a prebuilt Rust release
-  (installer + Homebrew tap), detected by `pry --version`, with a quality-side
-  consumer/inventory script. This is §10's "packaging option" made concrete —
-  not a Python charness skill.
+  mirroring `nose` (`integrations/tools/nose.json`): a prebuilt Rust release,
+  detected by `pry --version`. **Done** — cargo-dist shell installer + charness
+  `integrations/tools/pry.json` (on charness `main`). *Remaining:* the Homebrew
+  tap and the quality-side consumer/inventory script (the auto-invoke driver).
+  This is §10's "packaging option" made concrete — not a Python charness skill.

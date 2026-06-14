@@ -2,25 +2,45 @@
 
 > Make the *injectability* of your code visible.
 
-`pry` is a proposed static-analysis tool that turns "testability" into a
-measurable, mechanical signal — **injectability** — and maps where a repository
-is un-testable. It finds boundary calls (network, file I/O, clock, randomness,
-DB drivers, subprocess) **welded** directly into business logic with no seam
-where a test can substitute a failure, and it focuses on the error-handling
-paths where catastrophic bugs concentrate.
+`pry` is a static-analysis tool that turns "testability" into a measurable,
+mechanical signal — **injectability** — and maps where a codebase is un-testable.
+It finds boundary calls (network, file I/O, clock, randomness, DB, subprocess)
+**welded** directly into business logic with no seam where a test can substitute
+a failure, and ranks the ones sitting at a real failure-injection demand point.
 
 The name encodes the thesis in one word: *no seam, nothing to pry* — un-testable
 code is code you cannot get a lever into. It is the companion to
-[`nose`](https://github.com/corca-ai/nose) (which sniffs out duplicated
-*logic*); `pry` finds the boundaries welded into your logic where failures hide
-because nothing can reach in to test them.
+[`nose`](https://github.com/corca-ai/nose) (which sniffs out duplicated *logic*);
+`pry` finds the boundaries welded into your logic where failures hide because
+nothing can reach in to test them.
 
-**Implementation & integration.** `pry` is a standalone **Rust** binary built in
-this repository. Like `nose`, it ships as a prebuilt release (installer +
-Homebrew tap) and is wired into [charness](https://github.com/corca-ai/charness)
-as an `external_binary` that the **`quality`** skill calls to surface testability
-hotspots and error-handling defects — it is not embedded as a Python charness
-skill. Source parsing uses tree-sitter's Rust bindings.
+**Output is a risk ranking, not a bug list.**
+
+## Install
+
+```sh
+curl --proto '=https' --tlsv1.2 -LsSf https://github.com/corca-ai/pry/releases/latest/download/pry-installer.sh | sh
+```
+
+Prebuilt binaries for macOS and Linux (arm64 / x86_64). Or build from source
+(Rust ≥ 1.85): `cargo build --release` → `target/release/pry`.
+
+## Usage
+
+```sh
+pry map path/to/ts-or-js                 # full finding map (deterministic JSON)
+pry map path/to/ts-or-js --summary-only  # coverage summary only
+```
+
+`pry map` is deterministic (byte-identical across runs/machines) and zero-LLM.
+The actionable backlog is the **welded-at-demand** subset (`demand=true`,
+`class="welded"`): boundary calls with no seam to inject a failure, on a path
+worth testing. `fileio`/`env` are the diagnostic swamp and are excluded from that
+subset by design.
+
+For a ranked + labeled view, the bundled **`pry` agent skill** (`skills/pry/`)
+consumes `pry map` JSON and labels each finding GENUINE / FALSE-WELD / COSMETIC /
+AMBIGUOUS (`skills/pry/scripts/rank_backlog.py`, honors `PRY_BIN`).
 
 ## Why
 
@@ -40,43 +60,48 @@ with no injection point. No seam, no test; no test, no coverage; the bug ships.
 The layers are centers, not a schedule — each stands alone, and stopping at any
 layer preserves the whole.
 
-- **Layer 0 — static map + syntactic floor (ship first).** Deterministic,
-  language-cataloged, no test runner. Produces a testability/risk map *and* real
-  error-handling-defect findings (empty catch, swallowed errors,
-  log-and-continue on a mutating path, …).
-- **Layer 1 — seam generation.** Propose refactorings that put a hot boundary
-  behind a port/adapter (a DI seam). Output is an ordinary PR a human merges —
-  the seams are the permanent asset even if the tool is later deleted.
-- **Layer 2 — injection oracle.** Inject failures at seams and check that
-  invariants hold. The runner is earned, not forced: it runs only where Layers
-  0/1 created a seam.
+- **Layer 0 — static map (shipped).** Deterministic, language-cataloged, no test
+  runner. Produces the injectability/risk map: every boundary classified
+  seamed / welded / ambiguous, with a substitution-demand flag.
+- **Layer 1 — seam generation (future).** Propose refactorings that put a hot
+  boundary behind a port/adapter (a DI seam). Output is an ordinary PR a human
+  merges — the seams are the permanent asset even if the tool is later deleted.
+- **Layer 2 — injection oracle (future).** Inject failures at seams and check
+  that invariants hold; the runner is earned only where Layers 0/1 created a seam.
 
-## Two channels, two disciplines
-
-- **Claim channels** (syntactic floor, injection oracle) → target ≈ zero false
-  positives; a flag is a *fact*, with a `# pry-ignore` escape hatch.
-- **Prediction channel** (the injectability *map*) → a risk signal judged by
-  concentration / lift over a churn baseline, never by zero-error. These outputs
-  are kept physically separate so a fuzzy map flag never poisons trust in the
-  sound floor.
-
-## Validation before building
-
-The project is committed to being killable. Before trusting the map, measure
-whether error-handling defects concentrate in flagged locations more than a
-churn/LOC baseline — mined automatically from git history (SZZ-labeled
-bug-introducing commits) with a negative control (clean hexagonal / functional-
-core code must score low). First corpus: the author's own (≈Python) repos. If
-there is no lift over churn, the thesis is cheaply killed or the signal pivots.
+The **syntactic floor** (a zero-false-positive *claim* channel: empty catch,
+swallowed errors, log-and-continue on a mutating path) is designed in
+[`initial-plan.md`](initial-plan.md) but **not yet built** — pry today ships the
+*prediction* channel (the map) only.
 
 ## Status
 
-Design stage. This repository currently holds the founding design document and
-its provenance; no analyzer code exists yet.
+**v0.1.0 — Layer-0 static map, released.** Built as a prebuilt Rust binary
+(cargo-dist installer) and wired into
+[charness](https://github.com/corca-ai/charness) as an `external_binary` the
+**`quality`** skill can detect/recommend. Source parsing uses tree-sitter's Rust
+bindings.
 
-- [`initial-plan.md`](initial-plan.md) — full design spec (thesis, layers,
-  metric philosophy, boundary/seam catalog, validation, premortem, prior art).
-- [`docs/roadmap.md`](docs/roadmap.md) — ordered near-term priorities.
+- **Validated surface: TypeScript / JavaScript.** On the substitution-demand
+  subset, curated precision is ~88% (ceal) / ~97% (cautilus) after the
+  cosmetic-clock + duration-record filters; the welded/seamed signal carries
+  information (lens GO across 8 corpora). See [`docs/precision-gate.md`](docs/precision-gate.md).
+- **Python is out of scope — a recorded KILL.** The author's Python repos are
+  uniformly welded *glue* with no discrimination, so pry's ranker gets no
+  traction there. See [`docs/kill-gate.md`](docs/kill-gate.md). A *non-glue* OSS
+  Python corpus could revisit this.
+- **Known limitation:** pry under-detects network/subprocess seams hidden behind
+  an injected transport/executor wrapper one hop up, so the welded-at-demand count
+  is an upper bound (Stage-2 rung-3 detection is the planned fix).
+
+## Reference docs
+
+- [`initial-plan.md`](initial-plan.md) — full design spec (thesis, layers, metric
+  philosophy, boundary/seam catalog, validation, premortem, prior art).
+- [`docs/roadmap.md`](docs/roadmap.md) — ordered priorities.
+- [`docs/precision-gate.md`](docs/precision-gate.md) — validated precision + the
+  GENUINE / FALSE-WELD / COSMETIC / AMBIGUOUS labeling taxonomy.
+- [`docs/kill-gate.md`](docs/kill-gate.md) — the go/kill record (why TS, not Python).
 - [`docs/operator-acceptance.md`](docs/operator-acceptance.md) — what a human
   maintainer needs to take this over.
 - [`AGENTS.md`](AGENTS.md) — operating contract for agents working in this repo.
