@@ -219,6 +219,20 @@ during the run:
 - Lessons carried forward: Adding a tool manifest cascades to: plugin mirror (sync_root_plugin_manifests.py) AND find-skills inventory (latest.json freshness check) -> both must regen or pre-commit gates fail. No per-tool lock needed (nose has none).
 - Metrics: S3 discoverable-not-invocable by design; quality driver = S4.
 
+### Slice 4: Slice 4: F15 pry agent skill (PRY_BIN-honoring)
+
+- Objective: Ship the F15 intelligence layer in the pry repo: a SKILL doc + a PRY_BIN-honoring consumer that runs pry map and projects the welded-at-demand backlog, leaving GENUINE/FALSE-WELD/COSMETIC labeling to the agent.
+- Why this approach: CLI is dumb (F1); intelligence in the skill. Consumer mirrors nose's resolve_*_bin override pattern (PRY_BIN -> PATH -> in-repo target/release fallback for dogfooding). SKILL.md prescribes the exact reproducible command (prescribed-path-self-test).
+- Commits: (this commit)
+- What changed: NEW skills/pry/SKILL.md (run->rank->label workflow, labeling taxonomy, advisory framing, TS/JS-only scope); NEW skills/pry/scripts/rank_backlog.py (PRY_BIN resolver, pry map runner, welded-at-demand projection, deterministic kind-ordered ranking, degraded handling).
+- Alternatives rejected: Rejected a Rust subcommand for ranking (would put intelligence in the binary, violating F1). Rejected baking labeling into the script (labeling needs to read source = agent's job).
+- Targeted verification: Consumer run on ../ceal/packages: 68 welded-at-demand findings (subprocess 16, network 9, clock 37, llm 3, slack 2, random 1), deterministic (byte-identical x2). Live pry map summary == frozen fixtures/ceal-ts-map.summary.json on EVERY field incl by_kind -> fixture is current vs the lever'd classifier, not stale. Degraded path + exit codes exercised.
+- Test duplication pressure:
+- Critique: deferred to S5 bundle-boundary full fresh-eye critique (per goal verification cadence: end-to-end dogfood loop is the final bundle boundary). S4 is a verified consumer + prompt surface; reviewed together with the dogfood proof + user-verification at closeout.
+- Off-goal findings:
+- Lessons carried forward: The F15 demand-welded backlog on ceal is 68 (down from precision-gate's pre-lever 174) -> the cosmetic-clock + duration-record levers are doing the precision work end-to-end through the packaged consumer.
+- Metrics: ceal demand-welded: 68 (clock 37 / subprocess 16 / network 9 / llm 3 / slack 2 / random 1); lens fraction 0.4892.
+
 ## Context Sources
 
 Durable references this goal was shaped from. A fresh session can reconstruct the
