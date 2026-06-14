@@ -2,70 +2,59 @@
 
 ## Workflow Trigger
 
-**Next step = generalize the precision result to ../cautilus and ../charness.**
-But pry only parses **TypeScript**, and neither target has any: **cautilus** is Go
-+ ~4200 `.mjs` (JavaScript); **charness** is ~2000 `.py` (Python). So `pry map`
-returns *empty* on both today — do **not** just run it and report zero. The real
-next step is: **add a frontend for the target language, then re-run the precision
-hand-sample gate** (`docs/precision-gate.md` protocol) on that corpus to test
-whether ceal's ~88% precision holds or was ceal-tuned. Read `docs/precision-gate.md`
-first.
+**Next step = implement the duration-record clock filter** — the remaining
+high-leverage precision lever (`docs/precision-gate.md` → "duration-record
+lever"). It takes cautilus's demand-welded precision ~74% → ~93%. It is **not a
+simple filter**: it reopens lever 3's "arithmetic = control" call with a **sink
+hop** — demote a clock subtraction (`Date.now() - started`) whose result flows
+only to a field / log / return / metric, but KEEP it when the difference feeds a
+relational/branch (`if (Date.now() - started > timeout)`). **Validate bi-corpus
+before committing:** cautilus precision ↑ AND ceal recall = no genuine timing
+demoted (`X > Date.now()`, `Date.now() + ttl`, `deadline - Date.now()` must
+survive). The `lever3_clock_timing_vs_logsink` `elapsed()` expectation will need
+revising — that revision *is* the design decision. Read `docs/precision-gate.md`
+"Cross-corpus" + "duration-record lever" first.
 
 ## Current State
 
-- **Session pivot: "packaging" → "make pry reliably useful" (operator call).** The
-  original packaging goal (charness `external_binary` manifest) was **abandoned**:
-  wrong scope (real packaging = pry *standalone* release, deferred) and charness is
-  occupied by a concurrent agent. The committed goal artifact
-  `charness-artifacts/goals/2026-06-14-pry-packaging-ceal-revalidation.md` is
-  superseded; its ceal-revalidation half is done (below).
-- **pry is now reliably useful on ceal — measured, not asserted.** The H1
-  **precision gate** hand-labeled the welded-at-demand backlog; three classifier
-  levers raised precision **~32% → ~88%** (demand-welded 174→67): (1) cosmetic
-  clock/random filter, (2) F22 rung-3 wrapper/factory detection + 2 0-hop seam bug
-  fixes, (3) one-hop clock dataflow (timing math kept, record/log sinks demoted).
-  5 tests green, byte-deterministic. Full method + per-finding evidence:
-  **`docs/precision-gate.md`**.
-- **ceal re-validated** at `cdd31884` (pulled this session, was `8238b245`);
-  fixture re-frozen (`fixtures/ceal-ts-map.summary.json`). The 4 new error-handling
-  files added zero boundaries — pry stable across the corpus move.
-- **The one big caveat: precision is measured on a SINGLE corpus (ceal,
-  DI-disciplined).** Cross-corpus generalization is unproven — that is exactly
-  what the next step exists to test. (pry measures testability-surface — genuine
-  failure paths with no seam to inject a failure — not bug prediction.)
+- **JS frontend shipped** (`c038487`). `is_source` (was `is_ts_source`) accepts
+  `.mjs`/`.cjs`/`.js`, parsed with the SAME tree-sitter-typescript grammar — TS
+  is a JS superset and node kinds are grammar-determined, so the classifier works
+  unchanged. (Adding tree-sitter-javascript would REGRESS param/default seam
+  detection — JS-grammar params lack the `required_parameter` wrapper.) 0 parse
+  errors on 227 cautilus + ceal `.mjs`.
+- **cautilus cross-corpus precision measured** — the prior handoff's next step,
+  done. Full census of 92 demand-welds (cautilus `3027ba4` `scripts/`): **~70%
+  raw** vs ceal's 88% post-lever. ceal's 88% does NOT directly transfer, but the
+  noise is again two nameable classes. **Injected-callee subprocess lever DONE**
+  (`2ba9538`: 92→87 demand-welds). The duration-record clock class (23, 25%) is
+  the remaining work → the trigger above.
+- **No ceal TS regression.** ceal/packages `.ts` is byte-identical (850/776,
+  demand-welded 67) — confirmed three ways incl. building the freeze commit.
+  Fixture re-frozen for the JS frontend (now 900; +7 of ceal's own JS files).
 
 ## Next Session
 
-1. **Pick the frontend** (Discuss below): JavaScript (cautilus) reuses most of the
-   TS classifier but loses the type-only rung-3 signals (`implements` / typed-const
-   have no JS analog) → likely lower precision there. Python (charness) is the
-   original Layer-0 deliverable and has a `catalog/python.toml` seed, but is a new
-   classifier — **and may reproduce the Runs 1–3 "Python = glue" KILL**
-   (`docs/kill-gate.md`; charness is the author's Python harness, the shape that
-   failed Gate 0).
-2. Add the chosen frontend (`tree-sitter-javascript` or `-python`), wiring it like
-   the TS path in `src/` (catalog stays data; reuse `classify.rs` levers where the
-   grammar allows).
-3. Run the **precision hand-sample gate** (`docs/precision-gate.md` method:
-   classify demand-welded, hand-label a sample, report precision + noise taxonomy)
-   on the new corpus.
-4. Record the cross-corpus precision in `docs/precision-gate.md` (does ~88% hold?).
+1. Implement the duration-record clock filter (sink hop) per the trigger.
+2. Re-run the cautilus precision census (`docs/precision-gate.md` method); confirm
+   ~74% → ~93% and that ceal recall holds.
+3. (Then / parallel) **Python frontend for charness** — the THIRD corpus and the
+   founding Layer-0 deliverable; new classifier, `catalog/python.toml` seeded;
+   risks reproducing the Runs 1–3 "Python = glue" KILL (`docs/kill-gate.md`).
 
 ## Discuss
 
-- **Which frontend first — JS/cautilus or Python/charness?** JS reuses more code
-  and is a cleaner precision generalization test; Python tests the founding thesis
-  but risks re-confirming the glue-KILL. (Lean: JS first as the precision check,
-  Python second as the thesis check.)
-- **Standalone packaging (nose cargo-dist model) stays deferred** — revisit after
-  cross-corpus precision is known.
+- **Duration-record lever first, or Python/charness next?** Lean: **lever first**
+  — evidence-backed, closes the cautilus gap, reuses the TS path; charness is a
+  new classifier + KILL risk.
+- **Standalone packaging (nose cargo-dist model) stays deferred** until cross-
+  corpus precision is settled.
 
 ## References
 
-- `docs/precision-gate.md` — **canonical**: the H1 gate, the 3 levers, 32%→88%
-  method + evidence. Read first.
-- `src/classify.rs` + `tests/classify_smoke.rs` — the levers and their guards;
-  `catalog/python.toml` — Python boundary seed (for the charness path).
-- `docs/kill-gate.md` / `docs/ceal-ts-gate.md` / `docs/ts-cross-corpus.md` — Runs
-  3–6 history. `docs/spec-layer0.md` F18–F28. `fixtures/ceal-ts-map.summary.json`
-  — frozen ceal evidence at `cdd31884`.
+- `docs/precision-gate.md` — **canonical**: H1 gate, the levers, ceal ~88% +
+  cautilus ~70% census + the duration-record lever design. Read first.
+- `src/classify.rs` + `tests/classify_smoke.rs` — levers + guards (`lever3_*` is
+  the test to revise); `src/main.rs::is_source` — the JS frontend.
+- `docs/kill-gate.md` (Python-KILL), `catalog/python.toml`,
+  `fixtures/ceal-ts-map.summary.json` (packages-scoped, JS-frontend re-frozen).
