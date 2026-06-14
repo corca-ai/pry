@@ -2,57 +2,65 @@
 
 ## Workflow Trigger
 
-**Next step = the Python frontend (third corpus, founding Layer-0 deliverable).**
-The two cross-corpus precision levers are done; the TS/JS path ships at ceal ~88%+ /
-cautilus 97%. Python is the next frontier AND the founding charness deliverable. It is
-**not** a free reuse of the JS path: `analyze_source` is hardwired to the
-tree-sitter-*typescript* grammar and TS/JS node kinds (`required_parameter`,
-`variable_declarator`, `member_expression`, `binary_expression`…). Python needs
-tree-sitter-python + a Python-aware classifier branch. `catalog/python.toml` is
-already seeded (215 lines) — read it first. The live risk is **reproducing the Runs
-1–3 "Python = glue" KILL** (`docs/kill-gate.md`): if Python repos are mostly glue with
-no demand-welded error-handling surface, the corpus is a KILL, not a frontend bug.
-**Scout before building:** hand-census a charness/Python repo's boundary density and
-demand-weld shape against the kill-gate criteria BEFORE writing the classifier.
+**Packaging is engineering-COMPLETE (S1–S5).** There is no single forced next
+step. On pickup, either (a) run the formal `/achieve` After-phase closeout of the
+packaging goal (`charness-artifacts/goals/2026-06-14-pry-packaging-ceal-revalidation.md`,
+still `active` — engineering done, needs retro + disposition artifacts to flip to
+`complete`), or (b) pick a follow-up below. **Discuss before building** — the
+prior "Python frontend next" trigger is superseded (see Discuss).
 
 ## Current State
 
-- **Duration-record clock lever shipped** (`2157ccc`, `000d6dc`, `024d1c0`). The
-  sink hop demotes a clock that is the *minuend* of a `-` whose result only records
-  (field/log/return/call-arg), keeps it when it feeds a relational/branch. Recall
-  guards (`X > Date.now()`, `Date.now()+ttl`, `deadline - Date.now()`) untouched.
-  Bi-corpus validated: **cautilus demand-welded 87→66, precision 74%→97%** (21
-  duration-records, full census); **ceal recall held** — 3 demotions, all
-  log-durations (precision gain, no genuine timing). Deterministic. 8 tests green.
-- **Fresh-eye critique run** — caught + fixed a stack-overflow blocker (self-ref
-  declarator `const d = Date.now() - d`; `MAX_BINDING_HOPS` cap). 3 dormant recall
-  holes (W1–W3) documented as known limitations, not yet in any corpus.
-- **Both cross-corpus noise classes now filtered** (injected-callee + duration-record);
-  pry no longer corpus-sensitive on the TS/JS path.
+- **pry is now packaged + dogfood-proven.** TS/JS analyzer was already a validated
+  GO (precision 88% ceal / 97% cautilus; see `docs/precision-gate.md`). This
+  session wired it into charness and shipped the agent layer:
+  - **S3** — `integrations/tools/pry.json` external_binary manifest in charness
+    (commit `754e82ba`, **local, not pushed**), mirroring `nose.json` honestly
+    (experimental / manual / `PRY_BIN`, no fake release). pry now surfaces as a
+    `validation`-role tool for `quality`. All 7 charness pre-commit gates green.
+  - **S4** — F15 `pry` agent skill in this repo (`skills/pry/SKILL.md` +
+    `skills/pry/scripts/rank_backlog.py`, `PRY_BIN`-honoring). Commits `5282d9c`,
+    `5c25d5c`.
+  - **S5** — dogfood proven: `PRY_BIN → rank_backlog.py ../ceal/packages` = **68
+    welded-at-demand findings**, deterministic, matching the frozen
+    `fixtures/ceal-ts-map.summary.json` on every field (fixture is current vs the
+    lever'd classifier).
+- **Two fresh-eye critique rounds** (S3: 3 angles + counterweight; S5 bundle: 2 +
+  counterweight). All Act-Before-Close findings fixed.
+- **Known deferrals (not bugs):** no published release; no `git push`; **quality
+  does not auto-invoke pry** (no dispatch path — pry is agent-invoked via the F15
+  skill + `PRY_BIN`); Stage-2 rung-3 wrapper detection unbuilt (demand-welded is
+  an upper bound).
+- charness working tree also carries unrelated uncommitted `validate_debug_artifact`
+  work (not ours; left untouched).
 
 ## Next Session
 
-1. Scout a charness/Python repo against `docs/kill-gate.md` (boundary density +
-   demand-weld error-handling shape) — confirm it is NOT a "Python = glue" KILL.
-2. If it survives: tree-sitter-python frontend + Python classifier branch in
-   `src/classify.rs` (seam/cosmetic/duration logic re-expressed for Python AST kinds),
-   driven by `catalog/python.toml`. Census precision the same way (`docs/precision-gate.md`).
-3. (Deferred) standalone packaging (nose cargo-dist model) — once the third corpus settles.
+Pick one (none forced):
+1. **Formal goal closeout** — `/achieve` After-phase on the packaging goal: retro
+   + standalone disposition artifact → flip Status to `complete`.
+2. **Real release** — cargo-dist (the nose model), then point `pry.json` install at
+   a real installer + remove the experimental/source-build caveat.
+3. **Deepen TS** — Stage-2 F22 rung-3 wrapper detection (closes the
+   network/subprocess under-detection; sharpens demand-welded).
+4. **Python, only on a non-glue corpus** — an OSS distributed-systems/data-pipeline
+   repo, NOT the author's repos (those are a recorded KILL).
 
 ## Discuss
 
-- **Python KILL risk is real and pre-registered.** Lean: scout-then-build, and be
-  willing to record a KILL rather than force a third frontend. The TS/JS result already
-  validates the thesis on two corpora.
-- W1–W3 (dormant duration-record recall holes) — promote to filters only if a third
-  corpus surfaces them; don't pre-build.
+- **The "Python frontend next" trigger is dead for the author's repos.** Both axes
+  agree the author's Python is welded glue with no discrimination (`docs/kill-gate.md`
+  Runs 1–3). This session the operator chose packaging over a third Python frontend.
+  Only revisit Python on a *non-glue OSS* corpus.
+- **Auto-invoke wiring** (quality runs `pry map` itself) is the natural next
+  packaging increment if pry should run inside standing quality, not just
+  on-request via the F15 skill.
 
 ## References
 
-- `docs/precision-gate.md` — **canonical**: H1 gate, all levers, ceal ~88% + cautilus
-  74%→97% census, "After the duration-record lever" + known-limitations. Read first.
-- `docs/kill-gate.md` — the Python-KILL criteria. Read before scouting.
-- `catalog/python.toml` (seeded), `catalog/typescript.toml` — boundary catalogs.
-- `src/classify.rs` (TS/JS-hardwired classifier; lever3 + sink hop + `MAX_BINDING_HOPS`),
-  `tests/classify_smoke.rs`, `src/main.rs::is_source`/`run_map` (TS-grammar parser).
-- `fixtures/ceal-ts-map.summary.json` (re-frozen, demand-subset 145→142).
+- `charness-artifacts/goals/2026-06-14-pry-packaging-ceal-revalidation.md` — the
+  packaging goal: full slice log, user-verification commands, final-verification state.
+- `docs/precision-gate.md` — validated TS precision + labeling taxonomy.
+- `docs/kill-gate.md` — why TS-only (Python KILL).
+- `skills/pry/SKILL.md` + `skills/pry/scripts/rank_backlog.py` — the F15 skill.
+- `../charness/integrations/tools/pry.json` (commit `754e82ba`, local) — the manifest.
