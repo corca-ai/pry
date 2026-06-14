@@ -2,10 +2,11 @@
   "_provenance": {
     "ceal_sha": "cdd318849356400a73482bd4aa4e59feb05dd71d",
     "ceal_sha_short": "cdd31884",
-    "classifier": "H1 levers 1+2+3 + injected-callee seam (cautilus cross-corpus lever). TS analysis UNCHANGED vs prior freeze: the .ts-only slice is still 850/776 (seamed 71, demand-welded 67) byte-for-byte; injected-callee adds 0 seams in packages/.ts.",
+    "classifier": "H1 levers 1+2+3 + injected-callee seam + duration-record clock filter (cautilus cross-corpus lever). Class counts UNCHANGED (the filter flips demand, not class): total_boundaries 900, welded 826, by_kind.clock.welded 131 all byte-for-byte vs the prior freeze.",
+    "duration_record_delta": "demand-welded 71->68: the duration-record sink hop demotes 3 ceal clocks that were log-durations, not timing (agent-runner-support.ts:573 logToolExecutionResult(durationMs), slack-message-history.ts:155/173 logBackfillComplete(Date.now()-startTime)). A precision gain (3 false-positives removed); recall held (no genuine timing demoted, verified by census). demand subset total 145->142, lens 0.5->0.4892.",
     "frozen": "2026-06-14",
     "js_frontend_delta": "files_scanned 461->468: the JS frontend (.mjs/.cjs/.js via the TS-superset grammar) now also analyzes ceal/packages own 7 JS files, adding 50 boundaries (+4 demand-welds). total_boundaries 850->900.",
-    "prior_freeze": "850 boundaries, .ts-only frontend (commit 0e3488f)",
+    "prior_freeze": "850 boundaries, .ts-only frontend (commit 0e3488f); 900 boundaries demand-welded 71 (injected-callee, commit 9229db0)",
     "pry_version": "0.1.0",
     "scope": "ceal/packages (founding precision-gate corpus)"
   },
@@ -66,9 +67,9 @@
         0.85
       ],
       "seamed": 71,
-      "total": 145,
-      "welded": 71,
-      "welded_fraction_LENS_GO_METRIC": 0.5
+      "total": 142,
+      "welded": 68,
+      "welded_fraction_LENS_GO_METRIC": 0.4892
     },
     "total_boundaries": 900,
     "welded": 826

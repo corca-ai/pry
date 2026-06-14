@@ -251,14 +251,68 @@ timing, which must survive: `X > Date.now()` (relational), `Date.now() + ttl`
 with bi-corpus validation (cautilus precision ↑, ceal recall = no genuine demoted)
 before committing — same discipline as lever 3's `+`-exclusion fix.
 
+## After the duration-record lever (implemented 2026-06-14)
+
+Built in `src/classify.rs` (`clock_subtraction_minuend` + `value_reaches_control` +
+the refined `clock_binding_is_control`/`clock_is_logsink`); `lever3_clock_timing_vs_logsink`
+revised, full suite green, output byte-deterministic. The rule: a clock that is the
+**minuend** of a `-` (`Date.now() - started`) is a duration; demoted (`-logsink`)
+when its result flows only to a field/log/return/call-arg sink, KEPT when it feeds a
+relational/branch. The three recall guards never enter the minuend path —
+`X > Date.now()` (relational), `Date.now() + ttl` (addition), `deadline - Date.now()`
+(clock as *subtrahend*) all stay. The `elapsed()` expectation flipped: a *returned*
+bare duration is now a record sink (both the `Date.now() - startedAt` read and the
+`startedAt` anchor demote).
+
+| corpus | demand-welded before | after | precision before | **after** |
+| --- | --- | --- | --- | --- |
+| cautilus (`scripts/`) | 87 | **66** | 64/87 ≈ 74% | **64/66 ≈ 97%** |
+| ceal (`packages/`) | 71 | **68** | ~88% | **precision ↑** (3 FPs removed) |
+
+- **cautilus: 21 duration-records demoted** (full census, `diff` of demand-welded
+  clocks) — every one a `const started = Date.now(); … Date.now() - started` whose
+  result feeds `codexRuntime(options, durationMs)` / `formatDuration(elapsed)` /
+  `completedPhaseResult(…, elapsed, …)` / a record field. The 7 clocks that remain are
+  **all `timer-global`** (setTimeout/setInterval) — zero `Date.now()`/`new Date()`
+  reads left, so no duration-record was missed and no genuine timer was touched. The 2
+  non-genuine residual are the no-op `setInterval`/heartbeat timers (a separate noise
+  class this lever does not target). Precision **74% → 97%**, exceeding the ~93% target.
+- **ceal recall held — and it was a precision gain.** Exactly 3 clocks demoted, every
+  one a *log-duration*, not timing: `agent-runner-support.ts:573`
+  (`logToolExecutionResult(…, durationMs, …)`), `slack-message-history.ts:155/173`
+  (`logBackfillComplete(totalMessages, Date.now() - startTime)`). These were
+  false-positives the prior census counted as genuine; demoting them raises ceal
+  precision. Every genuine ceal timing (`>= waitMs`, `> LOCK_STALE_MS`, `expires > now`,
+  `Date.now()+reserve >= deadline`, `Date.now()/1000`) stayed a demand weld.
+- **Class counts unchanged** (the filter flips `demand`, not `class`): ceal
+  `total_boundaries` 900, `welded` 826, `by_kind.clock.welded` 131 byte-for-byte;
+  fixture `fixtures/ceal-ts-map.summary.json` re-frozen for the demand-subset delta
+  only (145→142, welded 71→68, lens 0.5→0.4892).
+
+**Net: the thesis generalizes _and_ ships precise.** Both corpus-specific noise classes
+(injected-callee, duration-record) are now filtered; cautilus matches ceal's quality
+band (97% / ~88%+) rather than the raw 70%. The remaining residual on both corpora is
+timer-global noise, a smaller, named, lower-leverage class.
+
+**Known limitations (dormant — fresh-eye critique, 0 sites in either corpus).** The
+sink hop is precision-favoring with three latent recall holes, all requiring an
+unusual shape not present in cautilus/ceal: (W1) an elapsed duration fed directly to a
+timer as the delay (`setTimeout(fn, Date.now() - start)`) demotes, though the realistic
+scheduling shape `deadline - Date.now()` is clock-as-subtrahend and already kept; (W2) a
+duration via plain (non-`const`) assignment then compared (`let d; d = Date.now()-s;
+if (d>x)`) — only `variable_declarator` hops, not `assignment_expression`; (W3) a duration
+written to a field then compared via that field — needs member-alias tracking. Promote
+these to filters only if a third corpus surfaces them. (A self-referential-declarator
+stack overflow the critique also found was fixed, not deferred — `MAX_BINDING_HOPS`.)
+
 ## Caveats
 
 - **cautilus is a single second corpus, and an automation one** — its 67%
   subprocess mix is why raw precision (70%) beats ceal's raw (32%) despite no new
   levers (subprocess is ~92% genuine; ceal's clock-heavy mix was mostly cosmetic).
   A third corpus with a different mix could shift the picture again. The
-  injected-callee lever is now implemented (`2ba9538`); the duration-record lever
-  is *motivated* but **not yet implemented or recall-validated**.
+  injected-callee lever (`2ba9538`) and the duration-record lever (this run, see
+  "After the duration-record lever") are both implemented and bi-corpus recall-validated.
 - Clock figures are a 32/135 (24%) sample extrapolation, not a census; non-clock
   is a full census. The ~32%/~71%/~80% line should be read ±a few points.
 - Single corpus (ceal), which is DI-disciplined — a welded-at-demand repo
