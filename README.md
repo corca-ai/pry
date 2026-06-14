@@ -28,9 +28,18 @@ Prebuilt binaries for macOS and Linux (arm64 / x86_64). Or build from source
 ## Usage
 
 ```sh
-pry map path/to/ts-or-js                 # full finding map (deterministic JSON)
-pry map path/to/ts-or-js --summary-only  # coverage summary only
+pry map path/to/ts-or-js                       # full finding map (deterministic JSON)
+pry map path/to/ts-or-js --summary-only        # coverage summary only
+pry map path/to/ts-or-js --exclude 'src/smoke-*.ts'  # skip paths (repeatable glob)
 ```
+
+**Scope is your call.** `pry map` already honors `.gitignore` and drops
+conventional test files (`*.test.ts`, `*.spec.ts`, `test/`, `__tests__/`). For
+anything else your repo considers out of scope (e.g. non-test-named `smoke-*.ts`
+harnesses), add a **`.pryignore`** file (full gitignore syntax, incl. `!`
+re-include) or pass **`--exclude <glob>`** (positive-sense, repeatable). pry never
+*guesses* wantedness — it does not auto-demote files by heuristic; any exclusion
+is your explicit declaration, not a silent pry-side demotion.
 
 `pry map` is deterministic (byte-identical across runs/machines) and zero-LLM.
 The actionable backlog is the **welded-at-demand** subset (`demand=true`,

@@ -29,12 +29,18 @@ enum Cmd {
         /// Print only the coverage summary (omit per-finding rows).
         #[arg(long)]
         summary_only: bool,
+        /// Exclude paths matching a glob (repeatable, positive-sense — no leading
+        /// '!'; use a `.pryignore` file for gitignore-style re-include). Applied on
+        /// top of `.gitignore` and a per-repo `.pryignore`. Scope is the repo's
+        /// call — pry does not guess wantedness (E7, docs/spec-eval-harness.md).
+        #[arg(long = "exclude", value_name = "GLOB")]
+        exclude: Vec<String>,
     },
 }
 
 fn main() -> Result<()> {
     match Cli::parse().cmd {
-        Cmd::Map { path, summary_only } => run_map(&path, summary_only),
+        Cmd::Map { path, summary_only, exclude } => run_map(&path, summary_only, &exclude),
     }
 }
 
@@ -73,25 +79,59 @@ fn is_source(p: &Path) -> bool {
     true
 }
 
-fn discover(root: &Path) -> Vec<PathBuf> {
+/// Walk `root` for analyzable TS/JS source. Honors `.gitignore` (via the `ignore`
+/// crate), a per-repo `.pryignore` (same gitignore syntax — the repo's own
+/// out-of-scope set, e.g. non-conventionally-named `smoke-*.ts` harnesses the
+/// `is_source` test heuristic can't catch), and any `--exclude <glob>` overrides.
+/// Scope is the repo's call: pry never guesses wantedness (E7).
+fn discover(root: &Path, exclude: &[String]) -> Result<Vec<PathBuf>> {
     let mut files = Vec::new();
     if root.is_file() {
         if is_source(root) {
             files.push(root.to_path_buf());
         }
-        return files;
+        return Ok(files);
     }
-    for entry in ignore::WalkBuilder::new(root).hidden(false).build().flatten() {
+    let mut wb = ignore::WalkBuilder::new(root);
+    wb.hidden(false);
+    wb.add_custom_ignore_filename(".pryignore");
+    if !exclude.is_empty() {
+        let mut ob = ignore::overrides::OverrideBuilder::new(root);
+        for g in exclude {
+            let g = g.trim();
+            // Guard two silent footguns: an empty glob (e.g. an unset `$VAR`) would
+            // become the override line `!` = "ignore everything"; a user-leading `!`
+            // would become `!!glob` = a no-op whitelist that excludes nothing. Both
+            // would otherwise exit 0 with a wrong result. `--exclude` is
+            // positive-sense; use a `.pryignore` file for gitignore-style re-include.
+            if g.is_empty() {
+                anyhow::bail!("--exclude glob is empty");
+            }
+            if g.starts_with('!') {
+                anyhow::bail!(
+                    "--exclude glob must be positive (no leading '!'): {g:?} — use a \
+                     .pryignore file for gitignore-style re-include"
+                );
+            }
+            // `!`-prefixed override = ignore this glob. With no whitelist glob in
+            // the set, the `ignore` crate keeps every non-matching file, so this is
+            // a pure additional ignore (not a whitelist that would drop the rest).
+            ob.add(&format!("!{g}"))
+                .with_context(|| format!("invalid --exclude glob: {g}"))?;
+        }
+        wb.overrides(ob.build().context("building --exclude override set")?);
+    }
+    for entry in wb.build().flatten() {
         let p = entry.path();
         if p.is_file() && is_source(p) {
             files.push(p.to_path_buf());
         }
     }
     files.sort(); // determinism (SC3)
-    files
+    Ok(files)
 }
 
-fn run_map(root: &Path, summary_only: bool) -> Result<()> {
+fn run_map(root: &Path, summary_only: bool, exclude: &[String]) -> Result<()> {
     let cat = catalog::load();
     let language: tree_sitter::Language = tree_sitter_typescript::LANGUAGE_TYPESCRIPT.into();
     let mut parser = tree_sitter::Parser::new();
@@ -99,7 +139,7 @@ fn run_map(root: &Path, summary_only: bool) -> Result<()> {
         .set_language(&language)
         .context("set tree-sitter-typescript language")?;
 
-    let files = discover(root);
+    let files = discover(root, exclude)?;
     let mut findings: Vec<Finding> = Vec::new();
     for file in &files {
         let src = match std::fs::read(file) {

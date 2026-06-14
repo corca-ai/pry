@@ -32,8 +32,10 @@ does not exist. SARIF emit is also future (JSON only today).
 
 1. **Syntactic floor.** Build the un-built Layer-0 claim channel (empty catch,
    swallowed error, log-and-continue on a mutating path), kept physically separate
-   from the map output. High precision + `# pry-ignore` escape hatch. This is the
-   genuine un-built Layer-0 deliverable.
+   from the map output. High precision + `# pry-ignore` escape hatch (the
+   *path-level* half — `.pryignore` + `--exclude` — already shipped, see
+   `spec-eval-harness.md` E7; the inline `// pry-ignore` per-finding hatch lands
+   here). This is the genuine un-built Layer-0 deliverable.
 2. **quality auto-invoke** (charness-side): a `quality` driver that runs `pry map`
    as a standing advisory inventory, mirroring nose's consumer. Today pry is
    agent-invoked on-request via the `skills/pry/` F15 skill, not auto-run.
