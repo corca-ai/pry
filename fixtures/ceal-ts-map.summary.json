@@ -2,8 +2,8 @@
   "_provenance": {
     "ceal_sha": "cdd318849356400a73482bd4aa4e59feb05dd71d",
     "ceal_sha_short": "cdd31884",
-    "classifier": "precision-filter (H1 levers 1+2): cosmetic clock/random demoted out of demand; F22 rung-3 wrapper/factory + 2 0-hop seam fixes (input.now ??, input.clientFactory ?). Raw demand-welded dropped 174->~85 as ~76 cosmetic timestamps left the demand subset and 7 transport/executor impls + the 2 ternary/arrow seams reclassified seamed.",
-    "delta_vs_prior": "files_scanned 457->461; demand-welded fraction changed by the precision-filter classifier (was 0.75 leaf-model). See docs/precision-gate.md.",
+    "classifier": "precision-filter (H1 levers 1+2+3): cosmetic clock/random demoted; F22 rung-3 wrapper/factory + 2 0-hop seam fixes; lever-3 one-hop splits the bare-clock tail (timing arithmetic/relational + control-used bindings kept; record/log sinks demoted). Raw demand-welded 174->67; hand-sampled precision ~32%->~88%.",
+    "delta_vs_prior": "files_scanned 457->461; demand-welded recomputed by the precision-filter classifier (was 0.75 leaf-model). See docs/precision-gate.md \"After levers 1+2+3\".",
     "frozen": "2026-06-14",
     "prior_ceal_sha_short": "8238b245",
     "pry_version": "0.1.0"
@@ -65,9 +65,9 @@
         0.85
       ],
       "seamed": 71,
-      "total": 159,
-      "welded": 85,
-      "welded_fraction_LENS_GO_METRIC": 0.5449
+      "total": 141,
+      "welded": 67,
+      "welded_fraction_LENS_GO_METRIC": 0.4855
     },
     "total_boundaries": 850,
     "welded": 776

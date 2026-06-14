@@ -230,6 +230,84 @@ fn cosmetic_value_context(n: Node, src: &[u8]) -> bool {
     false
 }
 
+/// Timing arithmetic/relational operators — numeric, so a clock operand here is
+/// control logic (elapsed/deadline/expiry), not a record value. `+` is handled
+/// separately (it is timing for `Date.now() + ttl` but string concat for
+/// `"at " + Date.now()`).
+const ARITH_REL_OPS: &[&str] = &["-", "<", ">", "<=", ">=", "/", "*", "%"];
+
+/// Does the node feed an arithmetic/relational comparison (climbing through
+/// member/call/paren wrappers, e.g. `now.getTime() - x`)? `Date.now() + ttl` is
+/// timing; `"at " + Date.now()` (a string operand) is concat. A logical binary
+/// (`&&`, `||`, `==`) or any other context stops the climb.
+fn in_arith_relational(n: Node, src: &[u8]) -> bool {
+    let mut cur = n.parent();
+    while let Some(p) = cur {
+        match p.kind() {
+            "binary_expression" => {
+                let op = p.child_by_field_name("operator").map(|o| text(o, src)).unwrap_or("");
+                if op == "+" {
+                    // numeric addition (deadline/TTL) is timing; reject only if an
+                    // operand is a string/template literal (concatenation).
+                    let is_str = |f| {
+                        p.child_by_field_name(f)
+                            .map(|x| matches!(x.kind(), "string" | "template_string"))
+                            .unwrap_or(false)
+                    };
+                    return !(is_str("left") || is_str("right"));
+                }
+                return ARITH_REL_OPS.contains(&op);
+            }
+            "member_expression" | "call_expression" | "parenthesized_expression"
+            | "non_null_expression" | "as_expression" => {}
+            _ => return false,
+        }
+        cur = p.parent();
+    }
+    false
+}
+
+/// One-hop: a clock bound to `const x = <clock>` is control iff some later use of
+/// `x` participates in timing arithmetic (`Date.now() - x`, `x > deadline`).
+/// `None` = not a simple local binding (caller falls back to the zero-hop test).
+fn clock_binding_is_control(n: Node, src: &[u8]) -> Option<bool> {
+    let p = n.parent()?;
+    if p.kind() != "variable_declarator"
+        || !p.child_by_field_name("value").map(|v| v.id() == n.id()).unwrap_or(false)
+    {
+        return None;
+    }
+    let name = p.child_by_field_name("name").map(|x| text(x, src))?.to_string();
+    let body = enclosing_function(n)?.child_by_field_name("body")?;
+    let mut stack = vec![body];
+    while let Some(nd) = stack.pop() {
+        if nd.kind() == "identifier" && nd.id() != n.id() && text(nd, src) == name
+            && in_arith_relational(nd, src)
+        {
+            return Some(true);
+        }
+        let mut c = nd.walk();
+        for ch in nd.named_children(&mut c) {
+            stack.push(ch);
+        }
+    }
+    Some(false)
+}
+
+/// Lever 3 (one-hop): a bare welded clock that is neither timing arithmetic nor a
+/// control-used local binding is a record/log sink — not a substitution-demand
+/// point. Splits the ambiguous `Date.now()`/`new Date()` tail the cosmetic filter
+/// could not (it has no serialization marker).
+fn clock_is_logsink(n: Node, src: &[u8]) -> bool {
+    if in_arith_relational(n, src) {
+        return false; // timing math -> control
+    }
+    if clock_binding_is_control(n, src) == Some(true) {
+        return false; // elapsed/deadline anchor -> control
+    }
+    true
+}
+
 /// F22 rung-3: the leaf boundary lives inside a *named implementation of an
 /// injectable interface* — a `class … implements I` method, or a typed impl
 /// `const x: I = (…) => {…}` / `{ method(){…} }`. The seam is interface `I`, not
@@ -523,9 +601,14 @@ fn match_node(node: Node, src: &[u8], file: &str, cat: &Catalog) -> Option<Findi
                         };
                         let reason = if class == Class::Seamed { "clock-injected" } else { "clock-inline" };
                         let mut f = finding(node, b, file, class, false, reason);
-                        if class == Class::Welded && cosmetic_value_context(node, src) {
-                            f.demand = false;
-                            f.reason = format!("{reason}-cosmetic");
+                        if class == Class::Welded {
+                            if cosmetic_value_context(node, src) {
+                                f.demand = false;
+                                f.reason = format!("{reason}-cosmetic");
+                            } else if clock_is_logsink(node, src) {
+                                f.demand = false;
+                                f.reason = format!("{reason}-logsink");
+                            }
                         }
                         return Some(f);
                     }
@@ -598,12 +681,16 @@ fn match_node(node: Node, src: &[u8], file: &str, cat: &Catalog) -> Option<Findi
                                 let is = kind_input_sim(&b.kind);
                                 let reason = if class == Class::Seamed { "builtin-injected" } else { "builtin-inline" };
                                 let mut f = finding(node, b, file, class, is, reason);
-                                if class == Class::Welded
-                                    && matches!(b.kind.as_str(), "clock" | "random")
-                                    && cosmetic_value_context(node, src)
-                                {
-                                    f.demand = false;
-                                    f.reason = format!("{reason}-cosmetic");
+                                if class == Class::Welded {
+                                    if matches!(b.kind.as_str(), "clock" | "random")
+                                        && cosmetic_value_context(node, src)
+                                    {
+                                        f.demand = false;
+                                        f.reason = format!("{reason}-cosmetic");
+                                    } else if b.kind == "clock" && clock_is_logsink(node, src) {
+                                        f.demand = false;
+                                        f.reason = format!("{reason}-logsink");
+                                    }
                                 }
                                 return Some(f);
                             }

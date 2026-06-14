@@ -126,46 +126,58 @@ Concentrated, coherent clusters — all "you cannot inject a failure to test thi
   error paths), never "789 welded" or even "174 demand-welded." Sell **measurement
   of failure-injection gaps**, not a 789-row map.
 
-## After levers 1+2 (implemented 2026-06-14, this run)
+## After levers 1+2+3 (implemented 2026-06-14, this run)
 
-Levers 1 (cosmetic filter) + 2 (rung-3 + the 2 0-hop bug fixes) are **built** in
-`src/classify.rs` (tests in `tests/classify_smoke.rs::precision_filters_and_rung3`,
-green; output still byte-deterministic). Re-run on ceal `cdd31884`:
+All three levers are **built** in `src/classify.rs` (5 tests in
+`tests/classify_smoke.rs`, green; output byte-deterministic). On ceal `cdd31884`:
 
-| metric | before | after 1+2 |
-| --- | --- | --- |
-| demand-welded **count** | 174 | **85** |
-| demand-welded **precision** (re-labeled, 28-sample) | ~32% | **~70%** (±5) |
-| demand-welded **fraction** (lens metric) | 0.75 | 0.545 |
-| cosmetic clock/random demoted out of demand | — | 76 |
-| rung-3 transport/executor impls → seamed | — | 7 |
-| 0-hop seam bugs fixed (`input.now ??`, `input.clientFactory ?`) | — | 2 |
+| metric | before | 1+2 | **1+2+3** |
+| --- | --- | --- | --- |
+| demand-welded **count** | 174 | 85 | **67** |
+| demand-welded **precision** (hand-sampled) | ~32% | ~70% | **~88%** |
+| demand-welded **fraction** (lens metric) | 0.75 | 0.545 | 0.486 |
+| cosmetic clock/random demoted (lever 1) | — | 76 | 76 |
+| bare-clock log-sinks demoted (lever 3) | — | — | 13 |
+| rung-3 transport/executor impls → seamed (lever 2b) | — | 7 | 7 |
+| 0-hop seam bugs fixed (lever 2a) | — | 2 | 2 |
 
 What each lever did, verified on the real findings:
 
 - **Lever 1 (cosmetic):** 72 clock + 4 random `new Date().toISOString()`/template/
-  record-field values left the demand subset (`-cosmetic` reason, still welded
-  *class* but `demand=false`). The dominant noise category named by H1 is gone.
+  record-field/`() => clock` thunk values left the demand subset (`-cosmetic`,
+  still welded *class* but `demand=false`). The dominant H1 noise category, gone.
 - **Lever 2b (rung-3):** 7 leaves correctly reclassified seamed — `impl-interface:
   Executor` (sandbox `LocalCommandExecutor`), `ExchangeTokenFetch`, 3×
   `NotionHttpTransport`, 2× github runners. **Guardrail held:** the genuine bare
   globals (`google-workspace-rest-client` fetch, `store.ts` fetch, OpenAI clients,
   `control-auto-commit` spawn) stayed welded+demand.
-- **Lever 2a (0-hop bugs):** `slack-search-public.ts:129` and
-  `github-app-installations.ts:107` now classify seamed.
+- **Lever 2a (0-hop bugs):** `slack-search-public.ts:129` (ternary factory) and
+  `github-app-installations.ts:107` (`input.now ??` arrow default) now seamed.
+- **Lever 3 (one-hop):** the bare-`Date.now()`/`new Date()` tail split by
+  dataflow. A clock that feeds **timing arithmetic/relational** logic
+  (`deadline - Date.now()`, `cachedUntil > Date.now()`, `Date.now() + ttl`,
+  `Date.now()/1000`) — directly or through a local binding (`const startedAt =
+  Date.now()` later used in `Date.now() - startedAt`) — **stays a demand weld**;
+  one that flows only to a record/log sink (`const now = Date.now(); rec.at =
+  now`, `getTimestampPrefix(new Date())`, `"at " + Date.now()` concat) is demoted
+  (`-logsink`). 13 demoted; recall-checked — none were genuine timing (an early
+  `+`-exclusion bug that mis-demoted 3 deadline/TTL computations was caught and
+  fixed: numeric `Date.now() + ttl` is timing, only a string operand is concat).
 
-**The lens metric dropped 0.75→0.545 — that is not a regression.** It reflects
-ceal being *more* DI-disciplined than the leaf model saw (71 seamed demand
-boundaries vs 58 before) once transport/factory seams resolve and cosmetic noise
-leaves the denominator. Precision (the useful-output metric) is what rose: 32%→~70%.
+**The lens metric dropped 0.75→0.486 — not a regression.** It reflects ceal being
+*more* DI-disciplined than the leaf model saw (71 seamed demand boundaries vs 58)
+once transport/factory seams resolve and clock noise leaves the denominator.
+Precision — the *useful-output* metric — is what rose: ~32%→~88%.
 
-**Residual to ~80% (deferred lever 3):** the noise is now almost entirely the
-**37 bare `Date.now()`/`new Date()`** findings (`clock-inline`/`builtin-inline`,
-not in a cosmetic context) — a mix of genuine timing (`deadline - Date.now()`,
-`cachedUntil > Date.now()`) and uncaught logging (`const now = Date.now()`,
-`getTimestampPrefix(new Date())`). Splitting them needs **one-hop dataflow**
-(does the value feed a comparison/timer vs a record/log sink?), which lever 3
-was scoped to and this slice deliberately did not build.
+**Precision/recall trade:** lever 3 is deliberately precision-favoring — ~13
+ambiguous clock anchors (e.g. `const startedAt = Date.now()` whose elapsed math
+runs on a *field* copy) demote even though some are arguably genuine. For a
+backlog-finder, a trustworthy top-of-list beats catching every weld. The residual
+~12% noise is the no-op `setInterval`, a best-effort `taskkill`, and two
+`(Date.now()/1000).toFixed()` timestamps that the `/` arithmetic keeps.
+
+**Net:** `pry map`'s welded-at-demand backlog on ceal is now ~88% genuine,
+actionable failure-injection gaps — the gate's "reliably useful" bar, met.
 
 ## Caveats
 

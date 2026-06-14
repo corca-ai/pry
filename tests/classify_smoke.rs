@@ -113,6 +113,34 @@ fn precision_filters_and_rung3() {
     assert!(bare.demand, "genuine bare fetch must remain a demand weld");
 }
 
+const SRC3: &str = r#"
+export function deadline(d: number) { if (Date.now() > d) return 0; return Date.now() - d; }
+export function ttl(m: Map<string, number>) { m.set("k", Date.now() + 1000); return m; }
+export function elapsed() { const startedAt = Date.now(); doWork(); return Date.now() - startedAt; }
+export function logOnly(rec: { at?: number }) { const now = Date.now(); rec.at = now; return rec; }
+export function concat() { return "at " + Date.now(); }
+"#;
+
+#[test]
+fn lever3_clock_timing_vs_logsink() {
+    let fs = analyze_str(SRC3, "l3.ts");
+    let demand_clock = |line: usize| {
+        fs.iter().find(|f| f.line == line && f.kind == "clock").map(|f| f.demand)
+    };
+
+    // timing math (relational / subtraction / numeric `+ ttl`) -> stays a demand weld
+    assert_eq!(demand_clock(2), Some(true), "`Date.now() > d` relational must stay demand");
+    assert_eq!(demand_clock(3), Some(true), "`Date.now() + 1000` TTL must stay demand");
+    // one-hop: `const startedAt = Date.now()` later used in `Date.now() - startedAt`
+    assert!(fs.iter().any(|f| f.line == 4 && f.kind == "clock" && f.demand),
+        "elapsed-anchor binding used in timing math must stay demand");
+
+    // pure record/log sink -> demoted out of the demand subset
+    assert_eq!(demand_clock(5), Some(false), "`const now = Date.now(); rec.at = now` is a log sink");
+    // `"at " + Date.now()` is string concatenation, not timing arithmetic -> log sink
+    assert_eq!(demand_clock(6), Some(false), "string-concat clock is a log sink");
+}
+
 #[test]
 fn demand_subset_discriminates() {
     // The lens metric: among the substitution-demand subset, both seamed and welded
