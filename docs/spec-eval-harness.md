@@ -33,23 +33,29 @@ nose closed exactly this with a 105-repo (7-lang × 15, dev 58 / heldout 47),
 
 ## Current Slice
 
-A **dev-time, in-repo, LLM-panel finding-eval harness** for the TS/JS analyzer:
+A **dev-time, in-repo, LLM-panel finding-eval harness** for the TS/JS analyzer.
+**Slice 1 is precision-only**; the filter-recall arm is Slice 2 (E5):
 
-1. `pry map` → demand-welded findings (+ the bare/diagnostic pool for recall).
-2. mechanical `emit` → a **blinded** finding worklist (`{file, line, kind,
-   source_context}`, pry's own verdict hidden).
+1. `pry map` → demand-welded findings (+ a control sample of pry-**seamed**
+   findings, so the panel can also catch pry's false-*seams*, not only grade its
+   positives — E4).
+2. mechanical `emit` → a finding worklist (`{file, line, kind, source_context}`).
+   Blinding hides pry's verdict *bit* only — a **weak** guard (E4).
 3. **3 independent coding-subagent personas** label each finding
-   `GENUINE / FALSE-WELD / COSMETIC / AMBIGUOUS` against the rubric.
+   `GENUINE / FALSE-WELD / COSMETIC / AMBIGUOUS` (PQ2: 2 taxonomy personas + 1
+   neutral "is this testable?" persona).
 4. mechanical `reconcile` → majority (≥2/3); 2-1 → tie-break judge; residual →
    arbiter; genuinely-undecidable marked as such. `freeze` → schema-validated,
    provenance-stamped labelset (votes retained for audit).
-5. report **precision** (demand-welded) + **recall** (vs independent pool),
-   per-repo and pooled, on a **third-party application-shaped** TS/JS corpus with
-   a **dev/held-out** split.
+5. report **precision** (demand-welded), per-repo / per-stratum / pooled (with a
+   CI), on a **third-party application-shaped** TS/JS corpus with a **dev/held-out**
+   split.
 
-The **first measurement slice runs existing pry unchanged** (no algorithm
-change) to answer "does ~88% hold off-corca?" and to emit the noise taxonomy that
-names the next lever.
+The **first measurement slice runs existing pry unchanged** (no algorithm change)
+and emits the noise taxonomy that names the next lever. It **opens** the H3 gate
+(≥3 dev repos = harness proven + first off-corca precision point), it does **not
+close** it — the gate closes only at the held-out target (SC2). **Slice 2** adds
+the filter-recall arm (E5) before any lever ships.
 
 ## Fixed Decisions
 
@@ -73,15 +79,29 @@ names the next lever.
   is "all validation is self-corpus." Pinned commits + generated/vendored prune
   (borrow nose `prune_corpus.py`). **dev / held-out split; tune only on dev.**
 - **E4 — labels reuse the precision-gate taxonomy.** `GENUINE / FALSE-WELD /
-  COSMETIC / AMBIGUOUS` (already validated in `precision-gate.md`). **Blinded** to
-  pry's own verdict (F10 independence); **refute-borderline** (F17).
-- **E5 — metric = precision AND recall; gate = precision↑ ∧ held-out recall
-  held.** Precision on the demand-welded subset; recall against an **independent
-  candidate pool** (pry's bare/diagnostic full-boundary set is a near-free pool —
-  it contains what pry's filters *demote/miss*). A new lever/filter ships **only
-  if** it raises dev precision **without** dropping held-out recall. Sequencing:
-  precision is measured in the first slice (measuring *existing* pry, no
-  algorithm change); the **recall arm comes online before any new lever ships.**
+  COSMETIC / AMBIGUOUS` (already validated in `precision-gate.md`);
+  **refute-borderline** (F17). **Blinding is weak, and stated as such:** the
+  worklist hides pry's verdict *bit*, but `source_context` + a rubric that *is*
+  pry's seam taxonomy let a subagent reconstruct pry's call — so a naive run
+  measures inter-rater agreement on pry's rule more than independent truth. Two
+  guards (PQ2): (a) a **control sample of pry-seamed findings** so the panel can
+  catch pry's false-*seams* (the FALSE-WELD inverse), not only grade pry's
+  positives; (b) **one persona prompted from a neutral "is this testable?"** frame
+  *without* the pry taxonomy, to break rubric-circularity.
+- **E5 — metric = precision AND *filter* recall; gate = dev precision↑ ∧ held-out
+  filter-recall held.** Precision on the demand-welded subset. **"Recall" here =
+  *filter recall within pry-recognized boundaries*:** the denominator is pry's
+  bare/diagnostic pool (what pry surfaced *before* demand-filtering), so it measures
+  whether a lever **demoted** a genuine weld pry had already found — the exact
+  failure mode of a precision filter. It does **not** measure detection recall
+  (boundary kinds the catalog never models / parse shapes pry can't resolve are
+  absent from the pool, so they can't count as misses). **Catalog-completeness
+  recall (the nose-`jscpd` independent-arm analog) is a separate, deferred
+  question** — not this gate's job. A lever ships **only if** it raises dev
+  precision **without** dropping held-out filter-recall. Sequencing: **Slice 1 =
+  precision only**; the **filter-recall arm (Slice 2) comes online before any new
+  lever ships** (it needs the larger bare pool labeled, so it is its own slice, not
+  piggybacked on the precision pass).
 - **E6 — own repos are dogfood, not validation.** open-ax-day, ceal, cautilus,
   etc. are dogfood / dev-signal targets — valuable for surfacing candidate noise
   classes (open-ax-day surfaced the smoke-harness scope question now resolved by
@@ -108,20 +128,41 @@ names the next lever.
 
 ## Probe Questions
 
-- **PQ1 — the dev corpus slate.** Scout candidates (`git clone` at a pinned
-  commit + `pry map`) to confirm: real TS/JS (not thin-over-other-lang), low
-  generated/vendored ratio after prune, and enough demand boundaries to measure.
-  Candidate domains + named starting candidates (confirm/swap by scouting):
-  agent/LLM app (`librechat`, `continue`), automation/workflow (`n8n`,
-  `activepieces`), LLM-orchestration (`flowise`), web service (`outline`),
-  scheduling/clock-heavy (`cal.com`). Freeze ≥3 for dev before slice 1 labeling.
-- **PQ2 — panel personas + reconciliation.** 3 lenses (borrow nose's
-  pragmatic/skeptic + a pry-specific *"is there a real failure to inject on a
-  path worth testing, with no existing seam?"*). Define tie-break/arbiter
-  mechanics. Resolved during the first labeling run.
-- **PQ3 — sampling rates under cost.** Clock census vs stratified sample;
-  recall-pool sample size. The panel is 3×(+tie-break) passes per finding; start
-  small (dev ≥3 repos), scale to held-out once the harness is proven.
+- **PQ1 — the dev corpus slate. (Scouted 2026-06-14.)** Four app-shaped
+  third-party OSS clear the fit bar (real TS/JS, ample demand boundaries),
+  `pry map --summary-only` at the scouted commit:
+
+  | repo | commit | files | demand-welded | lens | clock-inj |
+  |---|---|---|---|---|---|
+  | librechat | `8154a31` | 1425 | 386 | 0.93 | 5% |
+  | continue | `eaa23c5` | 1176 | 292 | 0.95 | 0% |
+  | flowise | `f4e2794` | 1324 | 152 | 0.90 | 3% |
+  | outline | `d85ead5` | 1363 | 109 | 0.97 | 2% |
+
+  All four are **welded-at-demand "broad market"** (the H3 target population, *not*
+  the ceal DI-disciplined outlier — a useful refutation of "mature ⇒ DI-disciplined").
+  **Selection criterion (de-bias, per critique): stratify on clock-injection rate**
+  (Run 6's discipline fingerprint, computable pre-labeling) and report precision
+  *per stratum*, not only pooled — else the pooled number inherits the slate's
+  discipline bias. **Gap:** these four cluster at the low/disciplined-injection end
+  (0–5%); the slate still needs a **higher-injection exemplar** to span the
+  spectrum (scout next — `n8n`/`cal.com` large monorepos for the disciplined +
+  clock-heavy end; ceal is the disciplined reference but own-repo, excluded).
+- **PQ2 — panel personas + reconciliation.** Three lenses: (1) pragmatic,
+  (2) skeptic (both keyed to the pry taxonomy: *"a real failure to inject, on a
+  path worth testing, with no existing seam?"*), (3) a **neutral "is this testable
+  — can you inject a failure here?" persona that does NOT see the pry taxonomy**
+  (breaks rubric-circularity, E4). Plus the **pry-seamed control sample** (E4).
+  Define tie-break/arbiter mechanics on the first run.
+- **PQ3 — sampling design (pre-registered, per cost-realism).** The panel is
+  3×(+tie-break) passes per finding and demand sets are large (109–386 per scouted
+  repo), so census-everything is mis-costed. Pre-registered, mirroring
+  `precision-gate.md`: per repo, **non-clock demand-welds = 3-vote census** (the
+  high-value, smaller set); **clock demand-welds = 3-vote on a stratified ≥25%
+  sample**. **Minimum to *open* the gate:** ≥3 dev repos labeled to this design;
+  below it the result is "harness-proven but **underpowered**," not "gate answered"
+  (ties to SC2 open-vs-close). Slice-2 recall-pool sampling: stratified, sized when
+  Slice 2 starts.
 - ~~**PQ4 — test/smoke-harness scope.**~~ **RESOLVED → E7.** open-ax-day's 9/11
   demand-welds in `src/smoke-*.ts` are handled by user-controlled exclude
   (`.pryignore` / `--exclude` / inline), not a pry heuristic — pry never guesses
@@ -137,7 +178,11 @@ names the next lever.
   (b)-gate GO**. *Note:* `parental-interaction-eval` (239 Py, own repo) is a
   tempting candidate but is the **own-repo glue population kill-gate already
   KILLed** — it does not test the open Python question; use independent non-glue
-  OSS Python instead.
+  OSS Python instead. *No-build answer available today:* for any single repo the
+  analyzer-free (b)-gate (the kill-gate hand/script sample) already answers "does
+  pry have traction on this Python?" with **no frontend** — saturated glue (like
+  the author's) ⇒ no lift; build a frontend only on a per-corpus GO. So "deferred"
+  means "no frontend yet," not "no Python answer."
 - **Held-out expansion / per-corpus client fingerprints / SARIF emit.** *Reopen
   when:* the dev gate is green and generalization or tooling needs sharpening.
 - **Homebrew tap (packaging polish).** *Reopen when:* a tap repo + token exist.
@@ -163,6 +208,12 @@ names the next lever.
 - **Own-repo / library validation corpus** — rejected: representativeness
   (libraries are more seamed; pry deploys on apps) + independence (self-corpus is
   the exact gap). Own repos stay as dogfood only (E6).
+- **SZZ / bug-history predictive validity** — deliberately dropped (the kill-gate
+  *(a)-axis*). This eval is **testability-only** (*(b)-axis*): the panel labels
+  whether a finding is a genuine *injectability gap*, **not** whether it predicts a
+  historical bug. `harness/szz.py` belongs to the finished kill-gate *experiment*,
+  not the product — the shipped `pry` binary has no SZZ / churn / bug-prediction.
+  Re-adding SZZ would re-introduce the prediction angle the operator removed.
 
 ## Constraints
 
@@ -178,12 +229,18 @@ names the next lever.
 
 - **SC1** — a frozen, auditable finding-labelset exists for the dev corpus
   (per-finding: 3 votes + reconciled label + provenance).
-- **SC2** — per-repo + pooled **precision** of demand-welded is reported on **≥3
-  third-party application-shaped TS/JS repos**, answering "does ~88% hold
-  off-corca?" with file:line-auditable labels.
-- **SC3** — **recall** is measurable against the independent pool (genuine
-  findings pry demoted/missed are identifiable), and the gate rule (precision↑ ∧
-  held-out recall held) is documented and runnable.
+- **SC2** — per-repo / per-stratum / pooled **precision** of demand-welded is
+  reported on **≥3 third-party app-shaped TS/JS repos *with a CI***, which
+  **opens** the H3 gate (harness proven + first off-corca precision point). It does
+  **not close** it: ceal 32% vs cautilus 70% shows per-corpus precision is
+  high-variance, so the gate **closes** only at the **pre-registered held-out
+  target — dev 5 / held-out 10 (≈15 TS/JS repos, nose-analog; operator-confirmable).**
+  Labels are file:line-auditable.
+- **SC3 (Slice 2)** — **filter-recall** (within pry-recognized boundaries, E5) is
+  measurable against the bare pool: a lever that demotes a panel-GENUINE weld is
+  identifiable. The gate rule (dev precision↑ ∧ held-out filter-recall held) is
+  documented and runnable. (Detection/catalog-completeness recall is out of scope,
+  E5.)
 - **SC4** — the shipped `pry` binary is unchanged: no new LLM/credential
   dependency; harness scripts contain no network/LLM call.
 - **SC5** — a **noise taxonomy** names the next lever (precision-gate-style
@@ -197,24 +254,38 @@ names the next lever.
 - **AC2 (SC2)** — a precision table (precision-gate format) is checked into
   `docs/eval-gate.md`; every label is contestable via the cited `file:line`
   against the pinned corpus.
-- **AC3 (SC3)** — recall is computed from the labeled bare-pool sample; a
-  documented command re-derives precision/recall from the frozen labelset; the
-  gate rule is stated with a worked example.
-- **AC4 (SC4)** — a dependency check (`Cargo.lock` has no
-  `reqwest|hyper|anthropic|openai|tonic` etc.) is empty; `rg` over `harness/`
-  shows no LLM/HTTP client call from a script.
+- **AC3 (SC3, Slice 2)** — filter-recall is computed from the labeled bare-pool
+  sample; a documented command re-derives precision/filter-recall from the frozen
+  labelset; the gate rule is stated with a worked example.
+- **AC4 (SC4)** — the binary's transitive deps contain **no** HTTP/gRPC/LLM client
+  (assert `Cargo.lock` has none of
+  `reqwest|hyper|ureq|isahc|surf|curl|awc|tonic|anthropic|openai`, and `src/` has
+  no `std::process::Command` shelling to `curl`/an LLM CLI); harness scripts import
+  none of `openai|anthropic|httpx|requests|urllib3|aiohttp` and make no subprocess
+  HTTP call.
 - **AC5 (SC5)** — the taxonomy section in `docs/eval-gate.md` lists each noise
   class with its count and the candidate lever it implies.
 
 ## Critique
 
-Bounded fresh-eye critique (repo-mandated subagent; same-agent substitute
-forbidden) to run before finalize — focuses: (1) likely implementer misread of
-the precision/recall gate; (2) overstated acceptance (is "≥3 repos" enough to
-claim generalization, or only to *start*?); (3) hidden sequencing (does the
-recall arm really need the bare pool labeled, or can it piggyback the precision
-pass?); (4) corpus-selection bias (do the named app candidates secretly skew
-DI-disciplined like ceal?). *Pending — see First Implementation Slice.*
+**Done** — bounded fresh-eye subagent (general-purpose; not a same-agent pass),
+reviewing E1–E7 against `precision-gate.md` / `kill-gate.md`. Verdict FIX-FIRST;
+all four BLOCKERs folded into this revision:
+1. **"recall" was filter-recall mislabeled** → E5/SC3/AC3 renamed to *filter
+   recall (within recognized boundaries)* + ceiling stated; catalog-completeness
+   recall declared a separate deferred question.
+2. **SC2 closed the gate on 3 repos (underpowered — ceal 32% vs cautilus 70%)** →
+   SC2 now "open vs close" with a pre-registered held-out target (dev 5 / held-out
+   10, ≈15).
+3. **panel mis-costed + blinding near-circular** → PQ3 pre-registers the sampling
+   design + an underpowered floor; E4/PQ2 state blinding is weak and add a
+   pry-seamed control sample + a neutral-taxonomy persona.
+4. **slate not controlled for DI-discipline** → PQ1 adds clock-injection
+   stratification + per-stratum reporting; scout data recorded (4 welded-end repos,
+   spectrum gap flagged).
+Plus: sequencing contradiction fixed (Slice 1 precision-only, Slice 2 recall); AC4
+denylist hardened; Python "no-build answer today" line added; SZZ-prediction
+explicitly excluded (Deliberately Not Doing).
 
 No forced debug interrupt reported by the risk planner for this contract.
 
@@ -227,17 +298,23 @@ reconcile, mirroring `label_io.py`); fixtures under `harness/fixtures/eval/`.
 
 ## First Implementation Slice
 
-1. **Scout + freeze the dev slate (PQ1):** clone ≥3 app-shaped third-party TS/JS
-   candidates at pinned commits, prune, confirm fit with `pry map`. Record the
-   slate (ids, commits, source_file_count, split) in `docs/eval-gate.md`.
-2. **Build the mechanical harness:** `finding_io.py emit` (blinded finding
-   worklist) + `reconcile`/`freeze` (majority ≥2/3, tie-break, schema-validated,
-   provenance-stamped), extending the `label_io.py` pattern. No LLM in scripts.
-3. **Run the 3-subagent panel** on the dev corpus demand-welded findings (+ a
-   recall-pool sample).
-4. **Report** per-repo + pooled precision, recall, and the noise taxonomy in
-   `docs/eval-gate.md`. **No algorithm change in this slice** (measure existing
-   pry); levers come after, each gated by E5.
+**Slice 1 — precision, existing pry (no algorithm change):**
+1. **Freeze the dev slate (PQ1):** the ≥3 scouted app-shaped repos at pinned
+   commits (+ scout one higher-injection exemplar to span the spectrum), pruned.
+   Record the slate (ids, commits, file count, split, clock-inj stratum) in
+   `docs/eval-gate.md`.
+2. **Build the mechanical harness:** `finding_io.py emit` (worklist) +
+   `reconcile`/`freeze` (majority ≥2/3, tie-break, schema-validated,
+   provenance-stamped), extending `label_io.py`. No LLM in scripts.
+3. **Run the 3-subagent panel** (2 taxonomy personas + 1 neutral, E4/PQ2) on
+   demand-welded findings per the PQ3 design, with a pry-seamed control sample.
+4. **Report** per-repo / per-stratum / pooled precision (with CI) + noise taxonomy
+   in `docs/eval-gate.md`. This **opens** (not closes) the H3 gate (SC2).
 
-Ready for `impl` after the bounded critique (Critique section) and operator
-sign-off on the dev slate (PQ1).
+**Slice 2 — filter-recall arm (before any lever):** label a bare-pool sample;
+compute filter-recall; document the gate rule with a worked example (SC3/AC3).
+
+**Then** levers, each gated by E5 (dev precision↑ ∧ held-out filter-recall held).
+
+Ready for `impl` (bounded critique **done** — see Critique) after operator sign-off
+on the dev slate (PQ1) + the pre-registered corpus target (SC2).
