@@ -179,6 +179,34 @@ fn js_frontend_parses_and_classifies() {
     assert!(!spawn.reason.contains("impl-interface"), "JS class without `implements` must not fake a rung-3 seam");
 }
 
+// Injected-callee seam (cautilus cross-corpus lever): the call target itself is an
+// injected param (`spawn = spawnSync`), so the subprocess is seamed even though the
+// callee NAME matches a global catalog entry. Mirrors exe-/receiver-param-injected.
+const SRC_INJ: &str = r#"
+export function commandExists(command, spawn = spawnSync) { return spawn("sh", ["-c", command]); }
+export function runPhases(phases, { spawn = spawnSync } = {}) { return spawn("npm", ["run"]); }
+export function real(args) { return spawnSync("git", args); }
+"#;
+
+#[test]
+fn injected_callee_is_seamed() {
+    let fs = analyze_str(SRC_INJ, "inj.mjs");
+
+    // direct default param `spawn = spawnSync` -> the spawn("sh",…) is seamed
+    let direct = find(&fs, 2);
+    assert_eq!(direct.kind, "subprocess");
+    assert_eq!(direct.class, Class::Seamed);
+    assert!(direct.reason.contains("callee-param-injected"));
+
+    // destructured default `{ spawn = spawnSync } = {}` -> also seamed
+    let destructured = find(&fs, 3);
+    assert_eq!(destructured.class, Class::Seamed, "destructured spawn default must seam");
+
+    // guardrail: a genuine global spawnSync("git",…) stays welded + demand
+    let real = find(&fs, 4);
+    assert_eq!((real.class, real.demand), (Class::Welded, true), "global spawnSync must stay a demand weld");
+}
+
 #[test]
 fn demand_subset_discriminates() {
     // The lens metric: among the substitution-demand subset, both seamed and welded

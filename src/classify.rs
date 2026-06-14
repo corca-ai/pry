@@ -106,6 +106,12 @@ fn collect_pattern_idents(n: Node, src: &[u8], out: &mut Vec<String>) {
                 collect_pattern_idents(ch, src, out);
             }
         }
+        // destructured default: `{ spawn = spawnSync }` -> bind `spawn`
+        "object_assignment_pattern" => {
+            if let Some(left) = n.child_by_field_name("left").or_else(|| n.named_child(0)) {
+                collect_pattern_idents(left, src, out);
+            }
+        }
         _ => {}
     }
 }
@@ -631,6 +637,16 @@ fn match_node(node: Node, src: &[u8], file: &str, cat: &Catalog) -> Option<Findi
                     let name = text(func, src);
                     for b in &cat.boundary {
                         if b.form == "global_call" && b.callee.as_deref() == Some(name) {
+                            // Injected callee: `spawn(...)` / `request(...)` where the
+                            // call target itself is an enclosing param (e.g. a
+                            // `spawn = spawnSync` default). The boundary is reached
+                            // through an injected dependency -> seamed, the same rung
+                            // as receiver-/exe-param-injected applied to the callee.
+                            if matches!(b.kind.as_str(), "network" | "subprocess")
+                                && is_enclosing_param(node, name, src)
+                            {
+                                return Some(finding(node, b, file, Class::Seamed, true, "callee-param-injected"));
+                            }
                             // F22 rung-3: leaf inside a named injectable-interface impl
                             // (the seam is the interface, not this leaf).
                             if matches!(b.kind.as_str(), "network" | "subprocess") {
