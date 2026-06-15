@@ -9,13 +9,19 @@ runs the activation command.
 
 ## Active Operating Frame
 
-- Current slice: before activation (draft shaped via `/achieve`).
-- Current slice intent: before activation. The reviewable-intent unit in progress
-  and the commits it spans; critique and broad proof do not re-fire within one
-  unchanged intent — update it when the intent changes, not per commit.
-- Next action: activate with
-  `/goal @charness-artifacts/goals/2026-06-15-e9-multi-repo-validation-sweep.md`.
-  First active slice = S1 (corpus discovery + freeze + pre-register split & floor).
+- Current slice: **S2 (deterministic sweep harness)** — next to start. S1 DONE +
+  critiqued + committed.
+- Current slice intent: build the net-new TS/JS bugfix miner (message-intent set
+  per the pinned `ENRICHMENT_BUGFIX_MSG_REGEX` + EH-token candidate signal) and
+  the per-repo sweep engine (clone@pinned → `pry map` → mine → blame-join), Workflow
+  fan-out, incremental. The reviewable-intent unit in progress and the commits it
+  spans; critique and broad proof do not re-fire within one unchanged intent.
+- **Honesty-gate anchor (closeout proof):** the final frozen pre-registration is
+  commit `3d173e1` (numerator + CI pinned). The first enrichment-number commit
+  (S3) MUST have `3d173e1` as an ancestor — prove with
+  `git merge-base --is-ancestor 3d173e1 <enrichment-sha>`.
+- Next action: S2 — write `harness/mine_ts.py` (net-new) + the sweep driver; clone
+  the corpus repos at pinned commits locally; verify deterministic mine x2.
 - Verification cadence: cheap deterministic checks at commit boundaries (corpus
   schema, mine/map determinism, cargo build+test, AC4 denylist); fresh-eye
   critique at slice boundaries (corpus-bias, enrichment soundness, Python
@@ -244,7 +250,7 @@ What the user can do to verify completion directly:
 
 | Slice | Objective | Why Now | Expected Evidence | Status |
 | --- | --- | --- | --- | --- |
-| S1 | Corpus discovery + freeze + pre-registration | Everything downstream joins against a frozen, pinned, split-honest corpus; pre-registering the split + denominator + floor first is the load-bearing honesty gate | `corpus.json` + its **schema file + validator** (S1 deliverables); a **new** app-shapedness/domain scorer (NOT `repo_fit.py`, the site-count gate); the **separate pre-registration artifact** (split + matched-comparison denominator + two-sided floor/falsifier) committed BEFORE any measurement; a `log` of what was pruned/excluded | planned |
+| S1 | Corpus discovery + freeze + pre-registration | Everything downstream joins against a frozen, pinned, split-honest corpus; pre-registering the split + denominator + floor first is the load-bearing honesty gate | `corpus.json` + its **schema file + validator** (S1 deliverables); a **new** app-shapedness/domain scorer (NOT `repo_fit.py`, the site-count gate); the **separate pre-registration artifact** (split + matched-comparison denominator + two-sided floor/falsifier) committed BEFORE any measurement; a `log` of what was pruned/excluded | **DONE** (`50f06cb`/`3d173e1`) |
 | S2 | Deterministic sweep harness (nose `run_corpus.sh` analog) | The reusable engine: per repo clone@pinned → `pry map` → mine bugfix commits → join bugfix-touched lines with pry findings; Workflow fan-out, incremental. (Tier 1 is *labeling*-cheap but *mining*-bearing — the per-repo mine+join+prune × ~25–33 is the long pole) | Per-repo sweep outputs; a **net-new TS/JS miner** (new pathspec + EH-token regex `catch`/`throw`/`.catch(`/`reject`/`retry`/`timeout` + boundary names + output schema, reusing `mine.py`'s determinism discipline; `mine.py` is Python-token-only today); Python repos use the native `mine.py`; deterministic mine x2 | planned |
 | S3 | Tier 1 — directly-observed enrichment (THE main result, 쟁점 4) | Pure git + map join, no per-site gold → robust; answers "does welded-at-demand predict defects?" | Enrichment table in `docs/eval-gate.md`: welded-at-demand vs seamed bugfix-touch rate **under the pre-registered matched-comparison denominator**, vs the two-sided floor/falsifier, with the verdict; **per-repo distribution reported, not only pooled** (Simpson's-paradox guard) | planned |
 | S4 | Generalization (쟁점 2) — dev/heldout | Absorbs the old "corpus-expansion / SC2 gate" queue item; the held-out arm is the generalization gate | Enrichment reported `dev` vs `heldout` separately; any threshold tuned on `dev` only; held-out number stated honestly | planned |
@@ -279,7 +285,48 @@ boundary. Fill during the run:
 
 ## Slice Log
 
-(no slices yet — inert until `/goal` activation)
+### S1 — corpus discovery + freeze + pre-registration (DONE, 2026-06-15)
+
+Commits: `468eb7e` (critique packet) → `037e5bc` (pre-registration honesty gate)
+→ `50f06cb` (corpus + tooling) → `3d173e1` (critique folds; final prereg anchor).
+
+**Built:** `harness/corpus_fit.py` (NEW app-shapedness scorer, pure + unit-tested,
+floor pre-registered; library veto + curation do app-vs-library, the floor is a
+substantiveness gate — recorded honestly), `corpus_schema.json` +
+`validate_corpus.py` (schema + validator with floor cross-check), `corpus_freeze.py`
+(gh-API discovery → score → pin → freeze; `--reseed` guard), `check_ac4.py` (AC4
+runner), `test_corpus.py` (12 tests). Frozen `corpus.json` = **33 repos: 25 TS
+(dev 5 / heldout 20) + 8 Python (dev 2 / heldout 6)**, pinned 40-hex commits,
+stratified across 17+ domains. `corpus_discovery_features.json` (re-derivable
+scores) + `corpus_prune_log.md` (discovery→selection funnel + exclusions, R-D).
+
+**Pre-registration (`preregistration.md` + config.py constants, frozen at
+`3d173e1`):** dev|heldout split (per-arm); welded-at-demand vs seamed arms;
+NUMERATOR pinned (`ENRICHMENT_BUGFIX_MSG_REGEX`, message-intent only); matched
+denominator (churn × site-size terciles, direct standardization); two-sided floor
+(GO point≥1.5 AND 95% bootstrap-CI lower>1.0; FALSIFIER point≤1.1 OR CI≤1.0);
+Simpson per-repo guard; (b)-gate band [0.15,0.85].
+
+**Verification:** `validate_corpus.py` VALID; `check_ac4.py` AC4 PASS;
+`pytest test_corpus.py` 12 passed; `cargo test` green (no Rust touched); git
+ordering `037e5bc`/`3d173e1` precede any enrichment number (none exists yet).
+
+**Slice critique (fresh-eye, parent-delegated):** 3 angle subagents
+(corpus-bias R-A · metric-soundness R-B · scorer/freeze/AC4 correctness) + 1
+counterweight. Dispositions:
+- ACT (folded): #8 pin enrichment numerator into frozen prereg; #6 fix the false
+  "undercounts both arms identically" claim → conservative lower-bound; #7
+  pre-register repo-cluster bootstrap CI before any number.
+- BUNDLE (folded): #5 name file-KIND residual confound; #9 deepen AC4 denylist;
+  #11 validator floor cross-check + tests; #12 freeze `--reseed` guard; #3 record
+  the honest finding that the floor does NOT auto-discriminate mature libraries
+  (proved by scoring rejected libs) → added library veto; #4 conservative-bias
+  framing.
+- DEFER: #12 done early (cheap); #13 unreachable edge cases recorded.
+- OVER-WORRY (no action): #1 dev AI-lean (heldout is the diverse generalization
+  arm), #2 monoculture (rebutted — Next/Nest/Vue/Svelte, stars 8k–192k), #10
+  `_has_token` substring FPs (0 verdict flips). Packet:
+  `charness-artifacts/critique/2026-06-15-s1-corpus-packet.md`.
 
 ## Context Sources
 
