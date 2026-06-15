@@ -2,63 +2,67 @@
 
 ## Workflow Trigger — if the operator says "계속합시다" / "continue"
 
-Do **Next Session** below directly via `impl` (these are bounded analysis +
-doc/roadmap edits, **not a new `/achieve` goal** — operator-decided 2026-06-16).
-No re-confirmation needed: build, verify, critique, commit. Read
-`docs/eval-gate.md` (the E9 Tier-1 result + the exploratory per-kind re-cut)
+There is an **open product decision** (see Discuss). If the operator has already
+chosen, route: **floor experiment → `spec`** (pre-registered go/kill, then
+`impl`); **ratchet → `spec`**; **stop → wire the map into `quality` and close**.
+If no choice is recorded yet, present the Discuss fork; do **not** auto-build a new
+direction. Read `docs/eval-gate.md` + `charness-artifacts/ideation/2026-06-16-concept-ideation.md`
 first.
 
-## Current State — E9 sweep DONE; the bug-prediction thesis is FALSIFIED
+## Current State — both MAP prediction payoffs are FALSIFIED; the FLOOR is the un-killed bet
 
-The E9 multi-repo validation sweep is **complete** (goal artifact:
-`charness-artifacts/goals/2026-06-15-e9-multi-repo-validation-sweep.md`, status
-complete). Result, with full detail + non-claims in `docs/eval-gate.md` Tier-1:
+The validation march is **done and negative for the prediction channel.** Detail
++ non-claims in `docs/eval-gate.md`; wedge analysis in the ideation artifact.
 
-- **쟁점 4 FALSIFIED.** welded-at-demand vs rest matched enrichment **1.05, CI
-  [0.96,1.18]** across 25 TS apps → trips the pre-registered falsifier. The signal
-  is a **testability classifier, NOT a defect predictor.**
-- **쟁점 2:** dev 0.93 / heldout 1.11 (weak, far below the 1.5 GO bar).
-- **Exploratory per-kind re-cut** (`harness/enrichment_bykind.py`, post-hoc, not a
-  verdict): the genuine high-precision kinds go the *wrong* way — network 0.83,
-  subprocess 0.73, genuine subset matched 0.82. So bug-prediction is dead even for
-  the boundaries pry detects best; SZZ Tier-2 / narrow-numerator chasing is **not
-  worth it** (wrong direction, not merely weak).
-- **Python (b)-gate KILL** (welded-saturated 0.902; `docs/kill-gate.md` Run 7); no
-  frontend built.
+- **E9 Tier-1 (bugs): FALSIFIED** — welded-at-demand not bugfix-enriched (matched
+  1.05, CI [0.96,1.18]; per-kind re-cut mildly anti-correlated).
+- **Step-1 (coverage): FILE-LEVEL gap FALSIFIED** — welded-at-demand files not
+  less test-associated (matched 0.95, CI [0.88,1.02]; robust over 7 cuts; ceiling
+  1.62 > 1.5 floor → genuine null). Honesty gate proven (`git merge-base
+  --is-ancestor cd90d1d 3584359`); `harness/coverage.py` deterministic/offline/AC4.
+  **Scope:** *file-level* only; the *line-level/error-path* claim needs executed
+  coverage (outbound, forbidden) → **unmeasured, not refuted**.
+- **Decisive reframe (ideation):** `initial-plan.md` §5 defines TWO channels —
+  **map (prediction)** and **floor (claim)** — with different validity bases. Only
+  the MAP was built, and only the MAP died. The **FLOOR** (Aspirator-lineage
+  syntactic error-handling bug finder: empty catch / swallowed boundary error /
+  log-and-continue on a mutating path) was **never built** and is **not what
+  failed** — its bar is *precision-of-a-fact*, not lift-over-churn.
 
-**Consequence:** lever #4 (precision polish) is **deprioritized** — its premise
-(enrichment holds) is dead. The shipped binary is unchanged and correct
-("risk ranking, NOT a bug list"). The reusable zero-LLM sweep engine lives in
-`harness/{corpus_*,mine_ts,sweep,enrichment*,bgate_lens}.py`.
+**Consequence (committed):** roadmap demotes the unbuilt precision-lever march
+(premise dead). pry's honest identity = a **precise injectability classifier**
+(net/subproc 100%) with **no proven prioritization payoff** — NOT a "testability
+debt ranker." Honesty guard: do not pitch "fix welds → fewer bugs/coverage."
 
-## Next Session — pivot to the testability-tool identity (do in order)
+## Next Session — the recommended path (operator-gated)
 
-1. **Verify the honest first-link claim: welded-at-demand → LOWER test coverage**
-   (not bugs — the bug link is dead). This is pry's *real* candidate thesis and is
-   directly measurable. Reuse the sweep engine: join each weld site to
-   test-file proximity / coverage (coverage-report repos first). GO here makes
-   pry's identity a *measured* claim, not a guess.
-2. **Confirm pry's identity + fix the roadmap.** pry = testability/injectability
-   **debt ranker**, not a bug finder. Update `docs/roadmap.md`: demote lever #4 to
-   backlog (premise dead). Honesty guard: do **not** pitch "fix welds → fewer
-   bugs" — the data refutes it (remaining welds sit in lower-risk code). The honest
-   value is testability for its own sake (coverage / failure-test enablement).
-3. **(Optional, after 1) `ideation`/`spec` the wedge.** Does a "DI/testability
-   debt backlog" tool have real demand / status-quo / moat? Natural follow-up if
-   step 1 is a GO.
+1. **`spec` a bounded FLOOR go/kill experiment** (the un-killed bet): implement
+   Aspirator's 3 rules, run on the **already-cloned** corpus offline (AC4, no
+   outbound), sample ~30 flags for **precision + repo-fit** labeling. Pre-register
+   the go/kill BEFORE numbers (same honesty discipline). GO = high precision ∧ ≥1
+   meaningful bug class → build the floor (Layer-0's genuine un-built deliverable).
+   KILL = fires only on trivial/correct swallows (premortem §13.A repo-fit death)
+   → fall back to 2 or 3. Reuses parse/catalog/dataflow-lite already in the binary.
+2. **Fallback — seam-coverage RATCHET** (`spec`): a "no new welded boundary" CI
+   gate. Survives the falsification (policy-conformance, not risk prediction);
+   shippable on the already-validated precision; bets on niche DI-bought-in demand.
+3. **Fallback — ship-as-is + stop:** wire the map into charness `quality` as a
+   precise injectability inventory; make no prioritization claim.
 
-## Discuss
+## Discuss — the open decision (operator's call)
 
-- None blocking. If step 1 is also flat/negative, the open question becomes
-  whether pry's testability framing has a wedge at all (an `ideation` question),
-  vs. shipping it as-is into charness `quality` and stopping.
+Which direction: **(1) build+test the floor** [ideation recommendation — the only
+candidate not premised on the dead prediction, with Aspirator prior art],
+**(2) ratchet**, or **(3) stop**? `(d)` line-level coverage measurement on an
+owned/local corpus is a sub-experiment, only worth it behind a chosen testability
+direction. Wedges (a) fault-test enablement / (b) testability-debt ranker / (e)
+feeder-to-mutation all re-lean on the dead "welds = risk" premise — demoted.
 
 ## References
 
-- `docs/eval-gate.md` — E9 Tier-1 result + per-kind re-cut + non-claims (owns the
-  numbers).
-- `charness-artifacts/goals/2026-06-15-e9-multi-repo-validation-sweep.md` — full
-  slice log, critiques, closeout.
-- `docs/kill-gate.md` Run 7 — Python (b)-gate KILL.
-- `docs/spec-eval-harness.md` — the build contract (SC/AC, AC4 zero-LLM).
-- `harness/` — the sweep engine (reuse for step 1); `config.py` E9 block.
+- `docs/eval-gate.md` — E9 Tier-1 + Step-1 coverage results + non-claims.
+- `charness-artifacts/ideation/2026-06-16-concept-ideation.md` — wedge analysis,
+  scoring, recommendation, truth tests.
+- `docs/roadmap.md` — premise-update banner (precision-lever demotion).
+- `initial-plan.md` §5 (two channels), §1.4 (floor's swallowed-then-commit shape),
+  §13 (premortem — repo-fit is the real killer).
