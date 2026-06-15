@@ -30,6 +30,17 @@ application-shaped OSS**, the population pry actually deploys onto (E3).
 > negative, not massaged toward the thesis (the nose `rate-match ≠ precision` /
 > retraction discipline).
 
+> **Power caveat (don't over-read the negative).** The pre-registered bugfix
+> predicate is broad — its message regex matches **~48% of all commits** (e.g.
+> 4433/9226 in outline) — so the per-line "bugfix-touched" base rate is high
+> (~40%) in *both* arms, which structurally compresses the achievable ratio toward
+> 1.0. A 1.05 against a ~48% base rate is a **structurally weak test**: it cleanly
+> rules out a *large* enrichment (the ≥1.5 GO effect this goal set out to find),
+> but it does not finely resolve a *small* one. The regex is frozen/pre-registered
+> (it cannot be tuned post hoc); this is disclosed as an interpretation ceiling,
+> not a fixable defect. The negative is "no actionable bug-prediction signal," not
+> "provably zero correlation."
+
 **Pre-registration (honesty gate).** The split, the matched-comparison
 denominator, the bugfix-set numerator, the two-sided floor, and the bootstrap CI
 were all frozen in [`harness/fixtures/eval/preregistration.md`](../harness/fixtures/eval/preregistration.md)
@@ -53,7 +64,12 @@ tune on `dev`). The held-out arm shows a **weak ~11% effect** whose CI excludes 
 ([1.02, 1.29]) but lands **far below the pre-registered "signal real" bar (1.5)** —
 a statistically-detectable but practically-negligible tendency. dev (the 4
 disciplined H3 seeds + medusa) is at 0.93 (below 1). The signal does **not**
-generalize to a level worth acting on.
+generalize to a level worth acting on. **To be explicit and not bury it:** the
+held-out arm is *not refuted* — its CI excludes 1.0 — so "welded-at-demand carries
+a small bug-correlation" is a **hypothesis left standing, just far below the
+actionable bar**, not a hypothesis the held-out arm disproves. The *corpus*
+headline (the pre-registered primary) is FALSIFIED; the held-out weak-positive is
+the honest asterisk on it.
 
 **Per-repo distribution (Simpson's-paradox guard).** Of 25 eligible repos
 (≥20/arm), **17/25 (68%) have a per-repo ratio > 1** — so the *direction* is mildly
@@ -83,9 +99,12 @@ justified by the testability-surface product goal, a separate question).
 **Standing non-claims (restated).** This is a correlation measurement, never
 causal; one-directional (a seamed-no-bugfix site is not "safe"); the file-KIND
 residual confound is named-not-neutralized; last-touch blame is a conservative
-lower-bound proxy; no SZZ Tier 2, no per-repo precision panel on heldout, no
-live/release/outbound proof. The FALSIFIED outcome is the honest result, not a
-failure to report.
+lower-bound proxy; the broad bugfix predicate is a base-rate ceiling (above);
+**frontend and backend boundary findings are pooled, un-stratified by tier**, so
+frontend boundary calls (mostly UI fetch) dilute backend error-path density (an
+external-validity caveat that works *against* finding a signal); no SZZ Tier 2, no
+per-repo precision panel on heldout, no live/release/outbound proof. The FALSIFIED
+outcome is the honest result, not a failure to report.
 
 **Reproduce.** `python3 harness/sweep.py --corpus` (deterministic; clones at pinned
 commits) → `python3 harness/enrichment.py` (re-derives every number above from the
