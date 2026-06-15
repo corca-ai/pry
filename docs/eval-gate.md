@@ -88,9 +88,27 @@ matched **1.05** → FALSIFIED. Neither component control rescues the thesis. (T
 seamed-only arm is thin — see [`preregistration.md`](../harness/fixtures/eval/preregistration.md)
 Amendment A — which is exactly why "rest" is the primary, well-powered control.)
 
+**Exploratory follow-up (post-hoc, NOT a pre-registered verdict — the FALSIFIED
+headline above is unchanged).** We re-cut the SAME frozen sweep records by boundary
+*kind* (zero new mining; `harness/enrichment_bykind.py`) to test the hypothesis
+"the genuine, high-precision boundaries (network+subprocess, H3 100% precision)
+predict bugs even though the cosmetic tail (clock/fileio/env/random) washes the
+pooled number flat." **The hypothesis was refuted — the direction is the
+opposite:** welded-at-demand **network 0.83**, **subprocess 0.73**, genuine subset
+matched **0.82** (CI [0.63,1.45], underpowered: rest n=138, but no >1 hint). The
+welded genuine boundaries are bugfix-touched *less* than the seamed ones — plausibly
+because teams already inject the high-stakes hot-path clients (so the seamed arm
+concentrates in complex, bug-prone service code) and the welds that remain sit in
+simpler one-shot calls. Implication: bug-prediction is dead even for the
+high-precision kinds, so SZZ Tier-2 / narrow-numerator chasing is not worth it
+(wrong direction, not merely weak), AND the testability-debt framing must NOT claim
+"fix welds to prevent bugs" — the honest claim is testability for its own sake
+(coverage / failure-test enablement), not defect reduction.
+
 **What this means.** pry's structural welded-at-demand signal is a *testability*
 classifier; this result says it is **not also a defect predictor** on a broad
-app corpus — the two are decoupled here. The shipped binary's framing stays
+app corpus — the two are decoupled here (and the genuine-kind re-cut shows they are,
+if anything, mildly *anti*-correlated). The shipped binary's framing stays
 correct and unchanged: **"risk ranking, NOT a bug list."** The precision-lever
 march (lever #4) was premised on this enrichment holding; it does not, so further
 precision polish is **not** justified by a bug-prediction payoff (it may still be

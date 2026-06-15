@@ -1,0 +1,119 @@
+{
+  "exploratory": true,
+  "headline_unchanged": "FALSIFIED (pooled 1.05)",
+  "per_kind_raw": {
+    "env": {
+      "wd_n": 0,
+      "wd_b": 0,
+      "rest_n": 9380,
+      "rest_b": 3823
+    },
+    "clock": {
+      "wd_n": 3512,
+      "wd_b": 1387,
+      "rest_n": 5782,
+      "rest_b": 2065
+    },
+    "network": {
+      "wd_n": 1207,
+      "wd_b": 511,
+      "rest_n": 100,
+      "rest_b": 51
+    },
+    "random": {
+      "wd_n": 0,
+      "wd_b": 0,
+      "rest_n": 745,
+      "rest_b": 274
+    },
+    "subprocess": {
+      "wd_n": 414,
+      "wd_b": 127,
+      "rest_n": 38,
+      "rest_b": 16
+    },
+    "fileio": {
+      "wd_n": 0,
+      "wd_b": 0,
+      "rest_n": 1562,
+      "rest_b": 441
+    },
+    "db": {
+      "wd_n": 106,
+      "wd_b": 37,
+      "rest_n": 0,
+      "rest_b": 0
+    },
+    "slack": {
+      "wd_n": 29,
+      "wd_b": 18,
+      "rest_n": 27,
+      "rest_b": 11
+    },
+    "llm": {
+      "wd_n": 96,
+      "wd_b": 31,
+      "rest_n": 2,
+      "rest_b": 2
+    }
+  },
+  "subsets": {
+    "genuine(net+subproc)": {
+      "control": "rest",
+      "matched_ratio": 0.8206364578817988,
+      "raw_ratio": 0.8106659791726132,
+      "wd_n": 1621,
+      "wd_bugfix": 638,
+      "ctrl_n": 138,
+      "ctrl_bugfix": 67,
+      "wd_rate": 0.39358420727945714,
+      "ctrl_rate": 0.4855072463768116,
+      "strata_used": 9,
+      "strata_dropped": 0,
+      "dropped_detail": [],
+      "ci95": [
+        0.626841762928252,
+        1.4528315953427124
+      ],
+      "label": "genuine(net+subproc)"
+    },
+    "cosmetic(clock/fileio/env/random)": {
+      "control": "rest",
+      "matched_ratio": 1.0524339919053785,
+      "raw_ratio": 1.044837379778709,
+      "wd_n": 3512,
+      "wd_bugfix": 1387,
+      "ctrl_n": 17469,
+      "ctrl_bugfix": 6603,
+      "wd_rate": 0.39493166287015946,
+      "ctrl_rate": 0.3779838571183239,
+      "strata_used": 9,
+      "strata_dropped": 0,
+      "dropped_detail": [],
+      "ci95": [
+        0.9321479209277654,
+        1.2219676999259148
+      ],
+      "label": "cosmetic(clock/fileio/env/random)"
+    },
+    "all-kinds(sanity)": {
+      "control": "rest",
+      "matched_ratio": 1.0549654653457718,
+      "raw_ratio": 1.0413897376268033,
+      "wd_n": 5133,
+      "wd_bugfix": 2025,
+      "ctrl_n": 17607,
+      "ctrl_bugfix": 6670,
+      "wd_rate": 0.3945061367621274,
+      "ctrl_rate": 0.3788266030556029,
+      "strata_used": 9,
+      "strata_dropped": 0,
+      "dropped_detail": [],
+      "ci95": [
+        0.9627417375404429,
+        1.1802818009976106
+      ],
+      "label": "all-kinds(sanity)"
+    }
+  }
+}
