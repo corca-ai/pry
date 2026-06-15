@@ -1,7 +1,8 @@
 # Achieve Goal: E9 — nose-style multi-repo validation sweep (does welded-at-demand predict bugs + generalize)
 
-Status: draft
+Status: complete
 Created: 2026-06-15
+Completed: 2026-06-15
 Activation: `/goal @charness-artifacts/goals/2026-06-15-e9-multi-repo-validation-sweep.md`
 
 This file is the living goal scratchpad. It becomes active only when the user
@@ -266,6 +267,8 @@ Phase-appropriate routing for this run, deferred to `find-skills` (its
 engine) — never a hard-coded phase-to-skill list here. `achieve` owns this slot
 and the closeout floors below; `find-skills` owns *which* skill answers a
 boundary. Fill during the run:
+
+Routing: find-skills routed each phase — impl ran the S1–S5 slices, critique ran each slice's bounded fresh-eye review, quality gave the closeout validation recommendation, gather/gh did corpus discovery (issue/release n/a).
 
 - **Routing** — implementation slices (S1–S5) route through `impl`; the closeout
   gate through `quality`'s validation recommendation; each slice's fresh-eye
@@ -562,27 +565,82 @@ into the S5 row, resolved at the GO branch).
 
 ## Off-Goal Findings
 
-(none yet)
+- **No pry binary defects found** during the sweep (pry map ran cleanly on all 25
+  TS repos incl. huge monorepos — twenty 12,622 files — with no crashes). Nothing
+  filed via `issue`.
+- **Cosmetic, not a defect:** `corpus.json` records `calcom` as `calcom/cal.com`
+  while GitHub rebranded the repo to `cal.diy`; the frozen `url`+`commit` track the
+  rename (clone succeeded), so the name is stale-but-harmless — noted in
+  `docs/eval-gate.md`, not worth re-freezing the corpus.
+- **Two reusable harness lessons** (recorded in the retro, not issues): shallow
+  (depth-1) clones silently break git-history mining (fixed via ensure_clone
+  un-shallow); greedy-substring token classifiers saturate/mute (fixed via the
+  boundary-verb gate in `bgate_lens.py`).
 
 ## Final Verification
 
-Pending until `/goal` closeout. At closeout, replace each line below with bound
-evidence (`<path>`) or an explicit `skipped: <allowed-reason>: <detail>`:
+Canonical closeout-evidence markers (plain lines for the closeout checker):
 
-- Self-verification against the original goal (쟁점 4 enrichment verdict vs the
-  pre-registered two-sided floor/falsifier under the matched-comparison
-  denominator; 쟁점 2 dev/heldout; Python (b)-gate GO/KILL + conditional frontend).
-- Broad gate result (`cargo test`, AC4 denylist, corpus schema, mine/map
-  determinism) + the **pre-registration commit-ordering proof**
-  (`git merge-base --is-ancestor <prereg-sha> <enrichment-sha>`).
-- Retro: pending — run `retro` at closeout.
-- Host log probe: pending — `probe_host_logs.py` (or `skipped: <enum>`).
-- Disposition review: pending — bounded fresh-eye disposition review artifact.
-- Residual risks + non-claims: at minimum the standing non-claims — no causal
-  claim, **no two-directional safety claim from the seamed arm** (absence of a
-  bugfix ≠ safe), no provider/live/release proof, no outbound on corpus repos, no
-  full heldout precision-panel; and the FALSIFIER outcome if it fired (thesis
-  falsified for this corpus is a valid, honest result, not a failure to report).
+Retro: charness-artifacts/retro/2026-06-15-e9-sweep-session.md
+Host log probe: charness-artifacts/retro/2026-06-15-e9-multi-repo-validation-sweep-host-log-probe.json
+Disposition review: charness-artifacts/critique/2026-06-15-e9-closeout-disposition-review.md
+Gather: gh / GitHub API (gh search repos across ~20 TS + 8 Python domains, gh api per-repo metadata/structure/commit) for corpus discovery — handoff step 1; local clones are not external-URL gathers
+Release: n/a — no version bump and no install manifest; the conditional Python frontend was NOT built (b-gate KILL), so there is no release surface created by this goal
+Issue closeout: n/a — no tracked GitHub issue was resolved; no pry defects were found during the sweep; nothing is filed against the third-party corpus repos
+
+Detail (each marker above, expanded):
+
+- **Self-verification (쟁점 4 + 쟁점 2):** DONE. 쟁점 4 **FALSIFIED** — matched
+  enrichment 1.05, 95% CI [0.96,1.18] ≤ the pre-registered falsifier (≤1.1 OR
+  CI-lower≤1.0), under the matched (churn×site-size) denominator. 쟁점 2: dev 0.93
+  / heldout 1.11 (weak, CI [1.02,1.29] excludes 1.0 but far below the 1.5 GO bar);
+  no threshold tuned. Python (b)-gate **KILL** (welded-saturated 0.902) → no
+  frontend. Evidence: `docs/eval-gate.md` Tier-1 section + `docs/kill-gate.md`
+  Run 7 + `harness/fixtures/eval/enrichment_result.json` +
+  `harness/fixtures/eval/bgate_lens_result.json`.
+- **Broad gate + commit-ordering proof:** DONE. `cargo test` green (lib 0/main
+  2/classify_smoke 10/exclude_smoke 5); `python3 harness/check_ac4.py` AC4 PASS;
+  `python3 harness/validate_corpus.py` VALID (33 repos); `python3 -m pytest
+  harness/` 42 passed; sweep + mine + enrichment + lens all byte-identical x2
+  (`pry map` deterministic). Pre-registration ordering proven:
+  `git merge-base --is-ancestor 47eeb633 6a19e3d` → OK (prereg precedes the first
+  enrichment number).
+- **Retro:** DONE — `charness-artifacts/retro/2026-06-15-e9-sweep-session.md`
+  (+ recent-lessons + lesson-selection-index).
+- **Host log probe:** DONE — `probe_host_logs.py` (retro/scripts) reports claude
+  host detected; token_count available, duration/tool_call/turn derivable from the
+  session jsonl (`goal_metric_window: not_requested` — no scoped window declared).
+- **Disposition review:** DONE — bounded fresh-eye disposition review artifact
+  `charness-artifacts/critique/2026-06-15-e9-closeout-disposition-review.md`:
+  verdict **HONEST and COMPLETE, no integrity gaps, cleared for completion** (7/7
+  axes HONEST).
+- **Residual risks + non-claims:** restated in `docs/eval-gate.md` Tier-1
+  non-claims — no causal claim; **no two-directional safety claim from the seamed
+  arm** (the seamed control was in fact bugfix-touched *more*, 0.437 > 0.394); no
+  provider/live/release proof; no outbound on corpus repos; no full heldout
+  precision-panel; base-rate ceiling + file-kind + tier-pooling residuals named.
+  **The FALSIFIER fired and is reported as a valid, honest result** (the
+  nose-retraction discipline), not a failure to report.
+
+### Closeout routing (Coordination Cues)
+- **Routing:** S1–S5 implemented via the `impl`-class slices; each slice
+  fresh-eye-critiqued via `critique` (bounded subagents, parent-delegated, no
+  same-agent substitute); the sweep fan-out ran as a deterministic Python
+  orchestrator (chosen over the Workflow LLM-subagent tool because byte-identical
+  re-runs are the acceptance criterion — recorded honestly in the S2 Slice Log).
+- **Gather:** GitHub discovery used `gh` / the GitHub API (authed locally; handoff
+  step 1) — `gh search repos` across ~20 TS + 8 Python domains + `gh api` per-repo
+  metadata/structure/commit reads. Local git clones are not external-URL gathers.
+- **Quality (closeout validation recommendation):** `quality` adapter absent
+  (defaults); the validation-role recommendation surfaced `cautilus` (evaluator-
+  backed *behavior* review) — **not applicable by design**: the deliverable is a
+  zero-LLM *measurement*, so there is no LLM behavior to evaluate; validity rests
+  on the deterministic re-derivation + the adversarial fresh-eye critiques (3+1 on
+  the enrichment, 2+1 on S5), all done.
+- **Release:** `n/a` — no version bump, no install manifest (the Python frontend
+  was NOT built; KILL).
+- **Issue closeout:** `n/a` — no tracked issue resolved; no pry defects found; no
+  outbound on the third-party corpus repos.
 
 ## User Verification Instructions
 
@@ -615,6 +673,10 @@ enrichment + generalization measurement.
 
 ## Auto-Retro
 
-Pending until `/goal` closeout — run `retro` and disposition each surfaced
-improvement (`applied: <what>` or `issue #N`), or record the falsifiable per-goal
-`Retro dispositions: none — <reason>` line.
+Retro: charness-artifacts/retro/2026-06-15-e9-sweep-session.md. Per-improvement
+dispositions (all shipped this goal):
+
+applied: ensure_clone (sweep.py) now un-shallows depth-1 clones, and "assert full git history before mining" is the standing workflow lesson recorded in the retro Sibling Search
+applied: the deterministic zero-LLM corpus-study engine (corpus_fit/freeze/validate + mine_ts + sweep + enrichment + bgate_lens) is committed as a reusable asset for future corpus studies
+applied: the FALSIFIED verdict, the base-rate ceiling, and the Python clock-culture difference are written durably into docs/eval-gate.md and docs/kill-gate.md Run 7
+applied: the bgate_lens greedy-substring classifier noise is fixed via a boundary-verb gate, and check_ac4 is made call-aware so analyzer detection-pattern strings are not false positives

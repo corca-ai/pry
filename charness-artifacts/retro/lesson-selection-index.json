@@ -1,0 +1,300 @@
+{
+  "schema_version": 1,
+  "kind": "retro-lesson-selection-index",
+  "source": "charness-artifacts/retro/*.md Context/Waste/Next Improvements",
+  "selection_policy": {
+    "advisory": true,
+    "recency_half_life_days": 14,
+    "alpha_base": 0.35,
+    "warmup_n": 5,
+    "recurrence_multiplier": "1 + alpha_t * max(0, source_count - 1)",
+    "alpha_t": "alpha_base * min(1, source_count / warmup_n)"
+  },
+  "as_of_source_date": "2026-06-15",
+  "source_artifact_count": 1,
+  "candidate_count": 7,
+  "top_candidates": [
+    {
+      "candidate_id": "current_focus:793233d6f091",
+      "kind": "current_focus",
+      "lesson": "One-session execution of the E9 goal S1–S5: discover+freeze a 33-repo corpus, pre-register the metric, sweep 25 TS apps (clone→map→mine→blame-join), compute the matched enrichment, run the Python (b)-gate.",
+      "normalized_key": "one session execution of the e9 goal s1 s5 discover freeze a 33 repo",
+      "source_count": 1,
+      "latest_source_path": "charness-artifacts/retro/2026-06-15-e9-sweep-session.md",
+      "latest_source_date": "2026-06-15",
+      "age_days": 0,
+      "recency_weight": 1.0,
+      "alpha": 0.07,
+      "selection_weight": 1.0,
+      "sources": [
+        {
+          "artifact_path": "charness-artifacts/retro/2026-06-15-e9-sweep-session.md",
+          "date": "2026-06-15",
+          "section": "Context"
+        }
+      ]
+    },
+    {
+      "candidate_id": "next_improvement:5ea42dd69cca",
+      "kind": "next_improvement",
+      "lesson": "**capability:** the sweep harness (`mine_ts.py` + `sweep.py` + `enrichment.py` + `corpus_*` + `bgate_lens.py`) is a reusable, deterministic, zero-LLM corpus-study engine — a genuine asset for future validation goals.",
+      "normalized_key": "capability the sweep harness mine ts py sweep py enrichment py corpus bgate lens",
+      "source_count": 1,
+      "latest_source_path": "charness-artifacts/retro/2026-06-15-e9-sweep-session.md",
+      "latest_source_date": "2026-06-15",
+      "age_days": 0,
+      "recency_weight": 1.0,
+      "alpha": 0.07,
+      "selection_weight": 1.0,
+      "sources": [
+        {
+          "artifact_path": "charness-artifacts/retro/2026-06-15-e9-sweep-session.md",
+          "date": "2026-06-15",
+          "section": "Next Improvements"
+        }
+      ]
+    },
+    {
+      "candidate_id": "next_improvement:affa4808da8e",
+      "kind": "next_improvement",
+      "lesson": "**memory:** the FALSIFIED verdict + base-rate-ceiling + Python clock-culture difference are recorded in `docs/eval-gate.md` + `docs/kill-gate.md` Run 7.",
+      "normalized_key": "memory the falsified verdict base rate ceiling python clock culture difference are recorded in",
+      "source_count": 1,
+      "latest_source_path": "charness-artifacts/retro/2026-06-15-e9-sweep-session.md",
+      "latest_source_date": "2026-06-15",
+      "age_days": 0,
+      "recency_weight": 1.0,
+      "alpha": 0.07,
+      "selection_weight": 1.0,
+      "sources": [
+        {
+          "artifact_path": "charness-artifacts/retro/2026-06-15-e9-sweep-session.md",
+          "date": "2026-06-15",
+          "section": "Next Improvements"
+        }
+      ]
+    },
+    {
+      "candidate_id": "next_improvement:a662e2576f45",
+      "kind": "next_improvement",
+      "lesson": "**workflow:** before building any git-history harness on pre-existing clones, assert full history (`! -f .git/shallow`) as the first check.",
+      "normalized_key": "workflow before building any git history harness on pre existing clones assert full history",
+      "source_count": 1,
+      "latest_source_path": "charness-artifacts/retro/2026-06-15-e9-sweep-session.md",
+      "latest_source_date": "2026-06-15",
+      "age_days": 0,
+      "recency_weight": 1.0,
+      "alpha": 0.07,
+      "selection_weight": 1.0,
+      "sources": [
+        {
+          "artifact_path": "charness-artifacts/retro/2026-06-15-e9-sweep-session.md",
+          "date": "2026-06-15",
+          "section": "Next Improvements"
+        }
+      ]
+    },
+    {
+      "candidate_id": "repeat_trap:f6b63519835c",
+      "kind": "repeat_trap",
+      "lesson": "**Analyzer-free lens heuristic noise (re-run).** The (b)-gate lens's first run was an artifactual *mute* (decided 0.198) because a greedy receiver-name substring lexicon matched `dict.get`/`list.append`/`signal.connect`. Needed a fix (boundary-VERB gate) + re-run. A hand spot-check earlier would have caught it before the first full run.",
+      "normalized_key": "analyzer free lens heuristic noise re run the b gate lens s first run",
+      "source_count": 1,
+      "latest_source_path": "charness-artifacts/retro/2026-06-15-e9-sweep-session.md",
+      "latest_source_date": "2026-06-15",
+      "age_days": 0,
+      "recency_weight": 1.0,
+      "alpha": 0.07,
+      "selection_weight": 1.0,
+      "sources": [
+        {
+          "artifact_path": "charness-artifacts/retro/2026-06-15-e9-sweep-session.md",
+          "date": "2026-06-15",
+          "section": "Waste"
+        }
+      ]
+    },
+    {
+      "candidate_id": "repeat_trap:aa93f6a47019",
+      "kind": "repeat_trap",
+      "lesson": "**Sequential-then-parallel sweep.** Started the corpus sweep sequential, added a 2nd worker mid-run to halve wall-clock. The collision-safety reasoning was sound, but parallelizing from the start was the obvious move.",
+      "normalized_key": "sequential then parallel sweep started the corpus sweep sequential added a 2nd worker mid",
+      "source_count": 1,
+      "latest_source_path": "charness-artifacts/retro/2026-06-15-e9-sweep-session.md",
+      "latest_source_date": "2026-06-15",
+      "age_days": 0,
+      "recency_weight": 1.0,
+      "alpha": 0.07,
+      "selection_weight": 1.0,
+      "sources": [
+        {
+          "artifact_path": "charness-artifacts/retro/2026-06-15-e9-sweep-session.md",
+          "date": "2026-06-15",
+          "section": "Waste"
+        }
+      ]
+    },
+    {
+      "candidate_id": "repeat_trap:2944a7f33a33",
+      "kind": "repeat_trap",
+      "lesson": "**Shallow seed clones (debug cycle).** The 4 seed clones were depth-1; the blame/mine join returned all-zero bugfix-touched + file_churn=1 before I realized there was no history. Cost one diagnosis cycle. The fix (un-shallow in ensure_clone) was clean, but a pre-check would have skipped the detour.",
+      "normalized_key": "shallow seed clones debug cycle the 4 seed clones were depth 1 the blame",
+      "source_count": 1,
+      "latest_source_path": "charness-artifacts/retro/2026-06-15-e9-sweep-session.md",
+      "latest_source_date": "2026-06-15",
+      "age_days": 0,
+      "recency_weight": 1.0,
+      "alpha": 0.07,
+      "selection_weight": 1.0,
+      "sources": [
+        {
+          "artifact_path": "charness-artifacts/retro/2026-06-15-e9-sweep-session.md",
+          "date": "2026-06-15",
+          "section": "Waste"
+        }
+      ]
+    }
+  ],
+  "candidates": [
+    {
+      "candidate_id": "current_focus:793233d6f091",
+      "kind": "current_focus",
+      "lesson": "One-session execution of the E9 goal S1–S5: discover+freeze a 33-repo corpus, pre-register the metric, sweep 25 TS apps (clone→map→mine→blame-join), compute the matched enrichment, run the Python (b)-gate.",
+      "normalized_key": "one session execution of the e9 goal s1 s5 discover freeze a 33 repo",
+      "source_count": 1,
+      "latest_source_path": "charness-artifacts/retro/2026-06-15-e9-sweep-session.md",
+      "latest_source_date": "2026-06-15",
+      "age_days": 0,
+      "recency_weight": 1.0,
+      "alpha": 0.07,
+      "selection_weight": 1.0,
+      "sources": [
+        {
+          "artifact_path": "charness-artifacts/retro/2026-06-15-e9-sweep-session.md",
+          "date": "2026-06-15",
+          "section": "Context"
+        }
+      ]
+    },
+    {
+      "candidate_id": "next_improvement:5ea42dd69cca",
+      "kind": "next_improvement",
+      "lesson": "**capability:** the sweep harness (`mine_ts.py` + `sweep.py` + `enrichment.py` + `corpus_*` + `bgate_lens.py`) is a reusable, deterministic, zero-LLM corpus-study engine — a genuine asset for future validation goals.",
+      "normalized_key": "capability the sweep harness mine ts py sweep py enrichment py corpus bgate lens",
+      "source_count": 1,
+      "latest_source_path": "charness-artifacts/retro/2026-06-15-e9-sweep-session.md",
+      "latest_source_date": "2026-06-15",
+      "age_days": 0,
+      "recency_weight": 1.0,
+      "alpha": 0.07,
+      "selection_weight": 1.0,
+      "sources": [
+        {
+          "artifact_path": "charness-artifacts/retro/2026-06-15-e9-sweep-session.md",
+          "date": "2026-06-15",
+          "section": "Next Improvements"
+        }
+      ]
+    },
+    {
+      "candidate_id": "next_improvement:affa4808da8e",
+      "kind": "next_improvement",
+      "lesson": "**memory:** the FALSIFIED verdict + base-rate-ceiling + Python clock-culture difference are recorded in `docs/eval-gate.md` + `docs/kill-gate.md` Run 7.",
+      "normalized_key": "memory the falsified verdict base rate ceiling python clock culture difference are recorded in",
+      "source_count": 1,
+      "latest_source_path": "charness-artifacts/retro/2026-06-15-e9-sweep-session.md",
+      "latest_source_date": "2026-06-15",
+      "age_days": 0,
+      "recency_weight": 1.0,
+      "alpha": 0.07,
+      "selection_weight": 1.0,
+      "sources": [
+        {
+          "artifact_path": "charness-artifacts/retro/2026-06-15-e9-sweep-session.md",
+          "date": "2026-06-15",
+          "section": "Next Improvements"
+        }
+      ]
+    },
+    {
+      "candidate_id": "next_improvement:a662e2576f45",
+      "kind": "next_improvement",
+      "lesson": "**workflow:** before building any git-history harness on pre-existing clones, assert full history (`! -f .git/shallow`) as the first check.",
+      "normalized_key": "workflow before building any git history harness on pre existing clones assert full history",
+      "source_count": 1,
+      "latest_source_path": "charness-artifacts/retro/2026-06-15-e9-sweep-session.md",
+      "latest_source_date": "2026-06-15",
+      "age_days": 0,
+      "recency_weight": 1.0,
+      "alpha": 0.07,
+      "selection_weight": 1.0,
+      "sources": [
+        {
+          "artifact_path": "charness-artifacts/retro/2026-06-15-e9-sweep-session.md",
+          "date": "2026-06-15",
+          "section": "Next Improvements"
+        }
+      ]
+    },
+    {
+      "candidate_id": "repeat_trap:f6b63519835c",
+      "kind": "repeat_trap",
+      "lesson": "**Analyzer-free lens heuristic noise (re-run).** The (b)-gate lens's first run was an artifactual *mute* (decided 0.198) because a greedy receiver-name substring lexicon matched `dict.get`/`list.append`/`signal.connect`. Needed a fix (boundary-VERB gate) + re-run. A hand spot-check earlier would have caught it before the first full run.",
+      "normalized_key": "analyzer free lens heuristic noise re run the b gate lens s first run",
+      "source_count": 1,
+      "latest_source_path": "charness-artifacts/retro/2026-06-15-e9-sweep-session.md",
+      "latest_source_date": "2026-06-15",
+      "age_days": 0,
+      "recency_weight": 1.0,
+      "alpha": 0.07,
+      "selection_weight": 1.0,
+      "sources": [
+        {
+          "artifact_path": "charness-artifacts/retro/2026-06-15-e9-sweep-session.md",
+          "date": "2026-06-15",
+          "section": "Waste"
+        }
+      ]
+    },
+    {
+      "candidate_id": "repeat_trap:aa93f6a47019",
+      "kind": "repeat_trap",
+      "lesson": "**Sequential-then-parallel sweep.** Started the corpus sweep sequential, added a 2nd worker mid-run to halve wall-clock. The collision-safety reasoning was sound, but parallelizing from the start was the obvious move.",
+      "normalized_key": "sequential then parallel sweep started the corpus sweep sequential added a 2nd worker mid",
+      "source_count": 1,
+      "latest_source_path": "charness-artifacts/retro/2026-06-15-e9-sweep-session.md",
+      "latest_source_date": "2026-06-15",
+      "age_days": 0,
+      "recency_weight": 1.0,
+      "alpha": 0.07,
+      "selection_weight": 1.0,
+      "sources": [
+        {
+          "artifact_path": "charness-artifacts/retro/2026-06-15-e9-sweep-session.md",
+          "date": "2026-06-15",
+          "section": "Waste"
+        }
+      ]
+    },
+    {
+      "candidate_id": "repeat_trap:2944a7f33a33",
+      "kind": "repeat_trap",
+      "lesson": "**Shallow seed clones (debug cycle).** The 4 seed clones were depth-1; the blame/mine join returned all-zero bugfix-touched + file_churn=1 before I realized there was no history. Cost one diagnosis cycle. The fix (un-shallow in ensure_clone) was clean, but a pre-check would have skipped the detour.",
+      "normalized_key": "shallow seed clones debug cycle the 4 seed clones were depth 1 the blame",
+      "source_count": 1,
+      "latest_source_path": "charness-artifacts/retro/2026-06-15-e9-sweep-session.md",
+      "latest_source_date": "2026-06-15",
+      "age_days": 0,
+      "recency_weight": 1.0,
+      "alpha": 0.07,
+      "selection_weight": 1.0,
+      "sources": [
+        {
+          "artifact_path": "charness-artifacts/retro/2026-06-15-e9-sweep-session.md",
+          "date": "2026-06-15",
+          "section": "Waste"
+        }
+      ]
+    }
+  ]
+}
