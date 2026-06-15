@@ -1,0 +1,389 @@
+# Achieve Goal: E9 — nose-style multi-repo validation sweep (does welded-at-demand predict bugs + generalize)
+
+Status: draft
+Created: 2026-06-15
+Activation: `/goal @charness-artifacts/goals/2026-06-15-e9-multi-repo-validation-sweep.md`
+
+This file is the living goal scratchpad. It becomes active only when the user
+runs the activation command.
+
+## Active Operating Frame
+
+- Current slice: before activation (draft shaped via `/achieve`).
+- Current slice intent: before activation. The reviewable-intent unit in progress
+  and the commits it spans; critique and broad proof do not re-fire within one
+  unchanged intent — update it when the intent changes, not per commit.
+- Next action: activate with
+  `/goal @charness-artifacts/goals/2026-06-15-e9-multi-repo-validation-sweep.md`.
+  First active slice = S1 (corpus discovery + freeze + pre-register split & floor).
+- Verification cadence: cheap deterministic checks at commit boundaries (corpus
+  schema, mine/map determinism, cargo build+test, AC4 denylist); fresh-eye
+  critique at slice boundaries (corpus-bias, enrichment soundness, Python
+  frontend gating); the cross-corpus Tier-1 enrichment result is the bundle
+  boundary. No external/live proof in scope (observational git mining on local
+  clones).
+- Slice review packet: before fresh-eye slice critique, provide intent, changed
+  files and owning/generated surfaces, expected invariants, tests/proof,
+  non-claims, out-of-scope lines, and reviewer questions.
+- History boundary: keep this frame current; move completed detail to
+  `## Slice Log`, `## Final Verification`, and `## Auto-Retro`.
+
+## Goal
+
+Prove pry's core thesis with **independent, multi-repo evidence** before any more
+precision polish (the levers' assumption is unverified). Answer the two
+load-bearing questions the precision levers *assume*:
+
+1. **쟁점 4 — does welded-at-demand actually predict real defects?** Tier 1, the
+   directly-observed bugfix-**enrichment** result (nose's G1 analog): across a
+   broad corpus, are welded-at-demand sites touched by bugfix commits at a higher
+   rate than seamed sites? Pure git + map join, no per-site gold → robust.
+2. **쟁점 2 — does the signal generalize beyond the 4 H3 apps?** A pre-registered
+   `dev`/`heldout` split: tune any threshold on `dev` only, report `heldout`
+   separately.
+
+Modeled on nose's `eval/hazard/` **PATTERN** (`run_corpus.sh` + `corpus.json` +
+mining), **reusing the pattern, NOT nose's repos** (nose's corpus is
+15-per-language *libraries* — the wrong shape; pry needs boundary-welding
+*apps*). The corpus self-selects app-shaped TS/JS OSS from GitHub (operator-
+approved). Folds in the **full Python branch**: discover non-glue Python apps,
+run the analyzer-free (b)-gate lens, and — on a (b)-gate GO — build the Python
+frontend (`catalog/python.toml` exists) and fold Python into the sweep.
+
+## Non-Goals
+
+- **No Tier 2 — SZZ bug-linked gold + LLM-panel precision audit (operator-
+  dropped, 2026-06-15 interview Q3).** The handoff's "fragile cherry" is out of
+  scope: no `szz.py` port to tree-sitter-typescript, no LLM-panel ~11% audit.
+  SZZ bug-linked gold becomes a separate future goal. (Why dropped: nose built
+  the same auto bug-linked gold, an LLM-judge audit found it only ~11% precise,
+  and they RETRACTED the "validated against bug-linked harm" claim. The robust
+  result is Tier 1; pry skips the fragile cherry this goal.)
+- **No causal / prediction claim shipped.** Tier 1 is a directly-observed
+  **correlation** (an enrichment ratio), never "welded *causes* bugs." The
+  shipped `pry` binary stays testability-only — "risk ranking, NOT a bug list"
+  (the dropped kill-gate (a)-axis). Enrichment is dev-time evidence that the
+  structural signal is worth trusting, not a product metric.
+- **No LLM / credential in the shipped binary** (E2/SC4). Tier 1 needs **no LLM**
+  (git + map join). The (b)-gate lens is dev-time, analyzer-free (hand/script
+  sample, as Runs 1–5 did). Harness scripts stay mechanical (AC4 denylist).
+- **No outbound on third-party repos.** No PRs / issues / disclosure on the swept
+  OSS apps — corca-owned dogfood only. Off-goal defects in pry itself are filed
+  via `issue`; nothing is filed against the corpus repos.
+- **No full precision-panel re-labeling of the whole ≈15+ heldout arm.** Tier 1
+  enrichment is the *cheap* generalization signal (no per-repo LLM panel). The
+  broad corpus exists *because* Tier 1 needs no labeling. Expanding the 3-persona
+  precision panel to every heldout repo is out-of-scope-by-default (a sampled
+  subset or a follow-up only) — this goal does not move the SC2 precision
+  gate-close on its own.
+- **No marketing / leaderboard / showcase / outbound adoption play** (operator
+  killed it; this is measurement-for-the-algorithm only).
+
+## Boundaries
+
+- **Corpus = third-party, app-shaped, pinned.** ≈20–25 independent (non-corca)
+  TS/JS OSS *applications/services* (route handlers / service layer / DB clients /
+  env+config — NOT single-purpose libraries), split **dev 5 / heldout 15+**;
+  PLUS a stratified set (~5–8) of **non-glue Python apps** for the (b)-gate
+  branch. Real error-handling + substantial bugfix history (for mining),
+  permissive license, active, NOT corca. Seed = the 4 H3 apps (outline / flowise
+  / continue / librechat — already app-shaped, mapped, frozen-labeled). Score
+  app-shapedness (reuse `harness/repo_fit.py`), stratify by domain (and TS/JS by
+  clock-injection rate, the discipline fingerprint), **pin commits**, prune
+  vendored/generated/`.vitest` (reuse nose `setup_repos.sh`/`prune` discipline).
+- **Pre-register before measuring (honesty gate, like the kill-gate floor):** the
+  `dev|heldout` split is frozen into `corpus.json` **before** any enrichment is
+  computed; the **Tier-1 enrichment floor** (what enrichment ratio = "signal
+  real") is written down **before** computing it. `log`/report whatever is pruned
+  or excluded — no silent truncation.
+- **External fetches route through `gather`** (CLAUDE.md). GitHub discovery uses
+  `gh` / the GitHub API (authed locally; approved as handoff step 1). Discovery
+  reads repo structure (read-only); clones are local.
+- **Sweep fan-out via the Workflow orchestration tool** (the handoff names it):
+  per repo clone@pinned → `pry map` → mine bugfix commits → join. Parallel +
+  incremental (skip already-mined). Dev-time, local clones only.
+- **Python frontend build is CONDITIONAL on a (b)-gate GO.** On a (b)-gate KILL
+  (welded/seamed does NOT discriminate on Python, like the author's glue) the
+  Python branch closes at the analyzer-free lens result — **no frontend is
+  built** (the kill-gate discipline: build a frontend only on a per-corpus GO).
+  The frontend is the one heavy analyzer-capability addition and it is gated.
+- **Local commits only by default.** No `git push` / PR for any repo unless the
+  operator explicitly asks at closeout. Remote push is a phase-scoped approval
+  not yet granted.
+- **Shipped binary stays byte-deterministic and zero-LLM** (SC4/AC4); the only
+  analyzer change in scope is the *conditional* Python frontend (a new frontend,
+  not an LLM/credential dependency). Third-party corpora are **read-only**.
+- The standard external-side-effect rule applies: any later approved
+  publish/push/CI/apply is phase-scoped and does not carry forward.
+
+Discuss before activation: RESOLVED — four consequential defaults were settled in
+the Before-phase (handoff + the 2026-06-15 interview) and need no further
+discussion. (a) External GitHub corpus discovery + third-party local clones are
+approved (handoff step 1 explicitly: "corpus discovery from GitHub IS approved").
+(b) Building a Python frontend (analyzer capability growth) is operator-chosen
+(interview Q2 = "Full Python branch incl. frontend") but **conditional on a
+(b)-gate GO**; on KILL it does not build. (c) Tier-1 enrichment is an
+observational correlation, never shipped as a causal/prediction claim — a
+proof-level non-claim the final report must restate (the nose-retraction
+discipline). (d) No outbound on the third-party corpus repos. No open
+consequential discussion remains.
+
+## User Acceptance
+
+What the user can do to verify completion directly:
+
+- `cat corpus.json` (or `harness/fixtures/eval/corpus.json`) → ≈20–25 TS/JS app
+  repos + ~5–8 Python apps, each with `id/name/primary_language/domain/url/
+  commit/split` (nose schema), pinned commits, and a `dev|heldout` split that a
+  provenance line records was frozen **before** measuring.
+- The sweep harness runs deterministically per repo: clone@pinned → `pry map` →
+  mine bugfix commits → join; re-running the mine yields byte-identical output.
+- `docs/eval-gate.md` carries a **Tier-1 enrichment** section: welded-at-demand
+  bugfix-touch rate vs seamed bugfix-touch rate across the corpus, the
+  pre-registered floor, and the verdict (signal real / not), every number
+  contestable against the pinned corpus.
+- **Generalization (쟁점 2):** the enrichment is reported `dev` vs `heldout`
+  separately; any tuned threshold is tuned on `dev` only.
+- **Python branch:** the (b)-gate lens result (GO/KILL) is recorded; if GO, the
+  Python frontend exists (`pry map` runs on a Python app) and Python repos fold
+  into the enrichment; if KILL, the analyzer-free result is recorded and no
+  frontend ships.
+- The shipped binary is unchanged on the zero-LLM axis: the AC4 denylist passes
+  (`Cargo.lock` has no HTTP/LLM client; harness scripts import no LLM/HTTP client).
+
+## Agent Verification Plan
+
+### Low-Cost Checks
+
+- `corpus.json` validates against its (nose-derived) schema; the `dev|heldout`
+  split + pre-registration provenance line are present before any enrichment run.
+- Sweep determinism: re-run the mine on one repo twice → byte-identical; `pry map`
+  twice on one repo → byte-identical (existing invariant).
+- `cargo build --release` + `cargo test` green (incl. any new Python-frontend
+  tests if S5 builds it).
+- **AC4 denylist** — `Cargo.lock` has none of
+  `reqwest|hyper|ureq|isahc|surf|curl|awc|tonic|anthropic|openai`; `src/` shells
+  to no `curl`/LLM CLI; harness scripts import none of
+  `openai|anthropic|httpx|requests|urllib3|aiohttp` and make no subprocess HTTP
+  call (the zero-LLM-binary guard the spec pins).
+- `check_goal_artifact.py` passes before any status flip.
+
+### High-Confidence Checks
+
+- Fresh-eye slice critique (per the Subagent Delegation policy — bounded
+  reviewer, no same-agent substitute) on: (1) **corpus selection bias** — is the
+  slate stratified, not silently clustered at the disciplined/low-injection end;
+  is the `dev|heldout` split genuinely pre-registered, not chosen after a peek;
+  (2) **Tier-1 enrichment soundness** — is the welded-vs-seamed bugfix-touch join
+  free of obvious confounds (welded sites simply being more numerous / larger /
+  in hotter files); is the pre-registered floor honest; (3) the **(b)-gate lens +
+  any Python frontend** — is the lens analyzer-free as claimed, and is the
+  frontend gated on a real GO.
+- `quality` validation-recommendation routing for the closeout (per CLAUDE.md), to
+  pick the right gate/HITL surface rather than self-asserting.
+
+### External Or Live Proof
+
+- **None by design.** The result is observational git mining on **local clones** —
+  no provider roundtrip, no publish, no remote CI, no outbound on corpus repos.
+  The Workflow fan-out is local. The final report must name these as skipped
+  proof levels and claim only the local cross-corpus enrichment + generalization
+  result.
+
+## Slice Plan
+
+| Slice | Objective | Why Now | Expected Evidence | Status |
+| --- | --- | --- | --- | --- |
+| S1 | Corpus discovery + freeze + pre-registration | Everything downstream joins against a frozen, pinned, split-honest corpus; pre-registering the split + floor first is the load-bearing honesty gate | `corpus.json` (≈20–25 TS/JS dev5/heldout15+ + ~5–8 Python apps; nose schema, pinned, pruned); `repo_fit` app-shapedness scores; a provenance line recording the split + enrichment floor were fixed BEFORE measuring; a `log` of what was pruned/excluded | planned |
+| S2 | Deterministic sweep harness (nose `run_corpus.sh` analog) | The reusable engine: per repo clone@pinned → `pry map` → mine bugfix commits → join bugfix-touched lines with pry findings; Workflow fan-out, incremental | Per-repo sweep outputs; `mine.py` adapted (JS EH tokens `catch`/`throw`/`.catch(`/`reject`/`retry`/`timeout` + boundary names for TS; Python-native already for Python repos); deterministic mine x2 | planned |
+| S3 | Tier 1 — directly-observed enrichment (THE main result, 쟁점 4) | Pure git + map join, no per-site gold → robust; answers "does welded-at-demand predict defects?" | Enrichment table in `docs/eval-gate.md`: welded-at-demand vs seamed bugfix-touch rate across the corpus, vs the pre-registered floor, with the verdict | planned |
+| S4 | Generalization (쟁점 2) — dev/heldout | Absorbs the old "corpus-expansion / SC2 gate" queue item; the held-out arm is the generalization gate | Enrichment reported `dev` vs `heldout` separately; any threshold tuned on `dev` only; held-out number stated honestly | planned |
+| S5 | Python branch — (b)-gate lens → conditional frontend → fold-in | The recorded reopen; cheap analyzer-free lens first, heavy frontend only on a GO | (b)-gate GO/KILL record on the Python apps; IF GO → Python frontend built (`catalog/python.toml`), `pry map` runs on a Python app, Python folds into the enrichment; IF KILL → analyzer-free result recorded, no frontend | planned |
+
+## Coordination Cues
+
+Phase-appropriate routing for this run, deferred to `find-skills` (its
+`--recommend-for-task` / `--recommendation-role --next-skill-id` recommendation
+engine) — never a hard-coded phase-to-skill list here. `achieve` owns this slot
+and the closeout floors below; `find-skills` owns *which* skill answers a
+boundary. Fill during the run:
+
+- **Routing** — implementation slices (S1–S5) route through `impl`; the closeout
+  gate through `quality`'s validation recommendation; each slice's fresh-eye
+  critique through `critique` with a bounded reviewer; the Workflow orchestration
+  tool drives the S2 sweep fan-out. Confirm the concrete `find-skills` route per
+  phase at each boundary; do not treat this anticipated list as the hard-coded
+  map.
+- **Gather step** — external GitHub discovery (repo search + structure reads) and
+  any repo metadata fetched from a URL route through `gather` per CLAUDE.md;
+  record the concrete `Gather:` reference(s) at closeout (local git clones
+  themselves are not external-URL gathers, but GitHub-API/URL reads are).
+- **Release step** — anticipated `Release: n/a` — no version bump and no generated
+  install manifest this goal. Watch item: if S5 builds the Python frontend, that
+  is analyzer capability gated by tests, **not** a release surface this goal; a
+  real pry release that ships the Python frontend is a separate release goal.
+- **Issue closeout step** — anticipated `Issue closeout: n/a` — this goal resolves
+  no tracked GitHub issue. Defects found in pry during the sweep are filed via
+  `issue` and listed in Off-Goal Findings, not closed by this goal; nothing is
+  filed against the third-party corpus repos.
+
+## Slice Log
+
+(no slices yet — inert until `/goal` activation)
+
+## Context Sources
+
+Durable references this goal was shaped from. A fresh session can reconstruct the
+originating context by following them in order:
+
+1. `docs/handoff.md` — the originating workflow trigger; the "▶ NEXT ACTION — E9:
+   nose-style multi-repo validation SWEEP" section is this goal's mandate (6
+   steps; honesty gates; the decisive nose lesson). The strategic redirect
+   (pause precision polish to prove 쟁점 4 + 쟁점 2) is operator-chosen 2026-06-15.
+2. `docs/spec-eval-harness.md` — the canonical build contract; **E9** (SZZ as a
+   dev-time structural-improvement input), E5 (precision AND filter-recall), E8
+   (LLM once → deterministic forever), and the SC/AC. The E1–E9 critique is
+   already DONE (FIX-FIRST, 4 blockers folded — see that doc's Critique).
+3. `docs/eval-gate.md` — H3 results, per-kind/stratum precision, the named
+   levers, the calibration ruleset R1–R7; the Slice-2 filter-recall arm.
+4. nose `~/codes/nose/eval/hazard/` — the PATTERN to reuse: `run_corpus.sh`
+   (sweep driver), `mine.py` (bugfix mining), `audit_sample.py` + the G2 11%
+   retraction (`RESULTS.md`), the prune discipline. Reuse the pattern, NOT the
+   repos.
+5. pry `harness/` — `mine.py` + `szz.py` + `repo_fit.py` (the Python-native
+   kill-gate versions to adapt: `mine.py` needs JS EH tokens for TS repos;
+   `repo_fit.py` scores app-shapedness for S1); `finding_io.py` + `filter_recall.py`
+   + `config.py` + frozen `fixtures/eval/*-labels.json` (the H3 surfaces).
+6. `catalog/python.toml` + `catalog/typescript.toml` — the analyzer frontends;
+   `python.toml` is the seed for the conditional Python frontend (S5).
+7. `docs/kill-gate.md` — the (b)-gate discipline (analyzer-free welded/seamed
+   sample) + the TS GO / Python KILL record that S5's lens re-runs on
+   independent non-glue Python apps.
+8. The 4 H3 seed repos (`~/codes/_pry-corpus/{outline,flowise,continue,librechat}`
+   at the pinned commits) — already app-shaped, mapped, frozen-labeled; the dev
+   seed the corpus expands from.
+
+## Interview Decisions
+
+For each Before-phase question: family of options considered, chosen value, and
+rejected-alternatives reason.
+
+- **Mode (stated, not asked).** Artifact-only shaping vs implementation-
+  continuation. **Assumed: artifact-only** — the operator said "achieve 로 goal
+  만듭시다" (make a goal), the Before-phase verb; `/achieve` shapes, `/goal`
+  pursues. No slices execute until the explicit `/goal` activation. axis:
+  single-point — `/achieve` is shape-only by contract.
+- **Q1 — Corpus size.** Options: {≈15 dev5/heldout10 (the pre-registered SC2
+  target)} / {≈10 dev5/heldout5 (lean)} / {≈20–25 dev5/heldout15+ (broad)}.
+  **Chosen: ≈20–25, dev 5 / heldout 15+.** Rationale: Tier-1 enrichment needs no
+  per-site gold (git + map join), so a broader corpus is *cheap* for the main
+  result and maximizes generalization evidence (쟁점 2). Rejected the ≈15/≈10
+  options because the labeling cost that made them attractive does not apply to
+  the Tier-1 result, and a larger held-out arm is the stronger generalization
+  test. axis: single-point — corpus size is a per-goal measurement choice, not a
+  host/profile axis.
+- **Q2 — Python branch.** Options: {defer to a follow-up goal} / {include the
+  cheap (b)-gate lens only} / {full Python branch incl. frontend}. **Chosen:
+  full Python branch incl. frontend** — discover non-glue Python apps, run the
+  (b)-gate lens, and on a GO build the Python frontend and fold Python in.
+  Rejected the defer/lens-only options because the operator wants the recorded
+  reopen answered end-to-end this goal; the frontend build stays **conditional on
+  a (b)-gate GO** so a KILL closes the branch cheaply (no faith-built frontend).
+  axis: single-point for this goal's scope.
+- **Q3 — SZZ Tier 2.** Options: {Tier 1 load-bearing, Tier 2 conditional stretch}
+  / {include Tier 2 fully} / {drop Tier 2 entirely}. **Chosen: drop Tier 2
+  entirely** — ship Tier 1 (directly-observed enrichment) + the dev/heldout
+  generalization only; SZZ bug-linked gold becomes a separate future goal.
+  Rejected including it because the handoff itself calls SZZ "the fragile cherry,
+  illustration not load-bearing," and nose retracted the analogous auto gold at
+  ~11% precision — the robust deliverable is Tier 1, and the szz-port +
+  LLM-audit cost buys an explicitly non-load-bearing illustration. axis:
+  single-point.
+
+## Plan Critique Findings
+
+Inherited + pre-registered (a bounded fresh-eye plan/slice critique runs at the
+S1 and S3 boundaries per the verification plan; reviewer = a bounded general-
+purpose subagent, not a same-agent pass):
+
+- **Inherited (spec E1–E9 critique, DONE).** The eval-harness contract already
+  passed a FIX-FIRST fresh-eye critique with four blockers folded (filter-recall
+  vs detection-recall naming; the open-vs-close SC2 split; panel mis-cost +
+  near-circular blinding; DI-discipline stratification). This goal does not
+  re-open those; it consumes their resolution.
+- **New risk R-A — corpus selection bias.** A self-selected GitHub slate can
+  silently cluster at the disciplined/low-injection end (the PQ1 gap: the 4 H3
+  seeds are all 0–5% clock-injection). **Folded:** S1 stratifies by domain (+
+  TS/JS by clock-injection rate) and the dev/heldout split is **pre-registered
+  before measuring**; the S1 critique angle verifies the split was not chosen
+  after a peek.
+- **New risk R-B — Tier-1 enrichment confounds.** "Welded sites are touched by
+  bugfixes more" can be an artifact of welded sites simply being more numerous,
+  larger, or in hotter files rather than the weld itself mattering. **Folded:**
+  the pre-registered floor + the S3 critique angle interrogate the join for
+  obvious confounds before the verdict is claimed; the result is stated as a
+  correlation, never causal.
+- **New risk R-C — premature Python frontend.** Building a frontend on faith is
+  the exact kill-gate anti-pattern. **Folded:** S5's frontend is **gated on a
+  (b)-gate GO**; a KILL closes the branch at the analyzer-free lens with no
+  frontend.
+- **New risk R-D — silent truncation.** A multi-repo sweep can quietly drop
+  repos/commits and read as "covered everything." **Folded:** the honesty gate
+  requires `log`/report of every prune/exclusion (no silent truncation), carried
+  into S1's expected evidence.
+
+## Off-Goal Findings
+
+(none yet)
+
+## Final Verification
+
+Pending until `/goal` closeout. At closeout, replace each line below with bound
+evidence (`<path>`) or an explicit `skipped: <allowed-reason>: <detail>`:
+
+- Self-verification against the original goal (쟁점 4 enrichment verdict vs the
+  pre-registered floor; 쟁점 2 dev/heldout; Python (b)-gate GO/KILL + conditional
+  frontend).
+- Broad gate result (`cargo test`, AC4 denylist, corpus schema, mine/map
+  determinism).
+- Retro: pending — run `retro` at closeout.
+- Host log probe: pending — `probe_host_logs.py` (or `skipped: <enum>`).
+- Disposition review: pending — bounded fresh-eye disposition review artifact.
+- Residual risks + non-claims: at minimum the standing non-claims — no causal
+  claim, no provider/live/release proof, no outbound on corpus repos, no full
+  heldout precision-panel.
+
+## User Verification Instructions
+
+Run these to verify completion directly (filled now; results recorded at
+closeout):
+
+1. Corpus is frozen + split-honest:
+   `cat harness/fixtures/eval/corpus.json` → ≈20–25 TS/JS apps + ~5–8 Python
+   apps, pinned commits, `dev|heldout` split, pre-registration provenance line.
+2. Sweep is deterministic:
+   re-run the mine on one repo twice → byte-identical; `pry map <repo>` twice →
+   byte-identical.
+3. Tier-1 enrichment (쟁점 4):
+   the `docs/eval-gate.md` Tier-1 section shows welded-at-demand vs seamed
+   bugfix-touch rate + the pre-registered floor + the verdict; every number is
+   contestable against the pinned corpus.
+4. Generalization (쟁점 2):
+   the same section reports `dev` vs `heldout` separately; thresholds tuned on
+   `dev` only.
+5. Python branch:
+   the (b)-gate GO/KILL is recorded; on GO, `pry map <python-app>` runs and the
+   Python repos appear in the enrichment.
+6. Zero-LLM binary held:
+   the AC4 denylist passes (`Cargo.lock` + `src/` + harness scripts).
+
+Skipped proof levels (by design): no published release, no remote push/CI, no
+provider roundtrip, no outbound on the corpus repos, no full heldout
+precision-panel labeling. The result is a local, observational cross-corpus
+enrichment + generalization measurement.
+
+## Auto-Retro
+
+Pending until `/goal` closeout — run `retro` and disposition each surfaced
+improvement (`applied: <what>` or `issue #N`), or record the falsifiable per-goal
+`Retro dispositions: none — <reason>` line.
