@@ -1,0 +1,2477 @@
+{
+  "per_repo": [
+    {
+      "corpus": "paperless-ngx/paperless-ngx",
+      "welded": 22,
+      "seamed": 0,
+      "undecided": 14,
+      "decided": 22,
+      "total": 36,
+      "welded_fraction": 1.0,
+      "decided_fraction": 0.6111111111111112,
+      "band": [
+        0.15,
+        0.85
+      ],
+      "min_decided": 0.4,
+      "by_kind": {
+        "clock": {
+          "welded": 10,
+          "seamed": 0,
+          "undecided": 0
+        },
+        "network": {
+          "welded": 11,
+          "seamed": 0,
+          "undecided": 14
+        },
+        "subprocess": {
+          "welded": 1,
+          "seamed": 0,
+          "undecided": 0
+        }
+      },
+      "verdict": "KILL (out of band high)",
+      "sample": [
+        {
+          "file": "src/documents/management/commands/document_create_classifier.py",
+          "line": 18,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.monotonic"
+        },
+        {
+          "file": "src/documents/management/commands/document_create_classifier.py",
+          "line": 28,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.monotonic"
+        },
+        {
+          "file": "src/documents/management/commands/document_importer.py",
+          "line": 339,
+          "kind": "network",
+          "class": "welded",
+          "expr": "connection.cursor"
+        },
+        {
+          "file": "src/documents/management/commands/document_importer.py",
+          "line": 341,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "cursor.execute"
+        },
+        {
+          "file": "src/documents/search/_query.py",
+          "line": 200,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "datetime.now"
+        },
+        {
+          "file": "src/documents/search/_query.py",
+          "line": 315,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "datetime.now"
+        },
+        {
+          "file": "src/documents/search/_query.py",
+          "line": 280,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "datetime.now"
+        },
+        {
+          "file": "src/documents/search/_query.py",
+          "line": 136,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "datetime.now"
+        },
+        {
+          "file": "src/documents/views.py",
+          "line": 1130,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "self.get_object"
+        },
+        {
+          "file": "src/documents/views.py",
+          "line": 1137,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "self.get_object"
+        },
+        {
+          "file": "src/documents/views.py",
+          "line": 3838,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "self.get_object"
+        },
+        {
+          "file": "src/documents/views.py",
+          "line": 4400,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "self.get_object"
+        },
+        {
+          "file": "src/documents/views.py",
+          "line": 635,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "self.get_object"
+        },
+        {
+          "file": "src/documents/views.py",
+          "line": 1207,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "self.get_object"
+        },
+        {
+          "file": "src/documents/views.py",
+          "line": 3982,
+          "kind": "network",
+          "class": "welded",
+          "expr": "httpx.get"
+        },
+        {
+          "file": "src/documents/views.py",
+          "line": 3139,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "datetime.now"
+        },
+        {
+          "file": "src/documents/views.py",
+          "line": 1939,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "datetime.now"
+        },
+        {
+          "file": "src/documents/workflows/webhooks.py",
+          "line": 58,
+          "kind": "network",
+          "class": "welded",
+          "expr": "httpx.Client"
+        },
+        {
+          "file": "src/paperless/checks.py",
+          "line": 355,
+          "kind": "subprocess",
+          "class": "welded",
+          "expr": "subprocess.run"
+        },
+        {
+          "file": "src/paperless/checks.py",
+          "line": 223,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "cursor.execute"
+        },
+        {
+          "file": "src/paperless/checks.py",
+          "line": 227,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "cursor.fetchall"
+        },
+        {
+          "file": "src/paperless/network.py",
+          "line": 106,
+          "kind": "network",
+          "class": "welded",
+          "expr": "httpx.Headers"
+        },
+        {
+          "file": "src/paperless/network.py",
+          "line": 116,
+          "kind": "network",
+          "class": "welded",
+          "expr": "httpx.Request"
+        },
+        {
+          "file": "src/paperless/network.py",
+          "line": 180,
+          "kind": "network",
+          "class": "welded",
+          "expr": "httpx.Client"
+        },
+        {
+          "file": "src/paperless/network.py",
+          "line": 193,
+          "kind": "network",
+          "class": "welded",
+          "expr": "httpx.AsyncClient"
+        },
+        {
+          "file": "src/paperless/network.py",
+          "line": 26,
+          "kind": "network",
+          "class": "welded",
+          "expr": "socket.getaddrinfo"
+        },
+        {
+          "file": "src/paperless/network.py",
+          "line": 89,
+          "kind": "network",
+          "class": "welded",
+          "expr": "httpx.ConnectError"
+        },
+        {
+          "file": "src/paperless/network.py",
+          "line": 94,
+          "kind": "network",
+          "class": "welded",
+          "expr": "httpx.ConnectError"
+        },
+        {
+          "file": "src/paperless/network.py",
+          "line": 99,
+          "kind": "network",
+          "class": "welded",
+          "expr": "httpx.ConnectError"
+        },
+        {
+          "file": "src/paperless/views.py",
+          "line": 164,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "self.get_object"
+        },
+        {
+          "file": "src/paperless/views.py",
+          "line": 196,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "self.get_object"
+        },
+        {
+          "file": "src/paperless_ai/chat.py",
+          "line": 215,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "query_engine.query"
+        },
+        {
+          "file": "src/paperless_ai/chat.py",
+          "line": 112,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "index.vector_store.query"
+        },
+        {
+          "file": "src/paperless_mail/mail.py",
+          "line": 388,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "date.today"
+        },
+        {
+          "file": "src/paperless_mail/views.py",
+          "line": 159,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "self.get_object"
+        },
+        {
+          "file": "src/paperless_mail/views.py",
+          "line": 89,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "datetime.datetime.now"
+        }
+      ],
+      "id": "paperless-ngx",
+      "split": "dev"
+    },
+    {
+      "corpus": "saleor/saleor",
+      "welded": 97,
+      "seamed": 0,
+      "undecided": 21,
+      "decided": 97,
+      "total": 118,
+      "welded_fraction": 1.0,
+      "decided_fraction": 0.8220338983050848,
+      "band": [
+        0.15,
+        0.85
+      ],
+      "min_decided": 0.4,
+      "by_kind": {
+        "network": {
+          "welded": 45,
+          "seamed": 0,
+          "undecided": 13
+        },
+        "clock": {
+          "welded": 52,
+          "seamed": 0,
+          "undecided": 0
+        },
+        "subprocess": {
+          "welded": 0,
+          "seamed": 0,
+          "undecided": 8
+        }
+      },
+      "verdict": "KILL (out of band high)",
+      "sample": [
+        {
+          "file": ".claude/skills/filter-benchmark/analyze_query.py",
+          "line": 139,
+          "kind": "network",
+          "class": "welded",
+          "expr": "urllib.request.Request"
+        },
+        {
+          "file": ".claude/skills/filter-benchmark/analyze_query.py",
+          "line": 144,
+          "kind": "network",
+          "class": "welded",
+          "expr": "urllib.request.urlopen"
+        },
+        {
+          "file": ".claude/skills/filter-benchmark/analyze_query.py",
+          "line": 44,
+          "kind": "network",
+          "class": "welded",
+          "expr": "connection.cursor"
+        },
+        {
+          "file": ".claude/skills/filter-benchmark/analyze_query.py",
+          "line": 47,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "cursor.execute"
+        },
+        {
+          "file": ".claude/skills/filter-benchmark/analyze_query.py",
+          "line": 46,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "cursor.execute"
+        },
+        {
+          "file": ".claude/skills/filter-benchmark/analyze_query.py",
+          "line": 51,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "cursor.fetchone"
+        },
+        {
+          "file": ".claude/skills/filter-benchmark/analyze_query.py",
+          "line": 53,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "cursor.execute"
+        },
+        {
+          "file": ".semgrep/security/requests/no-use-requests-lib.fixed.py",
+          "line": 23,
+          "kind": "network",
+          "class": "welded",
+          "expr": "requests.Session"
+        },
+        {
+          "file": ".semgrep/security/requests/no-use-requests-lib.fixed.py",
+          "line": 63,
+          "kind": "network",
+          "class": "welded",
+          "expr": "requests.Session"
+        },
+        {
+          "file": ".semgrep/security/requests/no-use-requests-lib.py",
+          "line": 5,
+          "kind": "network",
+          "class": "welded",
+          "expr": "requests.get"
+        },
+        {
+          "file": ".semgrep/security/requests/no-use-requests-lib.py",
+          "line": 11,
+          "kind": "network",
+          "class": "welded",
+          "expr": "requests.get"
+        },
+        {
+          "file": ".semgrep/security/requests/no-use-requests-lib.py",
+          "line": 14,
+          "kind": "network",
+          "class": "welded",
+          "expr": "requests.get"
+        },
+        {
+          "file": ".semgrep/security/requests/no-use-requests-lib.py",
+          "line": 18,
+          "kind": "network",
+          "class": "welded",
+          "expr": "requests.get"
+        },
+        {
+          "file": ".semgrep/security/requests/no-use-requests-lib.py",
+          "line": 21,
+          "kind": "network",
+          "class": "welded",
+          "expr": "requests.get"
+        },
+        {
+          "file": ".semgrep/security/requests/no-use-requests-lib.py",
+          "line": 23,
+          "kind": "network",
+          "class": "welded",
+          "expr": "requests.Session"
+        },
+        {
+          "file": ".semgrep/security/requests/no-use-requests-lib.py",
+          "line": 32,
+          "kind": "network",
+          "class": "welded",
+          "expr": "requests.post"
+        },
+        {
+          "file": ".semgrep/security/requests/no-use-requests-lib.py",
+          "line": 34,
+          "kind": "network",
+          "class": "welded",
+          "expr": "requests.request"
+        },
+        {
+          "file": ".semgrep/security/requests/no-use-requests-lib.py",
+          "line": 36,
+          "kind": "network",
+          "class": "welded",
+          "expr": "requests.get"
+        },
+        {
+          "file": ".semgrep/security/requests/no-use-requests-lib.py",
+          "line": 38,
+          "kind": "network",
+          "class": "welded",
+          "expr": "requests.post"
+        },
+        {
+          "file": ".semgrep/security/requests/no-use-requests-lib.py",
+          "line": 40,
+          "kind": "network",
+          "class": "welded",
+          "expr": "requests.put"
+        },
+        {
+          "file": ".semgrep/security/requests/no-use-requests-lib.py",
+          "line": 42,
+          "kind": "network",
+          "class": "welded",
+          "expr": "requests.delete"
+        },
+        {
+          "file": ".semgrep/security/requests/no-use-requests-lib.py",
+          "line": 44,
+          "kind": "network",
+          "class": "welded",
+          "expr": "requests.head"
+        },
+        {
+          "file": ".semgrep/security/requests/no-use-requests-lib.py",
+          "line": 46,
+          "kind": "network",
+          "class": "welded",
+          "expr": "requests.patch"
+        },
+        {
+          "file": ".semgrep/security/requests/no-use-requests-lib.py",
+          "line": 51,
+          "kind": "network",
+          "class": "welded",
+          "expr": "requests.get"
+        },
+        {
+          "file": ".semgrep/security/requests/no-use-requests-lib.py",
+          "line": 54,
+          "kind": "network",
+          "class": "welded",
+          "expr": "requests.get"
+        },
+        {
+          "file": ".semgrep/security/requests/no-use-requests-lib.py",
+          "line": 58,
+          "kind": "network",
+          "class": "welded",
+          "expr": "requests.get"
+        },
+        {
+          "file": ".semgrep/security/requests/no-use-requests-lib.py",
+          "line": 61,
+          "kind": "network",
+          "class": "welded",
+          "expr": "requests.get"
+        },
+        {
+          "file": ".semgrep/security/requests/no-use-requests-lib.py",
+          "line": 63,
+          "kind": "network",
+          "class": "welded",
+          "expr": "requests.Session"
+        },
+        {
+          "file": ".semgrep/security/requests/no-use-requests-lib.py",
+          "line": 72,
+          "kind": "network",
+          "class": "welded",
+          "expr": "requests.post"
+        },
+        {
+          "file": ".semgrep/security/requests/no-use-requests-lib.py",
+          "line": 74,
+          "kind": "network",
+          "class": "welded",
+          "expr": "requests.request"
+        },
+        {
+          "file": ".semgrep/security/requests/no-use-requests-lib.py",
+          "line": 76,
+          "kind": "network",
+          "class": "welded",
+          "expr": "requests.get"
+        },
+        {
+          "file": ".semgrep/security/requests/no-use-requests-lib.py",
+          "line": 78,
+          "kind": "network",
+          "class": "welded",
+          "expr": "requests.post"
+        },
+        {
+          "file": ".semgrep/security/requests/no-use-requests-lib.py",
+          "line": 80,
+          "kind": "network",
+          "class": "welded",
+          "expr": "requests.put"
+        },
+        {
+          "file": ".semgrep/security/requests/no-use-requests-lib.py",
+          "line": 82,
+          "kind": "network",
+          "class": "welded",
+          "expr": "requests.delete"
+        },
+        {
+          "file": ".semgrep/security/requests/no-use-requests-lib.py",
+          "line": 84,
+          "kind": "network",
+          "class": "welded",
+          "expr": "requests.head"
+        },
+        {
+          "file": ".semgrep/security/requests/no-use-requests-lib.py",
+          "line": 86,
+          "kind": "network",
+          "class": "welded",
+          "expr": "requests.patch"
+        },
+        {
+          "file": "saleor/app/installation_utils.py",
+          "line": 86,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.monotonic"
+        },
+        {
+          "file": "saleor/app/installation_utils.py",
+          "line": 105,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.monotonic"
+        },
+        {
+          "file": "saleor/checkout/checkout_cleaner.py",
+          "line": 115,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "datetime.datetime.now"
+        },
+        {
+          "file": "saleor/checkout/models.py",
+          "line": 394,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "datetime.datetime.now"
+        }
+      ],
+      "id": "saleor",
+      "split": "dev"
+    },
+    {
+      "corpus": "dgtlmoon/changedetection.io",
+      "welded": 276,
+      "seamed": 0,
+      "undecided": 2,
+      "decided": 276,
+      "total": 278,
+      "welded_fraction": 1.0,
+      "decided_fraction": 0.9928057553956835,
+      "band": [
+        0.15,
+        0.85
+      ],
+      "min_decided": 0.4,
+      "by_kind": {
+        "network": {
+          "welded": 10,
+          "seamed": 0,
+          "undecided": 2
+        },
+        "clock": {
+          "welded": 265,
+          "seamed": 0,
+          "undecided": 0
+        },
+        "subprocess": {
+          "welded": 1,
+          "seamed": 0,
+          "undecided": 0
+        }
+      },
+      "verdict": "KILL (out of band high)",
+      "sample": [
+        {
+          "file": "changedetectionio/__init__.py",
+          "line": 493,
+          "kind": "network",
+          "class": "welded",
+          "expr": "socket.socket"
+        },
+        {
+          "file": "changedetectionio/api/SystemInfo.py",
+          "line": 28,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "changedetectionio/api/SystemInfo.py",
+          "line": 37,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "changedetectionio/blueprint/backups/__init__.py",
+          "line": 22,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "datetime.datetime.now"
+        },
+        {
+          "file": "changedetectionio/blueprint/browser_steps/__init__.py",
+          "line": 86,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "changedetectionio/blueprint/browser_steps/__init__.py",
+          "line": 208,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "changedetectionio/blueprint/browser_steps/__init__.py",
+          "line": 88,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "changedetectionio/blueprint/check_proxies/__init__.py",
+          "line": 41,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "changedetectionio/blueprint/check_proxies/__init__.py",
+          "line": 78,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "changedetectionio/blueprint/imports/importer.py",
+          "line": 42,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "changedetectionio/blueprint/imports/importer.py",
+          "line": 90,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "changedetectionio/blueprint/imports/importer.py",
+          "line": 151,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "changedetectionio/blueprint/imports/importer.py",
+          "line": 227,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "changedetectionio/blueprint/imports/importer.py",
+          "line": 78,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "changedetectionio/blueprint/imports/importer.py",
+          "line": 139,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "changedetectionio/blueprint/imports/importer.py",
+          "line": 215,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "changedetectionio/blueprint/imports/importer.py",
+          "line": 296,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "changedetectionio/blueprint/rss/main_feed.py",
+          "line": 34,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "changedetectionio/blueprint/rss/main_feed.py",
+          "line": 104,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "changedetectionio/blueprint/rss/single_watch.py",
+          "line": 32,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "changedetectionio/blueprint/rss/single_watch.py",
+          "line": 113,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "changedetectionio/blueprint/settings/__init__.py",
+          "line": 202,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "changedetectionio/blueprint/settings/__init__.py",
+          "line": 193,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "datetime.now"
+        },
+        {
+          "file": "changedetectionio/blueprint/ui/__init__.py",
+          "line": 195,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "changedetectionio/blueprint/ui/__init__.py",
+          "line": 401,
+          "kind": "network",
+          "class": "welded",
+          "expr": "requests.request"
+        },
+        {
+          "file": "changedetectionio/blueprint/ui/__init__.py",
+          "line": 42,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "changedetectionio/blueprint/ui/diff.py",
+          "line": 325,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "changedetectionio/blueprint/ui/diff.py",
+          "line": 290,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "changedetectionio/blueprint/ui/edit.py",
+          "line": 442,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "datetime.datetime.now"
+        },
+        {
+          "file": "changedetectionio/blueprint/watchlist/__init__.py",
+          "line": 104,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "changedetectionio/browser_steps/browser_steps.py",
+          "line": 80,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "changedetectionio/browser_steps/browser_steps.py",
+          "line": 139,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "changedetectionio/browser_steps/browser_steps.py",
+          "line": 340,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "changedetectionio/browser_steps/browser_steps.py",
+          "line": 356,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "changedetectionio/browser_steps/browser_steps.py",
+          "line": 455,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "changedetectionio/browser_steps/browser_steps.py",
+          "line": 470,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "changedetectionio/browser_steps/browser_steps.py",
+          "line": 435,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "changedetectionio/browser_steps/browser_steps.py",
+          "line": 132,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "changedetectionio/browser_steps/browser_steps.py",
+          "line": 141,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "changedetectionio/browser_steps/browser_steps.py",
+          "line": 379,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        }
+      ],
+      "id": "changedetection",
+      "split": "heldout"
+    },
+    {
+      "corpus": "healthchecks/healthchecks",
+      "welded": 19,
+      "seamed": 2,
+      "undecided": 13,
+      "decided": 21,
+      "total": 34,
+      "welded_fraction": 0.9047619047619048,
+      "decided_fraction": 0.6176470588235294,
+      "band": [
+        0.15,
+        0.85
+      ],
+      "min_decided": 0.4,
+      "by_kind": {
+        "clock": {
+          "welded": 12,
+          "seamed": 0,
+          "undecided": 0
+        },
+        "network": {
+          "welded": 6,
+          "seamed": 2,
+          "undecided": 8
+        },
+        "subprocess": {
+          "welded": 1,
+          "seamed": 0,
+          "undecided": 5
+        }
+      },
+      "verdict": "KILL (out of band high)",
+      "sample": [
+        {
+          "file": "hc/accounts/views.py",
+          "line": 841,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "hc/accounts/views.py",
+          "line": 892,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "hc/accounts/views.py",
+          "line": 134,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "hc/api/apps.py",
+          "line": 96,
+          "kind": "network",
+          "class": "welded",
+          "expr": "connection.cursor"
+        },
+        {
+          "file": "hc/api/apps.py",
+          "line": 97,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "cursor.execute"
+        },
+        {
+          "file": "hc/api/apps.py",
+          "line": 109,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "cursor.fetchone"
+        },
+        {
+          "file": "hc/api/management/commands/sendalerts.py",
+          "line": 42,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "hc/api/management/commands/sendalerts.py",
+          "line": 44,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "hc/api/models.py",
+          "line": 1085,
+          "kind": "network",
+          "class": "welded",
+          "expr": "socket.gethostname"
+        },
+        {
+          "file": "hc/api/transports.py",
+          "line": 196,
+          "kind": "network",
+          "class": "seamed",
+          "expr": "cls.request"
+        },
+        {
+          "file": "hc/api/transports.py",
+          "line": 220,
+          "kind": "network",
+          "class": "seamed",
+          "expr": "cls.request"
+        },
+        {
+          "file": "hc/api/transports.py",
+          "line": 136,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "curl.request"
+        },
+        {
+          "file": "hc/api/views.py",
+          "line": 873,
+          "kind": "network",
+          "class": "welded",
+          "expr": "connection.cursor"
+        },
+        {
+          "file": "hc/api/views.py",
+          "line": 874,
+          "kind": "subprocess",
+          "class": "undecided",
+          "expr": "c.execute"
+        },
+        {
+          "file": "hc/api/views.py",
+          "line": 875,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "c.fetchone"
+        },
+        {
+          "file": "hc/api/views.py",
+          "line": 863,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "hc/front/management/commands/populate_searchdb.py",
+          "line": 17,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "con.cursor"
+        },
+        {
+          "file": "hc/front/management/commands/populate_searchdb.py",
+          "line": 18,
+          "kind": "subprocess",
+          "class": "undecided",
+          "expr": "cur.execute"
+        },
+        {
+          "file": "hc/front/management/commands/populate_searchdb.py",
+          "line": 19,
+          "kind": "subprocess",
+          "class": "undecided",
+          "expr": "cur.execute"
+        },
+        {
+          "file": "hc/front/management/commands/populate_searchdb.py",
+          "line": 39,
+          "kind": "subprocess",
+          "class": "undecided",
+          "expr": "cur.execute"
+        },
+        {
+          "file": "hc/front/views.py",
+          "line": 518,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "con.cursor"
+        },
+        {
+          "file": "hc/front/views.py",
+          "line": 519,
+          "kind": "subprocess",
+          "class": "undecided",
+          "expr": "cur.execute"
+        },
+        {
+          "file": "hc/front/views.py",
+          "line": 521,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "res.fetchall"
+        },
+        {
+          "file": "hc/integrations/github/client.py",
+          "line": 118,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "hc/integrations/github/client.py",
+          "line": 120,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "hc/integrations/shell/transport.py",
+          "line": 50,
+          "kind": "subprocess",
+          "class": "welded",
+          "expr": "os.system"
+        },
+        {
+          "file": "hc/integrations/signal/transport.py",
+          "line": 122,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "hc/integrations/signal/transport.py",
+          "line": 132,
+          "kind": "network",
+          "class": "welded",
+          "expr": "socket.socket"
+        },
+        {
+          "file": "hc/integrations/signal/transport.py",
+          "line": 147,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "hc/integrations/webhook/transport.py",
+          "line": 93,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "self.request"
+        },
+        {
+          "file": "hc/lib/curl.py",
+          "line": 133,
+          "kind": "network",
+          "class": "welded",
+          "expr": "socket.socket"
+        },
+        {
+          "file": "hc/lib/signing.py",
+          "line": 31,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "hc/lib/signing.py",
+          "line": 22,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "hc/logs/__init__.py",
+          "line": 22,
+          "kind": "network",
+          "class": "welded",
+          "expr": "socket.gethostname"
+        }
+      ],
+      "id": "healthchecks",
+      "split": "heldout"
+    },
+    {
+      "corpus": "mealie-recipes/mealie",
+      "welded": 84,
+      "seamed": 65,
+      "undecided": 81,
+      "decided": 149,
+      "total": 230,
+      "welded_fraction": 0.5637583892617449,
+      "decided_fraction": 0.6478260869565218,
+      "band": [
+        0.15,
+        0.85
+      ],
+      "min_decided": 0.4,
+      "by_kind": {
+        "subprocess": {
+          "welded": 19,
+          "seamed": 0,
+          "undecided": 0
+        },
+        "network": {
+          "welded": 19,
+          "seamed": 65,
+          "undecided": 81
+        },
+        "clock": {
+          "welded": 46,
+          "seamed": 0,
+          "undecided": 0
+        }
+      },
+      "verdict": "GO (in band)",
+      "sample": [
+        {
+          "file": "dev/code-generation/gen_py_pytest_data_paths.py",
+          "line": 116,
+          "kind": "subprocess",
+          "class": "welded",
+          "expr": "subprocess.run"
+        },
+        {
+          "file": "dev/code-generation/gen_py_pytest_data_paths.py",
+          "line": 117,
+          "kind": "subprocess",
+          "class": "welded",
+          "expr": "subprocess.run"
+        },
+        {
+          "file": "dev/code-generation/gen_py_schema_exports.py",
+          "line": 103,
+          "kind": "subprocess",
+          "class": "welded",
+          "expr": "subprocess.run"
+        },
+        {
+          "file": "dev/code-generation/gen_py_schema_exports.py",
+          "line": 104,
+          "kind": "subprocess",
+          "class": "welded",
+          "expr": "subprocess.run"
+        },
+        {
+          "file": "dev/code-generation/gen_ts_locales.py",
+          "line": 65,
+          "kind": "network",
+          "class": "welded",
+          "expr": "requests.get"
+        },
+        {
+          "file": "dev/code-generation/gen_ts_locales.py",
+          "line": 68,
+          "kind": "network",
+          "class": "welded",
+          "expr": "requests.get"
+        },
+        {
+          "file": "dev/code-generation/gen_ts_locales.py",
+          "line": 76,
+          "kind": "network",
+          "class": "welded",
+          "expr": "requests.get"
+        },
+        {
+          "file": "dev/code-generation/gen_ts_types.py",
+          "line": 216,
+          "kind": "subprocess",
+          "class": "welded",
+          "expr": "subprocess.run"
+        },
+        {
+          "file": "mealie/alembic/versions/2022-04-03-10.48.51_09dfc897ad62_add_require_all_for_cookbook_filters.py",
+          "line": 28,
+          "kind": "subprocess",
+          "class": "welded",
+          "expr": "op.execute"
+        },
+        {
+          "file": "mealie/alembic/versions/2022-06-01-11.12.06_ab0bae02578f_add_use_abbreviation_column_to_.py",
+          "line": 24,
+          "kind": "subprocess",
+          "class": "welded",
+          "expr": "op.execute"
+        },
+        {
+          "file": "mealie/alembic/versions/2022-08-13-17.07.07_089bfa50d0ed_add_is_ocr_recipe_column_to_recipes.py",
+          "line": 22,
+          "kind": "subprocess",
+          "class": "welded",
+          "expr": "op.execute"
+        },
+        {
+          "file": "mealie/alembic/versions/2022-11-22-03.42.45_167eb69066ad_add_recipe_scale_to_shopping_list_item_.py",
+          "line": 23,
+          "kind": "subprocess",
+          "class": "welded",
+          "expr": "op.execute"
+        },
+        {
+          "file": "mealie/alembic/versions/2023-02-14-20.45.41_5ab195a474eb_add_normalized_search_properties.py",
+          "line": 56,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "session.execute"
+        },
+        {
+          "file": "mealie/alembic/versions/2023-02-14-20.45.41_5ab195a474eb_add_normalized_search_properties.py",
+          "line": 63,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "session.execute"
+        },
+        {
+          "file": "mealie/alembic/versions/2023-02-14-20.45.41_5ab195a474eb_add_normalized_search_properties.py",
+          "line": 72,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "session.execute"
+        },
+        {
+          "file": "mealie/alembic/versions/2023-02-14-20.45.41_5ab195a474eb_add_normalized_search_properties.py",
+          "line": 79,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "session.execute"
+        },
+        {
+          "file": "mealie/alembic/versions/2023-02-14-20.45.41_5ab195a474eb_add_normalized_search_properties.py",
+          "line": 53,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "session.execute"
+        },
+        {
+          "file": "mealie/alembic/versions/2023-02-14-20.45.41_5ab195a474eb_add_normalized_search_properties.py",
+          "line": 69,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "session.execute"
+        },
+        {
+          "file": "mealie/alembic/versions/2023-02-21-22.03.19_b04a08da2108_added_shopping_list_label_settings.py",
+          "line": 47,
+          "kind": "network",
+          "class": "seamed",
+          "expr": "session.query"
+        },
+        {
+          "file": "mealie/alembic/versions/2023-02-21-22.03.19_b04a08da2108_added_shopping_list_label_settings.py",
+          "line": 51,
+          "kind": "network",
+          "class": "seamed",
+          "expr": "session.query"
+        },
+        {
+          "file": "mealie/alembic/versions/2023-02-22-21.45.52_38514b39a824_add_auth_method_to_user_table.py",
+          "line": 35,
+          "kind": "subprocess",
+          "class": "welded",
+          "expr": "op.execute"
+        },
+        {
+          "file": "mealie/alembic/versions/2023-04-13-06.47.04_b3dbb554ba53_postgres_fuzzy_search.py",
+          "line": 23,
+          "kind": "subprocess",
+          "class": "welded",
+          "expr": "op.execute"
+        },
+        {
+          "file": "mealie/alembic/versions/2023-04-13-06.47.04_b3dbb554ba53_postgres_fuzzy_search.py",
+          "line": 67,
+          "kind": "subprocess",
+          "class": "welded",
+          "expr": "op.execute"
+        },
+        {
+          "file": "mealie/alembic/versions/2023-08-06-21.00.34_04ac51cbe9a4_added_group_slug.py",
+          "line": 39,
+          "kind": "network",
+          "class": "seamed",
+          "expr": "session.execute"
+        },
+        {
+          "file": "mealie/alembic/versions/2023-08-06-21.00.34_04ac51cbe9a4_added_group_slug.py",
+          "line": 24,
+          "kind": "network",
+          "class": "seamed",
+          "expr": "session.query"
+        },
+        {
+          "file": "mealie/alembic/versions/2023-09-01-14.55.42_0341b154f79a_added_normalized_unit_and_food_names.py",
+          "line": 37,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "session.execute"
+        },
+        {
+          "file": "mealie/alembic/versions/2023-09-01-14.55.42_0341b154f79a_added_normalized_unit_and_food_names.py",
+          "line": 44,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "session.execute"
+        },
+        {
+          "file": "mealie/alembic/versions/2023-09-01-14.55.42_0341b154f79a_added_normalized_unit_and_food_names.py",
+          "line": 55,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "session.execute"
+        },
+        {
+          "file": "mealie/alembic/versions/2023-09-01-14.55.42_0341b154f79a_added_normalized_unit_and_food_names.py",
+          "line": 27,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "session.execute"
+        },
+        {
+          "file": "mealie/alembic/versions/2023-09-01-14.55.42_0341b154f79a_added_normalized_unit_and_food_names.py",
+          "line": 51,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "session.execute"
+        },
+        {
+          "file": "mealie/alembic/versions/2023-10-04-14.29.26_dded3119c1fe_added_unique_constraints.py",
+          "line": 69,
+          "kind": "network",
+          "class": "seamed",
+          "expr": "session.execute"
+        },
+        {
+          "file": "mealie/alembic/versions/2023-10-04-14.29.26_dded3119c1fe_added_unique_constraints.py",
+          "line": 100,
+          "kind": "network",
+          "class": "seamed",
+          "expr": "session.execute"
+        },
+        {
+          "file": "mealie/alembic/versions/2023-10-04-14.29.26_dded3119c1fe_added_unique_constraints.py",
+          "line": 128,
+          "kind": "network",
+          "class": "seamed",
+          "expr": "session.execute"
+        },
+        {
+          "file": "mealie/alembic/versions/2023-10-04-14.29.26_dded3119c1fe_added_unique_constraints.py",
+          "line": 156,
+          "kind": "network",
+          "class": "seamed",
+          "expr": "session.execute"
+        },
+        {
+          "file": "mealie/alembic/versions/2023-10-04-14.29.26_dded3119c1fe_added_unique_constraints.py",
+          "line": 195,
+          "kind": "network",
+          "class": "seamed",
+          "expr": "session.execute"
+        },
+        {
+          "file": "mealie/alembic/versions/2023-10-04-14.29.26_dded3119c1fe_added_unique_constraints.py",
+          "line": 84,
+          "kind": "network",
+          "class": "seamed",
+          "expr": "session.query"
+        },
+        {
+          "file": "mealie/alembic/versions/2023-10-04-14.29.26_dded3119c1fe_added_unique_constraints.py",
+          "line": 92,
+          "kind": "network",
+          "class": "seamed",
+          "expr": "session.query"
+        },
+        {
+          "file": "mealie/alembic/versions/2023-10-04-14.29.26_dded3119c1fe_added_unique_constraints.py",
+          "line": 112,
+          "kind": "network",
+          "class": "seamed",
+          "expr": "session.query"
+        },
+        {
+          "file": "mealie/alembic/versions/2023-10-04-14.29.26_dded3119c1fe_added_unique_constraints.py",
+          "line": 120,
+          "kind": "network",
+          "class": "seamed",
+          "expr": "session.query"
+        },
+        {
+          "file": "mealie/alembic/versions/2023-10-04-14.29.26_dded3119c1fe_added_unique_constraints.py",
+          "line": 140,
+          "kind": "network",
+          "class": "seamed",
+          "expr": "session.query"
+        }
+      ],
+      "id": "mealie",
+      "split": "heldout"
+    },
+    {
+      "corpus": "netbox-community/netbox",
+      "welded": 17,
+      "seamed": 1,
+      "undecided": 32,
+      "decided": 18,
+      "total": 50,
+      "welded_fraction": 0.9444444444444444,
+      "decided_fraction": 0.36,
+      "band": [
+        0.15,
+        0.85
+      ],
+      "min_decided": 0.4,
+      "by_kind": {
+        "network": {
+          "welded": 16,
+          "seamed": 1,
+          "undecided": 32
+        },
+        "clock": {
+          "welded": 1,
+          "seamed": 0,
+          "undecided": 0
+        }
+      },
+      "verdict": "KILL (mute)",
+      "sample": [
+        {
+          "file": "netbox/core/checks.py",
+          "line": 56,
+          "kind": "network",
+          "class": "welded",
+          "expr": "connection.cursor"
+        },
+        {
+          "file": "netbox/core/checks.py",
+          "line": 57,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "cursor.execute"
+        },
+        {
+          "file": "netbox/core/checks.py",
+          "line": 58,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "cursor.fetchone"
+        },
+        {
+          "file": "netbox/core/data_backends.py",
+          "line": 178,
+          "kind": "network",
+          "class": "welded",
+          "expr": "boto3.resource"
+        },
+        {
+          "file": "netbox/core/data_backends.py",
+          "line": 194,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "bucket.download_file"
+        },
+        {
+          "file": "netbox/core/jobs.py",
+          "line": 102,
+          "kind": "network",
+          "class": "welded",
+          "expr": "requests.get"
+        },
+        {
+          "file": "netbox/core/jobs.py",
+          "line": 209,
+          "kind": "network",
+          "class": "welded",
+          "expr": "requests.get"
+        },
+        {
+          "file": "netbox/core/plugins.py",
+          "line": 133,
+          "kind": "network",
+          "class": "welded",
+          "expr": "requests.Session"
+        },
+        {
+          "file": "netbox/core/utils.py",
+          "line": 168,
+          "kind": "network",
+          "class": "welded",
+          "expr": "connection.cursor"
+        },
+        {
+          "file": "netbox/core/utils.py",
+          "line": 169,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "cursor.execute"
+        },
+        {
+          "file": "netbox/core/utils.py",
+          "line": 176,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "cursor.fetchall"
+        },
+        {
+          "file": "netbox/core/utils.py",
+          "line": 184,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "cursor.execute"
+        },
+        {
+          "file": "netbox/core/utils.py",
+          "line": 191,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "cursor.fetchall"
+        },
+        {
+          "file": "netbox/core/views.py",
+          "line": 296,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "self.get_object"
+        },
+        {
+          "file": "netbox/core/views.py",
+          "line": 707,
+          "kind": "network",
+          "class": "welded",
+          "expr": "connection.cursor"
+        },
+        {
+          "file": "netbox/core/views.py",
+          "line": 708,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "cursor.execute"
+        },
+        {
+          "file": "netbox/core/views.py",
+          "line": 711,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "cursor.execute"
+        },
+        {
+          "file": "netbox/core/views.py",
+          "line": 713,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "cursor.execute"
+        },
+        {
+          "file": "netbox/core/views.py",
+          "line": 709,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "cursor.fetchone"
+        },
+        {
+          "file": "netbox/core/views.py",
+          "line": 712,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "cursor.fetchone"
+        },
+        {
+          "file": "netbox/core/views.py",
+          "line": 714,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "cursor.fetchone"
+        },
+        {
+          "file": "netbox/dcim/management/commands/trace_paths.py",
+          "line": 65,
+          "kind": "network",
+          "class": "welded",
+          "expr": "connection.cursor"
+        },
+        {
+          "file": "netbox/dcim/management/commands/trace_paths.py",
+          "line": 67,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "cursor.execute"
+        },
+        {
+          "file": "netbox/extras/api/mixins.py",
+          "line": 107,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "self.get_object"
+        },
+        {
+          "file": "netbox/extras/api/views.py",
+          "line": 274,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "self.get_object"
+        },
+        {
+          "file": "netbox/extras/dashboard/widgets.py",
+          "line": 375,
+          "kind": "network",
+          "class": "welded",
+          "expr": "requests.get"
+        },
+        {
+          "file": "netbox/extras/management/commands/housekeeping.py",
+          "line": 152,
+          "kind": "network",
+          "class": "welded",
+          "expr": "requests.get"
+        },
+        {
+          "file": "netbox/extras/models/models.py",
+          "line": 396,
+          "kind": "network",
+          "class": "welded",
+          "expr": "urllib.parse.quote"
+        },
+        {
+          "file": "netbox/extras/models/models.py",
+          "line": 399,
+          "kind": "network",
+          "class": "welded",
+          "expr": "urllib.parse.urlparse"
+        },
+        {
+          "file": "netbox/extras/views.py",
+          "line": 1267,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "self.get_object"
+        },
+        {
+          "file": "netbox/extras/views.py",
+          "line": 1700,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "self.get_object"
+        },
+        {
+          "file": "netbox/extras/views.py",
+          "line": 1719,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "self.get_object"
+        },
+        {
+          "file": "netbox/extras/views.py",
+          "line": 1780,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "self.get_object"
+        },
+        {
+          "file": "netbox/extras/views.py",
+          "line": 1795,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "self.get_object"
+        },
+        {
+          "file": "netbox/extras/webhooks.py",
+          "line": 135,
+          "kind": "network",
+          "class": "welded",
+          "expr": "requests.exceptions.RequestException"
+        },
+        {
+          "file": "netbox/extras/webhooks.py",
+          "line": 124,
+          "kind": "network",
+          "class": "welded",
+          "expr": "requests.Session"
+        },
+        {
+          "file": "netbox/extras/webhooks.py",
+          "line": 114,
+          "kind": "network",
+          "class": "welded",
+          "expr": "requests.Request"
+        },
+        {
+          "file": "netbox/netbox/api/metadata.py",
+          "line": 28,
+          "kind": "network",
+          "class": "seamed",
+          "expr": "view.get_object"
+        },
+        {
+          "file": "netbox/netbox/api/serializers/generic.py",
+          "line": 37,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "self.get_object"
+        },
+        {
+          "file": "netbox/netbox/api/viewsets/__init__.py",
+          "line": 73,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "self.get_object"
+        }
+      ],
+      "id": "netbox",
+      "split": "heldout"
+    },
+    {
+      "corpus": "getredash/redash",
+      "welded": 140,
+      "seamed": 5,
+      "undecided": 69,
+      "decided": 145,
+      "total": 214,
+      "welded_fraction": 0.9655172413793104,
+      "decided_fraction": 0.677570093457944,
+      "band": [
+        0.15,
+        0.85
+      ],
+      "min_decided": 0.4,
+      "by_kind": {
+        "subprocess": {
+          "welded": 5,
+          "seamed": 0,
+          "undecided": 1
+        },
+        "network": {
+          "welded": 105,
+          "seamed": 5,
+          "undecided": 68
+        },
+        "clock": {
+          "welded": 30,
+          "seamed": 0,
+          "undecided": 0
+        }
+      },
+      "verdict": "KILL (out of band high)",
+      "sample": [
+        {
+          "file": "bin/get_changes.py",
+          "line": 19,
+          "kind": "subprocess",
+          "class": "welded",
+          "expr": "subprocess.check_output"
+        },
+        {
+          "file": "bin/get_changes.py",
+          "line": 34,
+          "kind": "subprocess",
+          "class": "welded",
+          "expr": "subprocess.check_output"
+        },
+        {
+          "file": "bin/release_manager.py",
+          "line": 25,
+          "kind": "network",
+          "class": "welded",
+          "expr": "requests.request"
+        },
+        {
+          "file": "bin/release_manager.py",
+          "line": 108,
+          "kind": "subprocess",
+          "class": "welded",
+          "expr": "subprocess.check_output"
+        },
+        {
+          "file": "bin/release_manager.py",
+          "line": 73,
+          "kind": "network",
+          "class": "welded",
+          "expr": "requests.post"
+        },
+        {
+          "file": "bin/release_manager.py",
+          "line": 123,
+          "kind": "subprocess",
+          "class": "welded",
+          "expr": "subprocess.check_output"
+        },
+        {
+          "file": "redash/__init__.py",
+          "line": 47,
+          "kind": "network",
+          "class": "welded",
+          "expr": "redis.from_url"
+        },
+        {
+          "file": "redash/__init__.py",
+          "line": 48,
+          "kind": "network",
+          "class": "welded",
+          "expr": "redis.from_url"
+        },
+        {
+          "file": "redash/authentication/__init__.py",
+          "line": 85,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "redash/authentication/__init__.py",
+          "line": 208,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "redash/authentication/__init__.py",
+          "line": 85,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "redash/authentication/google_oauth.py",
+          "line": 34,
+          "kind": "network",
+          "class": "welded",
+          "expr": "requests.get"
+        },
+        {
+          "file": "redash/authentication/jwt_auth.py",
+          "line": 22,
+          "kind": "network",
+          "class": "welded",
+          "expr": "requests.get"
+        },
+        {
+          "file": "redash/cli/database.py",
+          "line": 110,
+          "kind": "network",
+          "class": "welded",
+          "expr": "db.session.execute"
+        },
+        {
+          "file": "redash/cli/database.py",
+          "line": 25,
+          "kind": "network",
+          "class": "seamed",
+          "expr": "db.engine.execute"
+        },
+        {
+          "file": "redash/cli/database.py",
+          "line": 43,
+          "kind": "network",
+          "class": "welded",
+          "expr": "connection.execute"
+        },
+        {
+          "file": "redash/cli/database.py",
+          "line": 119,
+          "kind": "network",
+          "class": "welded",
+          "expr": "db.session.execute"
+        },
+        {
+          "file": "redash/cli/rq.py",
+          "line": 66,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "datetime.datetime.utcnow"
+        },
+        {
+          "file": "redash/cli/rq.py",
+          "line": 56,
+          "kind": "network",
+          "class": "welded",
+          "expr": "socket.gethostname"
+        },
+        {
+          "file": "redash/cli/rq.py",
+          "line": 59,
+          "kind": "network",
+          "class": "welded",
+          "expr": "socket.gethostname"
+        },
+        {
+          "file": "redash/destinations/asana.py",
+          "line": 51,
+          "kind": "network",
+          "class": "welded",
+          "expr": "requests.post"
+        },
+        {
+          "file": "redash/destinations/chatwork.py",
+          "line": 56,
+          "kind": "network",
+          "class": "welded",
+          "expr": "requests.post"
+        },
+        {
+          "file": "redash/destinations/datadog.py",
+          "line": 85,
+          "kind": "network",
+          "class": "welded",
+          "expr": "requests.post"
+        },
+        {
+          "file": "redash/destinations/discord.py",
+          "line": 58,
+          "kind": "network",
+          "class": "welded",
+          "expr": "requests.post"
+        },
+        {
+          "file": "redash/destinations/hangoutschat.py",
+          "line": 89,
+          "kind": "network",
+          "class": "welded",
+          "expr": "requests.post"
+        },
+        {
+          "file": "redash/destinations/mattermost.py",
+          "line": 47,
+          "kind": "network",
+          "class": "welded",
+          "expr": "requests.post"
+        },
+        {
+          "file": "redash/destinations/microsoft_teams_webhook.py",
+          "line": 102,
+          "kind": "network",
+          "class": "welded",
+          "expr": "requests.post"
+        },
+        {
+          "file": "redash/destinations/slack.py",
+          "line": 53,
+          "kind": "network",
+          "class": "welded",
+          "expr": "requests.post"
+        },
+        {
+          "file": "redash/destinations/webex.py",
+          "line": 217,
+          "kind": "network",
+          "class": "welded",
+          "expr": "requests.post"
+        },
+        {
+          "file": "redash/destinations/webhook.py",
+          "line": 43,
+          "kind": "network",
+          "class": "welded",
+          "expr": "requests.post"
+        },
+        {
+          "file": "redash/handlers/admin.py",
+          "line": 17,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "redis_connection.hgetall"
+        },
+        {
+          "file": "redash/handlers/base.py",
+          "line": 59,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "redash/metrics/database.py",
+          "line": 29,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "redash/metrics/database.py",
+          "line": 34,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "redash/metrics/request.py",
+          "line": 13,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "redash/metrics/request.py",
+          "line": 20,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "redash/models/__init__.py",
+          "line": 95,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "redis_connection.hgetall"
+        },
+        {
+          "file": "redash/models/__init__.py",
+          "line": 98,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "redis_connection.hset"
+        },
+        {
+          "file": "redash/models/__init__.py",
+          "line": 342,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "datetime.datetime.now"
+        },
+        {
+          "file": "redash/models/__init__.py",
+          "line": 754,
+          "kind": "network",
+          "class": "welded",
+          "expr": "db.session.execute"
+        }
+      ],
+      "id": "redash",
+      "split": "heldout"
+    },
+    {
+      "corpus": "searxng/searxng",
+      "welded": 76,
+      "seamed": 3,
+      "undecided": 49,
+      "decided": 79,
+      "total": 128,
+      "welded_fraction": 0.9620253164556962,
+      "decided_fraction": 0.6171875,
+      "band": [
+        0.15,
+        0.85
+      ],
+      "min_decided": 0.4,
+      "by_kind": {
+        "network": {
+          "welded": 40,
+          "seamed": 3,
+          "undecided": 45
+        },
+        "clock": {
+          "welded": 35,
+          "seamed": 0,
+          "undecided": 0
+        },
+        "subprocess": {
+          "welded": 1,
+          "seamed": 0,
+          "undecided": 4
+        }
+      },
+      "verdict": "KILL (out of band high)",
+      "sample": [
+        {
+          "file": "searx/cache.py",
+          "line": 289,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "conn.execute"
+        },
+        {
+          "file": "searx/cache.py",
+          "line": 368,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "searx/cache.py",
+          "line": 370,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "searx/cache.py",
+          "line": 279,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "searx/cache.py",
+          "line": 314,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "conn.execute"
+        },
+        {
+          "file": "searx/cache.py",
+          "line": 315,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "conn.execute"
+        },
+        {
+          "file": "searx/cache.py",
+          "line": 481,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "self.DB.execute"
+        },
+        {
+          "file": "searx/cache.py",
+          "line": 488,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "self.DB.execute"
+        },
+        {
+          "file": "searx/cache.py",
+          "line": 283,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "conn.execute"
+        },
+        {
+          "file": "searx/cache.py",
+          "line": 332,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "conn.execute"
+        },
+        {
+          "file": "searx/cache.py",
+          "line": 436,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "self.DB.executemany"
+        },
+        {
+          "file": "searx/cache.py",
+          "line": 439,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "conn.executemany"
+        },
+        {
+          "file": "searx/cache.py",
+          "line": 462,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "self.DB.execute"
+        },
+        {
+          "file": "searx/cache.py",
+          "line": 266,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "searx/cache.py",
+          "line": 325,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "self.DB.execute"
+        },
+        {
+          "file": "searx/cache.py",
+          "line": 340,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "searx/cache.py",
+          "line": 425,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "searx/data/__main__.py",
+          "line": 16,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "cache.DB.execute"
+        },
+        {
+          "file": "searx/engines/apple_maps.py",
+          "line": 29,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time"
+        },
+        {
+          "file": "searx/engines/apple_maps.py",
+          "line": 29,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time"
+        },
+        {
+          "file": "searx/engines/apple_maps.py",
+          "line": 47,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time"
+        },
+        {
+          "file": "searx/engines/baidu.py",
+          "line": 82,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "searx/engines/base.py",
+          "line": 83,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "datetime.now"
+        },
+        {
+          "file": "searx/engines/dailymotion.py",
+          "line": 135,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "datetime.now"
+        },
+        {
+          "file": "searx/engines/deviantart.py",
+          "line": 63,
+          "kind": "network",
+          "class": "welded",
+          "expr": "urllib.parse.urlparse"
+        },
+        {
+          "file": "searx/engines/deviantart.py",
+          "line": 45,
+          "kind": "network",
+          "class": "welded",
+          "expr": "urllib.parse.urlencode"
+        },
+        {
+          "file": "searx/engines/dictzone.py",
+          "line": 35,
+          "kind": "network",
+          "class": "welded",
+          "expr": "urllib.parse.quote_plus"
+        },
+        {
+          "file": "searx/engines/discourse.py",
+          "line": 109,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "datetime.now"
+        },
+        {
+          "file": "searx/engines/flickr_noapi.py",
+          "line": 46,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time"
+        },
+        {
+          "file": "searx/engines/flickr_noapi.py",
+          "line": 46,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time"
+        },
+        {
+          "file": "searx/engines/gmx.py",
+          "line": 68,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "searx/engines/google.py",
+          "line": 96,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "searx/engines/google.py",
+          "line": 95,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "searx/engines/google_scholar.py",
+          "line": 107,
+          "kind": "network",
+          "class": "welded",
+          "expr": "httpx.TooManyRedirects"
+        },
+        {
+          "file": "searx/engines/google_scholar.py",
+          "line": 195,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "datetime.now"
+        },
+        {
+          "file": "searx/engines/hackernews.py",
+          "line": 62,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "datetime.now"
+        },
+        {
+          "file": "searx/engines/kagi.py",
+          "line": 107,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "datetime.now"
+        },
+        {
+          "file": "searx/engines/mariadb_server.py",
+          "line": 81,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "_connection.cursor"
+        },
+        {
+          "file": "searx/engines/mariadb_server.py",
+          "line": 82,
+          "kind": "subprocess",
+          "class": "undecided",
+          "expr": "cur.execute"
+        },
+        {
+          "file": "searx/engines/mojeek.py",
+          "line": 74,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "datetime.now"
+        }
+      ],
+      "id": "searxng",
+      "split": "heldout"
+    }
+  ],
+  "pooled": {
+    "welded": 731,
+    "seamed": 76,
+    "undecided": 281,
+    "welded_fraction": 0.9058240396530359,
+    "decided_fraction": 0.7417279411764706,
+    "band": [
+      0.15,
+      0.85
+    ],
+    "verdict": "KILL (out of band)"
+  }
+}

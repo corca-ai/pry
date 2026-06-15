@@ -38,7 +38,11 @@ PY_IMPORT_DENY = ("openai", "anthropic", "httpx", "requests", "urllib3", "aiohtt
                   # stdlib network clients also count (critique #9): a harness
                   # script must not open its own socket/HTTP/mail/ftp connection.
                   "socket", "http.client", "ftplib", "smtplib")
-PY_SUBPROC_HTTP = ("curl", "wget", "urllib.request", "urlopen")
+# Actual subprocess/HTTP CALL syntax (regex), not bare tokens — so an analyzer
+# script (bgate_lens.py) that merely NAMES `urlopen`/`urllib` as a detection
+# pattern in a set literal is not a false positive. An actual call/usage is.
+PY_SUBPROC_HTTP = (r"\burlopen\s*\(", r"\burllib\.request\b",
+                   r"""[\[(]\s*['"](?:curl|wget)\b""")
 # The single operator-approved network CLI (GitHub corpus discovery).
 APPROVED_CLI = "gh"
 APPROVED_FILES = {"corpus_freeze.py"}
@@ -77,9 +81,9 @@ def check_harness() -> tuple[list[str], list[str]]:
         for dep in PY_IMPORT_DENY:
             if re.search(rf'(?m)^\s*(import|from)\s+{re.escape(dep)}\b', txt):
                 bad.append(f"harness/{rel}: imports denylisted '{dep}'")
-        for tok in PY_SUBPROC_HTTP:
-            if tok in txt:
-                bad.append(f"harness/{rel}: raw subprocess/HTTP token '{tok}'")
+        for pat in PY_SUBPROC_HTTP:
+            if re.search(pat, txt):
+                bad.append(f"harness/{rel}: raw subprocess/HTTP call /{pat}/")
         # subprocess shelling to the approved gh CLI: allowed only in approved files
         if re.search(r'["\[]\s*["\']?gh["\']', txt) or '"gh"' in txt:
             if rel in APPROVED_FILES:

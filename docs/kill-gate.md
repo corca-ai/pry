@@ -289,3 +289,52 @@ codebases: **ceal is the disciplined outlier; typical TS agent code is welded-at
 open decision (needs the author):** next slice = **stage-2 rung-3** / per-corpus client
 catalogs / packaging (`external_binary` + `pry` skill) / commit the backlog-finder
 product framing. Analyzer exists; further gating is now cheap.
+
+---
+
+## Run 7 — E9: independent non-glue Python apps, the (b)-gate reopen (2026-06-15)
+
+The recorded Python reopen (handoff): re-run the (b)-gate **LENS** on a fresh,
+independent set of **non-glue Python applications** (not the author's glue), to
+answer "does pry's welded/seamed lens discriminate in Python, or is it saturated
+like the earlier ceal-Python KILL?" Corpus = the 8 E9 Python apps (paperless-ngx,
+saleor, netbox, searxng, mealie, healthchecks, redash, changedetection), pinned in
+`harness/fixtures/eval/corpus.json`. Analyzer-free **script** lens
+(`harness/bgate_lens.py`, `ast`-based, zero-LLM), demand-subset
+(clock/clients-network/subprocess), classified module-direct→welded /
+param-or-self-injected→seamed / local-var→undecided.
+
+| metric | value | F27 bar | result |
+|--------|-------|---------|--------|
+| substitution-demand welded-fraction | **0.906** (731/807) | band `[0.15,0.85]` | **OUT (high)** — welded-saturated |
+| decided-fraction | **0.742** (807/1088) | mute `<0.40` | not mute (decisive) |
+| per-repo | 7/8 out-of-band-high (0.90–1.00); only mealie 0.564 in-band | — | discrimination absent in 7/8 |
+
+**Verdict: KILL (out of band high) — NO Python frontend built.** The demand-subset
+boundaries in these non-glue Python apps are **overwhelmingly welded** (called
+through directly-imported modules — `requests.*`, `datetime.now`, `time.time`,
+`subprocess.*` — with no injection seam; only ~9% param/ctor-injected). This is the
+same welded-saturated / "fs-swamped" pattern as the earlier ceal-Python KILL, now
+**confirmed on independent non-glue apps** — so it is not a glue artifact; idiomatic
+Python application code (Django/FastAPI/Flask) reaches boundaries module-directly,
+the *opposite* of the TS DI culture pry was built for. (Only `mealie`, a FastAPI
+app with explicit dependency-injection, shows a real seam population at 0.564.)
+
+**Honesty note (heuristic limitation found + fixed):** the FIRST run of the script
+lens reported an artifactual *mute* (decided 0.198) because an over-greedy
+receiver-name substring lexicon mis-counted `dict.get`/`list.append`/Django
+`signal.connect` as boundary candidates, inflating "undecided." Fixed by gating
+method-call candidates on an unambiguous boundary-VERB set; the cleaned lens is
+decisive (decided 0.742). A bounded **hand** spot-check of 28 genuine boundary
+sites agreed directionally (module-direct-biased welded ~0.83). A definitive 1-by-1
+hand-gate (kill-gate Runs 1–5 method, N≈59) would refine the exact fraction, but
+the verdict (welded-saturated, out of band) is robust across script + hand.
+
+**Two independent reasons no frontend is built (both honest):** (1) the (b)-gate is
+a KILL on its own terms (welded-saturated, the kill-gate discipline: build a
+frontend only on a per-corpus GO); (2) it is moot regardless — the E9 TS Tier-1
+enrichment is **FALSIFIED** (`docs/eval-gate.md`), so folding Python into the
+enrichment cannot resurrect the thesis, and the heavy frontend build has no payoff
+for this goal. A real Python frontend + a definitive hand-classified Python (b)-gate
+are a separate future goal. **Reproduce:** `python3 harness/bgate_lens.py --corpus`
+(deterministic; byte-identical re-run verified).
