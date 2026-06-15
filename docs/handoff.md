@@ -1,118 +1,119 @@
 # Handoff
 
-## Workflow Trigger
+## ▶ Resume protocol — if the operator just says "계속합시다" / "continue"
 
-**Active arc: the finding-eval harness (H3 broad-market gate).** Spec finalized +
-critique-clean; mechanical harness built; **the panel has now RUN on 4 third-party
-repos and the H3 gate is OPENED** ([`eval-gate.md`](eval-gate.md)). The next
-substantive build is **Slice 2 (filter-recall arm)**, which unblocks the named
-precision levers (cosmetic-random is the clear #1). Two operator-only items remain
-(human calibration; held-out/spectrum expansion) — see Next.
+Do **NEXT ACTION** below, autonomously, via the `impl` skill. The operator has
+**already approved** building the precision levers (#1) and the corpus expansion
+(#3); human calibration (#2) is **done**. No re-confirmation needed — just build,
+verify, critique, commit, push, then report and continue to the next queued item.
+Read `docs/spec-eval-harness.md` (contract) + `docs/eval-gate.md` (results +
+levers + the calibration ruleset) first. Default order is the queue below; if the
+operator names a different item, do that instead.
 
-Canonical contract: [`spec-eval-harness.md`](spec-eval-harness.md). Result doc:
-[`eval-gate.md`](eval-gate.md). Layer-0 map + packaging are engineering-COMPLETE
-(prior arc; below).
+## ▶ NEXT ACTION — build lever #1: cosmetic-random filter
 
-## Current State
+**Goal:** demote `random` from the substitution-demand subset by default — the
+single highest-lift, lowest-risk, EXACT win (random is **0/79 genuine** across all
+4 H3 repos; calibration agreed random = cosmetic-by-nature, no failure to inject).
+Lifts dev precision **56.7% → 66.0%, zero genuine welds lost.**
 
-### Finding-eval harness arc (this session)
-- **Spec finalized** — `docs/spec-eval-harness.md`, E1–E9 + PQ1–4 + SC1–5/AC1–5,
-  bounded critique folded (FIX-FIRST, 4 BLOCKERs resolved). Core shape: dev-time
-  LLM panel (3 same-model personas + human calibration) → **frozen labelset** →
-  deterministic regression forever (E8); shipped binary stays zero-LLM (E2/SC4);
-  corpus = third-party **app-shaped** OSS, not libraries, not own repos (E3/E6);
-  SZZ is an **active dev-time structural-improvement** input, never a product
-  prediction claim (E9).
-- **Scope-control slice SHIPPED** (commit `dd97cad`): `.pryignore` + `--exclude
-  <glob>` path-level exclusion (`src/main.rs discover`; `tests/exclude_smoke.rs`,
-  5 cases). pry never guesses wantedness — each repo declares its own out-of-scope
-  set (E7). Two silent footguns guarded (empty glob, leading `!`).
-- **Mechanical eval harness BUILT** (this slice): `harness/finding_io.py`
-  (`emit`/`reconcile`/`freeze`) + `harness/config.py` constants +
-  `harness/test_finding_io.py` (8 stdlib-unittest cases, green). Unit = a pry
-  *finding*; 3-persona panel → majority(≥2/3) → tie-break → arbiter; blinded
-  worklist (hides the verdict bit), provenance-stamped frozen labelset, votes
-  retained. **No LLM in scripts** (E2). Proven on the synthetic fixture (AC1
-  refuse paths + tie-break/arbiter loops + malformed-escalation refuse +
-  determinism) AND on a real `pry map` (ceal/packages: 68 demand-welded →
-  41-graded + 15 seamed-control worklist). Bounded fresh-eye critique done
-  (no BLOCKERs; 2 NOTEs fixed).
-- **H3 PANEL RAN — gate OPENED** (commit `0587e5c`): the 3-persona panel labeled
-  589 findings across 4 pinned third-party repos (outline/flowise/continue/
-  librechat); frozen to `harness/fixtures/eval/*-labels.json` (votes retained).
-  **Result** ([`eval-gate.md`](eval-gate.md)): network+subprocess **100%**
-  (261/261), ex-cosmetic-tail **89.3%** (≈ ceal 88%), raw pooled 56.7%; the
-  clock(3.8%)/random(0%) cosmetic tail is the entire drag. Levers named: (1)
-  cosmetic-random filter, (2) stronger clock filter, (3) `.vitest` test-file
-  heuristic, (4) **rung-3 stage-2 REOPEN** (continue surfaced the injected-
-  customFetch seam). Seamed-control recall flag 13/33 → Slice 2. *Panel-labeled,
-  human-calibration pending (E4); gate OPENED not CLOSED.* Corpus cloned at
-  `~/codes/_pry-corpus/` (default-HEADs matched PQ1 commits exactly).
-- **ceal#350 re-scoped → DONE** (the cut): whole-repo 248 → validated `packages/`
-  (70 on latest `c4297fc1`), re-scope explained in the issue body + comment.
-- **Testability-backlog issues filed** (dogfood, corca-owned only): ceal#350
-  (re-scoped above), cautilus#48, open-ax-day#5. parental skipped (Python).
+- **Where:** `src/classify.rs`. Today `cosmetic_value_context` is applied to
+  clock+random only in narrow record positions (`builtin_call` branch ~L856), and
+  the `global_call` `random-global` (~L826) gets **no** cosmetic check at all.
+  Make welded `random` `demand=false` by default. Simplest defensible version
+  (given 0/79): demote all welded random. Optional safer refinement (mirrors clock
+  R4): keep random used *directly in a branch condition* (`if (Math.random()<x)`)
+  — rare; ship the simple version first unless it's trivial.
+- **Fixture cascade (this is why it's operator-in-loop, now approved):** ceal
+  `packages/` has 1 random demand-weld → regenerate `fixtures/ceal-ts-map.summary.json`
+  (count drops by the random welds), update `classify_smoke.rs` if it asserts
+  counts, and the **`skills/pry/SKILL.md` self-test number (68 → 67)**. Check
+  `docs/precision-gate.md` / `README.md` citations for any count that shifts.
+- **Verify (dev-side E5):** `cargo test`; re-run `pry map` on `~/codes/_pry-corpus/*`
+  and confirm the `random` welds are now `demand=false` and nothing else moved;
+  re-derive precision from the frozen labelsets (drop random from the demand-weld
+  group → expect 315/477 = 66.0%, 0 genuine lost). The labelsets already label all
+  random COSMETIC, so recall cost = 0 by construction.
+- **Why this is allowed before Slice 2:** the spec gates levers behind the
+  filter-recall arm, **but** random + test-file are the documented EXCEPTION
+  (`eval-gate.md` "Projected lever impact"): they only demote findings *already in
+  the labeled demand set* (all COSMETIC), so their recall cost is read directly off
+  the frozen labels — no bare-pool labeling needed. Formal *ship*-close still wants
+  the held-out arm (#3); building + dev-validating now is approved.
+- **Close:** fresh-eye critique (required), commit, push, update this handoff
+  (tick NEXT ACTION → the next queue item).
 
-### Layer-0 + packaging arc (prior, COMPLETE)
-- **pry v0.1.0 released + wired.** TS/JS analyzer (demand-subset precision ~88%
-  ceal / ~97% cautilus). `corca-ai/pry` PUBLIC; `v0.1.0` GitHub Release via
-  cargo-dist; charness `external_binary` manifest (`validation` role for
-  `quality`); F15 skill `skills/pry/SKILL.md` + `rank_backlog.py`.
+## ▶ Queue (after lever #1; operator pre-approved #1 and #3)
 
-## Next — Slice 2, then the levers
-
-The H3 gate is open and the levers are named. Build order (the spec gates levers
-behind the recall arm):
-
-1. **Slice 2 — filter-recall arm** (E5/SC3/AC3): label a bare-pool sample, compute
-   baseline filter-recall, document the gate rule with a worked example. Its own
-   panel run (size the sample when it starts, PQ3). **Unblocks every lever.**
-2. **Cosmetic-random + test-file levers (the two EXACT, zero-cost wins):**
-   `random` is 0/79 genuine and the `.vitest`/`-sol`/`sandbox` test-file leak is
-   0-genuine too — demoting both lifts dev precision **56.7% → 70.3% losing zero
-   genuine welds** ([`eval-gate.md`](eval-gate.md) "Projected lever impact",
-   computed against the frozen labelset). They are *directly E5-gate-checkable on
-   dev today* (they only demote already-labeled COSMETIC/FALSE-WELD findings, so no
-   bare-pool labeling is needed for these two) — but still need the **held-out arm**
-   before shipping. Build cosmetic-random first (mirror the cosmetic-clock filter
-   in `src/classify.rs`); NB it changes validated fixtures (ceal 68→67) + the
-   skill's cited self-test number, so do it with the operator in the loop. Then the
-   harder stronger-clock + rung-3 levers (ceilings → ~95–99%) behind Slice 2.
-3. **Rung-3 stage-2 REOPEN** (eval-gate.md #4): continue's injected-`customFetch`
-   seam — scoped re-exam, cross-file, gate hard against the labelset + Slice 2.
-4. **E9 SZZ structural-improvement** pass on an EH-bugfix-rich OSS repo (reuse
+1. **Lever #2 — test-file heuristic.** Extend `is_source` (`src/main.rs`) to drop
+   `.vitest.` / `.e2e.` stems (conventional test files pry currently misses;
+   drove continue's llm crater). EXACT, 0 genuine lost → 66.0% → 70.3%. Repo-specific
+   dirs (`manual-testing-sandbox/`) stay the repo's `.pryignore` job (E7), not the
+   default heuristic.
+2. **Lever #3 — stronger clock + Lever #5 — construction dedup** (need a bit more
+   care; calibration-refined):
+   - clock: demote timers (`setTimeout`/`setInterval`) and record-`Date` **even on
+     retry/error paths** (fake timers are the time-seam, R3); keep only clock
+     *comparisons* (R4). Panel over-called timers GENUINE → true clock-genuine ≈3/130.
+   - construction dedup (R7): treat `new OpenAI()` as the welded-client origin and
+     dedup the downstream method finding; do **not** enumerate SDK methods.
+3. **Slice 2 — filter-recall arm** (E5/SC3/AC3): label a bare-pool sample, compute
+   baseline filter-recall, document the gate rule. Required before the *harder*
+   levers (clock/rung-3) and before formally shipping any lever.
+4. **Lever #4 — rung-3 stage-2 (two faces, calibration-confirmed):** (a) injected
+   transport (`customFetch`) precision gap; (b) interface-impl **over-seaming**
+   recall hole (`implements I` blanket-seams the impl's own error handling — 2/3
+   seamed-control false-seams). Cross-file, risky → gate hard against the labelset
+   + Slice-2 recall arm.
+5. **#3 Corpus expansion (operator-approved) — close the gate (SC2):** scout a
+   **DI-disciplined exemplar** (high clock-injection; `n8n`/`cal.com`) as dev #5,
+   assemble the **held-out arm** (target dev 5 / held-out 10), run the panel, tune
+   only on dev. This is what formally *closes* the gate + ships the levers.
+6. **E9 SZZ structural-improvement** on an EH-bugfix-rich OSS repo (reuse
    `harness/mine.py`+`szz.py`+commit labeler) — catalog-recall + calibration.
 
-**Operator-only (not autonomous):**
-- **Human calibration set (E4):** hand-label a small subset of the 4 frozen
-  labelsets to bound the panel's own error rate. Until then every eval number is
-  panel-only (high agreement, but same-model → can be confidently wrong).
-- **Close the gate (SC2):** add a **DI-disciplined exemplar** (high clock-injection
-  — the slate is all welded-end) as dev #5, and run the **held-out arm** (target
-  dev 5 / held-out 10). Scout `n8n`/`cal.com` for the disciplined end.
+## Current state (all pushed; HEAD `67ba37c`)
 
-*Corpus note:* the 4 dev repos are cloned at `~/codes/_pry-corpus/` (pinned commits
-in `eval-gate.md`); re-clone if cleaned. The shipped `pry` binary is unchanged
-(zero-LLM); all panel work is dev-time only.
+- **H3 gate OPENED + human-calibrated.** Panel ran on 4 pinned third-party repos
+  (outline `d85ead5` / flowise `f4e2794` / continue `eaa23c5` / librechat `8154a31`;
+  589 findings frozen to `harness/fixtures/eval/*-labels.json`). **network+subprocess
+  100% (261/261), ex-tail 89.3% (≈ ceal 88%), raw pooled 56.7%** — clock/random
+  cosmetic tail is the whole drag. **Calibration: 15/17 (88%)** human–panel
+  agreement; only disagreements = panel over-calling clock timers (one-directional);
+  headline human-validated. Recall hole named (rung-3 interface-impl over-seaming).
+  Full results + ruleset R1–R7: `docs/eval-gate.md`, `harness/fixtures/eval/calibration.json`,
+  `charness-artifacts/hitl/2026-06-15-h3-eval-calibration.md`.
+- **Ruleset R1–R7 (operator-confirmed)** — the labeling/scope philosophy now: fake
+  timers = the time-seam (timers→COSMETIC); clock *comparisons*→GENUINE; test files
+  out of scope; **module-mock ≠ a seam** (foundational to the network signal);
+  construction = welded-client origin + dedup; reachability/dead-code is knip's job
+  (pry stays visibility-agnostic).
+- **Built earlier:** scope-control (`dd97cad` — `.pryignore`/`--exclude`),
+  mechanical eval harness (`ac4d4e2` — `harness/finding_io.py` + 8 tests).
+- **Corpus** cloned at `~/codes/_pry-corpus/{outline,flowise,continue,librechat}`
+  (re-clone at the pinned commits above if cleaned). Shipped binary stays zero-LLM;
+  all panel/eval work is dev-time only (E2).
+- **ceal#350** re-scoped to validated `packages/` (70). Issues filed: ceal#350,
+  cautilus#48, open-ax-day#5 (corca-owned dogfood only; no outbound on the H3 repos).
+
+### Layer-0 + packaging arc (prior, COMPLETE)
+pry **v0.1.0 released + wired**: TS/JS analyzer (~88% ceal / ~97% cautilus);
+`corca-ai/pry` PUBLIC; cargo-dist release; charness `external_binary` (`validation`
+role for `quality`); F15 skill `skills/pry/SKILL.md` + `rank_backlog.py`.
 
 ## Deferred (each names its reopen trigger — see spec)
 
-- **Python (b)-gate + frontend** — reopen on a third-party non-glue OSS Python
-  corpus (own-repo glue is a recorded KILL).
-- **Inline `// pry-ignore`** (per-finding escape hatch) — ideally with the
-  syntactic floor.
-- **Syntactic floor** (zero-FP *claim* channel: empty catch / swallowed error) —
-  the one un-built Layer-0 deliverable; still a legitimate alternate next center.
-- **Homebrew tap; held-out expansion; SARIF emit.**
+- **Python (b)-gate + frontend** — reopen on a third-party non-glue OSS Python corpus.
+- **Inline `// pry-ignore`** (per-finding hatch) — ideally with the syntactic floor.
+- **Syntactic floor** (zero-FP claim channel) — the one un-built Layer-0 deliverable.
+- **Homebrew tap; SARIF emit.**
 
 ## References
 
-- `docs/spec-eval-harness.md` — the canonical eval-harness build contract (E1–E9).
-- `docs/eval-gate.md` — the H3 result doc (per-repo/kind/stratum precision +
-  noise taxonomy + named levers + gate status).
-- `harness/finding_io.py` + `harness/test_finding_io.py` — the mechanical panel
-  plumbing. `harness/fixtures/eval/*-labels.json` — the 4 frozen labelsets.
-- `docs/precision-gate.md` — validated precision, labeling taxonomy, rung-3 census.
-- `docs/kill-gate.md` — the go/kill record (TS GO, Python KILL).
-- `charness-artifacts/goals/2026-06-14-pry-packaging-ceal-revalidation.md` —
-  packaging goal: full slice log, commit SHAs, user-verification commands.
+- `docs/spec-eval-harness.md` — canonical build contract (E1–E9, SC/AC).
+- `docs/eval-gate.md` — H3 results, per-kind/stratum precision, named levers,
+  projected lever impact, human-calibration section.
+- `harness/finding_io.py` + `test_finding_io.py` — mechanical panel plumbing;
+  `harness/fixtures/eval/*-labels.json` + `calibration.json` — frozen labelsets + calibration.
+- `docs/precision-gate.md` (H1 precision + taxonomy), `docs/kill-gate.md` (TS GO / Python KILL).
+- `charness-artifacts/hitl/2026-06-15-h3-eval-calibration.md` — calibration session + ruleset.
