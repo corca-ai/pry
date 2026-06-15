@@ -9,19 +9,25 @@ runs the activation command.
 
 ## Active Operating Frame
 
-- Current slice: **S2 (deterministic sweep harness)** — next to start. S1 DONE +
-  critiqued + committed.
-- Current slice intent: build the net-new TS/JS bugfix miner (message-intent set
-  per the pinned `ENRICHMENT_BUGFIX_MSG_REGEX` + EH-token candidate signal) and
-  the per-repo sweep engine (clone@pinned → `pry map` → mine → blame-join), Workflow
-  fan-out, incremental. The reviewable-intent unit in progress and the commits it
-  spans; critique and broad proof do not re-fire within one unchanged intent.
+- Current slice: **S5 (Python (b)-gate lens → conditional frontend)** — next to
+  start. S1–S4 DONE + critiqued + committed. Sequencing gate satisfied: S3+S4 have
+  a recorded verdict (FALSIFIED corpus / WEAK heldout) in `docs/eval-gate.md`.
+- Current slice intent: run the analyzer-free (b)-gate lens (`harness/bgate_lens.py`,
+  already built) on the 8 Python apps — demand-subset welded-fraction in band
+  `[0.15,0.85]` AND decided≥0.40 → GO else KILL. On GO: build the Python frontend
+  (`catalog/python.toml`) + fold Python into the enrichment. On KILL: record
+  analyzer-free result, no frontend.
+- **MAIN RESULT (recorded):** 쟁점 4 **FALSIFIED** for this corpus — welded-at-demand
+  matched enrichment vs rest = **1.05, CI [0.96,1.18]** across 25 TS apps (dev 0.93,
+  heldout 1.11 weak/not-refuted but far below the 1.5 GO bar; vs seamed 0.90). The
+  structural signal is a testability classifier, NOT a defect predictor on this
+  corpus. Honest negative (nose-retraction discipline).
 - **Honesty-gate anchor (closeout proof):** the final frozen pre-registration is
-  commit `3d173e1` (numerator + CI pinned). The first enrichment-number commit
-  (S3) MUST have `3d173e1` as an ancestor — prove with
-  `git merge-base --is-ancestor 3d173e1 <enrichment-sha>`.
-- Next action: S2 — write `harness/mine_ts.py` (net-new) + the sweep driver; clone
-  the corpus repos at pinned commits locally; verify deterministic mine x2.
+  commit `47eeb633` (numerator + CI + control-amendment pinned). The first
+  enrichment-number commit is `6a19e3d`. Proven:
+  `git merge-base --is-ancestor 47eeb633 6a19e3d` → OK.
+- Next action: S5 — run `python3 harness/bgate_lens.py --corpus`; record GO/KILL in
+  `docs/eval-gate.md` / `docs/kill-gate.md`; build frontend only on GO.
 - Verification cadence: cheap deterministic checks at commit boundaries (corpus
   schema, mine/map determinism, cargo build+test, AC4 denylist); fresh-eye
   critique at slice boundaries (corpus-bias, enrichment soundness, Python
@@ -251,9 +257,9 @@ What the user can do to verify completion directly:
 | Slice | Objective | Why Now | Expected Evidence | Status |
 | --- | --- | --- | --- | --- |
 | S1 | Corpus discovery + freeze + pre-registration | Everything downstream joins against a frozen, pinned, split-honest corpus; pre-registering the split + denominator + floor first is the load-bearing honesty gate | `corpus.json` + its **schema file + validator** (S1 deliverables); a **new** app-shapedness/domain scorer (NOT `repo_fit.py`, the site-count gate); the **separate pre-registration artifact** (split + matched-comparison denominator + two-sided floor/falsifier) committed BEFORE any measurement; a `log` of what was pruned/excluded | **DONE** (`50f06cb`/`3d173e1`) |
-| S2 | Deterministic sweep harness (nose `run_corpus.sh` analog) | The reusable engine: per repo clone@pinned → `pry map` → mine bugfix commits → join bugfix-touched lines with pry findings; Workflow fan-out, incremental. (Tier 1 is *labeling*-cheap but *mining*-bearing — the per-repo mine+join+prune × ~25–33 is the long pole) | Per-repo sweep outputs; a **net-new TS/JS miner** (new pathspec + EH-token regex `catch`/`throw`/`.catch(`/`reject`/`retry`/`timeout` + boundary names + output schema, reusing `mine.py`'s determinism discipline; `mine.py` is Python-token-only today); Python repos use the native `mine.py`; deterministic mine x2 | planned |
-| S3 | Tier 1 — directly-observed enrichment (THE main result, 쟁점 4) | Pure git + map join, no per-site gold → robust; answers "does welded-at-demand predict defects?" | Enrichment table in `docs/eval-gate.md`: welded-at-demand vs seamed bugfix-touch rate **under the pre-registered matched-comparison denominator**, vs the two-sided floor/falsifier, with the verdict; **per-repo distribution reported, not only pooled** (Simpson's-paradox guard) | planned |
-| S4 | Generalization (쟁점 2) — dev/heldout | Absorbs the old "corpus-expansion / SC2 gate" queue item; the held-out arm is the generalization gate | Enrichment reported `dev` vs `heldout` separately; any threshold tuned on `dev` only; held-out number stated honestly | planned |
+| S2 | Deterministic sweep harness (nose `run_corpus.sh` analog) | The reusable engine: per repo clone@pinned → `pry map` → mine bugfix commits → join bugfix-touched lines with pry findings; Workflow fan-out, incremental. (Tier 1 is *labeling*-cheap but *mining*-bearing — the per-repo mine+join+prune × ~25–33 is the long pole) | Per-repo sweep outputs; a **net-new TS/JS miner** (new pathspec + EH-token regex `catch`/`throw`/`.catch(`/`reject`/`retry`/`timeout` + boundary names + output schema, reusing `mine.py`'s determinism discipline; `mine.py` is Python-token-only today); Python repos use the native `mine.py`; deterministic mine x2 | **DONE** (`678ccae`; mine_ts.py+sweep.py; 25/25 swept; byte-identical x2) |
+| S3 | Tier 1 — directly-observed enrichment (THE main result, 쟁점 4) | Pure git + map join, no per-site gold → robust; answers "does welded-at-demand predict defects?" | Enrichment table in `docs/eval-gate.md`: welded-at-demand vs seamed bugfix-touch rate **under the pre-registered matched-comparison denominator**, vs the two-sided floor/falsifier, with the verdict; **per-repo distribution reported, not only pooled** (Simpson's-paradox guard) | **DONE** (`6a19e3d` — matched 1.05, CI [0.96,1.18] → **FALSIFIED**) |
+| S4 | Generalization (쟁점 2) — dev/heldout | Absorbs the old "corpus-expansion / SC2 gate" queue item; the held-out arm is the generalization gate | Enrichment reported `dev` vs `heldout` separately; any threshold tuned on `dev` only; held-out number stated honestly | **DONE** (`6a19e3d` — dev 0.93 / heldout 1.11 weak; no tuning needed) |
 | S5 | Python branch — (b)-gate lens → conditional frontend → fold-in | The recorded reopen; cheap analyzer-free lens first, heavy frontend only on a GO **and only after S3+S4 have a recorded verdict** | (b)-gate GO/KILL on the Python apps **by the lens criterion (demand-subset in band `[0.15,0.85]`, not bare fraction)**; IF GO → Python frontend built (`catalog/python.toml`), `pry map` runs on a Python app, Python folds into the S3/S4 `eval-gate.md` table (assign Python repos' dev/heldout split here); IF KILL → analyzer-free result recorded, no frontend | planned |
 
 ## Coordination Cues
@@ -327,6 +333,48 @@ counterweight. Dispositions:
   arm), #2 monoculture (rebutted — Next/Nest/Vue/Svelte, stars 8k–192k), #10
   `_has_token` substring FPs (0 verdict flips). Packet:
   `charness-artifacts/critique/2026-06-15-s1-corpus-packet.md`.
+
+### S2 — deterministic sweep harness (DONE, 2026-06-15)
+
+Commits: `<S2 harness>` (mine_ts.py+sweep.py+tests) → `678ccae` (25 sweep records
++ enrichment_result). **Built:** `mine_ts.py` (net-new TS/JS bugfix-commit miner,
+message-intent numerator + JS-EH-token candidate record), `sweep.py` (per-repo
+clone@pinned → `pry map` → mine → `git blame` join; arms wd/rest + subarms
+seamed/wnd; covariates file_churn + enclosing site_size; un-shallows depth-1 seeds;
+`--corpus` orchestrator, incremental, `--reseed` guard), `test_sweep.py` (8 tests).
+**Swept all 25 TS repos** (parallelized via 2 workers; clone+mine+blame). Byte-
+deterministic verified x2 (umami sweep + mine_ts). The Workflow tool was considered
+for fan-out but a deterministic Python orchestrator was chosen because the per-repo
+work is mechanical and the acceptance criterion is *byte-identical re-runs* (LLM
+subagents would be non-deterministic) — recorded as an honest engineering call.
+
+### S3 + S4 — Tier-1 enrichment + generalization (DONE, 2026-06-15)
+
+Commits: `6a19e3d` (eval-gate verdict) → `<critique folds>`. **MAIN RESULT —
+쟁점 4 FALSIFIED for this corpus:** welded-at-demand vs rest matched ratio **1.05,
+95% CI [0.96,1.18]** across 25 TS apps → trips the pre-registered falsifier.
+**쟁점 2:** dev 0.93 (FALSIFIED), heldout 1.11 (CI [1.02,1.29] — weak, not-refuted,
+but far below the 1.5 GO bar); no threshold tuned (none needed). Secondary vs
+seamed 0.90, vs welded-not-demand 1.05. Simpson guard 17/25 repos >1 (direction
+positive, magnitude negligible). `enrichment.py` re-derives every number from the
+frozen records; seeded bootstrap byte-reproducible. **Honest negative** (nose-
+retraction discipline): welded-at-demand is a testability classifier, NOT a defect
+predictor on this corpus → lever #4 precision polish is not justified by a
+bug-prediction payoff.
+
+**Slice critique (fresh-eye, parent-delegated, bundle boundary):** 3 angle
+subagents (blame-join correctness · statistical soundness · arm/coverage integrity)
++ 1 counterweight. **All three independently verified the FALSIFIED negative is
+SOUND, not a harness bug** (blame join hand-checked 4 findings + 0/171 file
+failures; direct-standardization planted-confound test raw 2.32→matched 0.93;
+bootstrap indices/seed-stable, 9/9 strata full; arms partition exactly, 25/25
+coverage; the thesis fails under EVERY framing — seamed rate 0.437 > wd 0.394).
+Dispositions: ACT (folded, honesty-of-disclosure) — base-rate-ceiling caveat
+(bugfix regex matches ~48% of commits, compressing the ratio toward 1.0), explicit
+"heldout not-refuted, just below the bar" sentence; BUNDLE — frontend+backend
+tier-pooling caveat. OVER-WORRY (no action) — "rest" framing (thesis fails under
+all framings), outline.json missing in-record id (cosmetic). Packet:
+`charness-artifacts/critique/2026-06-15-s3-enrichment-packet.md`.
 
 ## Context Sources
 
