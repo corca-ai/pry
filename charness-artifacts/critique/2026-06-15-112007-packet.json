@@ -1,0 +1,19 @@
+{
+  "kind": "charness.critique_prepare_packet",
+  "version": 1,
+  "repo": "pry",
+  "generated_at": "2026-06-15T11:20:07Z",
+  "prepared_for": "e9-sweep-goal-plan-critique",
+  "changed_ref": null,
+  "adapter_path": null,
+  "reviewer_tier_evidence": {
+    "requested_tier": "high-leverage",
+    "requested_spawn_fields": {},
+    "host_exposure_state": "pending-parent-spawn",
+    "application_state": "unverified-by-packet",
+    "instruction": "Review artifacts must record requested_fields_sent, metadata-hidden, host-defaulted, unsupported, or applied only when host-confirmed."
+  },
+  "sections": [],
+  "section_count": 0,
+  "ok": true
+}
