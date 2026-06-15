@@ -10,68 +10,64 @@ Read `docs/spec-eval-harness.md` (contract) + `docs/eval-gate.md` (results +
 levers + the calibration ruleset) first. Default order is the queue below; if the
 operator names a different item, do that instead.
 
-## ▶ NEXT ACTION — build lever #2: test-file heuristic
+## ▶ NEXT ACTION — Slice 2: the filter-recall arm (the gate for every harder lever)
 
-**Goal:** extend pry's default test-file drop to conventional `.vitest.` / `.e2e.`
-stems — the second EXACT, zero-recall-cost lever. continue's llm crater (2/35) is
-largely its `*.vitest.ts` suites, where `fetch` is mock-injected (FALSE-WELD).
+Both EXACT levers are shipped (#1 cosmetic-random `58b5f31`, #2 test-file `94de55e`).
+**Everything past them is gated behind Slice 2.** The remaining levers (stronger-clock,
+rung-3) are **CEILING** levers: their syntactic filters are *imperfect*, so they can
+over-demote a genuine weld — a recall risk the existing demand-weld labelset **cannot**
+measure (it only labels findings pry already demand-flagged). Slice 2 builds the
+missing denominator. Per spec E5/SC3/AC3 (`spec-eval-harness.md`):
 
-- **Where:** `src/main.rs:63`, the `is_test_stem` array `["test", "spec"]` → add
-  `"vitest"`, `"e2e"`. The existing `.{stem}{ext}` matcher already covers
-  `.vitest.ts`/`.e2e.ts`/`.mjs`/`.cjs` — a one-line list change. Add an `is_source`
-  unit test (a `.vitest.ts` path → dropped) if `main.rs` has a test seam; else a
-  `discover`/CLI-level smoke.
-- **Scope discipline (do NOT over-reach):** the DEFAULT heuristic catches only
-  *conventional* test stems (`.vitest.`/`.e2e.`). Repo-specific dirs
-  (`manual-testing-sandbox/`, `*-sol.ts`) stay the repo's `.pryignore` job (E7) —
-  do **not** bake them into the default. In the labelset: `.vitest.` = **31**
-  demand-weld findings = the lever's true scope; `manual-testing-sandbox/`+`-sol` =
-  6 more that eval-gate's lumped "drop 29 → 70.3%" row included but the default
-  heuristic does NOT own.
-- **Verify (dev-side E5):** `cargo test`; re-derive precision from the frozen
-  labelsets dropping ONLY `.vitest.`/`.e2e.` demand-welds (NOT sandbox/-sol) — that
-  is the honest default-heuristic lift (66.0% → recompute; it is **less** than the
-  table's lumped 70.3% because sandbox/-sol are `.pryignore` scope). All dropped are
-  COSMETIC/FALSE-WELD in the labels → 0 genuine lost by construction. Reconcile
-  eval-gate.md's "drop 29" row: split it into the default-heuristic part vs the
-  `.pryignore` part so the doc claim matches what the binary actually does.
-- **Fixture cascade:** ceal `packages/` almost certainly has no `.vitest.`/`.e2e.`
-  in scope (it uses `.test.`/`.spec.`). Re-run `pry map ../ceal/packages
-  --summary-only` at the pinned `cdd31884` (clean checkout, restore to `main`
-  after); if `files_scanned`/counts are unchanged, state explicitly that the ceal
-  fixture needs **no** edit. SKILL.md self-test count stays 67 unless ceal moves.
-- **Why allowed before Slice 2:** same EXACT-lever exception as cosmetic-random
-  (`eval-gate.md`): only demotes findings *already labeled* COSMETIC/FALSE-WELD, so
-  recall cost is read off the frozen labels. Formal *ship*-close still wants the
-  held-out arm (queue #4).
-- **Close:** fresh-eye critique (required), commit, push, advance this handoff.
+- **What:** label a sample of pry's **bare pool** — welded+seamed findings *before*
+  demand-filtering, the pool a precision filter could wrongly demote from — with the
+  same `harness/finding_io.py` machinery (3 personas → reconcile → freeze). Then
+  **filter-recall** = of the panel-GENUINE welds in the bare pool, how many a lever
+  keeps (does not demote). Document the gate rule + a worked example in `eval-gate.md`:
+  *a lever ships only if dev precision↑ ∧ held-out filter-recall held* (E5).
+- **⚠ This is a DECISION, not a mechanical step — it is an LLM-panel campaign** (E8:
+  "LLM once → frozen labelset"). Sampling scope is a real cost/quality choice: how
+  large a bare-pool sample, which repos, clock-stratification. **Get operator scope
+  before launching the panel.** Default if they don't specify: a stratified
+  ~150-finding bare-pool sample across the 4 repos, clock/llm-weighted (the contested
+  strata), seamed+welded pre-demand. *Bare-pool ≫ the 589 demand-findings, so this is
+  the most expensive eval step so far.*
+- **Output:** `harness/fixtures/eval/*-barepool-labels.json` (frozen), a filter-recall
+  baseline number, the documented gate rule. Then re-derive a worked filter-recall for
+  the two shipped EXACT levers (sanity: both should be 100% — they only dropped labeled
+  COSMETIC/FALSE-WELD).
+- **Then unblocks:** queue #1 (stronger-clock + construction-dedup) and #2 (rung-3).
 
-## ▶ Queue (after lever #2; operator pre-approved the levers and #3 corpus)
+## ▶ Queue (after Slice 2; operator pre-approved the levers and #3 corpus)
 
-1. **Lever #3 — stronger clock + Lever #5 — construction dedup** (need a bit more
-   care; calibration-refined):
+1. **Lever #3 — stronger clock + Lever #5 — construction dedup** (gated by Slice 2;
+   calibration-refined):
    - clock: demote timers (`setTimeout`/`setInterval`) and record-`Date` **even on
      retry/error paths** (fake timers are the time-seam, R3); keep only clock
      *comparisons* (R4). Panel over-called timers GENUINE → true clock-genuine ≈3/130.
+     CEILING lever (imperfect filter) → must pass the Slice-2 filter-recall gate.
    - construction dedup (R7): treat `new OpenAI()` as the welded-client origin and
-     dedup the downstream method finding; do **not** enumerate SDK methods.
-2. **Slice 2 — filter-recall arm** (E5/SC3/AC3): label a bare-pool sample, compute
-   baseline filter-recall, document the gate rule. Required before the *harder*
-   levers (clock/rung-3) and before formally shipping any lever.
-3. **Lever #4 — rung-3 stage-2 (two faces, calibration-confirmed):** (a) injected
+     dedup the downstream method finding; do **not** enumerate SDK methods. (May be
+     partly checkable from the existing labelset — assess before launching.)
+2. **Lever #4 — rung-3 stage-2 (two faces, calibration-confirmed):** (a) injected
    transport (`customFetch`) precision gap; (b) interface-impl **over-seaming**
    recall hole (`implements I` blanket-seams the impl's own error handling — 2/3
    seamed-control false-seams). Cross-file, risky → gate hard against the labelset
    + Slice-2 recall arm.
-4. **#3 Corpus expansion (operator-approved) — close the gate (SC2):** scout a
+3. **#3 Corpus expansion (operator-approved) — close the gate (SC2):** scout a
    **DI-disciplined exemplar** (high clock-injection; `n8n`/`cal.com`) as dev #5,
    assemble the **held-out arm** (target dev 5 / held-out 10), run the panel, tune
    only on dev. This is what formally *closes* the gate + ships the levers.
-5. **E9 SZZ structural-improvement** on an EH-bugfix-rich OSS repo (reuse
+4. **E9 SZZ structural-improvement** on an EH-bugfix-rich OSS repo (reuse
    `harness/mine.py`+`szz.py`+commit labeler) — catalog-recall + calibration.
 
-## Current state (all pushed; HEAD = lever #1 `58b5f31` + this handoff)
+## Current state (all pushed; HEAD = lever #2 `94de55e` + this handoff)
 
+- **Lever #2 (test-file heuristic) SHIPPED** (`94de55e`): `is_source` (`src/main.rs:63`)
+  now drops `.vitest.`/`.e2e.` stems. Dev precision **66.0% → 69.7%, 0 genuine lost**
+  (25 `.vitest.` false-welds; the further 69.7%→70.3% is `manual-testing-sandbox/`+`-sol`
+  = repo `.pryignore` scope, NOT pry's default). ceal unaffected (0 `.vitest`/`.e2e`
+  files → fixture + SKILL.md unchanged). New `src/main.rs` unit tests. Critique = SHIP.
 - **Lever #1 (cosmetic-random) SHIPPED** (`58b5f31`): welded `random` →
   `demand=false` at every call form (`demote_welded_random` in `src/classify.rs`).
   Dev precision **56.7% → 66.0%, 0 genuine lost** (matched the projection exactly);
