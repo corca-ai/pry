@@ -108,9 +108,11 @@ outcome is the honest result, not a failure to report.
 
 **Python branch ((b)-gate).** The 8 non-glue Python apps were run through the
 analyzer-free (b)-gate lens (sequenced after this verdict). Result: **KILL** —
-demand-subset welded-fraction **0.906** (out of band [0.15,0.85], decided 0.742,
-not mute): idiomatic Python app code reaches boundaries module-directly, so the
-welded/seamed lens is saturated (only mealie, DI-explicit, discriminates). **No
+full demand-subset welded-fraction **0.902** (out of band [0.15,0.85], decided
+0.737, not mute): idiomatic Python app code reaches boundaries module-directly, so
+the lens is saturated (only mealie, DI-explicit, discriminates). The KILL is
+*clock-driven* (clock is 62% of welds, 0-seam by construction); net+subproc alone
+is 0.765 (in-band, ~24% seams) — a Python-vs-TS clock-culture difference. **No
 Python frontend was built** — both because the (b)-gate KILLs it and because
 folding Python into a FALSIFIED enrichment would add nothing. Full record:
 [`kill-gate.md`](kill-gate.md) Run 7.

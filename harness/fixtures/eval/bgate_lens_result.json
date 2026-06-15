@@ -291,28 +291,28 @@
     },
     {
       "corpus": "saleor/saleor",
-      "welded": 97,
+      "welded": 65,
       "seamed": 0,
-      "undecided": 21,
-      "decided": 97,
-      "total": 118,
+      "undecided": 17,
+      "decided": 65,
+      "total": 82,
       "welded_fraction": 1.0,
-      "decided_fraction": 0.8220338983050848,
+      "decided_fraction": 0.7926829268292683,
       "band": [
         0.15,
         0.85
       ],
       "min_decided": 0.4,
       "by_kind": {
-        "network": {
-          "welded": 45,
-          "seamed": 0,
-          "undecided": 13
-        },
         "clock": {
           "welded": 52,
           "seamed": 0,
           "undecided": 0
+        },
+        "network": {
+          "welded": 13,
+          "seamed": 0,
+          "undecided": 9
         },
         "subprocess": {
           "welded": 0,
@@ -322,258 +322,6 @@
       },
       "verdict": "KILL (out of band high)",
       "sample": [
-        {
-          "file": ".claude/skills/filter-benchmark/analyze_query.py",
-          "line": 139,
-          "kind": "network",
-          "class": "welded",
-          "expr": "urllib.request.Request"
-        },
-        {
-          "file": ".claude/skills/filter-benchmark/analyze_query.py",
-          "line": 144,
-          "kind": "network",
-          "class": "welded",
-          "expr": "urllib.request.urlopen"
-        },
-        {
-          "file": ".claude/skills/filter-benchmark/analyze_query.py",
-          "line": 44,
-          "kind": "network",
-          "class": "welded",
-          "expr": "connection.cursor"
-        },
-        {
-          "file": ".claude/skills/filter-benchmark/analyze_query.py",
-          "line": 47,
-          "kind": "network",
-          "class": "undecided",
-          "expr": "cursor.execute"
-        },
-        {
-          "file": ".claude/skills/filter-benchmark/analyze_query.py",
-          "line": 46,
-          "kind": "network",
-          "class": "undecided",
-          "expr": "cursor.execute"
-        },
-        {
-          "file": ".claude/skills/filter-benchmark/analyze_query.py",
-          "line": 51,
-          "kind": "network",
-          "class": "undecided",
-          "expr": "cursor.fetchone"
-        },
-        {
-          "file": ".claude/skills/filter-benchmark/analyze_query.py",
-          "line": 53,
-          "kind": "network",
-          "class": "undecided",
-          "expr": "cursor.execute"
-        },
-        {
-          "file": ".semgrep/security/requests/no-use-requests-lib.fixed.py",
-          "line": 23,
-          "kind": "network",
-          "class": "welded",
-          "expr": "requests.Session"
-        },
-        {
-          "file": ".semgrep/security/requests/no-use-requests-lib.fixed.py",
-          "line": 63,
-          "kind": "network",
-          "class": "welded",
-          "expr": "requests.Session"
-        },
-        {
-          "file": ".semgrep/security/requests/no-use-requests-lib.py",
-          "line": 5,
-          "kind": "network",
-          "class": "welded",
-          "expr": "requests.get"
-        },
-        {
-          "file": ".semgrep/security/requests/no-use-requests-lib.py",
-          "line": 11,
-          "kind": "network",
-          "class": "welded",
-          "expr": "requests.get"
-        },
-        {
-          "file": ".semgrep/security/requests/no-use-requests-lib.py",
-          "line": 14,
-          "kind": "network",
-          "class": "welded",
-          "expr": "requests.get"
-        },
-        {
-          "file": ".semgrep/security/requests/no-use-requests-lib.py",
-          "line": 18,
-          "kind": "network",
-          "class": "welded",
-          "expr": "requests.get"
-        },
-        {
-          "file": ".semgrep/security/requests/no-use-requests-lib.py",
-          "line": 21,
-          "kind": "network",
-          "class": "welded",
-          "expr": "requests.get"
-        },
-        {
-          "file": ".semgrep/security/requests/no-use-requests-lib.py",
-          "line": 23,
-          "kind": "network",
-          "class": "welded",
-          "expr": "requests.Session"
-        },
-        {
-          "file": ".semgrep/security/requests/no-use-requests-lib.py",
-          "line": 32,
-          "kind": "network",
-          "class": "welded",
-          "expr": "requests.post"
-        },
-        {
-          "file": ".semgrep/security/requests/no-use-requests-lib.py",
-          "line": 34,
-          "kind": "network",
-          "class": "welded",
-          "expr": "requests.request"
-        },
-        {
-          "file": ".semgrep/security/requests/no-use-requests-lib.py",
-          "line": 36,
-          "kind": "network",
-          "class": "welded",
-          "expr": "requests.get"
-        },
-        {
-          "file": ".semgrep/security/requests/no-use-requests-lib.py",
-          "line": 38,
-          "kind": "network",
-          "class": "welded",
-          "expr": "requests.post"
-        },
-        {
-          "file": ".semgrep/security/requests/no-use-requests-lib.py",
-          "line": 40,
-          "kind": "network",
-          "class": "welded",
-          "expr": "requests.put"
-        },
-        {
-          "file": ".semgrep/security/requests/no-use-requests-lib.py",
-          "line": 42,
-          "kind": "network",
-          "class": "welded",
-          "expr": "requests.delete"
-        },
-        {
-          "file": ".semgrep/security/requests/no-use-requests-lib.py",
-          "line": 44,
-          "kind": "network",
-          "class": "welded",
-          "expr": "requests.head"
-        },
-        {
-          "file": ".semgrep/security/requests/no-use-requests-lib.py",
-          "line": 46,
-          "kind": "network",
-          "class": "welded",
-          "expr": "requests.patch"
-        },
-        {
-          "file": ".semgrep/security/requests/no-use-requests-lib.py",
-          "line": 51,
-          "kind": "network",
-          "class": "welded",
-          "expr": "requests.get"
-        },
-        {
-          "file": ".semgrep/security/requests/no-use-requests-lib.py",
-          "line": 54,
-          "kind": "network",
-          "class": "welded",
-          "expr": "requests.get"
-        },
-        {
-          "file": ".semgrep/security/requests/no-use-requests-lib.py",
-          "line": 58,
-          "kind": "network",
-          "class": "welded",
-          "expr": "requests.get"
-        },
-        {
-          "file": ".semgrep/security/requests/no-use-requests-lib.py",
-          "line": 61,
-          "kind": "network",
-          "class": "welded",
-          "expr": "requests.get"
-        },
-        {
-          "file": ".semgrep/security/requests/no-use-requests-lib.py",
-          "line": 63,
-          "kind": "network",
-          "class": "welded",
-          "expr": "requests.Session"
-        },
-        {
-          "file": ".semgrep/security/requests/no-use-requests-lib.py",
-          "line": 72,
-          "kind": "network",
-          "class": "welded",
-          "expr": "requests.post"
-        },
-        {
-          "file": ".semgrep/security/requests/no-use-requests-lib.py",
-          "line": 74,
-          "kind": "network",
-          "class": "welded",
-          "expr": "requests.request"
-        },
-        {
-          "file": ".semgrep/security/requests/no-use-requests-lib.py",
-          "line": 76,
-          "kind": "network",
-          "class": "welded",
-          "expr": "requests.get"
-        },
-        {
-          "file": ".semgrep/security/requests/no-use-requests-lib.py",
-          "line": 78,
-          "kind": "network",
-          "class": "welded",
-          "expr": "requests.post"
-        },
-        {
-          "file": ".semgrep/security/requests/no-use-requests-lib.py",
-          "line": 80,
-          "kind": "network",
-          "class": "welded",
-          "expr": "requests.put"
-        },
-        {
-          "file": ".semgrep/security/requests/no-use-requests-lib.py",
-          "line": 82,
-          "kind": "network",
-          "class": "welded",
-          "expr": "requests.delete"
-        },
-        {
-          "file": ".semgrep/security/requests/no-use-requests-lib.py",
-          "line": 84,
-          "kind": "network",
-          "class": "welded",
-          "expr": "requests.head"
-        },
-        {
-          "file": ".semgrep/security/requests/no-use-requests-lib.py",
-          "line": 86,
-          "kind": "network",
-          "class": "welded",
-          "expr": "requests.patch"
-        },
         {
           "file": "saleor/app/installation_utils.py",
           "line": 86,
@@ -598,6 +346,258 @@
         {
           "file": "saleor/checkout/models.py",
           "line": 394,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "datetime.datetime.now"
+        },
+        {
+          "file": "saleor/checkout/problems.py",
+          "line": 134,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "datetime.datetime.now"
+        },
+        {
+          "file": "saleor/checkout/problems.py",
+          "line": 217,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "datetime.datetime.now"
+        },
+        {
+          "file": "saleor/core/cleaners/urls.py",
+          "line": 71,
+          "kind": "network",
+          "class": "welded",
+          "expr": "urllib.parse.quote"
+        },
+        {
+          "file": "saleor/core/cleaners/urls.py",
+          "line": 117,
+          "kind": "network",
+          "class": "welded",
+          "expr": "urllib.parse.unquote"
+        },
+        {
+          "file": "saleor/core/cleaners/urls.py",
+          "line": 118,
+          "kind": "network",
+          "class": "welded",
+          "expr": "urllib.parse.quote"
+        },
+        {
+          "file": "saleor/core/cleaners/urls.py",
+          "line": 120,
+          "kind": "network",
+          "class": "welded",
+          "expr": "urllib.parse.unquote"
+        },
+        {
+          "file": "saleor/core/cleaners/urls.py",
+          "line": 131,
+          "kind": "network",
+          "class": "welded",
+          "expr": "urllib.parse.parse_qs"
+        },
+        {
+          "file": "saleor/core/cleaners/urls.py",
+          "line": 134,
+          "kind": "network",
+          "class": "welded",
+          "expr": "urllib.parse.urlencode"
+        },
+        {
+          "file": "saleor/core/jwt.py",
+          "line": 35,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "datetime.datetime.now"
+        },
+        {
+          "file": "saleor/core/management/commands/populatedb.py",
+          "line": 77,
+          "kind": "network",
+          "class": "welded",
+          "expr": "connection.cursor"
+        },
+        {
+          "file": "saleor/core/management/commands/populatedb.py",
+          "line": 78,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "cursor.execute"
+        },
+        {
+          "file": "saleor/core/models.py",
+          "line": 53,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "datetime.datetime.now"
+        },
+        {
+          "file": "saleor/core/models.py",
+          "line": 76,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "datetime.datetime.now"
+        },
+        {
+          "file": "saleor/core/schedules.py",
+          "line": 71,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "datetime.datetime.now"
+        },
+        {
+          "file": "saleor/core/utils/__init__.py",
+          "line": 77,
+          "kind": "network",
+          "class": "welded",
+          "expr": "socket.inet_pton"
+        },
+        {
+          "file": "saleor/core/utils/__init__.py",
+          "line": 86,
+          "kind": "network",
+          "class": "welded",
+          "expr": "socket.inet_pton"
+        },
+        {
+          "file": "saleor/core/utils/validators.py",
+          "line": 22,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "providers.request"
+        },
+        {
+          "file": "saleor/core/utils/validators.py",
+          "line": 32,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "datetime.datetime.now"
+        },
+        {
+          "file": "saleor/discount/models.py",
+          "line": 353,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "datetime.datetime.now"
+        },
+        {
+          "file": "saleor/discount/models.py",
+          "line": 357,
+          "kind": "network",
+          "class": "welded",
+          "expr": "connection.cursor"
+        },
+        {
+          "file": "saleor/discount/models.py",
+          "line": 358,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "cursor.execute"
+        },
+        {
+          "file": "saleor/discount/models.py",
+          "line": 359,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "cursor.fetchone"
+        },
+        {
+          "file": "saleor/discount/models.py",
+          "line": 433,
+          "kind": "network",
+          "class": "welded",
+          "expr": "connection.cursor"
+        },
+        {
+          "file": "saleor/discount/models.py",
+          "line": 434,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "cursor.execute"
+        },
+        {
+          "file": "saleor/discount/models.py",
+          "line": 440,
+          "kind": "network",
+          "class": "undecided",
+          "expr": "cursor.fetchall"
+        },
+        {
+          "file": "saleor/discount/tasks.py",
+          "line": 143,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "datetime.datetime.now"
+        },
+        {
+          "file": "saleor/discount/tasks.py",
+          "line": 163,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "datetime.datetime.now"
+        },
+        {
+          "file": "saleor/discount/tasks.py",
+          "line": 117,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "datetime.datetime.now"
+        },
+        {
+          "file": "saleor/discount/utils/promotion.py",
+          "line": 400,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "datetime.datetime.now"
+        },
+        {
+          "file": "saleor/giftcard/utils.py",
+          "line": 47,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "datetime.datetime.now"
+        },
+        {
+          "file": "saleor/graphql/app/mutations/app_reenable_sync_webhooks.py",
+          "line": 68,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "time.time"
+        },
+        {
+          "file": "saleor/graphql/channel/mutations/base_channel_listing.py",
+          "line": 120,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "datetime.datetime.now"
+        },
+        {
+          "file": "saleor/graphql/checkout/mutations/utils.py",
+          "line": 161,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "datetime.datetime.now"
+        },
+        {
+          "file": "saleor/graphql/discount/mutations/promotion/promotion_create.py",
+          "line": 273,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "datetime.datetime.now"
+        },
+        {
+          "file": "saleor/graphql/discount/mutations/promotion/promotion_create.py",
+          "line": 304,
+          "kind": "clock",
+          "class": "welded",
+          "expr": "datetime.datetime.now"
+        },
+        {
+          "file": "saleor/graphql/discount/mutations/promotion/promotion_update.py",
+          "line": 124,
           "kind": "clock",
           "class": "welded",
           "expr": "datetime.datetime.now"
@@ -2463,11 +2463,11 @@
     }
   ],
   "pooled": {
-    "welded": 731,
+    "welded": 699,
     "seamed": 76,
-    "undecided": 281,
-    "welded_fraction": 0.9058240396530359,
-    "decided_fraction": 0.7417279411764706,
+    "undecided": 277,
+    "welded_fraction": 0.9019354838709678,
+    "decided_fraction": 0.7366920152091255,
     "band": [
       0.15,
       0.85

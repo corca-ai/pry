@@ -195,6 +195,10 @@ def classify_file(text: str) -> list[dict]:
 
 def _is_source(p: Path) -> bool:
     low = str(p).lower()
+    # skip dot-prefixed dirs (.semgrep/ rule examples, .claude/ skill fixtures) —
+    # these are not source-under-analysis and repeat boundary calls as DATA
+    if any(part.startswith(".") for part in p.parts):
+        return False
     return not any(f"/{t}/" in low or low.endswith(f"/{t}") for t in SKIP_DIR_TOKENS) \
         and not p.name.startswith("test_") and not p.name.endswith("_test.py")
 
