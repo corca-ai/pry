@@ -1,0 +1,22 @@
+{
+  "packages/agentflow/src/infrastructure/api/deduplicatedClient.ts:84:82:clock": {"label": "COSMETIC", "confidence": "medium", "reason": "Date.now()+ttl stored as expiresAt on cache entry, a record value"},
+  "packages/components/evaluation/EvaluationRunner.ts:135:29:clock": {"label": "COSMETIC", "confidence": "high", "reason": "performance.now() recorded as startTime for duration logging"},
+  "packages/components/nodes/agentflow/Agent/Agent.ts:1270:29:clock": {"label": "COSMETIC", "confidence": "high", "reason": "endTime used only to compute a logged timeDelta"},
+  "packages/components/nodes/agentflow/ConditionAgent/ConditionAgent.ts:392:29:clock": {"label": "COSMETIC", "confidence": "high", "reason": "endTime used only for elapsed timeDelta record"},
+  "packages/components/nodes/agentflow/LLM/LLM.ts:883:61:clock": {"label": "COSMETIC", "confidence": "high", "reason": "thinkingStartTime captured to compute a streamed duration"},
+  "packages/components/nodes/documentloaders/GoogleDrive/GoogleDrive.ts:699:40:clock": {"label": "COSMETIC", "confidence": "high", "reason": "Date.now() used only to build a temp file name"},
+  "packages/components/nodes/documentloaders/GoogleDrive/GoogleDrive.ts:699:54:random": {"label": "COSMETIC", "confidence": "high", "reason": "Math.random builds a temp file name suffix"},
+  "packages/components/nodes/tools/AWSDynamoDBKVStorage/AWSDynamoDBKVStorage.ts:78:31:clock": {"label": "COSMETIC", "confidence": "high", "reason": "timestamp stored as sort key / timestamp field in the put item"},
+  "packages/components/nodes/vectorstores/Milvus/Milvus.ts:472:40:clock": {"label": "COSMETIC", "confidence": "high", "reason": "Date.now() used to build a unique index name"},
+  "packages/server/src/enterprise/controllers/organization-user.controller.ts:148:64:clock": {"label": "COSMETIC", "confidence": "high", "reason": "Date.now() builds a unique deleted-email placeholder string"},
+  "packages/server/src/enterprise/middleware/prometheus/index.ts:60:38:clock": {"label": "COSMETIC", "confidence": "high", "reason": "elapsed response time observed into a metric, a record value"},
+  "packages/server/src/metrics/OpenTelemetry.ts:232:54:clock": {"label": "COSMETIC", "confidence": "high", "reason": "elapsed response time recorded as a duration metric"},
+  "packages/server/src/queue/BaseQueue.ts:65:98:clock": {"label": "COSMETIC", "confidence": "high", "reason": "ISO timestamp interpolated into a log message"},
+  "packages/server/src/queue/BaseQueue.ts:76:90:clock": {"label": "COSMETIC", "confidence": "high", "reason": "ISO timestamp interpolated into a failure log message"},
+  "packages/server/src/routes/oauth2/index.ts:444:26:clock": {"label": "COSMETIC", "confidence": "high", "reason": "updatedDate timestamp written to credential update"},
+  "packages/server/src/schedule/ScheduleExecutor.ts:230:31:clock": {"label": "COSMETIC", "confidence": "high", "reason": "elapsedTimeMs computed for the failure trigger-log record"},
+  "packages/server/src/services/evaluations/index.ts:262:42:clock": {"label": "COSMETIC", "confidence": "high", "reason": "runDate timestamp stored on the evaluation run"},
+  "packages/server/src/utils/buildAgentflow.ts:353:62:clock": {"label": "COSMETIC", "confidence": "high", "reason": "ISO timestamp substituted into a variable string"},
+  "packages/server/src/utils/index.ts:838:34:clock": {"label": "COSMETIC", "confidence": "high", "reason": "createdDate timestamp written to a variable record"},
+  "packages/ui/src/utils/genericHelper.js:788:23:clock": {"label": "GENUINE", "confidence": "medium", "reason": "lastRan feeds the throttle interval comparison Date.now()-lastRan>=limit"}
+}

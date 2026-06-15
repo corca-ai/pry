@@ -1,0 +1,22 @@
+{
+  "packages/agentflow/src/infrastructure/api/deduplicatedClient.ts:84:82:clock": {"label": "GENUINE", "confidence": "medium", "reason": "Date.now()+ttl stored as expiresAt that the cache later compares to decide staleness; inline call, no seam"},
+  "packages/components/evaluation/EvaluationRunner.ts:135:29:clock": {"label": "COSMETIC", "confidence": "high", "reason": "performance.now() recorded as startTime/runData.startTime for duration, not branched on"},
+  "packages/components/nodes/agentflow/Agent/Agent.ts:1270:29:clock": {"label": "COSMETIC", "confidence": "high", "reason": "endTime used only to compute timeDelta duration, never acted on"},
+  "packages/components/nodes/agentflow/ConditionAgent/ConditionAgent.ts:392:29:clock": {"label": "COSMETIC", "confidence": "high", "reason": "endTime only computes timeDelta for analytics, no branch"},
+  "packages/components/nodes/agentflow/LLM/LLM.ts:883:61:clock": {"label": "COSMETIC", "confidence": "high", "reason": "thinkingStartTime captured to later compute a displayed thinking duration, not branched on"},
+  "packages/components/nodes/documentloaders/GoogleDrive/GoogleDrive.ts:699:40:clock": {"label": "COSMETIC", "confidence": "high", "reason": "Date.now() only builds a unique temp filename, never acted on"},
+  "packages/components/nodes/documentloaders/GoogleDrive/GoogleDrive.ts:699:54:random": {"label": "COSMETIC", "confidence": "high", "reason": "Math.random() used only for temp filename uniqueness"},
+  "packages/components/nodes/tools/AWSDynamoDBKVStorage/AWSDynamoDBKVStorage.ts:78:31:clock": {"label": "COSMETIC", "confidence": "high", "reason": "Date.now() stored as DynamoDB sk/timestamp item value, never branched on"},
+  "packages/components/nodes/vectorstores/Milvus/Milvus.ts:472:40:clock": {"label": "COSMETIC", "confidence": "high", "reason": "Date.now() only generates a unique index_name string"},
+  "packages/server/src/enterprise/controllers/organization-user.controller.ts:148:64:clock": {"label": "COSMETIC", "confidence": "high", "reason": "Date.now() embedded in a unique deleted-user email string, never acted on"},
+  "packages/server/src/enterprise/middleware/prometheus/index.ts:60:38:clock": {"label": "COSMETIC", "confidence": "high", "reason": "Date.now()-startEpoch is a duration observed into a metric, not branched on"},
+  "packages/server/src/metrics/OpenTelemetry.ts:232:54:clock": {"label": "COSMETIC", "confidence": "high", "reason": "Date.now()-startEpoch duration recorded into metric, no control flow"},
+  "packages/server/src/queue/BaseQueue.ts:65:98:clock": {"label": "COSMETIC", "confidence": "high", "reason": "new Date().toISOString() only interpolated into a log message"},
+  "packages/server/src/queue/BaseQueue.ts:76:90:clock": {"label": "COSMETIC", "confidence": "high", "reason": "new Date().toISOString() only interpolated into an error log message"},
+  "packages/server/src/routes/oauth2/index.ts:444:26:clock": {"label": "COSMETIC", "confidence": "high", "reason": "new Date() stored as updatedDate on credential update, never compared"},
+  "packages/server/src/schedule/ScheduleExecutor.ts:230:31:clock": {"label": "COSMETIC", "confidence": "high", "reason": "Date.now()-startTime is elapsedTimeMs recorded to the trigger log, not branched on"},
+  "packages/server/src/services/evaluations/index.ts:262:42:clock": {"label": "COSMETIC", "confidence": "high", "reason": "new Date() stored as runDate field on EvaluationRun, never acted on"},
+  "packages/server/src/utils/buildAgentflow.ts:353:62:clock": {"label": "COSMETIC", "confidence": "high", "reason": "new Date().toISOString() substituted into a template string value, not branched on"},
+  "packages/server/src/utils/index.ts:838:34:clock": {"label": "COSMETIC", "confidence": "high", "reason": "new Date() stored as createdDate on a variable object, never compared"},
+  "packages/ui/src/utils/genericHelper.js:788:23:clock": {"label": "GENUINE", "confidence": "medium", "reason": "throttle stores lastRan and branches on Date.now()-lastRan>=limit deciding whether func runs; inline, no seam"}
+}

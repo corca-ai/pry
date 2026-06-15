@@ -124,6 +124,17 @@ recompute precision/filter-recall from the labels, no new LLM call.
    **over-called retry/timeout `setTimeout`s as GENUINE** (the 2 of 2 calibration
    disagreements were exactly this — notion retry-wait, redis ping-timeout), so the
    panel's 5/130 is an over-count and the timer-demotion is even more justified.
+   **⚠ Slice 2 REFRAMED this lever (do not just demote more).** The filter-recall arm
+   found the opposite failure dominates: the *existing* `clock_is_logsink`/cosmetic
+   filter already **over-demotes** genuine clock (16/143 = 11.2% of the demoted pool),
+   because it misreads **DB-query date bounds** (`where expiresAt < new Date()`) and
+   **date-math thresholds** (`subMinutes(new Date(),5)` → later compared) as
+   record-sinks. So lever #3 is a **discrimination fix**: tighten `clock_is_logsink` to
+   (a) RESCUE clock that flows into a query date-bound / object-pair under a query
+   call (`Op.lt`/`$lte`/`$gte`) or a date-math helper whose result is later compared,
+   while (b) still demoting true record/log sinks. Net it should raise BOTH precision
+   (drop true-cosmetic timers) AND recall (rescue the 11%). Gate every change with
+   `filter_recall.py` — the demoted-pool GENUINE count must go DOWN, never up.
 3. **Test-file leak: `.vitest.ts` (and `manual-testing-sandbox/`, `*-sol.ts`). — ✓
    BUILT 2026-06-15 (default-stem part).** pry's `is_source` dropped `.test.`/`.spec.`
    but not `.vitest.`; continue's llm crater (2/35) is largely its `*.vitest.ts`
@@ -177,8 +188,13 @@ directly read off the labels. "CEILING" = assumes a *perfect* syntactic filter
 | + cosmetic-random (drop 79 `random`) — **✓ BUILT** | 315/477 = **66.0%** | **0 / 79** | EXACT (measured) |
 | + test-file heuristic — default stems (drop 25 `.vitest`; `.e2e` forward-looking, 0 on this corpus) — **✓ BUILT** | 315/452 = **69.7%** | **0 / 25** | EXACT (measured) |
 | + repo `.pryignore` (drop 4 `sandbox`/`-sol`; E7, not the default) | 315/448 = **70.3%** | **0 / 4** | EXACT (repo scope) |
-| + stronger cosmetic-clock (drop 119 cosmetic clock) | 315/329 = **95.7%** | 0 | CEILING |
+| + stronger cosmetic-clock (drop 119 cosmetic clock) | 315/329 = **95.7%** | **⚠ NOT 0** — Slice 2 measured ~11% recall cost on demoted clock | CEILING (refuted) |
 | + rung-3 / remaining false-welds (drop 11) | 315/318 = **99.1%** | 0 | CEILING |
+
+> ⚠ The clock CEILING row's "0 lost" assumed a *perfect* filter. **Slice 2 refuted
+> it:** the demoted clock pool is already 11.2% genuine, so demoting *more* clock
+> raises recall loss. Lever #3 is therefore a control-vs-record **discrimination
+> fix**, not a blanket demotion (see taxonomy #2 + the Slice 2 section).
 
 **Across every lever, zero of the 315 genuine welds are lost** (in the labeled
 set). The two EXACT levers — cosmetic-random and the test-file heuristic — are now
@@ -213,9 +229,59 @@ a **flag**, not a conclusion — but **human calibration confirmed the mechanism
 of 3 sampled pry-seamed findings, 2 (`ContinueServerClient.getConfig`/`sendFeedback`)
 were real welds pry false-seamed via **rung-3 form-A interface-impl over-seaming**
 (taxonomy #4b), and 1 (`http.ts` with a destructured `fetch` param) was a correct
-seam. So the recall hole has a named cause, not just a count. **Slice 2
-(filter-recall, E5)** still quantifies it properly against the larger bare pool;
-do not ship a rung-3 change before it.
+seam. So the recall hole has a named cause, not just a count. The **rung-3** recall
+hole is a *seam-side* miss (pry called a weld seamed); Slice 2 below measures the
+complementary *filter-side* miss (a filter demoted a weld). Do not ship a rung-3
+change before extending the recall arm to the seamed pool.
+
+## Slice 2 — filter-recall arm (E5/SC3/AC3) — DONE 2026-06-15
+
+**The gate's recall half.** Precision (Slice 1) asks "is a kept finding genuine?";
+filter-recall asks the inverse: **did a precision filter DEMOTE a genuine weld?** The
+denominator is pry's pre-demand pool, so the un-labeled part is the **demoted pool** —
+class=welded, `demand=false`, in a filter-demotable kind (clock/random; the fileio/env
+diagnostic swamp is excluded — it is demand=false by catalog, never demoted). The
+panel labeled a **stride sample of 154** of the 733-finding demoted pool (143 clock at
+~22%, 11 random control; `harness/finding_io.py emit --pool demoted`). Reconcile:
+**150/154 unanimous, 4 majority, 0 ties.** Frozen to
+`harness/fixtures/eval/*-barepool-labels.json`; re-derive with `python3
+harness/filter_recall.py`.
+
+**Result — the clock filters are NOT lossless; the cosmetic-random filter is.**
+
+| pool | GENUINE (= filter-recall miss) | read as |
+|---|---|---|
+| demoted **clock** | **16 / 143 = 11.2%** | the cosmetic/`logsink` filter over-demotes genuine clock |
+| demoted **random** | **0 / 11** | cosmetic-random is lossless (confirms lever #1, 0/79 earlier) |
+
+Concentrated in **DB-heavy apps** (clock-only denominators): outline 7/30 (23%),
+librechat 7/43 (16%) vs continue 1/51 (2%), flowise 1/19 (5%). **15 of the 16 misses
+were demoted by `clock_is_logsink`** (8 `clock-inline-logsink` + 7 `builtin-inline-logsink`),
+1 by cosmetic — auditable via the `pry_reason` field in each `*-barepool-labels.json`.
+The named cause — clock reads that feed
+**control** but in shapes the log-sink heuristic misreads as record-sinks:
+- **DB-query date bounds:** `where: { expiresAt: { [Op.lt]: new Date() } }`
+  (CleanupExpiredAttachmentsTask), `findOne({ displayFrom: { $lte: now } })` (banner)
+  — the clock is an object-pair value, which the cosmetic `pair` rule demotes, but in
+  a query it *selects/gates which rows are read or deleted*.
+- **Date-math thresholds:** `subMinutes(new Date(), 5)` → later `if (lastActiveAt <
+  fiveMinutesAgo)` (Team.updateActiveAt throttle) — demoted as a call argument; the
+  comparison is one binding hop away through a helper the dataflow doesn't trace.
+- **Window bins:** `new Date(Date.now() - WEEK)` used to bucket records.
+
+**Population caveat (honest):** the demoted side is a 22% clock sample, so scaling to
+the full 637-clock demoted pool implies **~71** genuine clock demoted (wide CI) versus
+only **5** genuine clock *kept* in the demand-weld census — i.e. the clock filters keep
+a small minority of genuine clock. The 95.2% "labeled-union recall" the script prints
+mixes a census with a sample and reads high; the honest takeaway is **clock recall is
+poor and app-shape-dependent**, not that 95% is safe.
+
+**Gate rule (SC3).** A lever ships only if **dev precision ↑ ∧ held-out filter-recall
+held** — concretely, *a new lever must not raise the demoted-pool GENUINE count*
+(re-run `filter_recall.py` after applying the lever). The two shipped EXACT levers
+pass trivially: random demoted 0 genuine (0/11 here, 0/79 before); the test-file
+heuristic demoted 0 genuine (0/25, demand-weld labels). **This refutes the
+"stronger-clock → 0 lost" CEILING below** and reshapes lever #3 (see taxonomy #2).
 
 ## Panel quality — and why the agreement rate is weak evidence
 

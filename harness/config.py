@@ -120,4 +120,16 @@ FINDING_CLOCK_SAMPLE_FRACTION = 0.25   # >=25% of clock demand-welds (PQ3)
 FINDING_SEAMED_CONTROL_FRACTION = 0.20
 FINDING_SEAMED_CONTROL_FLOOR = 10      # but at least this many when the pool allows
 
+# --- filter-recall arm (Slice 2, E5/SC3/AC3) ----------------------------------
+# Filter-recall asks the inverse of precision: did a precision filter DEMOTE a
+# genuine weld? The denominator is pry's pre-demand pool, so the un-labeled part is
+# the DEMOTED welded pool — class=welded, demand=false, in a filter-demotable kind
+# (clock/random; NOT the fileio/env diagnostic swamp, which is demand=false by
+# catalog and never demoted by a filter). Any GENUINE in this pool is a recall MISS.
+# Clock is the large cosmetic pool (sampled heavier); random is a known-COSMETIC
+# control (lever #1 demoted it; here it doubles as a consistency cross-check).
+FINDING_DEMOTED_KINDS = ("clock", "random")
+FINDING_DEMOTED_CLOCK_FRACTION = 0.22   # ~22% of the demoted-clock pool
+FINDING_DEMOTED_RANDOM_FRACTION = 0.10  # small control on demoted random
+
 FINDING_HARNESS_VERSION = "0.1.0"

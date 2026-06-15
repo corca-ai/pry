@@ -1,0 +1,461 @@
+{
+  "corpus": "outline@d85ead5",
+  "harness_version": "0.1.0",
+  "labeler_model": "claude-opus-4-8",
+  "labels": {
+    "app/editor/extensions/Multiplayer.ts:93:59:clock": {
+      "decision": "unanimous",
+      "file": "app/editor/extensions/Multiplayer.ts",
+      "group": "demoted_weld",
+      "kind": "clock",
+      "label": "COSMETIC",
+      "line": 93,
+      "pry_reason": "clock-inline-cosmetic",
+      "votes": {
+        "neutral": "COSMETIC",
+        "pragmatic": "COSMETIC",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "app/models/Notification.ts:146:44:clock": {
+      "decision": "unanimous",
+      "file": "app/models/Notification.ts",
+      "group": "demoted_weld",
+      "kind": "clock",
+      "label": "COSMETIC",
+      "line": 146,
+      "pry_reason": "clock-inline-logsink",
+      "votes": {
+        "neutral": "COSMETIC",
+        "pragmatic": "COSMETIC",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "app/stores/NotificationsStore.ts:45:17:clock": {
+      "decision": "unanimous",
+      "file": "app/stores/NotificationsStore.ts",
+      "group": "demoted_weld",
+      "kind": "clock",
+      "label": "COSMETIC",
+      "line": 45,
+      "pry_reason": "clock-inline-cosmetic",
+      "votes": {
+        "neutral": "COSMETIC",
+        "pragmatic": "COSMETIC",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "app/stores/UnfurlsStore.ts:86:20:clock": {
+      "decision": "unanimous",
+      "file": "app/stores/UnfurlsStore.ts",
+      "group": "demoted_weld",
+      "kind": "clock",
+      "label": "COSMETIC",
+      "line": 86,
+      "pry_reason": "clock-inline-cosmetic",
+      "votes": {
+        "neutral": "COSMETIC",
+        "pragmatic": "COSMETIC",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "plugins/email/server/auth/email.ts:91:34:clock": {
+      "decision": "unanimous",
+      "file": "plugins/email/server/auth/email.ts",
+      "group": "demoted_weld",
+      "kind": "clock",
+      "label": "COSMETIC",
+      "line": 91,
+      "pry_reason": "clock-inline-logsink",
+      "votes": {
+        "neutral": "COSMETIC",
+        "pragmatic": "COSMETIC",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "plugins/linear/server/api/linear.ts:70:26:clock": {
+      "decision": "unanimous",
+      "file": "plugins/linear/server/api/linear.ts",
+      "group": "demoted_weld",
+      "kind": "clock",
+      "label": "COSMETIC",
+      "line": 70,
+      "pry_reason": "builtin-inline-logsink",
+      "votes": {
+        "neutral": "COSMETIC",
+        "pragmatic": "COSMETIC",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "server/collaboration/ViewsExtension.ts:38:43:clock": {
+      "decision": "unanimous",
+      "file": "server/collaboration/ViewsExtension.ts",
+      "group": "demoted_weld",
+      "kind": "clock",
+      "label": "COSMETIC",
+      "line": 38,
+      "pry_reason": "clock-inline-logsink",
+      "votes": {
+        "neutral": "COSMETIC",
+        "pragmatic": "COSMETIC",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "server/commands/subscriptionCreator.ts:37:15:clock": {
+      "decision": "unanimous",
+      "file": "server/commands/subscriptionCreator.ts",
+      "group": "demoted_weld",
+      "kind": "clock",
+      "label": "COSMETIC",
+      "line": 37,
+      "pry_reason": "clock-inline-logsink",
+      "votes": {
+        "neutral": "COSMETIC",
+        "pragmatic": "COSMETIC",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "server/logging/sentry.ts:37:17:random": {
+      "decision": "majority",
+      "file": "server/logging/sentry.ts",
+      "group": "demoted_weld",
+      "kind": "random",
+      "label": "COSMETIC",
+      "line": 37,
+      "pry_reason": "builtin-inline-random-cosmetic",
+      "votes": {
+        "neutral": "GENUINE",
+        "pragmatic": "COSMETIC",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "server/migrations/20220419052832-create-team-domains.js:70:23:clock": {
+      "decision": "unanimous",
+      "file": "server/migrations/20220419052832-create-team-domains.js",
+      "group": "demoted_weld",
+      "kind": "clock",
+      "label": "COSMETIC",
+      "line": 70,
+      "pry_reason": "clock-inline-logsink",
+      "votes": {
+        "neutral": "COSMETIC",
+        "pragmatic": "COSMETIC",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "server/models/Collection.ts:430:20:clock": {
+      "decision": "unanimous",
+      "file": "server/models/Collection.ts",
+      "group": "demoted_weld",
+      "kind": "clock",
+      "label": "COSMETIC",
+      "line": 430,
+      "pry_reason": "clock-inline-cosmetic",
+      "votes": {
+        "neutral": "COSMETIC",
+        "pragmatic": "COSMETIC",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "server/models/Document.ts:1379:24:clock": {
+      "decision": "unanimous",
+      "file": "server/models/Document.ts",
+      "group": "demoted_weld",
+      "kind": "clock",
+      "label": "COSMETIC",
+      "line": 1379,
+      "pry_reason": "clock-inline-logsink",
+      "votes": {
+        "neutral": "COSMETIC",
+        "pragmatic": "COSMETIC",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "server/models/Team.ts:397:39:clock": {
+      "decision": "unanimous",
+      "file": "server/models/Team.ts",
+      "group": "demoted_weld",
+      "kind": "clock",
+      "label": "GENUINE",
+      "line": 397,
+      "pry_reason": "clock-inline-logsink",
+      "votes": {
+        "neutral": "GENUINE",
+        "pragmatic": "GENUINE",
+        "skeptic": "GENUINE"
+      }
+    },
+    "server/models/User.ts:576:27:clock": {
+      "decision": "unanimous",
+      "file": "server/models/User.ts",
+      "group": "demoted_weld",
+      "kind": "clock",
+      "label": "COSMETIC",
+      "line": 576,
+      "pry_reason": "clock-inline-logsink",
+      "votes": {
+        "neutral": "COSMETIC",
+        "pragmatic": "COSMETIC",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "server/models/User.ts:683:20:clock": {
+      "decision": "unanimous",
+      "file": "server/models/User.ts",
+      "group": "demoted_weld",
+      "kind": "clock",
+      "label": "COSMETIC",
+      "line": 683,
+      "pry_reason": "clock-inline-cosmetic",
+      "votes": {
+        "neutral": "COSMETIC",
+        "pragmatic": "COSMETIC",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "server/models/UserAuthentication.ts:95:43:clock": {
+      "decision": "unanimous",
+      "file": "server/models/UserAuthentication.ts",
+      "group": "demoted_weld",
+      "kind": "clock",
+      "label": "GENUINE",
+      "line": 95,
+      "pry_reason": "builtin-inline-logsink",
+      "votes": {
+        "neutral": "GENUINE",
+        "pragmatic": "GENUINE",
+        "skeptic": "GENUINE"
+      }
+    },
+    "server/models/View.ts:130:30:clock": {
+      "decision": "unanimous",
+      "file": "server/models/View.ts",
+      "group": "demoted_weld",
+      "kind": "clock",
+      "label": "COSMETIC",
+      "line": 130,
+      "pry_reason": "clock-inline-logsink",
+      "votes": {
+        "neutral": "COSMETIC",
+        "pragmatic": "COSMETIC",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "server/presenters/unfurl.ts:131:34:clock": {
+      "decision": "unanimous",
+      "file": "server/presenters/unfurl.ts",
+      "group": "demoted_weld",
+      "kind": "clock",
+      "label": "GENUINE",
+      "line": 131,
+      "pry_reason": "clock-inline-logsink",
+      "votes": {
+        "neutral": "GENUINE",
+        "pragmatic": "GENUINE",
+        "skeptic": "GENUINE"
+      }
+    },
+    "server/queues/HealthMonitor.ts:23:26:clock": {
+      "decision": "unanimous",
+      "file": "server/queues/HealthMonitor.ts",
+      "group": "demoted_weld",
+      "kind": "clock",
+      "label": "COSMETIC",
+      "line": 23,
+      "pry_reason": "builtin-inline-logsink",
+      "votes": {
+        "neutral": "COSMETIC",
+        "pragmatic": "COSMETIC",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "server/queues/tasks/CleanupExpiredAttachmentsTask.ts:14:20:clock": {
+      "decision": "unanimous",
+      "file": "server/queues/tasks/CleanupExpiredAttachmentsTask.ts",
+      "group": "demoted_weld",
+      "kind": "clock",
+      "label": "GENUINE",
+      "line": 14,
+      "pry_reason": "clock-inline-cosmetic",
+      "votes": {
+        "neutral": "GENUINE",
+        "pragmatic": "GENUINE",
+        "skeptic": "GENUINE"
+      }
+    },
+    "server/queues/tasks/CleanupOldImportsTask.ts:16:32:clock": {
+      "decision": "unanimous",
+      "file": "server/queues/tasks/CleanupOldImportsTask.ts",
+      "group": "demoted_weld",
+      "kind": "clock",
+      "label": "GENUINE",
+      "line": 16,
+      "pry_reason": "clock-inline-logsink",
+      "votes": {
+        "neutral": "GENUINE",
+        "pragmatic": "GENUINE",
+        "skeptic": "GENUINE"
+      }
+    },
+    "server/queues/tasks/ExportJSONTask.ts:56:18:clock": {
+      "decision": "unanimous",
+      "file": "server/queues/tasks/ExportJSONTask.ts",
+      "group": "demoted_weld",
+      "kind": "clock",
+      "label": "COSMETIC",
+      "line": 56,
+      "pry_reason": "clock-inline-cosmetic",
+      "votes": {
+        "neutral": "COSMETIC",
+        "pragmatic": "COSMETIC",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "server/queues/tasks/RevisionCreatedNotificationsTask.ts:207:30:clock": {
+      "decision": "unanimous",
+      "file": "server/queues/tasks/RevisionCreatedNotificationsTask.ts",
+      "group": "demoted_weld",
+      "kind": "clock",
+      "label": "GENUINE",
+      "line": 207,
+      "pry_reason": "clock-inline-logsink",
+      "votes": {
+        "neutral": "GENUINE",
+        "pragmatic": "GENUINE",
+        "skeptic": "GENUINE"
+      }
+    },
+    "server/queues/tasks/UpdateDocumentsPopularityScoreTask.ts:67:17:clock": {
+      "decision": "unanimous",
+      "file": "server/queues/tasks/UpdateDocumentsPopularityScoreTask.ts",
+      "group": "demoted_weld",
+      "kind": "clock",
+      "label": "COSMETIC",
+      "line": 67,
+      "pry_reason": "clock-inline-logsink",
+      "votes": {
+        "neutral": "COSMETIC",
+        "pragmatic": "COSMETIC",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "server/routes/api/auth/auth.ts:147:36:clock": {
+      "decision": "unanimous",
+      "file": "server/routes/api/auth/auth.ts",
+      "group": "demoted_weld",
+      "kind": "clock",
+      "label": "GENUINE",
+      "line": 147,
+      "pry_reason": "clock-inline-logsink",
+      "votes": {
+        "neutral": "GENUINE",
+        "pragmatic": "GENUINE",
+        "skeptic": "GENUINE"
+      }
+    },
+    "server/routes/api/notifications/notifications.ts:171:23:clock": {
+      "decision": "unanimous",
+      "file": "server/routes/api/notifications/notifications.ts",
+      "group": "demoted_weld",
+      "kind": "clock",
+      "label": "COSMETIC",
+      "line": 171,
+      "pry_reason": "clock-inline-cosmetic",
+      "votes": {
+        "neutral": "COSMETIC",
+        "pragmatic": "COSMETIC",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "server/routes/api/templates/templates.ts:246:20:clock": {
+      "decision": "unanimous",
+      "file": "server/routes/api/templates/templates.ts",
+      "group": "demoted_weld",
+      "kind": "clock",
+      "label": "COSMETIC",
+      "line": 246,
+      "pry_reason": "clock-inline-cosmetic",
+      "votes": {
+        "neutral": "COSMETIC",
+        "pragmatic": "COSMETIC",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "server/scripts/20260416000000-backfill-document-insights.ts:114:27:clock": {
+      "decision": "unanimous",
+      "file": "server/scripts/20260416000000-backfill-document-insights.ts",
+      "group": "demoted_weld",
+      "kind": "clock",
+      "label": "COSMETIC",
+      "line": 114,
+      "pry_reason": "builtin-inline-logsink",
+      "votes": {
+        "neutral": "COSMETIC",
+        "pragmatic": "COSMETIC",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "server/utils/authentication.ts:91:29:clock": {
+      "decision": "unanimous",
+      "file": "server/utils/authentication.ts",
+      "group": "demoted_weld",
+      "kind": "clock",
+      "label": "COSMETIC",
+      "line": 91,
+      "pry_reason": "clock-inline-logsink",
+      "votes": {
+        "neutral": "COSMETIC",
+        "pragmatic": "COSMETIC",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "server/utils/oauth.ts:60:25:clock": {
+      "decision": "unanimous",
+      "file": "server/utils/oauth.ts",
+      "group": "demoted_weld",
+      "kind": "clock",
+      "label": "COSMETIC",
+      "line": 60,
+      "pry_reason": "clock-inline-logsink",
+      "votes": {
+        "neutral": "COSMETIC",
+        "pragmatic": "COSMETIC",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "server/utils/oauth/OAuthInterface.ts:69:56:random": {
+      "decision": "unanimous",
+      "file": "server/utils/oauth/OAuthInterface.ts",
+      "group": "demoted_weld",
+      "kind": "random",
+      "label": "COSMETIC",
+      "line": 69,
+      "pry_reason": "ns-call-leaf-random-cosmetic",
+      "votes": {
+        "neutral": "COSMETIC",
+        "pragmatic": "COSMETIC",
+        "skeptic": "COSMETIC"
+      }
+    },
+    "shared/utils/date.ts:246:10:clock": {
+      "decision": "unanimous",
+      "file": "shared/utils/date.ts",
+      "group": "demoted_weld",
+      "kind": "clock",
+      "label": "COSMETIC",
+      "line": 246,
+      "pry_reason": "clock-inline-cosmetic",
+      "votes": {
+        "neutral": "COSMETIC",
+        "pragmatic": "COSMETIC",
+        "skeptic": "COSMETIC"
+      }
+    }
+  },
+  "personas": [
+    "pragmatic",
+    "skeptic",
+    "neutral"
+  ],
+  "rubric_hash": "35b8e3a960452ccc"
+}

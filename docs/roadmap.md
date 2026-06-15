@@ -47,17 +47,26 @@ off the frozen labels (no bare-pool labeling needed). They may be **built +
 dev-validated before Slice 2**; only their formal *ship*-close stays gated on the
 held-out arm.
 
-0a. **Slice 2 — filter-recall arm** (`spec-eval-harness.md` SC3/AC3): label a
-    bare-pool sample, compute baseline filter-recall, document the gate rule.
-    Unblocks every lever below.
+0a. **Slice 2 — filter-recall arm** (`spec-eval-harness.md` SC3/AC3) — **✓ DONE
+    2026-06-15.** Labeled a 154-finding sample of the demoted pool (`finding_io.py
+    emit --pool demoted`); frozen `*-barepool-labels.json`; `harness/filter_recall.py`
+    re-derives. **Caught a real recall hole:** the shipped clock filters demote
+    **16/143 = 11.2%** genuine clock (DB-query date bounds, date-math thresholds);
+    random **0/11** (lossless). Gate rule: a lever must not raise the demoted-pool
+    GENUINE count. Unblocks + reshapes the levers below.
 0b. **Cosmetic-random filter** (#1 lever) — **✓ BUILT 2026-06-15.** `random` is
     **0/79** genuine across all 4 repos; `demote_welded_random` (`src/classify.rs`)
     demotes welded `random` from `demand` by default at every call form. Dev
     precision **56.7% → 66.0%, 0 genuine lost** (matched the projection exactly);
     ceal fixture demand-weld 68→67. The highest-lift, lowest-risk lever — built
     first, as an EXACT lever (see the exception above; held-out arm pends ship).
-0c. **Stronger cosmetic-clock filter:** `clock` is **5/130** (3.8%); keep only
-    clock reads feeding a control-flow comparison.
+0c. **Clock control-vs-record discrimination fix** (was "stronger cosmetic-clock";
+    **reshaped by Slice 2**). Not a blanket demotion: the `clock_is_logsink`/cosmetic
+    filter already over-demotes genuine clock (11.2% of the demoted pool) by misreading
+    DB-query date bounds (`expiresAt < new Date()`) and date-math thresholds
+    (`subMinutes(new Date(),5)` → later compared) as record-sinks. Tighten it to
+    RESCUE those while still demoting true record/log sinks. Gate with
+    `filter_recall.py` — the demoted-pool GENUINE count must go DOWN, never up.
 0d. **Extend the test-file heuristic** (`is_source`) — **✓ BUILT 2026-06-15.**
     `src/main.rs:63` now drops `.vitest.`/`.e2e.` stems (drove continue's llm crater).
     Default-stem scope only = **66.0% → 69.7%, 0 genuine lost**; repo-specific

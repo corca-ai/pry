@@ -223,11 +223,38 @@ def _select(rows: list[dict]) -> tuple[list[dict], list[dict]]:
     return graded, control
 
 
+def _select_demoted(rows: list[dict]) -> list[dict]:
+    """Slice 2 (E5) filter-recall pool: the DEMOTED welded findings — class=welded,
+    demand=false, in a filter-demotable kind (clock/random). These are exactly what
+    the precision filters (cosmetic-clock / logsink / duration / cosmetic-random)
+    pushed out of the demand subset; any panel-GENUINE here is a recall MISS. The
+    fileio/env diagnostic swamp is excluded (demand=false by catalog, never demoted).
+    Clock is stride-sampled heavier; random is a small known-COSMETIC control."""
+    def key(r):
+        return (r["file"], r["line"], r["col"], r["kind"])
+
+    demoted = sorted(
+        (r for r in rows if r.get("class") == "welded" and not r.get("demand")
+         and r["kind"] in config.FINDING_DEMOTED_KINDS),
+        key=key,
+    )
+    clock = [r for r in demoted if r["kind"] == "clock"]
+    rand = [r for r in demoted if r["kind"] == "random"]
+    sample = (_stride_sample(clock, config.FINDING_DEMOTED_CLOCK_FRACTION)
+              + _stride_sample(rand, config.FINDING_DEMOTED_RANDOM_FRACTION))
+    sample.sort(key=key)
+    return sample
+
+
 # --- emit ---------------------------------------------------------------------
 def cmd_emit(args) -> int:
     rows, corpus = _load_map(args.map)
-    graded, control = _select(rows)
-    items = graded + control
+    if args.pool == "demoted":
+        items = _select_demoted(rows)
+        graded, control = items, []   # for the count message below
+    else:
+        graded, control = _select(rows)
+        items = graded + control
 
     ids = [finding_id(r) for r in items]
     if len(ids) != len(set(ids)):
@@ -246,6 +273,7 @@ def cmd_emit(args) -> int:
     worklist = {
         "harness_version": config.FINDING_HARNESS_VERSION,
         "corpus": corpus,
+        "pool": args.pool,
         "rubric_hash": _combined_rubric_hash(),
         "personas": list(config.FINDING_PERSONAS),
         "persona_rubrics": PERSONA_RUBRICS,
@@ -260,8 +288,10 @@ def cmd_emit(args) -> int:
     }
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(json.dumps(worklist, indent=2, sort_keys=True) + "\n")
-    print(f"emitted {len(blinded)} findings "
-          f"({len(graded)} demand-welded graded + {len(control)} seamed-control), "
+    breakdown = (f"{len(graded)} demoted-welded (filter-recall pool)"
+                 if args.pool == "demoted"
+                 else f"{len(graded)} demand-welded graded + {len(control)} seamed-control")
+    print(f"emitted {len(blinded)} findings ({breakdown}), "
           f"blinded, rubric {_combined_rubric_hash()} -> {args.out}")
     print(f"panel: {len(config.FINDING_PERSONAS)} personas "
           f"({', '.join(config.FINDING_PERSONAS)}) each write "
@@ -475,11 +505,17 @@ def cmd_freeze(args) -> int:
     labels = {}
     for fid in sorted(want_ids):
         r, row = rec[fid], by_id[fid]
-        group = ("demand_weld" if row.get("class") == "welded"
-                 else "seamed_control")
+        if row.get("class") == "welded":
+            # demand=true -> precision pool; demand=false -> the DEMOTED pool a
+            # filter pushed out (Slice 2 filter-recall): a GENUINE here is a miss.
+            group = "demand_weld" if row.get("demand") else "demoted_weld"
+        else:
+            group = "seamed_control"
         labels[fid] = {
             "file": row["file"], "line": row["line"], "kind": row["kind"],
             "group": group,                # recovered from the map (was blinded)
+            "pry_reason": row.get("reason", ""),  # which rule classed it (audit;
+            # e.g. a demoted_weld GENUINE shows the filter that over-demoted it)
             "label": r["label"],
             "decision": r.get("decision", "majority"),
             "votes": r["votes"],
@@ -495,20 +531,30 @@ def cmd_freeze(args) -> int:
     }
     args.out.write_text(json.dumps(out, indent=2, sort_keys=True) + "\n")
 
+    print(f"frozen {len(labels)} finding labels (model={args.model_id}, "
+          f"rubric={_combined_rubric_hash()}) -> {args.out}")
     # precision is over the demand-weld group only (seamed-control is the
     # false-seam probe, not part of the precision denominator) — SC2.
     welds = [v for v in labels.values() if v["group"] == "demand_weld"]
-    genuine = sum(1 for v in welds if v["label"] == "GENUINE")
-    decided = sum(1 for v in welds if v["label"] != "AMBIGUOUS")
+    if welds:
+        genuine = sum(1 for v in welds if v["label"] == "GENUINE")
+        decided = sum(1 for v in welds if v["label"] != "AMBIGUOUS")
+        prec = (genuine / decided) if decided else 0.0
+        print(f"  demand-weld precision: {genuine}/{decided} = {prec:.2%} GENUINE "
+              f"(of decided; {len(welds) - decided} AMBIGUOUS excluded)")
+    # demoted pool (Slice 2 filter-recall): a GENUINE here is a weld a precision
+    # filter wrongly demoted — a recall MISS. Zero = the filters held recall (E5).
+    demoted = [v for v in labels.values() if v["group"] == "demoted_weld"]
+    if demoted:
+        misses = sum(1 for v in demoted if v["label"] == "GENUINE")
+        d_decided = sum(1 for v in demoted if v["label"] != "AMBIGUOUS")
+        print(f"  DEMOTED-pool filter-recall misses: {misses}/{d_decided} decided "
+              f"labeled GENUINE (a genuine weld a filter demoted; 0 = recall held)")
     ctrl = [v for v in labels.values() if v["group"] == "seamed_control"]
-    false_seam = sum(1 for v in ctrl if v["label"] == "GENUINE")
-    prec = (genuine / decided) if decided else 0.0
-    print(f"frozen {len(labels)} finding labels (model={args.model_id}, "
-          f"rubric={_combined_rubric_hash()}) -> {args.out}")
-    print(f"  demand-weld precision: {genuine}/{decided} = {prec:.2%} GENUINE "
-          f"(of decided; {len(welds) - decided} AMBIGUOUS excluded)")
-    print(f"  seamed-control false-seams: {false_seam}/{len(ctrl)} flagged "
-          f"GENUINE (pry mis-classed as seamed)")
+    if ctrl:
+        false_seam = sum(1 for v in ctrl if v["label"] == "GENUINE")
+        print(f"  seamed-control false-seams: {false_seam}/{len(ctrl)} flagged "
+              f"GENUINE (pry mis-classed as seamed)")
     return EXIT_OK
 
 
@@ -522,6 +568,9 @@ def main() -> None:
                    help="`pry map <repo>` JSON output (NOT --summary-only)")
     e.add_argument("--repo", type=Path, required=True,
                    help="repo root the map paths are relative to (for context)")
+    e.add_argument("--pool", choices=("demand", "demoted"), default="demand",
+                   help="demand = demand-welds + seamed-control (Slice 1 precision); "
+                        "demoted = the demand=false welded pool (Slice 2 filter-recall)")
     e.add_argument("--out", type=Path, default=WORKLIST_PATH)
     e.set_defaults(func=cmd_emit)
 

@@ -48,7 +48,16 @@ MAP_FINDINGS = [
     {"file": "a.ts", "line": 22, "col": 4, "kind": "fileio",
      "class": "seamed", "demand": True},
     {"file": "a.ts", "line": 25, "col": 2, "kind": "network",
-     "class": "welded", "demand": False},  # non-demand: excluded
+     "class": "welded", "demand": False},  # non-demand: excluded from BOTH pools
+    # --- demoted pool (Slice 2 filter-recall): welded, demand=false, clock/random
+    {"file": "a.ts", "line": 30, "col": 2, "kind": "clock",
+     "class": "welded", "demand": False, "reason": "builtin-inline-logsink"},
+    {"file": "a.ts", "line": 31, "col": 2, "kind": "random",
+     "class": "welded", "demand": False, "reason": "builtin-inline-random-cosmetic"},
+    # fileio is demand=false by CATALOG (the diagnostic swamp), never demoted by a
+    # filter -> excluded from the demoted pool too.
+    {"file": "a.ts", "line": 32, "col": 2, "kind": "fileio",
+     "class": "welded", "demand": False, "reason": "fs-global"},
 ]
 
 
@@ -131,6 +140,51 @@ class FindingIOTest(unittest.TestCase):
         # seamed control present (false-seam probe)
         self.assertIn("a.ts:20:4:network", ids)
         self.assertEqual(len([i for i in ids if i.startswith("a.ts:2")]), 3)
+
+    def test_emit_demoted_pool_selects_filter_recall_set(self) -> None:
+        cp = self.run_cli("emit", "--map", str(self.map), "--repo", str(self.tmp),
+                          "--pool", "demoted", "--out", str(self.worklist))
+        self.assertEqual(cp.returncode, 0, cp.stderr)
+        wl = json.loads(self.worklist.read_text())
+        self.assertEqual(wl["pool"], "demoted")
+        ids = {f["id"] for f in wl["findings"]}
+        # the demoted (welded, demand=false) clock + random ARE selected
+        self.assertIn("a.ts:30:2:clock", ids)
+        self.assertIn("a.ts:31:2:random", ids)
+        # demand=true welds are NOT in the demoted pool (that's Slice 1's job)
+        self.assertNotIn("a.ts:5:2:network", ids)
+        self.assertNotIn("a.ts:15:2:clock", ids)
+        # the fileio/env swamp (demand=false by catalog) + non-demotable-kind welds
+        # (a demand=false network) are excluded — only filter-demoted kinds count
+        self.assertNotIn("a.ts:32:2:fileio", ids)
+        self.assertNotIn("a.ts:25:2:network", ids)
+        # still blinded (no verdict bit)
+        for f in wl["findings"]:
+            self.assertNotIn("demand", f)
+            self.assertNotIn("class", f)
+
+    def test_demoted_pool_freeze_reports_filter_recall_misses(self) -> None:
+        self.run_cli("emit", "--map", str(self.map), "--repo", str(self.tmp),
+                     "--pool", "demoted", "--out", str(self.worklist))
+        wl = json.loads(self.worklist.read_text())
+        # panel: the demoted clock is actually GENUINE (a filter over-demoted it —
+        # a recall MISS); the demoted random is COSMETIC (correctly demoted).
+        votes = {f["id"]: ("GENUINE" if f["id"].endswith(":clock") else "COSMETIC")
+                 for f in wl["findings"]}
+        for p in ("pragmatic", "skeptic", "neutral"):
+            self.write_votes(p, votes)
+        self.assertEqual(self.reconcile().returncode, 0)
+        fz = self.freeze()
+        self.assertEqual(fz.returncode, 0, fz.stderr)
+        out = json.loads(self.labels.read_text())
+        # group recovered as demoted_weld (welded + demand=false), not demand_weld
+        self.assertTrue(all(v["group"] == "demoted_weld"
+                            for v in out["labels"].values()), out["labels"])
+        # the genuine clock a filter demoted is reported as a filter-recall miss
+        self.assertIn("filter-recall misses: 1/2 decided", fz.stdout)
+        # pry_reason recorded for audit: WHICH filter over-demoted the genuine clock
+        self.assertEqual(out["labels"]["a.ts:30:2:clock"]["pry_reason"],
+                         "builtin-inline-logsink")
 
     def test_emit_is_deterministic(self) -> None:
         a = self.emit()

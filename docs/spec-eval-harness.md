@@ -272,11 +272,12 @@ the filter-recall arm (E5) before any lever ships.
   high-variance, so the gate **closes** only at the **pre-registered held-out
   target — dev 5 / held-out 10 (≈15 TS/JS repos, nose-analog; operator-confirmable).**
   Labels are file:line-auditable.
-- **SC3 (Slice 2)** — **filter-recall** (within pry-recognized boundaries, E5) is
-  measurable against the bare pool: a lever that demotes a panel-GENUINE weld is
-  identifiable. The gate rule (dev precision↑ ∧ held-out filter-recall held) is
-  documented and runnable. (Detection/catalog-completeness recall is out of scope,
-  E5.)
+- **SC3 (Slice 2) — MET 2026-06-15.** **filter-recall** (within pry-recognized
+  boundaries, E5) is measurable against the bare pool: a lever that demotes a
+  panel-GENUINE weld is identifiable (the demoted-pool labelset + `filter_recall.py`
+  do exactly this; it caught the shipped clock filters demoting 16/143 genuine). The
+  gate rule (dev precision↑ ∧ held-out filter-recall held) is documented and
+  runnable. (Detection/catalog-completeness recall is out of scope, E5.)
 - **SC4** — the shipped `pry` binary is unchanged: no new LLM/credential
   dependency; harness scripts contain no network/LLM call.
 - **SC5** — a **noise taxonomy** names the next lever (precision-gate-style
@@ -290,9 +291,11 @@ the filter-recall arm (E5) before any lever ships.
 - **AC2 (SC2)** — a precision table (precision-gate format) is checked into
   `docs/eval-gate.md`; every label is contestable via the cited `file:line`
   against the pinned corpus.
-- **AC3 (SC3, Slice 2)** — filter-recall is computed from the labeled bare-pool
-  sample; a documented command re-derives precision/filter-recall from the frozen
-  labelset; the gate rule is stated with a worked example.
+- **AC3 (SC3, Slice 2) — MET 2026-06-15.** filter-recall is computed from the
+  labeled bare-pool sample (`*-barepool-labels.json`); `python3
+  harness/filter_recall.py` re-derives it from the frozen labelset (demoted clock
+  16/143, random 0/11); the gate rule ("a lever must not raise the demoted-pool
+  GENUINE count") is stated with the worked clock examples in eval-gate.md.
 - **AC4 (SC4)** — the binary's transitive deps contain **no** HTTP/gRPC/LLM client
   (assert `Cargo.lock` has none of
   `reqwest|hyper|ureq|isahc|surf|curl|awc|tonic|anthropic|openai`, and `src/` has
@@ -365,8 +368,15 @@ under `harness/fixtures/eval/` (created on first panel run).
    pooled 56.7% (clock/random tail is the drag). H3 gate **OPENED, not closed**
    (SC2): held-out arm + a DI-disciplined exemplar + human calibration still owed.
 
-**Slice 2 — filter-recall arm (before any lever):** label a bare-pool sample;
-compute filter-recall; document the gate rule with a worked example (SC3/AC3).
+**Slice 2 — filter-recall arm (before any lever) — DONE 2026-06-15.** Labeled a
+154-finding stride sample of the demoted pool (welded, demand=false; clock+random)
+via `finding_io.py emit --pool demoted`; frozen to
+`harness/fixtures/eval/*-barepool-labels.json`; gate rule + reproduce in
+`harness/filter_recall.py` and [`eval-gate.md`](eval-gate.md) "Slice 2". **Result:**
+demoted **clock 16/143 = 11.2% genuine** (the cosmetic/`logsink` filter over-demotes
+DB-query date bounds + date-math thresholds), demoted **random 0/11** (lossless). The
+two shipped EXACT levers pass the gate (0 genuine demoted); the clock CEILING's "0
+lost" was **refuted**, reshaping lever #3 into a discrimination fix.
 
 **Then** levers, each gated by E5 (dev precision↑ ∧ held-out filter-recall held).
 
