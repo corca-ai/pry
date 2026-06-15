@@ -202,6 +202,30 @@ BGATE_MIN_DECIDED_FRACTION = 0.40   # below this the lens is MUTE (KILL, not GO)
 
 CORPUS_SWEEP_VERSION = "0.1.0"
 
+# --- Step-1 coverage (testability) metric -------------------------------------
+# After E9 Tier-1 FALSIFIED the bug-prediction thesis, this tests pry's remaining
+# honest candidate thesis: welded-at-demand is a TESTABILITY signal — a welded
+# boundary has no seam to inject a failure, so its code is harder to test, hence
+# LESS tested. Same corpus, same frozen sweep records, same matched machinery;
+# the outcome is "untested" (the finding's file has NO test association),
+# oriented so wd-more-untested => ratio>1 (the SAME direction as E9), so the E9
+# two-sided floor is reused by symmetry and no new free parameter is fit to this
+# outcome. Contract: harness/fixtures/eval/preregistration-coverage.md.
+COVERAGE_GO_FLOOR = ENRICHMENT_GO_FLOOR        # matched untested ratio >= => GO
+COVERAGE_FALSIFIER = ENRICHMENT_FALSIFIER      # <= (or CI-lo<=1) => FALSIFIED
+# Test-file detection (mirrors pry's is_source test-stem heuristics).
+COVERAGE_CODE_EXT_REGEX = r"\.[cm]?[jt]sx?$"
+COVERAGE_TEST_BASENAME_REGEX = r"\.(test|spec|e2e|vitest|cy)\.[cm]?[jt]sx?$"
+COVERAGE_TEST_DIR_REGEX = r"(^|/)(__tests__|__mocks__|tests?|e2e|cypress|spec)/"
+# Module-resolution extension order for the imported-by-test arm (TS/JS standard).
+COVERAGE_RESOLVE_EXTS = [".ts", ".tsx", ".js", ".jsx", ".mts", ".cts", ".mjs", ".cjs"]
+# Frontend heuristic for the backend-only robustness cut (the named E9 file-kind
+# confound: welded fetch concentrates in less-unit-tested UI code).
+COVERAGE_FRONTEND_REGEX = (
+    r"\.(tsx|jsx)$|(^|/)(components|pages|app|ui|views|client|frontend)/"
+)
+COVERAGE_RESULT_PATH = EVAL_DIR / "coverage_result.json"
+
 # --- S2 sweep engine ----------------------------------------------------------
 CORPUS_CLONE_DIR = Path(os.path.expanduser("~/codes/_pry-corpus"))  # local clones
 SWEEP_DIR = EVAL_DIR / "sweep"                  # per-repo sweep records (frozen)
