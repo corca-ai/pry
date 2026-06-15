@@ -226,6 +226,34 @@ COVERAGE_FRONTEND_REGEX = (
 )
 COVERAGE_RESULT_PATH = EVAL_DIR / "coverage_result.json"
 
+# --- Floor experiment (the un-killed CLAIM channel) ---------------------------
+# After both MAP prediction payoffs died (E9 bugs, Step-1 coverage), this tests
+# the never-built FLOOR: a syntactic error-handling bug finder whose bar is
+# precision-of-a-fact (Aspirator/Yuan lineage), NOT lift-over-churn. So the go/kill
+# is a precision + repo-fit gate, not a ratio-vs-1.0 gate. Rules: FLOOR-1 (swallowed
+# failure-capable boundary failure: try has a network/subprocess/db/fileio call,
+# catch swallows) and FLOOR-2 (FLOOR-1 + control reaches a mutation/commit after =
+# the severe subclass, the headline metric). Weld-AGNOSTIC. Separate `pry floor`
+# output. Contract: docs/spec-floor.md / preregistration-floor.md.
+FLOOR_BOUNDARY_KINDS = ("network", "subprocess", "db", "fileio")  # failure-capable
+FLOOR_LABEL_TARGET = 40           # label up to this many FLOOR-2 flags (all if fewer)
+                                  # + ~10 FLOOR-1-only for context; deterministic stride
+FLOOR_SAMPLE_SEED = 0
+# Two-sided go/kill on FLOOR-2 (set blind, before any flag is seen). The VOLUME
+# gates (min-total + min-decided) close the cheap-GO hole a Wilson-LB alone left
+# open (n=3 all-genuine would otherwise clear an LB>=0.40 bar — spec-critique F-A);
+# so the binding gate is precision + min-decided-n + min-total + spread, and the
+# Wilson interval is REPORTED descriptively, not used as a gate.
+FLOOR_MIN_TOTAL_FLAGS = 25        # corpus-wide FLOOR-2 flags required for GO-eligibility
+FLOOR_GO_PRECISION = 0.60         # FLOOR-2 precision >= this ...
+FLOOR_GO_MIN_DECIDED = 20         # ... over >= this many DECIDED FLOOR-2 labels ...
+FLOOR_GO_MIN_GENUINE = 3          # ... with >= this many GENUINE-MEANINGFUL ...
+FLOOR_GO_MIN_REPOS = 2            # ... spanning >= this many repos => GO (build detector)
+FLOOR_KILL_PRECISION = 0.40       # precision <= this (or <2 genuine) => KILL
+FLOOR_WILSON_CI = 0.95            # reported alongside precision, NOT a gate
+FLOOR_RESULT_PATH = EVAL_DIR / "floor_result.json"
+FLOOR_LABELS_PATH = EVAL_DIR / "floor-labels.json"
+
 # --- S2 sweep engine ----------------------------------------------------------
 CORPUS_CLONE_DIR = Path(os.path.expanduser("~/codes/_pry-corpus"))  # local clones
 SWEEP_DIR = EVAL_DIR / "sweep"                  # per-repo sweep records (frozen)
