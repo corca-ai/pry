@@ -94,8 +94,10 @@ bindings.
 
 - **Validated surface: TypeScript / JavaScript.** On the substitution-demand
   subset, curated precision is ~88% (ceal) / ~97% (cautilus) after the
-  cosmetic-clock + duration-record + cosmetic-random filters; the welded/seamed
-  signal carries information (lens GO across 8 corpora). See [`docs/precision-gate.md`](docs/precision-gate.md).
+  cosmetic-clock + duration-record + cosmetic-random filters and the clock
+  control-vs-record discrimination rescue (keeps DB-query date bounds + compared
+  date-math thresholds in the demand subset); the welded/seamed signal carries
+  information (lens GO across 8 corpora). See [`docs/precision-gate.md`](docs/precision-gate.md).
 - **First off-corca evidence (H3):** an LLM-panel eval on 4 independent
   third-party OSS apps (outline / flowise / continue / librechat) finds
   **network + subprocess demand-welds are 100% genuine (261/261)** and the

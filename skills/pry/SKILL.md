@@ -8,7 +8,9 @@ description: "Use when reviewing the testability/injectability of TypeScript/Jav
 `pry` the binary is deterministic and dumb (spec F1): `pry map <path>` emits
 every boundary finding classified seamed / welded / ambiguous, with the
 substitution-demand flag and the cosmetic-clock + duration-record +
-cosmetic-random filters already applied. **This skill is the intelligence layer the CLI defers to**: it
+cosmetic-random filters (plus the clock control-vs-record discrimination rescue,
+which keeps DB-query date bounds and compared date-math thresholds in the demand
+subset) already applied. **This skill is the intelligence layer the CLI defers to**: it
 runs the binary, ranks the *welded-at-demand* backlog, and labels each finding.
 The output is advisory — a testability backlog, never a bug list, and it must
 never fail standing `quality`.

@@ -61,12 +61,18 @@ held-out arm.
     ceal fixture demand-weld 68→67. The highest-lift, lowest-risk lever — built
     first, as an EXACT lever (see the exception above; held-out arm pends ship).
 0c. **Clock control-vs-record discrimination fix** (was "stronger cosmetic-clock";
-    **reshaped by Slice 2**). Not a blanket demotion: the `clock_is_logsink`/cosmetic
-    filter already over-demotes genuine clock (11.2% of the demoted pool) by misreading
-    DB-query date bounds (`expiresAt < new Date()`) and date-math thresholds
-    (`subMinutes(new Date(),5)` → later compared) as record-sinks. Tighten it to
-    RESCUE those while still demoting true record/log sinks. Gate with
-    `filter_recall.py` — the demoted-pool GENUINE count must go DOWN, never up.
+    reshaped by Slice 2) — **✓ BUILT 2026-06-15.** Not a blanket demotion: the
+    `clock_is_logsink`/cosmetic filter over-demoted genuine clock (11.2% of the demoted
+    pool) by misreading DB-query date bounds (`expiresAt < new Date()`) and date-math
+    thresholds (`subMinutes(new Date(),5)` → later compared) as record-sinks.
+    `clock_is_demand_control` (`src/classify.rs`) now RESCUES those before demotion —
+    Rescue A (clock under a `[Op.lt]`/`$lte` query operator key, bare or via const) +
+    Rescue B (a date-DERIVED clock whose result is compared) — while keeping true
+    record/log sinks and bare record timestamps demoted. **Purely additive (only
+    prevents demotion) → recall ↑, precision neutral: demoted-pool misses 16 → 5, 11
+    rescued, 0 precision-damage, 0 lost-recall.** Gate: `python3 harness/filter_recall.py
+    --remap` (re-runs pry, re-joins to the frozen oracle — needed because this lever
+    changes pry's demand bit, unlike the EXACT levers). ceal zero-delta (cdd31884).
 0d. **Extend the test-file heuristic** (`is_source`) — **✓ BUILT 2026-06-15.**
     `src/main.rs:63` now drops `.vitest.`/`.e2e.` stems (drove continue's llm crater).
     Default-stem scope only = **66.0% → 69.7%, 0 genuine lost**; repo-specific

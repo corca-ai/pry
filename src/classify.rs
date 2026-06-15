@@ -288,6 +288,65 @@ fn is_value_wrapper(kind: &str) -> bool {
     )
 }
 
+/// MongoDB / Mongoose query comparison operators (`{ field: { $lte: <date> } }`).
+const MONGO_QUERY_OPS: &[&str] = &["$lt", "$lte", "$gt", "$gte", "$ne", "$eq", "$in", "$nin"];
+/// Sequelize `Op.<x>` symbol operators (`{ field: { [Op.lt]: <date> } }`): the
+/// member property name carries the operator (the `Op` receiver is conventional).
+const SEQUELIZE_QUERY_OPS: &[&str] =
+    &["lt", "lte", "gt", "gte", "ne", "between", "before", "after"];
+
+/// Is `pair`'s key a DB-query comparison operator — `$lte`/`$gt` (mongo, a
+/// `property_identifier`/`string` key) or `[Op.lt]` (sequelize, a
+/// `computed_property_name` wrapping `Op.<op>`)? A clock under such a key is a
+/// genuine query date BOUND (the failure to inject is "the query selects the wrong
+/// rows"), NOT a display/record field — so it must not be demoted (lever 3).
+fn pair_key_is_query_op(pair: Node, src: &[u8]) -> bool {
+    let Some(key) = pair.child_by_field_name("key") else { return false };
+    match key.kind() {
+        "property_identifier" | "string" | "string_fragment" => {
+            let t = text(key, src).trim_matches(|c| c == '"' || c == '\'');
+            MONGO_QUERY_OPS.contains(&t)
+        }
+        // `[Op.lt]` -> computed_property_name { member_expression: Op.lt }
+        "computed_property_name" => key
+            .named_child(0)
+            .filter(|inner| inner.kind() == "member_expression")
+            .and_then(|inner| inner.child_by_field_name("property"))
+            .map(|p| SEQUELIZE_QUERY_OPS.contains(&text(p, src)))
+            .unwrap_or(false),
+        _ => false,
+    }
+}
+
+/// Does `n` (through value wrappers) sit as the VALUE of an object pair whose key
+/// is a DB-query operator? (`{ [Op.lt]: new Date() }`, `{ $lte: cutoff }`.) Used
+/// both for a clock value directly and for a later use of a clock-bound name.
+fn value_under_query_op(n: Node, src: &[u8]) -> bool {
+    let mut prev = n;
+    let mut cur = n.parent();
+    let mut hops = 0u32;
+    while let Some(p) = cur {
+        if hops >= 8 {
+            return false;
+        }
+        hops += 1;
+        match p.kind() {
+            "pair" => {
+                let is_value = p
+                    .child_by_field_name("value")
+                    .map(|v| v.id() == prev.id())
+                    .unwrap_or(false);
+                return is_value && pair_key_is_query_op(p, src);
+            }
+            k if is_value_wrapper(k) => {}
+            _ => return false,
+        }
+        prev = p;
+        cur = p.parent();
+    }
+    false
+}
+
 /// If `n` (through value wrappers) is the *minuend* — the left operand — of a `-`
 /// subtraction, return that subtraction node. A clock minuend (`Date.now() - X`) is
 /// a duration/elapsed shape, the candidate for the duration-record sink hop. The
@@ -467,6 +526,146 @@ fn clock_is_logsink(n: Node, src: &[u8]) -> bool {
         return false; // elapsed/deadline anchor used in timing math -> control
     }
     true
+}
+
+/// Climb the clock node up through the date-derivation wrappers that carry its
+/// value forward — a date-math helper call it is an ARGUMENT of (`subMinutes(clock,
+/// 5)`), arithmetic on it (`clock - WEEK`), a `new Date(<clock-arith>)` re-wrap, and
+/// value wrappers (`clock.getTime()`, parens) — returning the topmost derived value
+/// node. The discriminating signal is what that derived value FEEDS (a comparison,
+/// a query bound, a control-used binding), checked by the caller; climbing the
+/// wrapper is what lets a `subMinutes(new Date(),5)` threshold read as timing
+/// instead of an opaque record. STOPS at a serialization method (`.toISOString()`,
+/// `.toString()`): once serialized the clock is a cosmetic string, and a later
+/// `str + str` concat must not be misread as timing arithmetic. Hop-capped.
+fn derived_clock_value<'t>(clock: Node<'t>, src: &[u8]) -> Node<'t> {
+    let mut prev = clock;
+    let mut cur = clock.parent();
+    let mut hops = 0u32;
+    while let Some(p) = cur {
+        if hops >= 8 {
+            break;
+        }
+        hops += 1;
+        match p.kind() {
+            // a `.toISOString()`/`.toString()` call on the clock SERIALIZES it to a
+            // display string -> stop (the value is cosmetic from here on).
+            "member_expression"
+                if p.child_by_field_name("object").map(|o| o.id() == prev.id()).unwrap_or(false)
+                    && p.child_by_field_name("property")
+                        .map(|pr| SERIALIZE_METHODS.contains(&text(pr, src)))
+                        .unwrap_or(false) =>
+            {
+                return prev;
+            }
+            // clock-derived value is an argument of a date-helper / `new Date(...)`
+            "arguments" => match p.parent() {
+                Some(callish)
+                    if matches!(callish.kind(), "call_expression" | "new_expression") =>
+                {
+                    prev = callish;
+                    cur = callish.parent();
+                }
+                _ => return prev,
+            },
+            // arithmetic on the clock (`Date.now() - WEEK`, `now + ttl`) carries on
+            "binary_expression" => {
+                let op = p.child_by_field_name("operator").map(|o| text(o, src)).unwrap_or("");
+                if ARITHMETIC_OPS.contains(&op) {
+                    prev = p;
+                    cur = p.parent();
+                } else {
+                    return prev; // a relational op -> let the terminal check see `prev`
+                }
+            }
+            k if is_value_wrapper(k) => {
+                prev = p;
+                cur = p.parent();
+            }
+            _ => return prev,
+        }
+    }
+    prev
+}
+
+/// Does `node`'s value reach a DB-query date BOUND — used directly as a `$lt`/
+/// `[Op.lt]` query-operator pair value, or bound to a `const` whose later use is
+/// such a pair value? (`{ [Op.lt]: new Date() }`; `const cut = subDays(now, n); …
+/// { [Op.lt]: cut }`.) Rescue A — genuine for a bare OR date-derived clock, because
+/// a clock under a query operator is unambiguously a selection bound (the failure
+/// to inject is "the query returns the wrong rows"), never a display field.
+fn value_reaches_query_bound(node: Node, src: &[u8], depth: u32) -> bool {
+    if depth >= MAX_BINDING_HOPS {
+        return false;
+    }
+    if value_under_query_op(node, src) {
+        return true;
+    }
+    let Some(p) = node.parent() else { return false };
+    if p.kind() == "variable_declarator"
+        && p.child_by_field_name("value").map(|v| v.id() == node.id()).unwrap_or(false)
+    {
+        if let Some(nm) = p.child_by_field_name("name") {
+            return name_used_in_query_bound(p, text(nm, src), nm.id(), src, depth + 1);
+        }
+    }
+    false
+}
+
+/// Scan the enclosing function body for identifier uses of `name` (excluding the
+/// declared name node) that sit as a query-operator pair value — the binding-hop
+/// for `const cutoff = subDays(…); … { [Op.lt]: cutoff }`.
+fn name_used_in_query_bound(
+    anchor: Node, name: &str, exclude_id: usize, src: &[u8], depth: u32,
+) -> bool {
+    if depth >= MAX_BINDING_HOPS {
+        return false;
+    }
+    let Some(body) = enclosing_function(anchor).and_then(|f| f.child_by_field_name("body")) else {
+        return false;
+    };
+    let mut stack = vec![body];
+    while let Some(nd) = stack.pop() {
+        if nd.kind() == "identifier"
+            && nd.id() != exclude_id
+            && text(nd, src) == name
+            && value_under_query_op(nd, src)
+        {
+            return true;
+        }
+        let mut c = nd.walk();
+        for ch in nd.named_children(&mut c) {
+            stack.push(ch);
+        }
+    }
+    false
+}
+
+/// Lever 3 — the clock control-vs-record DISCRIMINATION rescue. Slice 2 found the
+/// cosmetic / logsink filters over-demote two genuine clock shapes (16/143 of the
+/// demoted pool); this rescues those before demotion, KEEPING them as
+/// substitution-demand points. It is purely additive — it only ever *prevents* a
+/// demotion, never causes one — so no currently-kept finding can be lost.
+///
+/// Rescue A (DB-query date bounds): a clock under a `$lt`/`[Op.lt]` query operator
+/// key (`where: { expiresAt: { [Op.lt]: new Date() } }`), bare or date-derived,
+/// directly or spent through a `const`.
+///
+/// Rescue B (compared date-math thresholds): a clock DERIVED through a date helper
+/// / arithmetic (`subMinutes(new Date(),5)`, `new Date(Date.now()-WEEK)`) whose
+/// result reaches a relational comparison, inline or via a `const`. B requires the
+/// clock be genuinely date-derived (`derived != clock`): a BARE `new Date()` merely
+/// clamped before being stored (the `importers.js` fallback-timestamp record) is
+/// NOT a computed threshold and stays demoted, as do bare record timestamps
+/// (`lastRan = Date.now()` throttle / R3 timers).
+fn clock_is_demand_control(clock: Node, src: &[u8]) -> bool {
+    let derived = derived_clock_value(clock, src);
+    // A: a query date bound is genuine whether the clock is bare or derived.
+    if value_reaches_query_bound(derived, src, 0) {
+        return true;
+    }
+    // B: a compared threshold is genuine only when the clock was date-derived.
+    derived.id() != clock.id() && value_reaches_control(derived, src, 0)
 }
 
 /// F22 rung-3: the leaf boundary lives inside a *named implementation of an
@@ -779,7 +978,9 @@ fn match_node(node: Node, src: &[u8], file: &str, cat: &Catalog) -> Option<Findi
                         };
                         let reason = if class == Class::Seamed { "clock-injected" } else { "clock-inline" };
                         let mut f = finding(node, b, file, class, false, reason);
-                        if class == Class::Welded {
+                        // lever 3: a date-bound / compared-threshold clock is genuine
+                        // demand — rescue it before the cosmetic / logsink demotion.
+                        if class == Class::Welded && !clock_is_demand_control(node, src) {
                             if cosmetic_value_context(node, src) {
                                 f.demand = false;
                                 f.reason = format!("{reason}-cosmetic");
@@ -873,8 +1074,12 @@ fn match_node(node: Node, src: &[u8], file: &str, cat: &Catalog) -> Option<Findi
                                 let mut f = finding(node, b, file, class, is, reason);
                                 // clock keeps its position-sensitive filters (cosmetic
                                 // record / log-sink); random is demoted unconditionally
-                                // below via `demote_welded_random`.
-                                if class == Class::Welded && b.kind == "clock" {
+                                // below via `demote_welded_random`. Lever 3 rescues a
+                                // date-bound / compared-threshold clock first.
+                                if class == Class::Welded
+                                    && b.kind == "clock"
+                                    && !clock_is_demand_control(node, src)
+                                {
                                     if cosmetic_value_context(node, src) {
                                         f.demand = false;
                                         f.reason = format!("{reason}-cosmetic");

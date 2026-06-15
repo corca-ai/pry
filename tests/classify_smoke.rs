@@ -155,6 +155,54 @@ fn lever3_clock_timing_vs_logsink() {
     assert_eq!(demand_clock(10), Some(false), "string-concat clock is a log sink");
 }
 
+// Lever 3 — clock control-vs-record DISCRIMINATION rescue (Slice 2 reshaped it from
+// "demote more clock" into "rescue genuine clock the cosmetic/logsink filters
+// over-demoted"). The two rescue targets are DB-query date bounds and compared
+// date-math thresholds; the negatives are bare record timestamps + serialized
+// clocks that must STAY demoted. Each line mirrors one of the 16 frozen misses (or
+// the precision-damage shapes the --remap gate surfaced).
+const SRC_LV3: &str = r#"
+import { Op } from "sequelize";
+export function qOpLt() { return M.findAll({ where: { expiresAt: { [Op.lt]: new Date() } } }); }
+export function qMongoBinding() { const now = new Date(); return B.findOne({ displayFrom: { $lte: now } }); }
+export function threshInline(self: { at: number }) { return self.at > subMinutes(Date.now(), 5); }
+export function threshConstQuery() { const cutoff = subDays(new Date(), 1); return M.destroy({ where: { createdAt: { [Op.lt]: cutoff } } }); }
+export function threshConstCompare(x: number) { const five = subMinutes(new Date(), 5); if (x < five) return 1; return 0; }
+export function dateArithCompare(d: number) { const lastWeek = new Date(Date.now() - 604800000); return d > lastWeek; }
+export function throttle() { if (!lastRan) { run(); lastRan = Date.now(); } return lastRan; }
+export function fallbackClamp(msg: any, last: Date) { const t = msg.created_at; let createdAt = t ? new Date(t) : new Date(); if (last && createdAt <= last) createdAt = new Date(0); return createdAt; }
+export function serializedConcat(j: number) { const x = Date.now().toString(); return x.slice(0, -2) + j.toString(); }
+export function recordField() { return { createdAt: new Date(), n: 1 }; }
+"#;
+
+#[test]
+fn lever3_query_bounds_and_thresholds() {
+    let fs = analyze_str(SRC_LV3, "lv3.ts");
+    let demand = |line: usize| {
+        fs.iter()
+            .find(|f| f.line == line && f.kind == "clock")
+            .unwrap_or_else(|| panic!("no clock finding on line {line}"))
+            .demand
+    };
+
+    // RESCUE A — DB-query date bounds (Op.lt / $lte query-operator keys).
+    assert!(demand(3), "Op.lt new Date() is a query date bound, not a record");
+    assert!(demand(4), "const now = new Date() spent as a $lte query bound via const");
+    // RESCUE B — compared date-math thresholds (clock DERIVED through a helper / arith).
+    assert!(demand(5), "self.at > subMinutes(Date.now(),5) inline threshold");
+    assert!(demand(6), "const cutoff = subDays(new Date(),1) spent in an Op.lt query");
+    assert!(demand(7), "const five = subMinutes(new Date(),5); x < five threshold");
+    assert!(demand(8), "new Date(Date.now()-WEEK) compared d > lastWeek");
+
+    // NEGATIVES — must STAY demoted (the gate's precision-damage lessons).
+    assert!(!demand(9), "throttle lastRan = Date.now() record timestamp stays demoted");
+    assert!(!demand(10),
+        "bare new Date() fallback merely clamped before storing is NOT a computed threshold");
+    assert!(!demand(11),
+        "Date.now().toString() serialized then string-concatenated is cosmetic");
+    assert!(!demand(12), "non-query record field new Date() is cosmetic");
+}
+
 // Type-free JavaScript (a `.mjs`-shaped string with no annotations). The frontend
 // parses JS with the same TS-superset grammar, so the 0-hop param/default seam
 // logic must keep working. What's lost is only the TS-only rung-3 signal

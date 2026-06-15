@@ -135,10 +135,16 @@ the filter-recall arm (E5) before any lever ships.
   ground truth). Thereafter **every lever/filter change is gated deterministically
   against the frozen labelset** — recompute precision/filter-recall from the frozen
   labels, **no new LLM call** — exactly like pry's existing frozen fixtures +
-  `classify_smoke.rs`. Re-label only on a *deliberate corpus refresh* (new repos,
-  or pry changes enough that findings no longer map). This is what makes E5's "keeps
-  every future change honest" affordable: **LLM once → deterministic regression
-  forever after.**
+  `classify_smoke.rs`. An EXACT lever (only demotes findings *already labeled*) is
+  re-derived from the frozen `group`/`label` directly (`filter_recall.py`). A lever
+  that **changes pry's mechanical classification** (its demand bit), like lever #3,
+  cannot be read off the frozen `group` — so the gate re-runs the freshly-built `pry
+  map` and **re-joins by `file:line:col:kind` to the frozen labels**
+  (`filter_recall.py --remap`): pry is deterministic, the panel `label` is still the
+  frozen oracle, **still no new LLM call**. Re-label only on a *deliberate corpus
+  refresh* (new repos, or pry changes enough that findings no longer map). This is
+  what makes E5's "keeps every future change honest" affordable: **LLM once →
+  deterministic regression forever after.**
 - **E9 — SZZ is an *active* structural-improvement input** (operator: *"use SZZ to
   improve the structural algorithm"*), **dev-time only**. Reusing the existing
   kill-gate machinery (`harness/mine.py` + `szz.py` + the commit labeler), trace
@@ -377,6 +383,13 @@ demoted **clock 16/143 = 11.2% genuine** (the cosmetic/`logsink` filter over-dem
 DB-query date bounds + date-math thresholds), demoted **random 0/11** (lossless). The
 two shipped EXACT levers pass the gate (0 genuine demoted); the clock CEILING's "0
 lost" was **refuted**, reshaping lever #3 into a discrimination fix.
+
+**Lever #3 (clock discrimination) — ✓ SHIPPED 2026-06-15** closed that hole:
+`clock_is_demand_control` rescues the two over-demoted shapes before demotion (Rescue A
+query bounds + Rescue B compared date-derived thresholds), purely additively.
+Re-derived against the frozen oracle by `python3 harness/filter_recall.py --remap`:
+**demoted-pool misses 16 → 5, 11 rescued, 0 precision-damage, 0 lost-recall**;
+`cargo test`'s `lever3_query_bounds_and_thresholds` pins the shapes + negatives.
 
 **Then** levers, each gated by E5 (dev precision↑ ∧ held-out filter-recall held).
 
