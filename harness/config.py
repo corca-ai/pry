@@ -201,3 +201,36 @@ BGATE_LENS_BAND = (0.15, 0.85)      # demand-subset welded fraction in band => G
 BGATE_MIN_DECIDED_FRACTION = 0.40   # below this the lens is MUTE (KILL, not GO)
 
 CORPUS_SWEEP_VERSION = "0.1.0"
+
+# --- S2 sweep engine ----------------------------------------------------------
+CORPUS_CLONE_DIR = Path(os.path.expanduser("~/codes/_pry-corpus"))  # local clones
+SWEEP_DIR = EVAL_DIR / "sweep"                  # per-repo sweep records (frozen)
+PRY_BIN = HARNESS_DIR.parent / "target" / "release" / "pry"
+
+# TS/JS pathspec for the net-new miner (mine.py is Python-token-only). The
+# enrichment NUMERATOR is message-intent ONLY (ENRICHMENT_BUGFIX_MSG_REGEX); this
+# pathspec + the TS EH regex below feed only the secondary EH-candidate record.
+TS_PATHSPEC = ["*.ts", "*.tsx", "*.js", "*.jsx", "*.mts", "*.cts", "*.mjs", "*.cjs"]
+
+# JS/TS error-handling + boundary tokens (the EH-candidate diff signal). Mirrors
+# the Python ERROR_HANDLING_DIFF_REGEX shape with JS idioms (handoff S2:
+# catch/throw/.catch(/reject/retry/timeout + boundary names).
+ERROR_HANDLING_DIFF_REGEX_TS = "|".join(
+    [
+        r"\bcatch\b", r"\bthrow\b", r"\.catch\(", r"\.reject\b", r"\breject\(",
+        r"\bretry", r"\btimeout\b", r"\bfinally\b", r"AbortController",
+        r"\bECONN", r"\bETIMEDOUT\b", r"\bENOENT\b", r"statusCode",
+        # boundary call names (TS/JS boundary catalog)
+        r"\bfetch\(", r"\baxios\b", r"\bhttp\.", r"\bhttps\.", r"\bfs\.",
+        r"readFile", r"writeFile", r"\bexec\(", r"\bexecSync\b", r"\bspawn\(",
+        r"Date\.now", r"new Date\(", r"Math\.random", r"process\.env",
+        r"\bprisma\b", r"\bmongoose\b", r"\bknex\b", r"sequelize", r"\bpg\b",
+        r"\bredis\b", r"\.query\(",
+    ]
+)
+
+# Site-size proxy: the enclosing brace-block (TS/JS) or indent-block (Python)
+# line span around a finding, used as a matched-denominator stratum. A coarse
+# tercile bucket, so a brace/indent heuristic (string/comment edge cases ignored)
+# is acceptable — documented in preregistration.md.
+SWEEP_VERSION = "0.1.0"
