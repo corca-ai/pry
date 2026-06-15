@@ -1,0 +1,482 @@
+{
+  "n_repos": 25,
+  "primary": {
+    "corpus": {
+      "control": "rest",
+      "matched_ratio": 1.0504595514307347,
+      "raw_ratio": 1.0385516335090883,
+      "wd_n": 5364,
+      "wd_bugfix": 2111,
+      "ctrl_n": 17636,
+      "ctrl_bugfix": 6683,
+      "wd_rate": 0.3935495898583147,
+      "ctrl_rate": 0.37894080290315263,
+      "strata_used": 9,
+      "strata_dropped": 0,
+      "dropped_detail": [],
+      "ci95": [
+        0.9611542812620288,
+        1.1764734322565562
+      ],
+      "verdict": "FALSIFIED",
+      "label": "corpus",
+      "n_repos": 25,
+      "churn_cuts": [
+        2,
+        10
+      ],
+      "size_cuts": [
+        3,
+        11
+      ],
+      "per_repo": {
+        "eligible_repos": 25,
+        "repos_ratio_gt1": 17,
+        "fraction_gt1": 0.68,
+        "passes_simpson_guard": true,
+        "rows": [
+          {
+            "id": "budibase",
+            "wd_n": 196,
+            "ctrl_n": 623,
+            "ratio": 0.993
+          },
+          {
+            "id": "calcom",
+            "wd_n": 399,
+            "ctrl_n": 1342,
+            "ratio": 1.088
+          },
+          {
+            "id": "continue",
+            "wd_n": 237,
+            "ctrl_n": 496,
+            "ratio": 0.992
+          },
+          {
+            "id": "directus",
+            "wd_n": 121,
+            "ctrl_n": 168,
+            "ratio": 1.135
+          },
+          {
+            "id": "docmost",
+            "wd_n": 47,
+            "ctrl_n": 100,
+            "ratio": 1.304
+          },
+          {
+            "id": "flowise",
+            "wd_n": 149,
+            "ctrl_n": 705,
+            "ratio": 0.787
+          },
+          {
+            "id": "formbricks",
+            "wd_n": 122,
+            "ctrl_n": 363,
+            "ratio": 2.089
+          },
+          {
+            "id": "immich",
+            "wd_n": 59,
+            "ctrl_n": 204,
+            "ratio": 1.22
+          },
+          {
+            "id": "karakeep",
+            "wd_n": 83,
+            "ctrl_n": 144,
+            "ratio": 1.429
+          },
+          {
+            "id": "librechat",
+            "wd_n": 354,
+            "ctrl_n": 1205,
+            "ratio": 1.058
+          },
+          {
+            "id": "linkwarden",
+            "wd_n": 51,
+            "ctrl_n": 638,
+            "ratio": 2.234
+          },
+          {
+            "id": "medusa",
+            "wd_n": 219,
+            "ctrl_n": 1289,
+            "ratio": 0.939
+          },
+          {
+            "id": "midday",
+            "wd_n": 221,
+            "ctrl_n": 667,
+            "ratio": 0.708
+          },
+          {
+            "id": "n8n",
+            "wd_n": 705,
+            "ctrl_n": 1949,
+            "ratio": 1.182
+          },
+          {
+            "id": "nocodb",
+            "wd_n": 306,
+            "ctrl_n": 787,
+            "ratio": 1.47
+          },
+          {
+            "id": "novu",
+            "wd_n": 290,
+            "ctrl_n": 1474,
+            "ratio": 1.196
+          },
+          {
+            "id": "openstatus",
+            "wd_n": 139,
+            "ctrl_n": 512,
+            "ratio": 1.08
+          },
+          {
+            "id": "outline",
+            "wd_n": 135,
+            "ctrl_n": 184,
+            "ratio": 1.193
+          },
+          {
+            "id": "payload",
+            "wd_n": 132,
+            "ctrl_n": 540,
+            "ratio": 1.136
+          },
+          {
+            "id": "rocketchat",
+            "wd_n": 443,
+            "ctrl_n": 1113,
+            "ratio": 1.265
+          },
+          {
+            "id": "seerr",
+            "wd_n": 57,
+            "ctrl_n": 115,
+            "ratio": 0.889
+          },
+          {
+            "id": "strapi",
+            "wd_n": 294,
+            "ctrl_n": 921,
+            "ratio": 0.985
+          },
+          {
+            "id": "twenty",
+            "wd_n": 406,
+            "ctrl_n": 1604,
+            "ratio": 0.671
+          },
+          {
+            "id": "umami",
+            "wd_n": 22,
+            "ctrl_n": 157,
+            "ratio": 1.322
+          },
+          {
+            "id": "vendure",
+            "wd_n": 177,
+            "ctrl_n": 336,
+            "ratio": 1.485
+          }
+        ]
+      }
+    },
+    "dev": {
+      "control": "rest",
+      "matched_ratio": 0.9298181183891904,
+      "raw_ratio": 0.9301757514816661,
+      "wd_n": 1094,
+      "wd_bugfix": 590,
+      "ctrl_n": 3879,
+      "ctrl_bugfix": 2249,
+      "wd_rate": 0.5393053016453382,
+      "ctrl_rate": 0.579788605310647,
+      "strata_used": 9,
+      "strata_dropped": 0,
+      "dropped_detail": [],
+      "ci95": [
+        0.7887968839648036,
+        1.0407645321991654
+      ],
+      "verdict": "FALSIFIED",
+      "label": "dev",
+      "n_repos": 5,
+      "churn_cuts": [
+        3,
+        13
+      ],
+      "size_cuts": [
+        3,
+        11
+      ],
+      "per_repo": {
+        "eligible_repos": 5,
+        "repos_ratio_gt1": 2,
+        "fraction_gt1": 0.4,
+        "passes_simpson_guard": false,
+        "rows": [
+          {
+            "id": "continue",
+            "wd_n": 237,
+            "ctrl_n": 496,
+            "ratio": 0.992
+          },
+          {
+            "id": "flowise",
+            "wd_n": 149,
+            "ctrl_n": 705,
+            "ratio": 0.787
+          },
+          {
+            "id": "librechat",
+            "wd_n": 354,
+            "ctrl_n": 1205,
+            "ratio": 1.058
+          },
+          {
+            "id": "medusa",
+            "wd_n": 219,
+            "ctrl_n": 1289,
+            "ratio": 0.939
+          },
+          {
+            "id": "outline",
+            "wd_n": 135,
+            "ctrl_n": 184,
+            "ratio": 1.193
+          }
+        ]
+      }
+    },
+    "heldout": {
+      "control": "rest",
+      "matched_ratio": 1.1137018827822533,
+      "raw_ratio": 1.1051707637068893,
+      "wd_n": 4270,
+      "wd_bugfix": 1521,
+      "ctrl_n": 13757,
+      "ctrl_bugfix": 4434,
+      "wd_rate": 0.35620608899297423,
+      "ctrl_rate": 0.3223086428727193,
+      "strata_used": 9,
+      "strata_dropped": 0,
+      "dropped_detail": [],
+      "ci95": [
+        1.0208395935044041,
+        1.2850858897289847
+      ],
+      "verdict": "WEAK / inconclusive",
+      "label": "heldout",
+      "n_repos": 20,
+      "churn_cuts": [
+        2,
+        9
+      ],
+      "size_cuts": [
+        3,
+        12
+      ],
+      "per_repo": {
+        "eligible_repos": 20,
+        "repos_ratio_gt1": 15,
+        "fraction_gt1": 0.75,
+        "passes_simpson_guard": true,
+        "rows": [
+          {
+            "id": "budibase",
+            "wd_n": 196,
+            "ctrl_n": 623,
+            "ratio": 0.993
+          },
+          {
+            "id": "calcom",
+            "wd_n": 399,
+            "ctrl_n": 1342,
+            "ratio": 1.088
+          },
+          {
+            "id": "directus",
+            "wd_n": 121,
+            "ctrl_n": 168,
+            "ratio": 1.135
+          },
+          {
+            "id": "docmost",
+            "wd_n": 47,
+            "ctrl_n": 100,
+            "ratio": 1.304
+          },
+          {
+            "id": "formbricks",
+            "wd_n": 122,
+            "ctrl_n": 363,
+            "ratio": 2.089
+          },
+          {
+            "id": "immich",
+            "wd_n": 59,
+            "ctrl_n": 204,
+            "ratio": 1.22
+          },
+          {
+            "id": "karakeep",
+            "wd_n": 83,
+            "ctrl_n": 144,
+            "ratio": 1.429
+          },
+          {
+            "id": "linkwarden",
+            "wd_n": 51,
+            "ctrl_n": 638,
+            "ratio": 2.234
+          },
+          {
+            "id": "midday",
+            "wd_n": 221,
+            "ctrl_n": 667,
+            "ratio": 0.708
+          },
+          {
+            "id": "n8n",
+            "wd_n": 705,
+            "ctrl_n": 1949,
+            "ratio": 1.182
+          },
+          {
+            "id": "nocodb",
+            "wd_n": 306,
+            "ctrl_n": 787,
+            "ratio": 1.47
+          },
+          {
+            "id": "novu",
+            "wd_n": 290,
+            "ctrl_n": 1474,
+            "ratio": 1.196
+          },
+          {
+            "id": "openstatus",
+            "wd_n": 139,
+            "ctrl_n": 512,
+            "ratio": 1.08
+          },
+          {
+            "id": "payload",
+            "wd_n": 132,
+            "ctrl_n": 540,
+            "ratio": 1.136
+          },
+          {
+            "id": "rocketchat",
+            "wd_n": 443,
+            "ctrl_n": 1113,
+            "ratio": 1.265
+          },
+          {
+            "id": "seerr",
+            "wd_n": 57,
+            "ctrl_n": 115,
+            "ratio": 0.889
+          },
+          {
+            "id": "strapi",
+            "wd_n": 294,
+            "ctrl_n": 921,
+            "ratio": 0.985
+          },
+          {
+            "id": "twenty",
+            "wd_n": 406,
+            "ctrl_n": 1604,
+            "ratio": 0.671
+          },
+          {
+            "id": "umami",
+            "wd_n": 22,
+            "ctrl_n": 157,
+            "ratio": 1.322
+          },
+          {
+            "id": "vendure",
+            "wd_n": 177,
+            "ctrl_n": 336,
+            "ratio": 1.485
+          }
+        ]
+      }
+    }
+  },
+  "secondary": {
+    "vs_seamed": {
+      "control": "seamed",
+      "matched_ratio": 0.9074601363802899,
+      "raw_ratio": 0.900079923216624,
+      "wd_n": 5364,
+      "wd_bugfix": 2111,
+      "ctrl_n": 478,
+      "ctrl_bugfix": 209,
+      "wd_rate": 0.3935495898583147,
+      "ctrl_rate": 0.4372384937238494,
+      "strata_used": 9,
+      "strata_dropped": 0,
+      "dropped_detail": [],
+      "ci95": [
+        0.8005173111005487,
+        1.0802220890891305
+      ],
+      "verdict": "FALSIFIED",
+      "label": "corpus",
+      "n_repos": 25,
+      "churn_cuts": [
+        2,
+        10
+      ],
+      "size_cuts": [
+        3,
+        11
+      ]
+    },
+    "vs_welded_not_demand": {
+      "control": "wnd",
+      "matched_ratio": 1.0549009398630005,
+      "raw_ratio": 1.0430219126952367,
+      "wd_n": 5364,
+      "wd_bugfix": 2111,
+      "ctrl_n": 17158,
+      "ctrl_bugfix": 6474,
+      "wd_rate": 0.3935495898583147,
+      "ctrl_rate": 0.37731670357850566,
+      "strata_used": 9,
+      "strata_dropped": 0,
+      "dropped_detail": [],
+      "ci95": [
+        0.9622869109704529,
+        1.1843989557074026
+      ],
+      "verdict": "FALSIFIED",
+      "label": "corpus",
+      "n_repos": 25,
+      "churn_cuts": [
+        2,
+        10
+      ],
+      "size_cuts": [
+        3,
+        11
+      ]
+    }
+  },
+  "config": {
+    "go_floor": 1.5,
+    "falsifier": 1.1,
+    "min_stratum": 5,
+    "bootstrap_B": 2000
+  }
+}
