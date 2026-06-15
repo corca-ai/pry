@@ -10,49 +10,53 @@ Read `docs/spec-eval-harness.md` (contract) + `docs/eval-gate.md` (results +
 levers + the calibration ruleset) first. Default order is the queue below; if the
 operator names a different item, do that instead.
 
-## ▶ NEXT ACTION — lever #5: construction dedup (R7)
+## ▶ NEXT ACTION — lever #4: rung-3 stage-2 (cross-file, risky — fresh focus)
 
-**Assess before building — likely EXACT-ish (no new panel).** A welded SDK client
-(`const client = new OpenAI()` / `new WebClient(token)`) is counted twice in the
-demand backlog: once at the `new` construction (the welded-client origin) and again
-at each downstream catalogued method (`client.responses.create(...)`). R7: the `new`
-is where injectability is decided; the method finding on the *same* client is a
-duplicate, not a second weld. Dedup the downstream method against its construction
-origin — but do **not** enumerate SDK methods (the catalog stays data; no per-SDK
-method lists).
+**Lever #5 was assessed and DEFERRED — see "Deferred" below; lever #4 is the next
+real lever.** Calibration-confirmed, two faces:
+  (a) **injected-transport precision gap:** continue's `openai-adapters` llm calls go
+      through an injectable `customFetch(config.requestOptions)` seam ONE hop up, but
+      pry calls them welded (drives the llm crater 2/35; eval-gate taxonomy #4).
+  (b) **interface-impl OVER-seaming recall hole:** `implements I` blanket-seams the
+      impl's *own* error handling (2/3 seamed-control false-seams — pry called a weld
+      seamed). Form-A (`implements I` / typed-const) is already built; this tightens it.
 
-- **First, assess from the FROZEN demand-weld labelset (no panel needed):** how many
-  demand-welds are construction/method pairs on the same client in
-  `harness/fixtures/eval/*-labels.json`? If the duplicate methods are a clean subset,
-  the recall cost reads directly off the labels (EXACT, like levers #1/#2). If it is
-  entangled, scope a small targeted check before touching the classifier.
-- **Where:** `src/classify.rs` — `classify_receiver` / `local_decl_rhs` already trace a
-  method receiver to its `const x = new Client()` origin (the `receiver-local:inline-new`
-  reason). The dedup is: when a method's receiver origin is an in-scope welded
-  construction that pry ALSO emits as its own finding, demote the method (the
-  construction carries the demand). Keep a param/ctor-injected receiver SEAMED (untouched).
-- **Gate:** `cargo test` + (if any demand bit moves) `python3 harness/filter_recall.py
-  --remap` must stay PASS (0 precision-damage, 0 lost-recall, misses ≤ baseline). Add a
-  classify_smoke fixture: `const c = new OpenAI(); c.responses.create()` should yield
-  ONE demand weld (the construction), the method deduped; a param-injected client stays
-  seamed. ceal: regenerate `fixtures/ceal-ts-map.summary.json` at pinned cdd31884 if the
-  demand count moves (ceal has welded `new`-client + method pairs, so expect a delta).
-- **Close:** fresh-eye critique (required, same-agent forbidden), commit, push, advance
-  this handoff.
+- **⚠ Cross-file + bidirectional risk:** (a) needs to RECOGNIZE a one-hop injected
+  transport (precision ↑); (b) needs to STOP over-seaming an impl's own welds (recall ↑
+  on the seam side). These pull opposite directions — gate BOTH against the frozen
+  demand-weld labelset (precision) AND the Slice-2 recall arm / seamed-control pool.
+- **Where:** `src/classify.rs` — `injectable_impl_context` (the rung-3 form-A) + the
+  network/subprocess leaf arms; (a) likely a new one-hop transport-param trace.
+- **Gate:** `cargo test` + `python3 harness/filter_recall.py --remap` PASS (0
+  precision-damage, 0 lost-recall, misses ≤ baseline) + re-derive demand-weld precision
+  vs the frozen labelset (must not drop). The seamed-control false-seam count
+  (`*-labels.json` group `seamed_control`, label GENUINE) must go DOWN for face (b).
+  Add classify_smoke fixtures for the customFetch transport + the impl-own-weld shapes.
+- **Close:** fresh-eye critique (required, same-agent forbidden), commit, push, advance.
 
-## ▶ Queue (after lever #5; operator pre-approved the levers and #3 corpus)
+## ▶ Queue (after lever #4; operator pre-approved the levers and #3 corpus)
 
-1. **Lever #4 — rung-3 stage-2 (two faces, calibration-confirmed):** (a) injected
-   transport (`customFetch`) precision gap; (b) interface-impl **over-seaming**
-   recall hole (`implements I` blanket-seams the impl's own error handling — 2/3
-   seamed-control false-seams). Cross-file, risky → gate hard against the labelset
-   + Slice-2 recall arm.
-2. **#3 Corpus expansion (operator-approved) — close the gate (SC2):** scout a
+1. **#3 Corpus expansion (operator-approved) — close the gate (SC2):** scout a
    **DI-disciplined exemplar** (high clock-injection; `n8n`/`cal.com`) as dev #5,
    assemble the **held-out arm** (target dev 5 / held-out 10), run the panel, tune
    only on dev. This is what formally *closes* the gate + ships the levers.
-3. **E9 SZZ structural-improvement** on an EH-bugfix-rich OSS repo (reuse
+2. **E9 SZZ structural-improvement** on an EH-bugfix-rich OSS repo (reuse
    `harness/mine.py`+`szz.py`+commit labeler) — catalog-recall + calibration.
+
+### Deferred — lever #5 (construction dedup, R7): NEGLIGIBLE measured impact
+
+Assessed 2026-06-15 (read-only, re-derived via a fresh `pry map` + label join). The
+`const client = new X(); client.method()` double-count the dedup targets is **almost
+absent** from the validation surface: **1** `receiver-local:inline-new` method across
+all 4 H3 repos (the one is GENUINE), and **1** in ceal/packages (+ 4 construction
+origins) — **~2 dedup targets total.** Most SDK calls go through `this.client`
+(ctor-injected → seamed) or imported singletons, not a same-scope local `new`. So
+lever #5 would change ~1 demand-weld and is not a meaningful precision lever; the
+handoff's earlier "expect a ceal delta" was an over-estimate. **Deferred** as a
+low-priority backlog-hygiene cleanup (R7 is still a sound principle — fold it in when a
+construct-heavy corpus surfaces it, or alongside a catalog refresh), behind the
+higher-impact lever #4 + the gate-close. Not dropped; just not worth a classifier
+change + critique cycle for 2 findings now.
 
 ## Current state (all pushed; HEAD = lever #3 `49ecd36` + this handoff)
 
