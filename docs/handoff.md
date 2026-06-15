@@ -79,7 +79,7 @@ method lists).
   bounds + date-math thresholds, 15/16 via `clock_is_logsink`); random **0/11**
   (lossless). Gate rule: a lever must not raise the demoted-pool GENUINE count.
   Critique independently re-verified all 16 misses against source = SOUND. This
-  reshaped lever #3 (NEXT ACTION) into a discrimination fix.
+  reshaped lever #3 into a discrimination fix (now SHIPPED, `49ecd36`, 16 → 5).
 - **Lever #2 (test-file heuristic) SHIPPED** (`94de55e`): `is_source` (`src/main.rs:63`)
   now drops `.vitest.`/`.e2e.` stems. Dev precision **66.0% → 69.7%, 0 genuine lost**
   (25 `.vitest.` false-welds; the further 69.7%→70.3% is `manual-testing-sandbox/`+`-sol`
