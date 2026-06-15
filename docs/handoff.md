@@ -10,45 +10,49 @@ Read `docs/spec-eval-harness.md` (contract) + `docs/eval-gate.md` (results +
 levers + the calibration ruleset) first. Default order is the queue below; if the
 operator names a different item, do that instead.
 
-## ▶ NEXT ACTION — Slice 2: the filter-recall arm (the gate for every harder lever)
+## ▶ NEXT ACTION — lever #3: clock control-vs-record DISCRIMINATION fix
 
-Both EXACT levers are shipped (#1 cosmetic-random `58b5f31`, #2 test-file `94de55e`).
-**Everything past them is gated behind Slice 2.** The remaining levers (stronger-clock,
-rung-3) are **CEILING** levers: their syntactic filters are *imperfect*, so they can
-over-demote a genuine weld — a recall risk the existing demand-weld labelset **cannot**
-measure (it only labels findings pry already demand-flagged). Slice 2 builds the
-missing denominator. Per spec E5/SC3/AC3 (`spec-eval-harness.md`):
+**Reshaped by Slice 2 (this is NOT "demote more clock").** The filter-recall arm
+(`dcf59f2`) found the *opposite* failure dominates: the shipped `clock_is_logsink` /
+`cosmetic_value_context` filters already **over-demote genuine clock** — 16/143
+(11.2%) of the demoted-clock pool is panel-GENUINE (random 0/11, lossless). So lever
+#3 tightens the clock heuristic to **rescue** those while still demoting true record
+sinks. Net: precision ↑ (drop true-cosmetic) AND recall ↑ (rescue the 11%).
 
-- **What:** label a sample of pry's **bare pool** — welded+seamed findings *before*
-  demand-filtering, the pool a precision filter could wrongly demote from — with the
-  same `harness/finding_io.py` machinery (3 personas → reconcile → freeze). Then
-  **filter-recall** = of the panel-GENUINE welds in the bare pool, how many a lever
-  keeps (does not demote). Document the gate rule + a worked example in `eval-gate.md`:
-  *a lever ships only if dev precision↑ ∧ held-out filter-recall held* (E5).
-- **⚠ This is a DECISION, not a mechanical step — it is an LLM-panel campaign** (E8:
-  "LLM once → frozen labelset"). Sampling scope is a real cost/quality choice: how
-  large a bare-pool sample, which repos, clock-stratification. **Get operator scope
-  before launching the panel.** Default if they don't specify: a stratified
-  ~150-finding bare-pool sample across the 4 repos, clock/llm-weighted (the contested
-  strata), seamed+welded pre-demand. *Bare-pool ≫ the 589 demand-findings, so this is
-  the most expensive eval step so far.*
-- **Output:** `harness/fixtures/eval/*-barepool-labels.json` (frozen), a filter-recall
-  baseline number, the documented gate rule. Then re-derive a worked filter-recall for
-  the two shipped EXACT levers (sanity: both should be 100% — they only dropped labeled
-  COSMETIC/FALSE-WELD).
-- **Then unblocks:** queue #1 (stronger-clock + construction-dedup) and #2 (rung-3).
+- **The two rescue targets (from the 16 misses; pry_reason in `*-barepool-labels.json`):**
+  1. **DB-query date bounds** (the bulk): clock as an object-pair value under a query
+     operator — `where: { expiresAt: { [Op.lt]: new Date() } }`, `findOne({ displayFrom:
+     { $lte: now } })`. The `cosmetic_value_context` `pair` rule demotes ALL object-pair
+     values; it must NOT demote a clock pair whose key is a query operator (`$lt/$lte/
+     $gt/$gte/$ne`, `[Op.lt]`/`Op.gt`/…) or that sits in an object passed to a `find*`/
+     `delete*`/`update*`/query call. (Distinguish a query-filter object from a record
+     object — the operator-key signal is the cleanest discriminator.)
+  2. **Date-math thresholds:** `const x = subMinutes(new Date(), 5)` → later `if
+     (lastActiveAt < x)`. `clock_binding_is_control` / `name_used_in_control` doesn't
+     trace the clock through a date-math helper wrapper (`subMinutes(clock, n)` /
+     `dayjs(clock)`…) to the binding. Follow the clock up through a single wrapping
+     call to its `const` binding, then run the existing control-use check on that name.
+- **Where:** `src/classify.rs` — `cosmetic_value_context` (the `pair` arm ~L218-225)
+  and `clock_is_logsink`/`clock_binding_is_control` (the dataflow helpers).
+- **⚠ Caveat (1 of 16, flowise `genericHelper.js:788`):** a `setTimeout`-throttle
+  `lastRan = Date.now()` is a borderline over-call — the rescue must target query-bounds
+  + compared-thresholds, NOT all clock-in-call-args, or it will re-promote throttle
+  timestamps. Keep timers (R3) demoted.
+- **Gate (hard, mechanical):** after each change, `python3 harness/filter_recall.py`
+  — the **demoted-pool GENUINE count must go DOWN** (rescue the 16), never up; AND
+  re-derive demand-weld precision from the frozen labelsets — it must not drop (don't
+  un-demote true cosmetic). Plus `cargo test` (the `lever3_clock_timing_vs_logsink`
+  guards must stay green). Add classify_smoke fixtures mirroring the 3 miss shapes
+  (`[Op.lt]: new Date()` query bound, `$lte: now` mongo, `subMinutes(new Date(),5)` →
+  compared) + a throttle negative (must stay demoted).
+- **Close:** fresh-eye critique (required), commit, push, advance this handoff.
 
-## ▶ Queue (after Slice 2; operator pre-approved the levers and #3 corpus)
+## ▶ Queue (after lever #3; operator pre-approved the levers and #3 corpus)
 
-1. **Lever #3 — stronger clock + Lever #5 — construction dedup** (gated by Slice 2;
-   calibration-refined):
-   - clock: demote timers (`setTimeout`/`setInterval`) and record-`Date` **even on
-     retry/error paths** (fake timers are the time-seam, R3); keep only clock
-     *comparisons* (R4). Panel over-called timers GENUINE → true clock-genuine ≈3/130.
-     CEILING lever (imperfect filter) → must pass the Slice-2 filter-recall gate.
-   - construction dedup (R7): treat `new OpenAI()` as the welded-client origin and
-     dedup the downstream method finding; do **not** enumerate SDK methods. (May be
-     partly checkable from the existing labelset — assess before launching.)
+1. **Lever #5 — construction dedup (R7):** treat `new OpenAI()` as the welded-client
+   origin and dedup the downstream catalogued method finding (same client counted
+   twice); do **not** enumerate SDK methods. Likely partly checkable from the existing
+   demand-weld labelset (assess before any panel) — may be EXACT-ish.
 2. **Lever #4 — rung-3 stage-2 (two faces, calibration-confirmed):** (a) injected
    transport (`customFetch`) precision gap; (b) interface-impl **over-seaming**
    recall hole (`implements I` blanket-seams the impl's own error handling — 2/3
@@ -61,8 +65,17 @@ missing denominator. Per spec E5/SC3/AC3 (`spec-eval-harness.md`):
 4. **E9 SZZ structural-improvement** on an EH-bugfix-rich OSS repo (reuse
    `harness/mine.py`+`szz.py`+commit labeler) — catalog-recall + calibration.
 
-## Current state (all pushed; HEAD = lever #2 `94de55e` + this handoff)
+## Current state (all pushed; HEAD = Slice 2 `dcf59f2` + this handoff)
 
+- **Slice 2 (filter-recall arm) DONE** (`dcf59f2`): the gate's recall half. Labeled a
+  154-finding sample of the demoted pool (welded, demand=false) via `finding_io.py
+  emit --pool demoted`; frozen `*-barepool-labels.json` + `votes-barepool/`;
+  re-derive with `python3 harness/filter_recall.py`. **Caught a real recall hole:**
+  shipped clock filters over-demote **16/143 = 11.2%** genuine clock (DB-query date
+  bounds + date-math thresholds, 15/16 via `clock_is_logsink`); random **0/11**
+  (lossless). Gate rule: a lever must not raise the demoted-pool GENUINE count.
+  Critique independently re-verified all 16 misses against source = SOUND. This
+  reshaped lever #3 (NEXT ACTION) into a discrimination fix.
 - **Lever #2 (test-file heuristic) SHIPPED** (`94de55e`): `is_source` (`src/main.rs:63`)
   now drops `.vitest.`/`.e2e.` stems. Dev precision **66.0% → 69.7%, 0 genuine lost**
   (25 `.vitest.` false-welds; the further 69.7%→70.3% is `manual-testing-sandbox/`+`-sol`
