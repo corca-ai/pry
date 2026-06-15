@@ -10,63 +10,67 @@ Read `docs/spec-eval-harness.md` (contract) + `docs/eval-gate.md` (results +
 levers + the calibration ruleset) first. Default order is the queue below; if the
 operator names a different item, do that instead.
 
-## ▶ NEXT ACTION — lever #3: clock control-vs-record DISCRIMINATION fix
+## ▶ NEXT ACTION — lever #5: construction dedup (R7)
 
-**Reshaped by Slice 2 (this is NOT "demote more clock").** The filter-recall arm
-(`dcf59f2`) found the *opposite* failure dominates: the shipped `clock_is_logsink` /
-`cosmetic_value_context` filters already **over-demote genuine clock** — 16/143
-(11.2%) of the demoted-clock pool is panel-GENUINE (random 0/11, lossless). So lever
-#3 tightens the clock heuristic to **rescue** those while still demoting true record
-sinks. Net: precision ↑ (drop true-cosmetic) AND recall ↑ (rescue the 11%).
+**Assess before building — likely EXACT-ish (no new panel).** A welded SDK client
+(`const client = new OpenAI()` / `new WebClient(token)`) is counted twice in the
+demand backlog: once at the `new` construction (the welded-client origin) and again
+at each downstream catalogued method (`client.responses.create(...)`). R7: the `new`
+is where injectability is decided; the method finding on the *same* client is a
+duplicate, not a second weld. Dedup the downstream method against its construction
+origin — but do **not** enumerate SDK methods (the catalog stays data; no per-SDK
+method lists).
 
-- **The two rescue targets (from the 16 misses; pry_reason in `*-barepool-labels.json`):**
-  1. **DB-query date bounds** (the bulk): clock as an object-pair value under a query
-     operator — `where: { expiresAt: { [Op.lt]: new Date() } }`, `findOne({ displayFrom:
-     { $lte: now } })`. The `cosmetic_value_context` `pair` rule demotes ALL object-pair
-     values; it must NOT demote a clock pair whose key is a query operator (`$lt/$lte/
-     $gt/$gte/$ne`, `[Op.lt]`/`Op.gt`/…) or that sits in an object passed to a `find*`/
-     `delete*`/`update*`/query call. (Distinguish a query-filter object from a record
-     object — the operator-key signal is the cleanest discriminator.)
-  2. **Date-math thresholds:** `const x = subMinutes(new Date(), 5)` → later `if
-     (lastActiveAt < x)`. `clock_binding_is_control` / `name_used_in_control` doesn't
-     trace the clock through a date-math helper wrapper (`subMinutes(clock, n)` /
-     `dayjs(clock)`…) to the binding. Follow the clock up through a single wrapping
-     call to its `const` binding, then run the existing control-use check on that name.
-- **Where:** `src/classify.rs` — `cosmetic_value_context` (the `pair` arm ~L218-225)
-  and `clock_is_logsink`/`clock_binding_is_control` (the dataflow helpers).
-- **⚠ Caveat (1 of 16, flowise `genericHelper.js:788`):** a `setTimeout`-throttle
-  `lastRan = Date.now()` is a borderline over-call — the rescue must target query-bounds
-  + compared-thresholds, NOT all clock-in-call-args, or it will re-promote throttle
-  timestamps. Keep timers (R3) demoted.
-- **Gate (hard, mechanical):** after each change, `python3 harness/filter_recall.py`
-  — the **demoted-pool GENUINE count must go DOWN** (rescue the 16), never up; AND
-  re-derive demand-weld precision from the frozen labelsets — it must not drop (don't
-  un-demote true cosmetic). Plus `cargo test` (the `lever3_clock_timing_vs_logsink`
-  guards must stay green). Add classify_smoke fixtures mirroring the 3 miss shapes
-  (`[Op.lt]: new Date()` query bound, `$lte: now` mongo, `subMinutes(new Date(),5)` →
-  compared) + a throttle negative (must stay demoted).
-- **Close:** fresh-eye critique (required), commit, push, advance this handoff.
+- **First, assess from the FROZEN demand-weld labelset (no panel needed):** how many
+  demand-welds are construction/method pairs on the same client in
+  `harness/fixtures/eval/*-labels.json`? If the duplicate methods are a clean subset,
+  the recall cost reads directly off the labels (EXACT, like levers #1/#2). If it is
+  entangled, scope a small targeted check before touching the classifier.
+- **Where:** `src/classify.rs` — `classify_receiver` / `local_decl_rhs` already trace a
+  method receiver to its `const x = new Client()` origin (the `receiver-local:inline-new`
+  reason). The dedup is: when a method's receiver origin is an in-scope welded
+  construction that pry ALSO emits as its own finding, demote the method (the
+  construction carries the demand). Keep a param/ctor-injected receiver SEAMED (untouched).
+- **Gate:** `cargo test` + (if any demand bit moves) `python3 harness/filter_recall.py
+  --remap` must stay PASS (0 precision-damage, 0 lost-recall, misses ≤ baseline). Add a
+  classify_smoke fixture: `const c = new OpenAI(); c.responses.create()` should yield
+  ONE demand weld (the construction), the method deduped; a param-injected client stays
+  seamed. ceal: regenerate `fixtures/ceal-ts-map.summary.json` at pinned cdd31884 if the
+  demand count moves (ceal has welded `new`-client + method pairs, so expect a delta).
+- **Close:** fresh-eye critique (required, same-agent forbidden), commit, push, advance
+  this handoff.
 
-## ▶ Queue (after lever #3; operator pre-approved the levers and #3 corpus)
+## ▶ Queue (after lever #5; operator pre-approved the levers and #3 corpus)
 
-1. **Lever #5 — construction dedup (R7):** treat `new OpenAI()` as the welded-client
-   origin and dedup the downstream catalogued method finding (same client counted
-   twice); do **not** enumerate SDK methods. Likely partly checkable from the existing
-   demand-weld labelset (assess before any panel) — may be EXACT-ish.
-2. **Lever #4 — rung-3 stage-2 (two faces, calibration-confirmed):** (a) injected
+1. **Lever #4 — rung-3 stage-2 (two faces, calibration-confirmed):** (a) injected
    transport (`customFetch`) precision gap; (b) interface-impl **over-seaming**
    recall hole (`implements I` blanket-seams the impl's own error handling — 2/3
    seamed-control false-seams). Cross-file, risky → gate hard against the labelset
    + Slice-2 recall arm.
-3. **#3 Corpus expansion (operator-approved) — close the gate (SC2):** scout a
+2. **#3 Corpus expansion (operator-approved) — close the gate (SC2):** scout a
    **DI-disciplined exemplar** (high clock-injection; `n8n`/`cal.com`) as dev #5,
    assemble the **held-out arm** (target dev 5 / held-out 10), run the panel, tune
    only on dev. This is what formally *closes* the gate + ships the levers.
-4. **E9 SZZ structural-improvement** on an EH-bugfix-rich OSS repo (reuse
+3. **E9 SZZ structural-improvement** on an EH-bugfix-rich OSS repo (reuse
    `harness/mine.py`+`szz.py`+commit labeler) — catalog-recall + calibration.
 
-## Current state (all pushed; HEAD = Slice 2 `dcf59f2` + this handoff)
+## Current state (all pushed; HEAD = lever #3 `49ecd36` + this handoff)
 
+- **Lever #3 (clock control-vs-record discrimination) SHIPPED** (`49ecd36`): the
+  reshaped lever closed the Slice-2 recall hole. `clock_is_demand_control`
+  (`src/classify.rs`) RESCUES the two over-demoted shapes before demotion — Rescue A
+  (clock under an `[Op.lt]`/`$lte` query-operator key, bare or via const) + Rescue B (a
+  date-DERIVED clock — `subMinutes(new Date(),5)`, `new Date(Date.now()-WEEK)` — whose
+  result is compared). **Purely additive** (gates as `!rescue && (cosmetic||logsink)` —
+  only ever prevents a demotion; critique verified via a neutered-binary diff: 53
+  changes, all promotions, 0 demotions). **Result: demoted-pool misses 16 → 5, 11
+  rescued, 0 precision-damage, 0 lost-recall**, re-derived by `python3
+  harness/filter_recall.py --remap` (re-runs pry, re-joins to the frozen oracle — the
+  code-reflecting gate, still no new LLM since the lever moves pry's demand bit). 5
+  residual = 3 bare record timestamps (R3) + 2 hard-tail (equality on `.getMonth()`,
+  clock→date-range lib). `cargo test lever3_query_bounds_and_thresholds` pins the
+  shapes + negatives. Gate hardened (critique): lost-recall branch un-deadened +
+  misses-ceiling guard. ceal zero-delta (cdd31884). Truth surfaces synced.
 - **Slice 2 (filter-recall arm) DONE** (`dcf59f2`): the gate's recall half. Labeled a
   154-finding sample of the demoted pool (welded, demand=false) via `finding_io.py
   emit --pool demoted`; frozen `*-barepool-labels.json` + `votes-barepool/`;
