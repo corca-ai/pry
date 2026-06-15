@@ -19,6 +19,80 @@ application-shaped OSS**, the population pry actually deploys onto (E3).
 > calibration** below. Still **OPENED, not CLOSED**: the held-out arm + a
 > DI-disciplined exemplar are unrun.
 
+## E9 Tier-1 enrichment — does welded-at-demand predict defects? (쟁점 4 + 쟁점 2)
+
+> **VERDICT: FALSIFIED for this corpus.** Across **25 third-party TS/JS apps**,
+> welded-at-demand sites are **NOT** meaningfully bugfix-enriched vs other boundary
+> sites under the pre-registered matched comparison: **matched ratio 1.05, 95% CI
+> [0.96, 1.18]** — which trips the pre-registered FALSIFIER (≤1.1 OR CI-lower≤1.0).
+> This is the **directly-observed enrichment** result (nose's G1 analog), the
+> robust deliverable this goal set out to test. It is reported honestly as a valid
+> negative, not massaged toward the thesis (the nose `rate-match ≠ precision` /
+> retraction discipline).
+
+**Pre-registration (honesty gate).** The split, the matched-comparison
+denominator, the bugfix-set numerator, the two-sided floor, and the bootstrap CI
+were all frozen in [`harness/fixtures/eval/preregistration.md`](../harness/fixtures/eval/preregistration.md)
++ `harness/config.py` **before** this number existed. Git-provable:
+`git merge-base --is-ancestor 47eeb633 <this-commit>` (the prereg commit precedes
+the first enrichment-number commit). Signal arm = welded-at-demand
+(`class=welded AND demand`); PRIMARY control = "rest" (seamed | welded-not-demand).
+Matched on (file-churn × site-size) terciles, direct standardization; 95% CI =
+repo-cluster bootstrap (B=2000, seed=0). **GO** = matched≥1.5 AND CI-lower>1.0;
+**FALSIFIED** = matched≤1.1 OR CI-lower≤1.0.
+
+| arm set | repos | wd bugfix-rate | ctrl rate | raw | **matched** | 95% CI | strata u/d | verdict |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| **corpus** | 25 | 39.4% (2111/5364) | 37.9% (6683/17636) | 1.04 | **1.05** | [0.96, 1.18] | 9/0 | **FALSIFIED** |
+| dev | 5 | 53.9% (590/1094) | 58.0% (2249/3879) | 0.93 | **0.93** | [0.79, 1.04] | 9/0 | FALSIFIED |
+| **heldout** | 20 | 35.6% (1521/4270) | 32.2% (4434/13757) | 1.11 | **1.11** | [1.02, 1.29] | 9/0 | WEAK |
+
+**Generalization (쟁점 2).** Reported `dev` vs `heldout` separately; no threshold
+was tuned (none needed — the result is below every GO bar, so there was nothing to
+tune on `dev`). The held-out arm shows a **weak ~11% effect** whose CI excludes 1.0
+([1.02, 1.29]) but lands **far below the pre-registered "signal real" bar (1.5)** —
+a statistically-detectable but practically-negligible tendency. dev (the 4
+disciplined H3 seeds + medusa) is at 0.93 (below 1). The signal does **not**
+generalize to a level worth acting on.
+
+**Per-repo distribution (Simpson's-paradox guard).** Of 25 eligible repos
+(≥20/arm), **17/25 (68%) have a per-repo ratio > 1** — so the *direction* is mildly
+positive — but the *magnitude* is small and the largest repos drag the matched
+pool to ~1.0. Range 0.67 (twenty) → 2.23 (linkwarden); the high-ratio repos
+(linkwarden 2.23, formbricks 2.09, vendure 1.49, nocodb 1.47) are smaller, while
+the biggest finding-pools sit near or below 1.0 (twenty 0.67, n8n 1.18, novu 1.20,
+calcom 1.09, librechat 1.06, medusa 0.94, strapi 0.99, midday 0.71). The guard's
+threshold *passes* (≥60% repos >1) but the matched pooled effect is negligible —
+direction without magnitude.
+
+**Secondary controls (pre-registered breakdowns).** vs **seamed-only**: matched
+**0.91** (wd 39.4% vs 43.7%; welded-at-demand is, if anything, *less* bugfix-touched
+than the thin seamed arm, n=478) → FALSIFIED. vs **welded-not-demand-only**:
+matched **1.05** → FALSIFIED. Neither component control rescues the thesis. (The
+seamed-only arm is thin — see [`preregistration.md`](../harness/fixtures/eval/preregistration.md)
+Amendment A — which is exactly why "rest" is the primary, well-powered control.)
+
+**What this means.** pry's structural welded-at-demand signal is a *testability*
+classifier; this result says it is **not also a defect predictor** on a broad
+app corpus — the two are decoupled here. The shipped binary's framing stays
+correct and unchanged: **"risk ranking, NOT a bug list."** The precision-lever
+march (lever #4) was premised on this enrichment holding; it does not, so further
+precision polish is **not** justified by a bug-prediction payoff (it may still be
+justified by the testability-surface product goal, a separate question).
+
+**Standing non-claims (restated).** This is a correlation measurement, never
+causal; one-directional (a seamed-no-bugfix site is not "safe"); the file-KIND
+residual confound is named-not-neutralized; last-touch blame is a conservative
+lower-bound proxy; no SZZ Tier 2, no per-repo precision panel on heldout, no
+live/release/outbound proof. The FALSIFIED outcome is the honest result, not a
+failure to report.
+
+**Reproduce.** `python3 harness/sweep.py --corpus` (deterministic; clones at pinned
+commits) → `python3 harness/enrichment.py` (re-derives every number above from the
+frozen sweep records; seeded bootstrap is byte-reproducible). Note: `calcom` =
+`calcom/cal.com`, since rebranded `cal.diy` on GitHub — the pinned commit + clone
+URL track the rename.
+
 ## The slate (dev; pinned, frozen)
 
 Third-party app-shaped OSS (agent/LLM/automation runtimes), `pry map` at the
