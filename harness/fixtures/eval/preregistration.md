@@ -44,12 +44,31 @@ changedetection.
 The Python split is pre-registered here too; it is inert (harmless) if the S5
 (b)-gate KILLs the Python branch.
 
-## 2. The unit, the two arms, and "bugfix-touched"
+## 2. The unit, the arms, and "bugfix-touched"
+
+> **Amendment A (2026-06-15, pre-measurement, power-motivated — NOT an outcome
+> peek).** Before computing ANY bugfix-touch rate, a power check on the 4 already-
+> cloned seeds showed the `class=="seamed"` arm is ~14× thinner than welded-at-
+> demand (seeds: seamed 3/16/15/28 vs welded@demand 135/149/237/354). Only **arm
+> SIZES** were observed — no bugfix-touch outcome. A seamed-ONLY control is badly
+> underpowered under the matched denominator (≥5/arm/stratum). So the **PRIMARY
+> control is changed to "rest"** (every other decided boundary finding), which is
+> well-powered; `seamed` and `welded-not-demand` are retained as pre-registered
+> SECONDARY breakdowns so nothing is hidden. This amendment is committed before any
+> enrichment number; the honesty-gate ancestry test uses this commit.
 
 - **Unit:** one pry *finding* (a boundary call classified by `pry map`).
-- **Welded-at-demand arm:** findings with `class == "welded" AND demand == true`.
-- **Seamed arm:** findings with `class == "seamed"`.
-  (Findings that are welded-but-not-demand, or ambiguous, are in NEITHER arm.)
+- **Signal arm — welded-at-demand:** findings with `class == "welded" AND
+  demand == true`.
+- **PRIMARY control — "rest":** every other **decided** boundary finding, i.e.
+  `class == "seamed"` OR (`class == "welded"` AND `demand == false`). (Ambiguous
+  findings — no decided class/demand — are in NEITHER arm.) This tests the
+  actionable claim: *are the sites pry flags as welded-at-demand bugfix-enriched
+  relative to every other boundary site pry sees?*
+- **SECONDARY breakdowns (reported, not the verdict):** welded-at-demand vs
+  `seamed`-only (the injectability contrast, flagged underpowered if thin) and
+  welded-at-demand vs `welded-not-demand`-only (isolates the *demand* bit holding
+  "welded" fixed). The two-sided floor/falsifier applies to the PRIMARY.
 - **Bugfix-commit set (the NUMERATOR), PINNED HERE — not deferred to S2:** a
   bugfix commit = a **non-merge commit reachable from the repo's pinned commit
   whose MESSAGE matches `config.ENRICHMENT_BUGFIX_MSG_REGEX`** (= the frozen
@@ -75,10 +94,11 @@ The Python split is pre-registered here too; it is inert (harmless) if the S5
 
 - **Per-arm bugfix-touch rate** = (# bugfix-touched findings in arm) / (# findings
   in arm).
-- **Raw (pooled) enrichment ratio** = welded_at_demand_rate / seamed_rate.
-  Reported, but NOT the verdict metric — it is confounded by R-B (welded sites may
-  simply be more numerous, larger, or in hotter files).
-- **MATCHED enrichment ratio = THE verdict metric.** Findings are stratified by
+- **Raw (pooled) enrichment ratio** = welded_at_demand_rate / rest_rate (PRIMARY
+  control). Reported, but NOT the verdict metric — it is confounded by R-B (welded
+  sites may simply be more numerous, larger, or in hotter files).
+- **MATCHED enrichment ratio = THE verdict metric** (signal = welded-at-demand,
+  control = "rest"). Findings are stratified by
   `(file-churn tercile × site-size tercile)`:
   - *file-churn* = number of commits that touched the finding's file (proxy for
     "hot file"), cut into terciles **across all findings in the corpus arm
@@ -87,12 +107,12 @@ The Python split is pre-registered here too; it is inert (harmless) if the S5
     finding (proxy for "big site"), cut into terciles
     (`ENRICHMENT_SITESIZE_TERCILES = 3`).
   - Within each of the ≤9 strata, compute the welded-at-demand rate and the
-    seamed rate. A stratum is **used only if it has ≥ `ENRICHMENT_MIN_STRATUM`
-    (5) findings in EACH arm**; under-filled strata are **dropped and the drop is
-    LOGGED** (no silent truncation, risk R-D).
+    control ("rest") rate. A stratum is **used only if it has ≥
+    `ENRICHMENT_MIN_STRATUM` (5) findings in EACH arm**; under-filled strata are
+    **dropped and the drop is LOGGED** (no silent truncation, risk R-D).
   - **Matched ratio** = directly standardized:
-    `Σ_s w_s·welded_rate_s / Σ_s w_s·seamed_rate_s`, where `w_s` = total findings
-    in stratum `s` (both arms). This is the only form that neutralizes R-B.
+    `Σ_s w_s·welded_rate_s / Σ_s w_s·rest_rate_s`, where `w_s` = total findings
+    in stratum `s` (both arms). This is the form that neutralizes R-B.
 
 ## 4. The two-sided floor / FALSIFIER (set blind)
 
