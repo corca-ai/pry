@@ -9,14 +9,11 @@ runs the activation command.
 
 ## Active Operating Frame
 
-- Current slice: **S5 (Python (b)-gate lens → conditional frontend)** — next to
-  start. S1–S4 DONE + critiqued + committed. Sequencing gate satisfied: S3+S4 have
-  a recorded verdict (FALSIFIED corpus / WEAK heldout) in `docs/eval-gate.md`.
-- Current slice intent: run the analyzer-free (b)-gate lens (`harness/bgate_lens.py`,
-  already built) on the 8 Python apps — demand-subset welded-fraction in band
-  `[0.15,0.85]` AND decided≥0.40 → GO else KILL. On GO: build the Python frontend
-  (`catalog/python.toml`) + fold Python into the enrichment. On KILL: record
-  analyzer-free result, no frontend.
+- Current slice: **CLOSEOUT** — S1–S5 all DONE + critiqued + committed. Next:
+  quality validation recommendation, Final Verification, retro, disposition review.
+- S5 result: Python (b)-gate **KILL** (welded-saturated 0.902, out of band;
+  net+subproc 0.765 in-band but clock-driven saturation; kill-gate Run 7). No
+  frontend built (KILL + moot given FALSIFIED enrichment).
 - **MAIN RESULT (recorded):** 쟁점 4 **FALSIFIED** for this corpus — welded-at-demand
   matched enrichment vs rest = **1.05, CI [0.96,1.18]** across 25 TS apps (dev 0.93,
   heldout 1.11 weak/not-refuted but far below the 1.5 GO bar; vs seamed 0.90). The
@@ -260,7 +257,7 @@ What the user can do to verify completion directly:
 | S2 | Deterministic sweep harness (nose `run_corpus.sh` analog) | The reusable engine: per repo clone@pinned → `pry map` → mine bugfix commits → join bugfix-touched lines with pry findings; Workflow fan-out, incremental. (Tier 1 is *labeling*-cheap but *mining*-bearing — the per-repo mine+join+prune × ~25–33 is the long pole) | Per-repo sweep outputs; a **net-new TS/JS miner** (new pathspec + EH-token regex `catch`/`throw`/`.catch(`/`reject`/`retry`/`timeout` + boundary names + output schema, reusing `mine.py`'s determinism discipline; `mine.py` is Python-token-only today); Python repos use the native `mine.py`; deterministic mine x2 | **DONE** (`678ccae`; mine_ts.py+sweep.py; 25/25 swept; byte-identical x2) |
 | S3 | Tier 1 — directly-observed enrichment (THE main result, 쟁점 4) | Pure git + map join, no per-site gold → robust; answers "does welded-at-demand predict defects?" | Enrichment table in `docs/eval-gate.md`: welded-at-demand vs seamed bugfix-touch rate **under the pre-registered matched-comparison denominator**, vs the two-sided floor/falsifier, with the verdict; **per-repo distribution reported, not only pooled** (Simpson's-paradox guard) | **DONE** (`6a19e3d` — matched 1.05, CI [0.96,1.18] → **FALSIFIED**) |
 | S4 | Generalization (쟁점 2) — dev/heldout | Absorbs the old "corpus-expansion / SC2 gate" queue item; the held-out arm is the generalization gate | Enrichment reported `dev` vs `heldout` separately; any threshold tuned on `dev` only; held-out number stated honestly | **DONE** (`6a19e3d` — dev 0.93 / heldout 1.11 weak; no tuning needed) |
-| S5 | Python branch — (b)-gate lens → conditional frontend → fold-in | The recorded reopen; cheap analyzer-free lens first, heavy frontend only on a GO **and only after S3+S4 have a recorded verdict** | (b)-gate GO/KILL on the Python apps **by the lens criterion (demand-subset in band `[0.15,0.85]`, not bare fraction)**; IF GO → Python frontend built (`catalog/python.toml`), `pry map` runs on a Python app, Python folds into the S3/S4 `eval-gate.md` table (assign Python repos' dev/heldout split here); IF KILL → analyzer-free result recorded, no frontend | planned |
+| S5 | Python branch — (b)-gate lens → conditional frontend → fold-in | The recorded reopen; cheap analyzer-free lens first, heavy frontend only on a GO **and only after S3+S4 have a recorded verdict** | (b)-gate GO/KILL on the Python apps **by the lens criterion (demand-subset in band `[0.15,0.85]`, not bare fraction)**; IF GO → Python frontend built (`catalog/python.toml`), `pry map` runs on a Python app, Python folds into the S3/S4 `eval-gate.md` table (assign Python repos' dev/heldout split here); IF KILL → analyzer-free result recorded, no frontend | **DONE** — **KILL** (welded-saturated 0.902, kill-gate Run 7); no frontend |
 
 ## Coordination Cues
 
@@ -375,6 +372,33 @@ Dispositions: ACT (folded, honesty-of-disclosure) — base-rate-ceiling caveat
 tier-pooling caveat. OVER-WORRY (no action) — "rest" framing (thesis fails under
 all framings), outline.json missing in-record id (cosmetic). Packet:
 `charness-artifacts/critique/2026-06-15-s3-enrichment-packet.md`.
+
+### S5 — Python (b)-gate lens → KILL, no frontend (DONE, 2026-06-15)
+
+Commits: `761e305` (lens KILL) → `<S5 critique folds>`. Sequencing gate honored
+(S3+S4 verdict `6a19e3d` is git-ancestor of the S5 commit). **Built:**
+`bgate_lens.py` (analyzer-free `ast` lens, zero-LLM, byte-deterministic) + 7 tests.
+**Verdict: KILL** — full demand-subset welded-fraction **0.902** (out of band
+[0.15,0.85], decided 0.737 = not mute). Idiomatic Python app code reaches
+boundaries module-directly (no injection seam); confirms the prior ceal-Python
+KILL on **independent non-glue apps** (not a glue artifact). Decomposition: the
+KILL is clock-driven (clock 62% of welds, 0-seam by construction); net+subproc
+alone 0.765 (in-band, ~24% seams) — a genuine Python-vs-TS clock-culture
+difference. Only mealie (FastAPI DI) GOes (0.564), which also proves the lens
+detects seams (no detect-nothing bug). **No frontend built** — two honest reasons:
+(b)-gate KILL + moot given the FALSIFIED TS enrichment (folding Python in cannot
+resurrect a falsified thesis). A definitive 1-by-1 hand-gate + a real Python
+frontend = a separate future goal. R-C (no faith-built frontend) satisfied: zero
+`src/` changes, no `catalog/python.toml` touch.
+
+**Slice critique (fresh-eye, parent-delegated):** 2 angles (lens-KILL soundness ·
+no-frontend honesty/R-C) + counterweight. Both confirm the KILL is SOUND and the
+no-frontend decision correctly gated + honestly recorded. Folded 2 Bundle items:
+dotdir skip (.semgrep//.claude/ fixtures, 0.906→0.902, verdict unchanged) + the
+clock-vs-net/subproc decomposition disclosure. Honesty note: the first lens run was
+an artifactual mute (greedy substring lexicon); fixed with a boundary-VERB gate.
+Packet/reviewers inline. AC4 made call-aware so the analyzer's detection-pattern
+strings (`urlopen`) aren't false positives.
 
 ## Context Sources
 
