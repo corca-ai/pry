@@ -9,6 +9,7 @@
 use anyhow::{Context, Result};
 use pry::catalog;
 use pry::classify::{self, Class, Finding};
+use pry::floor::{self, FloorFinding};
 use clap::{Parser, Subcommand};
 use serde_json::json;
 use std::path::{Path, PathBuf};
@@ -36,11 +37,23 @@ enum Cmd {
         #[arg(long = "exclude", value_name = "GLOB")]
         exclude: Vec<String>,
     },
+    /// Emit the CLAIM channel (swallowed boundary failures = defects to fix, NOT a
+    /// ranking) for a path of TS/JS files. Physically separate from `map`
+    /// (docs/spec-floor.md). FLOOR-1 = swallowed failure-capable boundary failure;
+    /// FLOOR-2 = that, then control reaches a mutation/commit.
+    Floor {
+        /// File or directory to analyze.
+        path: PathBuf,
+        /// Exclude paths matching a glob (repeatable, positive-sense).
+        #[arg(long = "exclude", value_name = "GLOB")]
+        exclude: Vec<String>,
+    },
 }
 
 fn main() -> Result<()> {
     match Cli::parse().cmd {
         Cmd::Map { path, summary_only, exclude } => run_map(&path, summary_only, &exclude),
+        Cmd::Floor { path, exclude } => run_floor(&path, &exclude),
     }
 }
 
@@ -196,6 +209,66 @@ fn run_map(root: &Path, summary_only: bool, exclude: &[String]) -> Result<()> {
             "summary": summary,
         })
     };
+    println!("{}", serde_json::to_string_pretty(&out)?);
+    Ok(())
+}
+
+fn run_floor(root: &Path, exclude: &[String]) -> Result<()> {
+    let cat = catalog::load();
+    let language: tree_sitter::Language = tree_sitter_typescript::LANGUAGE_TYPESCRIPT.into();
+    let mut parser = tree_sitter::Parser::new();
+    parser
+        .set_language(&language)
+        .context("set tree-sitter-typescript language")?;
+
+    let files = discover(root, exclude)?;
+    let mut findings: Vec<FloorFinding> = Vec::new();
+    for file in &files {
+        let src = match std::fs::read(file) {
+            Ok(b) => b,
+            Err(_) => continue,
+        };
+        let Some(tree) = parser.parse(&src, None) else {
+            continue;
+        };
+        let rel = file.strip_prefix(root).unwrap_or(file).to_string_lossy().to_string();
+        findings.extend(floor::analyze_floor(&src, &rel, &tree, &cat));
+    }
+    findings.sort_by(|a, b| {
+        (a.file.as_str(), a.line, a.col, a.rule).cmp(&(b.file.as_str(), b.line, b.col, b.rule))
+    });
+
+    let floor1 = findings.iter().filter(|f| f.rule == "FLOOR-1").count();
+    let floor2 = findings.iter().filter(|f| f.rule == "FLOOR-2").count();
+    let rows: Vec<_> = findings
+        .iter()
+        .map(|f| {
+            json!({
+                "file": f.file,
+                "line": f.line,
+                "col": f.col,
+                "rule": f.rule,
+                "kind": f.kind,
+                "catch_line": f.catch_line,
+                "commit_line": f.commit_line,
+                "reason": f.reason,
+            })
+        })
+        .collect();
+    let out = json!({
+        "tool": "pry",
+        "channel": "floor",
+        "note": "claim channel: swallowed boundary failures (defects to fix), NOT a ranking",
+        "corpus": root.to_string_lossy(),
+        "findings": rows,
+        "summary": {
+            "files_scanned": files.len(),
+            "total": findings.len(),
+            "floor1": floor1,
+            "floor2": floor2,
+            "floor_kinds": floor::FLOOR_KINDS,
+        },
+    });
     println!("{}", serde_json::to_string_pretty(&out)?);
     Ok(())
 }

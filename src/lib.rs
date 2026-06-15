@@ -5,6 +5,7 @@
 
 pub mod catalog;
 pub mod classify;
+pub mod floor;
 
 /// Convenience: parse a TS source string and classify it against the embedded
 /// catalog. Used by the binary's smoke path and by tests (no file I/O — F26).

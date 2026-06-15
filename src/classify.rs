@@ -960,7 +960,7 @@ fn finding(n: Node, b: &Boundary, file: &str, class: Class, input_sim: bool, rea
 }
 
 /// Try to match `node` against the catalog and, on a hit, classify it.
-fn match_node(node: Node, src: &[u8], file: &str, cat: &Catalog) -> Option<Finding> {
+pub fn match_node(node: Node, src: &[u8], file: &str, cat: &Catalog) -> Option<Finding> {
     match node.kind() {
         "new_expression" => {
             let ctor = node.child_by_field_name("constructor").map(|c| text(c, src))?;
