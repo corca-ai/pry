@@ -36,6 +36,25 @@ does not exist. SARIF emit is also future (JSON only today).
 
 ## Now — precision levers (eval-gated) + the floor
 
+> **⚠ Premise update (2026-06-16): the *unbuilt* precision-lever march is DEMOTED
+> to backlog.** The remaining precision polish (rung-3 form-B below; the rung-3
+> "ceiling" row in eval-gate's projected-impact table) was justified by an assumed
+> payoff — that welded-at-demand sites concentrate something actionable, so
+> sharpening precision sharpens a *prioritized risk* signal. Two pre-registered
+> multi-repo validations refute the payoff: **E9 Tier-1** — welded-at-demand is
+> **not** bugfix-enriched (matched 1.05, CI [0.96, 1.18]); and **step-1 coverage**
+> — welded-at-demand files are **not** less test-associated (matched 0.95, CI
+> [0.88, 1.02]). pry stays validated as a **precise injectability classifier**
+> (network/subprocess 100%), but neither *prioritization* payoff (bugs, file-level
+> coverage) holds, so further precision polish is **not** justified by it. It might
+> still be justified by a testability-surface product goal — but that wedge is
+> itself **unproven** (the line-level/error-path coverage claim is unmeasured here;
+> see [`eval-gate.md`](eval-gate.md) §Step-1 scope) and is an **open `ideation`
+> question**, not a settled identity. Honesty guard: do **not** pitch "fix welds →
+> fewer bugs / better coverage." The shipped levers (0a–0d) stand; the **syntactic
+> floor (#1)** and **quality auto-invoke (#2)** are independent of this premise and
+> remain valid.
+
 **Precision levers (named by [`eval-gate.md`](eval-gate.md), ranked by lift).**
 Sequenced behind **Slice 2 (filter-recall arm)** — the spec requires the recall
 arm online before any precision filter ships (a filter that over-demotes a genuine
@@ -92,6 +111,11 @@ Then the structural deepeners:
    agent-invoked on-request via the `skills/pry/` F15 skill, not auto-run.
 
 ### Reopened by H3 — stage-2 rung-3 wrapper detection (F22, "form-B")
+
+> **DEMOTED to backlog (2026-06-16) — premise dead (see the banner above).** This
+> is precision polish whose payoff (a prioritized bug/coverage signal) is now
+> falsified by E9 + step-1. Reopen only if an `ideation` pass revives a
+> precision-justifying wedge. Kept here for the record, not as a Now item.
 
 The `kill-gate.md` Run 5 EXTEND rider flagged network/subprocess seams behind an
 injected transport/executor wrapper one hop up. A census on ceal found the gap
