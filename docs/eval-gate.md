@@ -141,6 +141,108 @@ frozen sweep records; seeded bootstrap is byte-reproducible). Note: `calcom` =
 `calcom/cal.com`, since rebranded `cal.diy` on GitHub — the pinned commit + clone
 URL track the rename.
 
+## Step-1 coverage (the testability link) — does welded-at-demand sit in LESS-tested code? (post-E9)
+
+> **VERDICT: the FILE-LEVEL coverage gap is FALSIFIED for this corpus.** After E9
+> killed the *bug*-prediction thesis, the remaining honest candidate was that pry's
+> signal is a *testability* one: a welded boundary has no seam to inject a failure,
+> so its code should be harder to test, hence **less tested**. At the **file level
+> it is not**. Across the **same 25 TS/JS apps**, welded-at-demand sites are **NOT**
+> in less-test-associated files than other boundary sites: **matched untested ratio
+> 0.95, 95% CI [0.88, 1.02]** (odds ratio 0.88) — wd files are, if anything,
+> *marginally more* covered. This trips the pre-registered FALSIFIER (≤1.1 OR
+> CI-lower≤1.0), and the base-rate ceiling (max achievable ratio =
+> 1/standardized-rest-rate = **1.62**, above the 1.5 GO floor) confirms the bar
+> **was reachable** — a genuine null, not a rigged one.
+>
+> **Scope of the claim (do not over-read).** This measures *file-level* test
+> association — a coarse **upper bound** on the line-level claim the thesis actually
+> makes (the *welded boundary's own error branch* is harder to exercise). That finer
+> claim needs *executed* line coverage (`npm install` + test runs = outbound,
+> forbidden on corpus repos), so it is **unmeasured here**, and a file-level null is
+> correspondingly *weaker* evidence for it. The honest reading: **pry's `demand`
+> refinement buys no file-level coverage signal**; the line-level version is
+> untested, **not refuted**.
+
+**Pre-registration (honesty gate).** The split, the coverage outcome, the matched
+denominator, the two-sided floor, and the bootstrap CI were frozen in
+[`harness/fixtures/eval/preregistration-coverage.md`](../harness/fixtures/eval/preregistration-coverage.md)
++ the `Step-1 coverage` block of `harness/config.py` **before** this number
+existed. Git-provable: `git merge-base --is-ancestor cd90d1d <this-commit>`. This
+is the *rescue* thesis, so the gate matters more, not less. The metric is oriented
+on `untested` (file has no test association) so wd-more-untested → ratio>1, the
+*same* direction as E9; the floor is reused from E9 by symmetry (GO≥1.5,
+FALSIFIED≤1.1), so **no free parameter is fit to this outcome**.
+
+**Coverage outcome (the proxy).** A source file is *test-associated* iff (a) a
+**mirror** test file shares its stem (`foo.ts` ↔ `foo.{test,spec,e2e,vitest,cy}.*`),
+OR (b) it is **imported-by-test** (a resolved relative / tsconfig-alias import
+target in a test file). Deterministic and offline (`git ls-tree` + `cat-file` at
+the pinned commit; zero new mining, no test suites run — that would need
+`npm install` = outbound, forbidden on corpus repos). This is **file-level, a
+coarse upper bound** on boundary-line coverage, applied identically to both arms,
+so the *ratio* is a valid relative signal. Both proxy arms are non-degenerate
+(mirror covers 22.4k files, import resolves 11.3k and adds 2.4k unique).
+
+| arm set | repos | wd untested | rest untested | raw | **matched** | OR | 95% CI | verdict |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| **corpus** (primary) | 25 | 61.0% | 61.4% | 0.99 | **0.95** | 0.88 | [0.88, 1.02] | **FALSIFIED** |
+| dev | 5 | 49.2% | 55.0% | 0.90 | **0.89** | 0.78 | [0.76, 1.25] | FALSIFIED |
+| heldout | 20 | 64.0% | 63.2% | 1.01 | **0.97** | 0.93 | [0.89, 1.05] | FALSIFIED |
+
+**Robust across every pre-registered cut.** backend-only (drops frontend, the
+named E9 file-kind confound) **0.94** [0.88,1.01]; strict path-aware mirror+import
+**0.96** [0.90,1.02]; mirror-only **0.95** [0.89,1.01]; import-only **0.98**
+[0.93,1.03]. Every cut is FALSIFIED; none reaches the GO floor. The strict mirror
+matters because the permissive proxy basename-matches common stems
+(`index.ts` ↔ any `*/index.test.ts`), over-crediting coverage — but that bias is
+symmetric and the path-aware re-cut leaves the verdict unmoved.
+
+**Per-repo distribution (Simpson guard).** 16/25 (64%) eligible repos have a
+per-repo ratio > 1 (nominally clears the ≥60% *direction* guard), but — exactly as
+in E9 — the magnitudes are negligible and clustered at ~1.0 (only budibase 1.58 is
+an outlier; the largest finding-pools n8n 0.98 / twenty 0.99 / medusa 0.90 /
+flowise 0.94 sit at or below 1 and drag the matched pool to 0.95). Direction
+without actionable magnitude.
+
+**The honest decomposition (one weak signal — and it is not pry's).** The
+*secondary* control wd-vs-**seamed-only** is matched **1.28**, CI **[1.10, 1.55]** —
+its CI *excludes 1.0*, so it is a real if weak tendency: plain **seamed (injectable)
+boundaries are somewhat more test-associated than welded ones**. But it is the bare
+**welded-vs-seamed injectability bit, not pry's `demand` refinement**, and it is
+WEAK (point below the 1.5 GO floor) on the underpowered arm (seamed n=474 — the
+reason "rest" is the pre-registered primary; `preregistration.md` Amendment A). The
+decisive cut is wd-vs-**welded-not-demand** = **0.94** (flat): holding "welded"
+fixed, the `demand` bit — pry's actual contribution over a trivial welded/seamed
+split — adds **nothing** to file-level coverage. So the earned statement is narrow
+and exact: *injectability itself* carries a weak, CI-positive coverage association;
+*pry's demand-weighted signal on top of it does not.*
+
+**What this means.** Two of the value-bridges that would turn pry's classification
+into a *prioritized* product are now down on this corpus: **bug-prediction** (E9,
+direct measurement, robust) and the **file-level coverage gap for the `demand`
+refinement** (here). pry remains validated as a **precise injectability classifier**
+(H3: 100% on network/subprocess) — it accurately tells you *whether a given boundary
+call can have a failure injected without refactoring*. What is **not** refuted: the
+line-level/error-path testability claim (unmeasured — §scope) and pry's value as a
+plain injectability *inventory*. So the earned conclusion is narrow — *"fix welds →
+fewer bugs" is refuted, and pry's `demand` ranking buys no file-level coverage
+signal* — not "pry has no value." The shipped binary's framing stays correct ("risk
+ranking, NOT a bug list"); whether the precise injectability inventory has a product
+wedge, and whether a non-outbound corpus could test the line-level claim, are open
+`ideation` questions, not measurement ones (see `docs/handoff.md` Discuss).
+
+**Standing non-claims.** Structural proxy, not executed line/branch coverage;
+file-level upper bound on boundary coverage; correlational (never "welding causes
+under-testing"); import resolution is best-effort (under-resolution would bias
+*toward* a gap, so a GO would need the resolution-free mirror-only cut — moot here
+since all cuts are FALSIFIED); frontend/backend file-kind residual named and
+probed (backend-only), not fully neutralized.
+
+**Reproduce.** `python3 harness/coverage.py` (re-derives every number from the
+frozen sweep records + the clones at the pinned commits; seeded bootstrap is
+byte-reproducible). Unit tests: `python3 harness/test_coverage.py`.
+
 ## The slate (dev; pinned, frozen)
 
 Third-party app-shaped OSS (agent/LLM/automation runtimes), `pry map` at the

@@ -1,0 +1,1403 @@
+{
+  "outcome": "untested (file has no test association: mirror-stem OR imported-by-test)",
+  "n_repos": 25,
+  "primary": {
+    "corpus": {
+      "control": "rest",
+      "matched_ratio": 0.9526683688423337,
+      "raw_ratio": 0.993064579404926,
+      "odds_ratio": 0.8846610125173647,
+      "rate_diff": -0.02929472894095353,
+      "std_wd_rate": 0.5896302526082754,
+      "std_ct_rate": 0.6189249815492289,
+      "wd_n": 5251,
+      "wd_untested": 3202,
+      "ctrl_n": 17256,
+      "ctrl_untested": 10596,
+      "wd_rate": 0.6097886116930109,
+      "ctrl_rate": 0.614047287899861,
+      "strata_used": 9,
+      "strata_dropped": 0,
+      "max_ratio_ceiling": 1.6157046973558953,
+      "ci95": [
+        0.8805539155823613,
+        1.0223744614464585
+      ],
+      "verdict": "FALSIFIED",
+      "label": "corpus",
+      "key": "untested",
+      "n_repos": 25,
+      "per_repo": {
+        "eligible_repos": 25,
+        "repos_ratio_gt1": 16,
+        "fraction_gt1": 0.64,
+        "passes_simpson_guard": true,
+        "rows": [
+          {
+            "id": "budibase",
+            "wd_n": 196,
+            "ctrl_n": 623,
+            "ratio": 1.58
+          },
+          {
+            "id": "calcom",
+            "wd_n": 398,
+            "ctrl_n": 1331,
+            "ratio": 1.039
+          },
+          {
+            "id": "continue",
+            "wd_n": 228,
+            "ctrl_n": 494,
+            "ratio": 1.23
+          },
+          {
+            "id": "directus",
+            "wd_n": 121,
+            "ctrl_n": 168,
+            "ratio": 0.753
+          },
+          {
+            "id": "docmost",
+            "wd_n": 47,
+            "ctrl_n": 100,
+            "ratio": 1.001
+          },
+          {
+            "id": "flowise",
+            "wd_n": 149,
+            "ctrl_n": 705,
+            "ratio": 0.942
+          },
+          {
+            "id": "formbricks",
+            "wd_n": 122,
+            "ctrl_n": 353,
+            "ratio": 0.333
+          },
+          {
+            "id": "immich",
+            "wd_n": 47,
+            "ctrl_n": 132,
+            "ratio": 1.238
+          },
+          {
+            "id": "karakeep",
+            "wd_n": 83,
+            "ctrl_n": 144,
+            "ratio": 0.753
+          },
+          {
+            "id": "librechat",
+            "wd_n": 344,
+            "ctrl_n": 1126,
+            "ratio": 1.013
+          },
+          {
+            "id": "linkwarden",
+            "wd_n": 50,
+            "ctrl_n": 638,
+            "ratio": 1.181
+          },
+          {
+            "id": "medusa",
+            "wd_n": 219,
+            "ctrl_n": 1289,
+            "ratio": 0.896
+          },
+          {
+            "id": "midday",
+            "wd_n": 221,
+            "ctrl_n": 667,
+            "ratio": 1.172
+          },
+          {
+            "id": "n8n",
+            "wd_n": 705,
+            "ctrl_n": 1949,
+            "ratio": 0.982
+          },
+          {
+            "id": "nocodb",
+            "wd_n": 306,
+            "ctrl_n": 787,
+            "ratio": 1.019
+          },
+          {
+            "id": "novu",
+            "wd_n": 279,
+            "ctrl_n": 1392,
+            "ratio": 1.132
+          },
+          {
+            "id": "openstatus",
+            "wd_n": 139,
+            "ctrl_n": 512,
+            "ratio": 0.516
+          },
+          {
+            "id": "outline",
+            "wd_n": 135,
+            "ctrl_n": 182,
+            "ratio": 1.042
+          },
+          {
+            "id": "payload",
+            "wd_n": 132,
+            "ctrl_n": 540,
+            "ratio": 1.117
+          },
+          {
+            "id": "rocketchat",
+            "wd_n": 443,
+            "ctrl_n": 1110,
+            "ratio": 1.022
+          },
+          {
+            "id": "seerr",
+            "wd_n": 57,
+            "ctrl_n": 115,
+            "ratio": 0.982
+          },
+          {
+            "id": "strapi",
+            "wd_n": 294,
+            "ctrl_n": 921,
+            "ratio": 1.267
+          },
+          {
+            "id": "twenty",
+            "wd_n": 406,
+            "ctrl_n": 1550,
+            "ratio": 0.991
+          },
+          {
+            "id": "umami",
+            "wd_n": 22,
+            "ctrl_n": 157,
+            "ratio": 1.146
+          },
+          {
+            "id": "vendure",
+            "wd_n": 108,
+            "ctrl_n": 271,
+            "ratio": 1.127
+          }
+        ]
+      }
+    },
+    "dev": {
+      "control": "rest",
+      "matched_ratio": 0.8850524847335887,
+      "raw_ratio": 0.895486632923811,
+      "odds_ratio": 0.7759957023595827,
+      "rate_diff": -0.06323054013254104,
+      "std_wd_rate": 0.48685129492055224,
+      "std_ct_rate": 0.5500818350530933,
+      "wd_n": 1075,
+      "wd_untested": 529,
+      "ctrl_n": 3796,
+      "ctrl_untested": 2086,
+      "wd_rate": 0.49209302325581394,
+      "ctrl_rate": 0.5495258166491043,
+      "strata_used": 9,
+      "strata_dropped": 0,
+      "max_ratio_ceiling": 1.8179113293269922,
+      "ci95": [
+        0.7608383633956481,
+        1.2465809061356623
+      ],
+      "verdict": "FALSIFIED",
+      "label": "dev",
+      "key": "untested",
+      "n_repos": 5,
+      "per_repo": {
+        "eligible_repos": 5,
+        "repos_ratio_gt1": 3,
+        "fraction_gt1": 0.6,
+        "passes_simpson_guard": true,
+        "rows": [
+          {
+            "id": "continue",
+            "wd_n": 228,
+            "ctrl_n": 494,
+            "ratio": 1.23
+          },
+          {
+            "id": "flowise",
+            "wd_n": 149,
+            "ctrl_n": 705,
+            "ratio": 0.942
+          },
+          {
+            "id": "librechat",
+            "wd_n": 344,
+            "ctrl_n": 1126,
+            "ratio": 1.013
+          },
+          {
+            "id": "medusa",
+            "wd_n": 219,
+            "ctrl_n": 1289,
+            "ratio": 0.896
+          },
+          {
+            "id": "outline",
+            "wd_n": 135,
+            "ctrl_n": 182,
+            "ratio": 1.042
+          }
+        ]
+      }
+    },
+    "heldout": {
+      "control": "rest",
+      "matched_ratio": 0.9718122001227375,
+      "raw_ratio": 1.0124042708375542,
+      "odds_ratio": 0.9259565584817965,
+      "rate_diff": -0.01796325400319021,
+      "std_wd_rate": 0.6193072701741924,
+      "std_ct_rate": 0.6372705241773826,
+      "wd_n": 4176,
+      "wd_untested": 2673,
+      "ctrl_n": 13460,
+      "ctrl_untested": 8510,
+      "wd_rate": 0.6400862068965517,
+      "ctrl_rate": 0.6322436849925706,
+      "strata_used": 9,
+      "strata_dropped": 0,
+      "max_ratio_ceiling": 1.5691923006965447,
+      "ci95": [
+        0.8925661607629136,
+        1.047978022900968
+      ],
+      "verdict": "FALSIFIED",
+      "label": "heldout",
+      "key": "untested",
+      "n_repos": 20,
+      "per_repo": {
+        "eligible_repos": 20,
+        "repos_ratio_gt1": 13,
+        "fraction_gt1": 0.65,
+        "passes_simpson_guard": true,
+        "rows": [
+          {
+            "id": "budibase",
+            "wd_n": 196,
+            "ctrl_n": 623,
+            "ratio": 1.58
+          },
+          {
+            "id": "calcom",
+            "wd_n": 398,
+            "ctrl_n": 1331,
+            "ratio": 1.039
+          },
+          {
+            "id": "directus",
+            "wd_n": 121,
+            "ctrl_n": 168,
+            "ratio": 0.753
+          },
+          {
+            "id": "docmost",
+            "wd_n": 47,
+            "ctrl_n": 100,
+            "ratio": 1.001
+          },
+          {
+            "id": "formbricks",
+            "wd_n": 122,
+            "ctrl_n": 353,
+            "ratio": 0.333
+          },
+          {
+            "id": "immich",
+            "wd_n": 47,
+            "ctrl_n": 132,
+            "ratio": 1.238
+          },
+          {
+            "id": "karakeep",
+            "wd_n": 83,
+            "ctrl_n": 144,
+            "ratio": 0.753
+          },
+          {
+            "id": "linkwarden",
+            "wd_n": 50,
+            "ctrl_n": 638,
+            "ratio": 1.181
+          },
+          {
+            "id": "midday",
+            "wd_n": 221,
+            "ctrl_n": 667,
+            "ratio": 1.172
+          },
+          {
+            "id": "n8n",
+            "wd_n": 705,
+            "ctrl_n": 1949,
+            "ratio": 0.982
+          },
+          {
+            "id": "nocodb",
+            "wd_n": 306,
+            "ctrl_n": 787,
+            "ratio": 1.019
+          },
+          {
+            "id": "novu",
+            "wd_n": 279,
+            "ctrl_n": 1392,
+            "ratio": 1.132
+          },
+          {
+            "id": "openstatus",
+            "wd_n": 139,
+            "ctrl_n": 512,
+            "ratio": 0.516
+          },
+          {
+            "id": "payload",
+            "wd_n": 132,
+            "ctrl_n": 540,
+            "ratio": 1.117
+          },
+          {
+            "id": "rocketchat",
+            "wd_n": 443,
+            "ctrl_n": 1110,
+            "ratio": 1.022
+          },
+          {
+            "id": "seerr",
+            "wd_n": 57,
+            "ctrl_n": 115,
+            "ratio": 0.982
+          },
+          {
+            "id": "strapi",
+            "wd_n": 294,
+            "ctrl_n": 921,
+            "ratio": 1.267
+          },
+          {
+            "id": "twenty",
+            "wd_n": 406,
+            "ctrl_n": 1550,
+            "ratio": 0.991
+          },
+          {
+            "id": "umami",
+            "wd_n": 22,
+            "ctrl_n": 157,
+            "ratio": 1.146
+          },
+          {
+            "id": "vendure",
+            "wd_n": 108,
+            "ctrl_n": 271,
+            "ratio": 1.127
+          }
+        ]
+      }
+    }
+  },
+  "secondary": {
+    "vs_seamed": {
+      "control": "seamed",
+      "matched_ratio": 1.2845575944933973,
+      "raw_ratio": 1.3633952921815433,
+      "odds_ratio": 1.7268866069792816,
+      "rate_diff": 0.13480169672616077,
+      "std_wd_rate": 0.6085254677123139,
+      "std_ct_rate": 0.4737237709861531,
+      "wd_n": 5251,
+      "wd_untested": 3202,
+      "ctrl_n": 474,
+      "ctrl_untested": 212,
+      "wd_rate": 0.6097886116930109,
+      "ctrl_rate": 0.4472573839662447,
+      "strata_used": 9,
+      "strata_dropped": 0,
+      "max_ratio_ceiling": 2.1109348131682206,
+      "ci95": [
+        1.1017170791026958,
+        1.5467526537710912
+      ],
+      "verdict": "WEAK / inconclusive",
+      "label": "corpus",
+      "key": "untested",
+      "n_repos": 25
+    },
+    "vs_welded_not_demand": {
+      "control": "wnd",
+      "matched_ratio": 0.9449760302020905,
+      "raw_ratio": 0.9855038984429998,
+      "odds_ratio": 0.8659505640443954,
+      "rate_diff": -0.03432679077554879,
+      "std_wd_rate": 0.5895247942995261,
+      "std_ct_rate": 0.6238515850750749,
+      "wd_n": 5251,
+      "wd_untested": 3202,
+      "ctrl_n": 16782,
+      "ctrl_untested": 10384,
+      "wd_rate": 0.6097886116930109,
+      "ctrl_rate": 0.6187581933023477,
+      "strata_used": 9,
+      "strata_dropped": 0,
+      "max_ratio_ceiling": 1.6029453541897454,
+      "ci95": [
+        0.8723373801729087,
+        1.0167646596021078
+      ],
+      "verdict": "FALSIFIED",
+      "label": "corpus",
+      "key": "untested",
+      "n_repos": 25
+    }
+  },
+  "robustness": {
+    "backend_only": {
+      "control": "rest",
+      "matched_ratio": 0.9388762530023129,
+      "raw_ratio": 0.9902374028570678,
+      "odds_ratio": 0.8555916973933674,
+      "rate_diff": -0.03754688602515244,
+      "std_wd_rate": 0.5767296900913808,
+      "std_ct_rate": 0.6142765761165332,
+      "wd_n": 4443,
+      "wd_untested": 2675,
+      "ctrl_n": 15013,
+      "ctrl_untested": 9128,
+      "wd_rate": 0.6020706729687149,
+      "ctrl_rate": 0.6080063944581363,
+      "strata_used": 9,
+      "strata_dropped": 0,
+      "max_ratio_ceiling": 1.6279311939941072,
+      "ci95": [
+        0.8765963280149547,
+        1.0085968156763339
+      ],
+      "verdict": "FALSIFIED",
+      "label": "corpus(backend-only)",
+      "key": "untested",
+      "n_repos": 25,
+      "per_repo": {
+        "eligible_repos": 24,
+        "repos_ratio_gt1": 11,
+        "fraction_gt1": 0.4583333333333333,
+        "passes_simpson_guard": false,
+        "rows": [
+          {
+            "id": "budibase",
+            "wd_n": 187,
+            "ctrl_n": 617,
+            "ratio": 1.487
+          },
+          {
+            "id": "calcom",
+            "wd_n": 370,
+            "ctrl_n": 1233,
+            "ratio": 0.998
+          },
+          {
+            "id": "continue",
+            "wd_n": 196,
+            "ctrl_n": 481,
+            "ratio": 1.189
+          },
+          {
+            "id": "directus",
+            "wd_n": 99,
+            "ctrl_n": 140,
+            "ratio": 1.005
+          },
+          {
+            "id": "docmost",
+            "wd_n": 33,
+            "ctrl_n": 84,
+            "ratio": 0.982
+          },
+          {
+            "id": "flowise",
+            "wd_n": 62,
+            "ctrl_n": 441,
+            "ratio": 0.85
+          },
+          {
+            "id": "formbricks",
+            "wd_n": 107,
+            "ctrl_n": 343,
+            "ratio": 0.368
+          },
+          {
+            "id": "immich",
+            "wd_n": 46,
+            "ctrl_n": 132,
+            "ratio": 1.216
+          },
+          {
+            "id": "karakeep",
+            "wd_n": 83,
+            "ctrl_n": 144,
+            "ratio": 0.753
+          },
+          {
+            "id": "librechat",
+            "wd_n": 257,
+            "ctrl_n": 976,
+            "ratio": 0.94
+          },
+          {
+            "id": "linkwarden",
+            "wd_n": 42,
+            "ctrl_n": 240,
+            "ratio": 0.944
+          },
+          {
+            "id": "medusa",
+            "wd_n": 217,
+            "ctrl_n": 1125,
+            "ratio": 0.921
+          },
+          {
+            "id": "midday",
+            "wd_n": 205,
+            "ctrl_n": 647,
+            "ratio": 1.17
+          },
+          {
+            "id": "n8n",
+            "wd_n": 623,
+            "ctrl_n": 1820,
+            "ratio": 0.981
+          },
+          {
+            "id": "nocodb",
+            "wd_n": 291,
+            "ctrl_n": 780,
+            "ratio": 1.025
+          },
+          {
+            "id": "novu",
+            "wd_n": 197,
+            "ctrl_n": 962,
+            "ratio": 1.157
+          },
+          {
+            "id": "openstatus",
+            "wd_n": 119,
+            "ctrl_n": 432,
+            "ratio": 0.479
+          },
+          {
+            "id": "outline",
+            "wd_n": 113,
+            "ctrl_n": 168,
+            "ratio": 0.863
+          },
+          {
+            "id": "payload",
+            "wd_n": 96,
+            "ctrl_n": 503,
+            "ratio": 1.072
+          },
+          {
+            "id": "rocketchat",
+            "wd_n": 245,
+            "ctrl_n": 784,
+            "ratio": 1.042
+          },
+          {
+            "id": "seerr",
+            "wd_n": 57,
+            "ctrl_n": 115,
+            "ratio": 0.982
+          },
+          {
+            "id": "strapi",
+            "wd_n": 285,
+            "ctrl_n": 913,
+            "ratio": 1.267
+          },
+          {
+            "id": "twenty",
+            "wd_n": 397,
+            "ctrl_n": 1537,
+            "ratio": 0.984
+          },
+          {
+            "id": "vendure",
+            "wd_n": 97,
+            "ctrl_n": 267,
+            "ratio": 1.125
+          }
+        ]
+      }
+    },
+    "strict_mirror_or_import": {
+      "control": "rest",
+      "matched_ratio": 0.9619031419999027,
+      "raw_ratio": 0.9878805156189869,
+      "odds_ratio": 0.8780467378975761,
+      "rate_diff": -0.02723332252067101,
+      "std_wd_rate": 0.6876109966775528,
+      "std_ct_rate": 0.7148443191982238,
+      "wd_n": 5251,
+      "wd_untested": 3684,
+      "ctrl_n": 17256,
+      "ctrl_untested": 12255,
+      "wd_rate": 0.7015806513045134,
+      "ctrl_rate": 0.7101877607788595,
+      "strata_used": 9,
+      "strata_dropped": 0,
+      "max_ratio_ceiling": 1.3989059899386338,
+      "ci95": [
+        0.9017071702088802,
+        1.022968167827068
+      ],
+      "verdict": "FALSIFIED",
+      "label": "corpus(strict-mirror)",
+      "key": "untested_strict",
+      "n_repos": 25,
+      "per_repo": {
+        "eligible_repos": 25,
+        "repos_ratio_gt1": 16,
+        "fraction_gt1": 0.64,
+        "passes_simpson_guard": true,
+        "rows": [
+          {
+            "id": "budibase",
+            "wd_n": 196,
+            "ctrl_n": 623,
+            "ratio": 1.547
+          },
+          {
+            "id": "calcom",
+            "wd_n": 398,
+            "ctrl_n": 1331,
+            "ratio": 1.045
+          },
+          {
+            "id": "continue",
+            "wd_n": 228,
+            "ctrl_n": 494,
+            "ratio": 1.234
+          },
+          {
+            "id": "directus",
+            "wd_n": 121,
+            "ctrl_n": 168,
+            "ratio": 0.703
+          },
+          {
+            "id": "docmost",
+            "wd_n": 47,
+            "ctrl_n": 100,
+            "ratio": 1.014
+          },
+          {
+            "id": "flowise",
+            "wd_n": 149,
+            "ctrl_n": 705,
+            "ratio": 1.105
+          },
+          {
+            "id": "formbricks",
+            "wd_n": 122,
+            "ctrl_n": 353,
+            "ratio": 0.994
+          },
+          {
+            "id": "immich",
+            "wd_n": 47,
+            "ctrl_n": 132,
+            "ratio": 1.289
+          },
+          {
+            "id": "karakeep",
+            "wd_n": 83,
+            "ctrl_n": 144,
+            "ratio": 0.861
+          },
+          {
+            "id": "librechat",
+            "wd_n": 344,
+            "ctrl_n": 1126,
+            "ratio": 1.07
+          },
+          {
+            "id": "linkwarden",
+            "wd_n": 50,
+            "ctrl_n": 638,
+            "ratio": 1.007
+          },
+          {
+            "id": "medusa",
+            "wd_n": 219,
+            "ctrl_n": 1289,
+            "ratio": 0.963
+          },
+          {
+            "id": "midday",
+            "wd_n": 221,
+            "ctrl_n": 667,
+            "ratio": 1.013
+          },
+          {
+            "id": "n8n",
+            "wd_n": 705,
+            "ctrl_n": 1949,
+            "ratio": 0.897
+          },
+          {
+            "id": "nocodb",
+            "wd_n": 306,
+            "ctrl_n": 787,
+            "ratio": 1.027
+          },
+          {
+            "id": "novu",
+            "wd_n": 279,
+            "ctrl_n": 1392,
+            "ratio": 1.17
+          },
+          {
+            "id": "openstatus",
+            "wd_n": 139,
+            "ctrl_n": 512,
+            "ratio": 0.682
+          },
+          {
+            "id": "outline",
+            "wd_n": 135,
+            "ctrl_n": 182,
+            "ratio": 1.197
+          },
+          {
+            "id": "payload",
+            "wd_n": 132,
+            "ctrl_n": 540,
+            "ratio": 1.085
+          },
+          {
+            "id": "rocketchat",
+            "wd_n": 443,
+            "ctrl_n": 1110,
+            "ratio": 0.978
+          },
+          {
+            "id": "seerr",
+            "wd_n": 57,
+            "ctrl_n": 115,
+            "ratio": 0.982
+          },
+          {
+            "id": "strapi",
+            "wd_n": 294,
+            "ctrl_n": 921,
+            "ratio": 1.031
+          },
+          {
+            "id": "twenty",
+            "wd_n": 406,
+            "ctrl_n": 1550,
+            "ratio": 0.971
+          },
+          {
+            "id": "umami",
+            "wd_n": 22,
+            "ctrl_n": 157,
+            "ratio": 1.09
+          },
+          {
+            "id": "vendure",
+            "wd_n": 108,
+            "ctrl_n": 271,
+            "ratio": 1.154
+          }
+        ]
+      }
+    }
+  },
+  "proxy_components": {
+    "mirror_only": {
+      "control": "rest",
+      "matched_ratio": 0.9459148545319671,
+      "raw_ratio": 0.9794045477395275,
+      "odds_ratio": 0.8512226777720145,
+      "rate_diff": -0.036391781714039895,
+      "std_wd_rate": 0.6364691563331594,
+      "std_ct_rate": 0.6728609380471993,
+      "wd_n": 5251,
+      "wd_untested": 3439,
+      "ctrl_n": 17256,
+      "ctrl_untested": 11539,
+      "wd_rate": 0.6549228718339364,
+      "ctrl_rate": 0.6686949466852109,
+      "strata_used": 9,
+      "strata_dropped": 0,
+      "max_ratio_ceiling": 1.4861911926441076,
+      "ci95": [
+        0.8852549079762051,
+        1.0112050294726578
+      ],
+      "verdict": "FALSIFIED",
+      "label": "corpus(mirror-only)",
+      "key": "untested_mirror",
+      "n_repos": 25,
+      "per_repo": {
+        "eligible_repos": 25,
+        "repos_ratio_gt1": 13,
+        "fraction_gt1": 0.52,
+        "passes_simpson_guard": false,
+        "rows": [
+          {
+            "id": "budibase",
+            "wd_n": 196,
+            "ctrl_n": 623,
+            "ratio": 1.675
+          },
+          {
+            "id": "calcom",
+            "wd_n": 398,
+            "ctrl_n": 1331,
+            "ratio": 1.009
+          },
+          {
+            "id": "continue",
+            "wd_n": 228,
+            "ctrl_n": 494,
+            "ratio": 1.026
+          },
+          {
+            "id": "directus",
+            "wd_n": 121,
+            "ctrl_n": 168,
+            "ratio": 0.787
+          },
+          {
+            "id": "docmost",
+            "wd_n": 47,
+            "ctrl_n": 100,
+            "ratio": 0.991
+          },
+          {
+            "id": "flowise",
+            "wd_n": 149,
+            "ctrl_n": 705,
+            "ratio": 0.883
+          },
+          {
+            "id": "formbricks",
+            "wd_n": 122,
+            "ctrl_n": 353,
+            "ratio": 0.362
+          },
+          {
+            "id": "immich",
+            "wd_n": 47,
+            "ctrl_n": 132,
+            "ratio": 1.238
+          },
+          {
+            "id": "karakeep",
+            "wd_n": 83,
+            "ctrl_n": 144,
+            "ratio": 0.812
+          },
+          {
+            "id": "librechat",
+            "wd_n": 344,
+            "ctrl_n": 1126,
+            "ratio": 1.4
+          },
+          {
+            "id": "linkwarden",
+            "wd_n": 50,
+            "ctrl_n": 638,
+            "ratio": 1.17
+          },
+          {
+            "id": "medusa",
+            "wd_n": 219,
+            "ctrl_n": 1289,
+            "ratio": 0.941
+          },
+          {
+            "id": "midday",
+            "wd_n": 221,
+            "ctrl_n": 667,
+            "ratio": 1.135
+          },
+          {
+            "id": "n8n",
+            "wd_n": 705,
+            "ctrl_n": 1949,
+            "ratio": 0.994
+          },
+          {
+            "id": "nocodb",
+            "wd_n": 306,
+            "ctrl_n": 787,
+            "ratio": 1.017
+          },
+          {
+            "id": "novu",
+            "wd_n": 279,
+            "ctrl_n": 1392,
+            "ratio": 0.939
+          },
+          {
+            "id": "openstatus",
+            "wd_n": 139,
+            "ctrl_n": 512,
+            "ratio": 0.478
+          },
+          {
+            "id": "outline",
+            "wd_n": 135,
+            "ctrl_n": 182,
+            "ratio": 1.056
+          },
+          {
+            "id": "payload",
+            "wd_n": 132,
+            "ctrl_n": 540,
+            "ratio": 1.05
+          },
+          {
+            "id": "rocketchat",
+            "wd_n": 443,
+            "ctrl_n": 1110,
+            "ratio": 1.011
+          },
+          {
+            "id": "seerr",
+            "wd_n": 57,
+            "ctrl_n": 115,
+            "ratio": 0.982
+          },
+          {
+            "id": "strapi",
+            "wd_n": 294,
+            "ctrl_n": 921,
+            "ratio": 1.223
+          },
+          {
+            "id": "twenty",
+            "wd_n": 406,
+            "ctrl_n": 1550,
+            "ratio": 0.994
+          },
+          {
+            "id": "umami",
+            "wd_n": 22,
+            "ctrl_n": 157,
+            "ratio": 1.075
+          },
+          {
+            "id": "vendure",
+            "wd_n": 108,
+            "ctrl_n": 271,
+            "ratio": 0.977
+          }
+        ]
+      }
+    },
+    "import_only": {
+      "control": "rest",
+      "matched_ratio": 0.9772596066354514,
+      "raw_ratio": 0.9977354405801336,
+      "odds_ratio": 0.9180616798875895,
+      "rate_diff": -0.016811538737474208,
+      "std_wd_rate": 0.7224693728971839,
+      "std_ct_rate": 0.7392809116346581,
+      "wd_n": 5251,
+      "wd_untested": 3851,
+      "ctrl_n": 17256,
+      "ctrl_untested": 12684,
+      "wd_rate": 0.7333841173109884,
+      "ctrl_rate": 0.7350486787204451,
+      "strata_used": 9,
+      "strata_dropped": 0,
+      "max_ratio_ceiling": 1.3526657922072596,
+      "ci95": [
+        0.9263852779695567,
+        1.0340931856261208
+      ],
+      "verdict": "FALSIFIED",
+      "label": "corpus(import-only)",
+      "key": "untested_import",
+      "n_repos": 25,
+      "per_repo": {
+        "eligible_repos": 25,
+        "repos_ratio_gt1": 16,
+        "fraction_gt1": 0.64,
+        "passes_simpson_guard": true,
+        "rows": [
+          {
+            "id": "budibase",
+            "wd_n": 196,
+            "ctrl_n": 623,
+            "ratio": 1.562
+          },
+          {
+            "id": "calcom",
+            "wd_n": 398,
+            "ctrl_n": 1331,
+            "ratio": 1.04
+          },
+          {
+            "id": "continue",
+            "wd_n": 228,
+            "ctrl_n": 494,
+            "ratio": 1.225
+          },
+          {
+            "id": "directus",
+            "wd_n": 121,
+            "ctrl_n": 168,
+            "ratio": 0.651
+          },
+          {
+            "id": "docmost",
+            "wd_n": 47,
+            "ctrl_n": 100,
+            "ratio": 1.014
+          },
+          {
+            "id": "flowise",
+            "wd_n": 149,
+            "ctrl_n": 705,
+            "ratio": 1.105
+          },
+          {
+            "id": "formbricks",
+            "wd_n": 122,
+            "ctrl_n": 353,
+            "ratio": 1.338
+          },
+          {
+            "id": "immich",
+            "wd_n": 47,
+            "ctrl_n": 132,
+            "ratio": 0.922
+          },
+          {
+            "id": "karakeep",
+            "wd_n": 83,
+            "ctrl_n": 144,
+            "ratio": 0.834
+          },
+          {
+            "id": "librechat",
+            "wd_n": 344,
+            "ctrl_n": 1126,
+            "ratio": 1.212
+          },
+          {
+            "id": "linkwarden",
+            "wd_n": 50,
+            "ctrl_n": 638,
+            "ratio": 1.007
+          },
+          {
+            "id": "medusa",
+            "wd_n": 219,
+            "ctrl_n": 1289,
+            "ratio": 0.961
+          },
+          {
+            "id": "midday",
+            "wd_n": 221,
+            "ctrl_n": 667,
+            "ratio": 1.003
+          },
+          {
+            "id": "n8n",
+            "wd_n": 705,
+            "ctrl_n": 1949,
+            "ratio": 0.923
+          },
+          {
+            "id": "nocodb",
+            "wd_n": 306,
+            "ctrl_n": 787,
+            "ratio": 1.039
+          },
+          {
+            "id": "novu",
+            "wd_n": 279,
+            "ctrl_n": 1392,
+            "ratio": 1.17
+          },
+          {
+            "id": "openstatus",
+            "wd_n": 139,
+            "ctrl_n": 512,
+            "ratio": 0.701
+          },
+          {
+            "id": "outline",
+            "wd_n": 135,
+            "ctrl_n": 182,
+            "ratio": 1.045
+          },
+          {
+            "id": "payload",
+            "wd_n": 132,
+            "ctrl_n": 540,
+            "ratio": 1.085
+          },
+          {
+            "id": "rocketchat",
+            "wd_n": 443,
+            "ctrl_n": 1110,
+            "ratio": 0.993
+          },
+          {
+            "id": "seerr",
+            "wd_n": 57,
+            "ctrl_n": 115,
+            "ratio": 0.973
+          },
+          {
+            "id": "strapi",
+            "wd_n": 294,
+            "ctrl_n": 921,
+            "ratio": 1.021
+          },
+          {
+            "id": "twenty",
+            "wd_n": 406,
+            "ctrl_n": 1550,
+            "ratio": 0.992
+          },
+          {
+            "id": "umami",
+            "wd_n": 22,
+            "ctrl_n": 157,
+            "ratio": 1.061
+          },
+          {
+            "id": "vendure",
+            "wd_n": 108,
+            "ctrl_n": 271,
+            "ratio": 1.143
+          }
+        ]
+      }
+    }
+  },
+  "config": {
+    "go_floor": 1.5,
+    "falsifier": 1.1,
+    "bootstrap_B": 2000
+  },
+  "diagnostics": {
+    "budibase": {
+      "n_src": 1933,
+      "n_test": 672,
+      "findings_in_test_dropped": 0,
+      "covered_files": 1257,
+      "covered_mirror": 1216,
+      "covered_import": 382
+    },
+    "calcom": {
+      "n_src": 4465,
+      "n_test": 596,
+      "findings_in_test_dropped": 12,
+      "covered_files": 1015,
+      "covered_mirror": 873,
+      "covered_import": 453
+    },
+    "continue": {
+      "n_src": 1366,
+      "n_test": 493,
+      "findings_in_test_dropped": 11,
+      "covered_files": 543,
+      "covered_mirror": 407,
+      "covered_import": 438
+    },
+    "directus": {
+      "n_src": 1981,
+      "n_test": 1067,
+      "findings_in_test_dropped": 0,
+      "covered_files": 1335,
+      "covered_mirror": 1263,
+      "covered_import": 780
+    },
+    "docmost": {
+      "n_src": 1148,
+      "n_test": 27,
+      "findings_in_test_dropped": 0,
+      "covered_files": 49,
+      "covered_mirror": 41,
+      "covered_import": 33
+    },
+    "flowise": {
+      "n_src": 1678,
+      "n_test": 172,
+      "findings_in_test_dropped": 0,
+      "covered_files": 451,
+      "covered_mirror": 429,
+      "covered_import": 179
+    },
+    "formbricks": {
+      "n_src": 2065,
+      "n_test": 574,
+      "findings_in_test_dropped": 10,
+      "covered_files": 965,
+      "covered_mirror": 942,
+      "covered_import": 527
+    },
+    "immich": {
+      "n_src": 690,
+      "n_test": 338,
+      "findings_in_test_dropped": 84,
+      "covered_files": 158,
+      "covered_mirror": 156,
+      "covered_import": 9
+    },
+    "karakeep": {
+      "n_src": 819,
+      "n_test": 63,
+      "findings_in_test_dropped": 0,
+      "covered_files": 160,
+      "covered_mirror": 151,
+      "covered_import": 37
+    },
+    "librechat": {
+      "n_src": 2221,
+      "n_test": 762,
+      "findings_in_test_dropped": 89,
+      "covered_files": 1033,
+      "covered_mirror": 968,
+      "covered_import": 597
+    },
+    "linkwarden": {
+      "n_src": 423,
+      "n_test": 19,
+      "findings_in_test_dropped": 1,
+      "covered_files": 54,
+      "covered_mirror": 53,
+      "covered_import": 9
+    },
+    "medusa": {
+      "n_src": 9812,
+      "n_test": 1334,
+      "findings_in_test_dropped": 0,
+      "covered_files": 3371,
+      "covered_mirror": 3213,
+      "covered_import": 1135
+    },
+    "midday": {
+      "n_src": 1936,
+      "n_test": 101,
+      "findings_in_test_dropped": 0,
+      "covered_files": 336,
+      "covered_mirror": 317,
+      "covered_import": 86
+    },
+    "n8n": {
+      "n_src": 9516,
+      "n_test": 4558,
+      "findings_in_test_dropped": 0,
+      "covered_files": 5041,
+      "covered_mirror": 4332,
+      "covered_import": 3249
+    },
+    "nocodb": {
+      "n_src": 1834,
+      "n_test": 161,
+      "findings_in_test_dropped": 0,
+      "covered_files": 275,
+      "covered_mirror": 266,
+      "covered_import": 137
+    },
+    "novu": {
+      "n_src": 6527,
+      "n_test": 692,
+      "findings_in_test_dropped": 93,
+      "covered_files": 1266,
+      "covered_mirror": 1019,
+      "covered_import": 624
+    },
+    "openstatus": {
+      "n_src": 1666,
+      "n_test": 185,
+      "findings_in_test_dropped": 0,
+      "covered_files": 548,
+      "covered_mirror": 485,
+      "covered_import": 176
+    },
+    "outline": {
+      "n_src": 2036,
+      "n_test": 254,
+      "findings_in_test_dropped": 2,
+      "covered_files": 453,
+      "covered_mirror": 410,
+      "covered_import": 202
+    },
+    "payload": {
+      "n_src": 4630,
+      "n_test": 1983,
+      "findings_in_test_dropped": 0,
+      "covered_files": 1468,
+      "covered_mirror": 1418,
+      "covered_import": 240
+    },
+    "rocketchat": {
+      "n_src": 7472,
+      "n_test": 1298,
+      "findings_in_test_dropped": 3,
+      "covered_files": 1109,
+      "covered_mirror": 822,
+      "covered_import": 711
+    },
+    "seerr": {
+      "n_src": 581,
+      "n_test": 25,
+      "findings_in_test_dropped": 0,
+      "covered_files": 18,
+      "covered_mirror": 18,
+      "covered_import": 3
+    },
+    "strapi": {
+      "n_src": 3308,
+      "n_test": 1295,
+      "findings_in_test_dropped": 0,
+      "covered_files": 1715,
+      "covered_mirror": 1589,
+      "covered_import": 787
+    },
+    "twenty": {
+      "n_src": 16633,
+      "n_test": 2963,
+      "findings_in_test_dropped": 54,
+      "covered_files": 1903,
+      "covered_mirror": 1841,
+      "covered_import": 227
+    },
+    "umami": {
+      "n_src": 820,
+      "n_test": 18,
+      "findings_in_test_dropped": 0,
+      "covered_files": 15,
+      "covered_mirror": 11,
+      "covered_import": 10
+    },
+    "vendure": {
+      "n_src": 2367,
+      "n_test": 395,
+      "findings_in_test_dropped": 134,
+      "covered_files": 300,
+      "covered_mirror": 160,
+      "covered_import": 260
+    }
+  }
+}
