@@ -76,6 +76,17 @@ frontend (`catalog/python.toml` exists) and fold Python into the sweep.
   precision panel to every heldout repo is out-of-scope-by-default (a sampled
   subset or a follow-up only) — this goal does not move the SC2 precision
   gate-close on its own.
+- **No two-directional safety claim from the seamed arm.** Absence of a historical
+  bugfix ≠ "the seam prevented a bug" — the signal is one-directional (a
+  seamed-no-bugfix site may just be younger / colder / less-exercised code). Tier 1
+  claims only that **welded sites are enriched among bugfix-touched sites**, never
+  that seams are safe; "welded vs seamed" is not a verified clean control (E9 SZZ
+  caveat — absence-of-bugfix is uninformative).
+- **No Python analyzer breadth beyond the (b)-gate fold-in.** If S5 GO-builds the
+  Python frontend, its scope is *exactly* "enough `catalog/python.toml` coverage to
+  run `pry map` on the discovered Python apps and fold them into the enrichment" —
+  NOT catalog parity with the TS frontend, NOT a shippable Python release, NOT new
+  Python-specific levers. Frontend-completeness for its own sake is a separate goal.
 - **No marketing / leaderboard / showcase / outbound adoption play** (operator
   killed it; this is measurement-for-the-algorithm only).
 
@@ -87,26 +98,52 @@ frontend (`catalog/python.toml` exists) and fold Python into the sweep.
   PLUS a stratified set (~5–8) of **non-glue Python apps** for the (b)-gate
   branch. Real error-handling + substantial bugfix history (for mining),
   permissive license, active, NOT corca. Seed = the 4 H3 apps (outline / flowise
-  / continue / librechat — already app-shaped, mapped, frozen-labeled). Score
-  app-shapedness (reuse `harness/repo_fit.py`), stratify by domain (and TS/JS by
-  clock-injection rate, the discipline fingerprint), **pin commits**, prune
-  vendored/generated/`.vitest` (reuse nose `setup_repos.sh`/`prune` discipline).
-- **Pre-register before measuring (honesty gate, like the kill-gate floor):** the
-  `dev|heldout` split is frozen into `corpus.json` **before** any enrichment is
-  computed; the **Tier-1 enrichment floor** (what enrichment ratio = "signal
-  real") is written down **before** computing it. `log`/report whatever is pruned
-  or excluded — no silent truncation.
+  / continue / librechat — already app-shaped, mapped, frozen-labeled). **Write** an
+  app-shapedness/domain scorer (`harness/repo_fit.py` is a site-count/recall
+  *gate*, NOT a domain scorer — reuse its pre-registered-floor *discipline*, not
+  its function), stratify by domain (and TS/JS by clock-injection rate, the
+  discipline fingerprint), **pin commits**, prune vendored/generated/`.vitest`
+  (reuse nose's prune discipline). Freeze to a `corpus.json` whose **schema file +
+  validator are S1 deliverables** (neither exists yet), modeled on nose's
+  `bench/goldens/corpus.json` shape — note nose's hazard `run_corpus.sh` itself
+  hardcodes its repo list and reads no corpus.json; the schema is borrowed from
+  nose's *separate* dedup benchmark, not the sweep pattern.
+- **Pre-register before measuring — git-provable, not honor-system (honesty gate,
+  like the kill-gate floor):** the `dev|heldout` split, the Tier-1 **metric
+  denominator** (= a **matched comparison**: welded vs seamed sites matched on
+  file-churn + site-size — the only form that neutralizes confound R-B, "welded
+  sites are simply more numerous/larger/in hotter files"), and the **enrichment
+  floor + its symmetric falsifier** are committed to a **separate pre-registration
+  artifact** (`harness/fixtures/eval/preregistration.md` or a `config.py`-style
+  constant — mirroring `REPO_FIT_SITE_FLOOR` "set BEFORE the number so it cannot be
+  moved post hoc" + the F27 "frozen before this run" discipline) whose **git commit
+  must precede the commit that writes any enrichment number**, so a fresh closeout
+  reviewer can *prove* the order from git rather than trust a self-attesting line
+  inside `corpus.json`. The floor is **two-sided**: a "signal real ≥ X" bar **and**
+  a pre-committed **FALSIFIER** — "if the matched-denominator enrichment ratio ≤ Y
+  or collapses to ~1.0, the welded-at-demand thesis is FALSIFIED for this corpus"
+  (the nose `rate-match ≠ precision` lesson: a floored ratio can look real and be a
+  pure confound artifact). `log`/report whatever is pruned or excluded — no silent
+  truncation.
 - **External fetches route through `gather`** (CLAUDE.md). GitHub discovery uses
   `gh` / the GitHub API (authed locally; approved as handoff step 1). Discovery
   reads repo structure (read-only); clones are local.
 - **Sweep fan-out via the Workflow orchestration tool** (the handoff names it):
   per repo clone@pinned → `pry map` → mine bugfix commits → join. Parallel +
   incremental (skip already-mined). Dev-time, local clones only.
-- **Python frontend build is CONDITIONAL on a (b)-gate GO.** On a (b)-gate KILL
-  (welded/seamed does NOT discriminate on Python, like the author's glue) the
-  Python branch closes at the analyzer-free lens result — **no frontend is
-  built** (the kill-gate discipline: build a frontend only on a per-corpus GO).
-  The frontend is the one heavy analyzer-capability addition and it is gated.
+- **Python frontend build is CONDITIONAL on a (b)-gate GO, and sequenced AFTER the
+  TS result.** The **(b)-gate GO criterion = the LENS criterion** (kill-gate.md
+  F27/Run 5): the **substitution-demand subset** (clock/clients/network/subprocess)
+  welded-fraction lands in band **`[0.15, 0.85]`** — **NOT** the bare welded-
+  fraction (retired as fs-swamped ~0.9 in both languages, the *wrong* test). A
+  **KILL** (lens-subset out of band, or mute: decided-fraction < 0.40) closes the
+  Python branch at the analyzer-free lens result — **no frontend is built** (the
+  kill-gate discipline: build a frontend only on a per-corpus GO). **Sequencing
+  gate:** S5's frontend build may **not begin until S3 (Tier-1 enrichment) and S4
+  (dev/heldout) have a recorded verdict in `docs/eval-gate.md`** — on an early GO
+  the GO is *recorded and queued*, not started, so the heavy frontend cannot starve
+  the load-bearing TS result. The frontend is the one heavy analyzer-capability
+  addition and it is gated both ways.
 - **Local commits only by default.** No `git push` / PR for any repo unless the
   operator explicitly asks at closeout. Remote push is a phase-scoped approval
   not yet granted.
@@ -134,8 +171,11 @@ What the user can do to verify completion directly:
 
 - `cat corpus.json` (or `harness/fixtures/eval/corpus.json`) → ≈20–25 TS/JS app
   repos + ~5–8 Python apps, each with `id/name/primary_language/domain/url/
-  commit/split` (nose schema), pinned commits, and a `dev|heldout` split that a
-  provenance line records was frozen **before** measuring.
+  commit/split` (schema-validated), pinned commits; the `dev|heldout` split +
+  matched-comparison denominator + floor + falsifier live in a **separate
+  pre-registration artifact whose git commit precedes** the first
+  enrichment-number commit (`git merge-base --is-ancestor` provable, not a
+  self-attesting line).
 - The sweep harness runs deterministically per repo: clone@pinned → `pry map` →
   mine bugfix commits → join; re-running the mine yields byte-identical output.
 - `docs/eval-gate.md` carries a **Tier-1 enrichment** section: welded-at-demand
@@ -155,8 +195,18 @@ What the user can do to verify completion directly:
 
 ### Low-Cost Checks
 
-- `corpus.json` validates against its (nose-derived) schema; the `dev|heldout`
-  split + pre-registration provenance line are present before any enrichment run.
+- `corpus.json` validates against its (S1-deliverable) schema; the **separate
+  pre-registration artifact** (split + matched-comparison denominator + floor +
+  falsifier) exists.
+- **Pre-registration commit-ordering proof:** the pre-registration artifact's
+  commit is an ancestor of / precedes the first enrichment-number commit
+  (`git merge-base --is-ancestor <prereg-sha> <enrichment-sha>`) — the git-provable
+  closeout proof that split + floor + denominator were fixed before measuring.
+- **Result existence + leak guard (the two load-bearing claims):** a grep-able
+  assertion that `docs/eval-gate.md`'s Tier-1 section is present with a
+  welded-vs-seamed rate line, a numeric pre-registered floor, and a verdict token;
+  that `dev` and `heldout` enrichment appear as **separate** arms; and that no
+  threshold was fit on `heldout` rows (tuning reads `dev` only).
 - Sweep determinism: re-run the mine on one repo twice → byte-identical; `pry map`
   twice on one repo → byte-identical (existing invariant).
 - `cargo build --release` + `cargo test` green (incl. any new Python-frontend
@@ -194,11 +244,11 @@ What the user can do to verify completion directly:
 
 | Slice | Objective | Why Now | Expected Evidence | Status |
 | --- | --- | --- | --- | --- |
-| S1 | Corpus discovery + freeze + pre-registration | Everything downstream joins against a frozen, pinned, split-honest corpus; pre-registering the split + floor first is the load-bearing honesty gate | `corpus.json` (≈20–25 TS/JS dev5/heldout15+ + ~5–8 Python apps; nose schema, pinned, pruned); `repo_fit` app-shapedness scores; a provenance line recording the split + enrichment floor were fixed BEFORE measuring; a `log` of what was pruned/excluded | planned |
-| S2 | Deterministic sweep harness (nose `run_corpus.sh` analog) | The reusable engine: per repo clone@pinned → `pry map` → mine bugfix commits → join bugfix-touched lines with pry findings; Workflow fan-out, incremental | Per-repo sweep outputs; `mine.py` adapted (JS EH tokens `catch`/`throw`/`.catch(`/`reject`/`retry`/`timeout` + boundary names for TS; Python-native already for Python repos); deterministic mine x2 | planned |
-| S3 | Tier 1 — directly-observed enrichment (THE main result, 쟁점 4) | Pure git + map join, no per-site gold → robust; answers "does welded-at-demand predict defects?" | Enrichment table in `docs/eval-gate.md`: welded-at-demand vs seamed bugfix-touch rate across the corpus, vs the pre-registered floor, with the verdict | planned |
+| S1 | Corpus discovery + freeze + pre-registration | Everything downstream joins against a frozen, pinned, split-honest corpus; pre-registering the split + denominator + floor first is the load-bearing honesty gate | `corpus.json` + its **schema file + validator** (S1 deliverables); a **new** app-shapedness/domain scorer (NOT `repo_fit.py`, the site-count gate); the **separate pre-registration artifact** (split + matched-comparison denominator + two-sided floor/falsifier) committed BEFORE any measurement; a `log` of what was pruned/excluded | planned |
+| S2 | Deterministic sweep harness (nose `run_corpus.sh` analog) | The reusable engine: per repo clone@pinned → `pry map` → mine bugfix commits → join bugfix-touched lines with pry findings; Workflow fan-out, incremental. (Tier 1 is *labeling*-cheap but *mining*-bearing — the per-repo mine+join+prune × ~25–33 is the long pole) | Per-repo sweep outputs; a **net-new TS/JS miner** (new pathspec + EH-token regex `catch`/`throw`/`.catch(`/`reject`/`retry`/`timeout` + boundary names + output schema, reusing `mine.py`'s determinism discipline; `mine.py` is Python-token-only today); Python repos use the native `mine.py`; deterministic mine x2 | planned |
+| S3 | Tier 1 — directly-observed enrichment (THE main result, 쟁점 4) | Pure git + map join, no per-site gold → robust; answers "does welded-at-demand predict defects?" | Enrichment table in `docs/eval-gate.md`: welded-at-demand vs seamed bugfix-touch rate **under the pre-registered matched-comparison denominator**, vs the two-sided floor/falsifier, with the verdict; **per-repo distribution reported, not only pooled** (Simpson's-paradox guard) | planned |
 | S4 | Generalization (쟁점 2) — dev/heldout | Absorbs the old "corpus-expansion / SC2 gate" queue item; the held-out arm is the generalization gate | Enrichment reported `dev` vs `heldout` separately; any threshold tuned on `dev` only; held-out number stated honestly | planned |
-| S5 | Python branch — (b)-gate lens → conditional frontend → fold-in | The recorded reopen; cheap analyzer-free lens first, heavy frontend only on a GO | (b)-gate GO/KILL record on the Python apps; IF GO → Python frontend built (`catalog/python.toml`), `pry map` runs on a Python app, Python folds into the enrichment; IF KILL → analyzer-free result recorded, no frontend | planned |
+| S5 | Python branch — (b)-gate lens → conditional frontend → fold-in | The recorded reopen; cheap analyzer-free lens first, heavy frontend only on a GO **and only after S3+S4 have a recorded verdict** | (b)-gate GO/KILL on the Python apps **by the lens criterion (demand-subset in band `[0.15,0.85]`, not bare fraction)**; IF GO → Python frontend built (`catalog/python.toml`), `pry map` runs on a Python app, Python folds into the S3/S4 `eval-gate.md` table (assign Python repos' dev/heldout split here); IF KILL → analyzer-free result recorded, no frontend | planned |
 
 ## Coordination Cues
 
@@ -302,9 +352,16 @@ rejected-alternatives reason.
 
 ## Plan Critique Findings
 
-Inherited + pre-registered (a bounded fresh-eye plan/slice critique runs at the
-S1 and S3 boundaries per the verification plan; reviewer = a bounded general-
-purpose subagent, not a same-agent pass):
+A bounded fresh-eye **spec critique RAN at shaping time** (2026-06-15, before
+activation): 4 angle subagents (Minto/structure · Jackson/problem-framing ·
+Weinberg/measurement-validity · Gawande/operational) + 1 separate counterweight
+pass. Fresh-Eye Satisfaction: parent-delegated. Verdict: *do not activate as-is —
+small local edits required.* All Act-Before-Ship + Bundle findings were folded
+into this artifact (see "This-critique folds" below). The S1/S3 per-slice
+critique still runs during the run on the live corpus + data; it is not replaced
+by this plan pass.
+
+Inherited + pre-registered risks:
 
 - **Inherited (spec E1–E9 critique, DONE).** The eval-harness contract already
   passed a FIX-FIRST fresh-eye critique with four blockers folded (filter-recall
@@ -319,10 +376,13 @@ purpose subagent, not a same-agent pass):
   after a peek.
 - **New risk R-B — Tier-1 enrichment confounds.** "Welded sites are touched by
   bugfixes more" can be an artifact of welded sites simply being more numerous,
-  larger, or in hotter files rather than the weld itself mattering. **Folded:**
-  the pre-registered floor + the S3 critique angle interrogate the join for
-  obvious confounds before the verdict is claimed; the result is stated as a
-  correlation, never causal.
+  larger, or in hotter files rather than the weld itself mattering. **Folded
+  (hardened by this critique):** the metric denominator is pre-registered as a
+  **matched comparison** (welded vs seamed matched on file-churn + site-size — the
+  only form that neutralizes this confound), pinned in S1 *before* measuring, not
+  invented at S3; the floor is two-sided (a real falsifier); the S3 critique angle
+  + the per-repo distribution (Simpson's guard) interrogate what remains; the
+  result is stated as a correlation, never causal, and never two-directional.
 - **New risk R-C — premature Python frontend.** Building a frontend on faith is
   the exact kill-gate anti-pattern. **Folded:** S5's frontend is **gated on a
   (b)-gate GO**; a KILL closes the branch at the analyzer-free lens with no
@@ -331,6 +391,55 @@ purpose subagent, not a same-agent pass):
   repos/commits and read as "covered everything." **Folded:** the honesty gate
   requires `log`/report of every prune/exclusion (no silent truncation), carried
   into S1's expected evidence.
+
+### This-critique folds (2026-06-15 spec critique → applied before activation)
+
+Act-Before-Ship + Bundle findings, each folded into the artifact above:
+
+- **C2 (highest-leverage) — pre-registration was honor-system.** Split + floor
+  provenance lived inside `corpus.json` (self-attesting; an agent could
+  peek-then-backdate). **Folded:** Boundaries now require a *separate*
+  pre-registration artifact committed *before* the enrichment commit, with a
+  `git merge-base --is-ancestor` commit-ordering proof at closeout (mirrors the
+  repo's `config.py` `REPO_FIT_SITE_FLOOR` + F27 "frozen before" pattern).
+- **C1 — (b)-gate GO criterion was undefined.** **Folded:** the GO criterion is
+  now stated verbatim (demand-subset welded-fraction in band `[0.15,0.85]` per
+  kill-gate F27/Run 5; bare fraction is retired/fs-swamped) in Boundaries + the S5
+  row, so the heavy frontend isn't gated on a contract reconstructed from a doc.
+- **C3 + C4 — denominator fork + missing falsifier.** **Folded:** the Tier-1
+  denominator is pinned as a *matched comparison* (file-churn + site-size) in the
+  S1 pre-registration, and the floor is two-sided with a pre-committed FALSIFIER
+  (ratio ≤ Y or ~1.0 under the matched denominator → thesis falsified) — the nose
+  `rate-match ≠ precision` lesson made a contract.
+- **C6 — S5 could starve the TS result.** **Folded:** a sequencing gate — S5's
+  frontend build may not begin until S3+S4 have a recorded verdict; early GO =
+  record + queue, not start.
+- **C5 / C7 — directionality + frontend-depth non-claims.** **Folded:** two new
+  Non-Goals (no two-directional safety claim from the seamed arm; no Python
+  analyzer breadth beyond the fold-in).
+- **C8 — two load-bearing claims were folklore.** **Folded:** a grep-able
+  existence+leak Low-Cost Check (Tier-1 section/floor/verdict present; dev|heldout
+  separate; no heldout-fit threshold).
+- **C9 / C10 — mislabeled reuse.** **Folded:** `repo_fit.py` relabeled (site-count
+  gate, not a domain scorer → scorer is net-new); the TS/JS miner relabeled net-new
+  (not "mine.py adapted"); the corpus.json schema+validator named S1 deliverables;
+  the nose two-surface conflation corrected (`run_corpus.sh` hardcodes its repos;
+  the schema is from nose's separate dedup benchmark).
+
+Over-worry (raised, NOT folded — recorded so a fresh session doesn't re-raise):
+C11 AC4 needs a runner (the denylist tokens are already pinned; a `.sh` vs inline
+grep is slice-execution detail); C12 S5 write-back (obvious continuation; an
+implementer who built the S3/S4 table won't invent a second); C13 S1 stopping rule
+(corpus counts ≈20–25/~5–8 *are* the stop rule); C15 AC4 transitive deps for the
+Python frontend (the `Cargo.lock` scan is transitive by construction; a tree-sitter
+frontend won't pull an HTTP client). Settled-decision dismissals confirmed:
+Python-as-scope-bomb, slide-into-precision/SZZ/outbound, ≈20–25-vs-spec-SC2, and
+Workflow/git-log determinism (nose `run_corpus.sh` + `mine.py` already mechanical).
+
+Valid-but-defer (real, recorded as slice notes — not activation blockers): C14
+mining-cost honesty note (folded into the S2 "Why Now"); C16 per-repo distribution
+(folded into the S3 row); C17 Python repos' dev/heldout split assignment (folded
+into the S5 row, resolved at the GO branch).
 
 ## Off-Goal Findings
 
@@ -342,16 +451,19 @@ Pending until `/goal` closeout. At closeout, replace each line below with bound
 evidence (`<path>`) or an explicit `skipped: <allowed-reason>: <detail>`:
 
 - Self-verification against the original goal (쟁점 4 enrichment verdict vs the
-  pre-registered floor; 쟁점 2 dev/heldout; Python (b)-gate GO/KILL + conditional
-  frontend).
+  pre-registered two-sided floor/falsifier under the matched-comparison
+  denominator; 쟁점 2 dev/heldout; Python (b)-gate GO/KILL + conditional frontend).
 - Broad gate result (`cargo test`, AC4 denylist, corpus schema, mine/map
-  determinism).
+  determinism) + the **pre-registration commit-ordering proof**
+  (`git merge-base --is-ancestor <prereg-sha> <enrichment-sha>`).
 - Retro: pending — run `retro` at closeout.
 - Host log probe: pending — `probe_host_logs.py` (or `skipped: <enum>`).
 - Disposition review: pending — bounded fresh-eye disposition review artifact.
 - Residual risks + non-claims: at minimum the standing non-claims — no causal
-  claim, no provider/live/release proof, no outbound on corpus repos, no full
-  heldout precision-panel.
+  claim, **no two-directional safety claim from the seamed arm** (absence of a
+  bugfix ≠ safe), no provider/live/release proof, no outbound on corpus repos, no
+  full heldout precision-panel; and the FALSIFIER outcome if it fired (thesis
+  falsified for this corpus is a valid, honest result, not a failure to report).
 
 ## User Verification Instructions
 
