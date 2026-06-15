@@ -168,10 +168,27 @@ ENRICHMENT_SITESIZE_TERCILES = 3    # enclosing-function line-count strata
 ENRICHMENT_MIN_STRATUM = 5          # min findings PER ARM to use a stratum;
                                     # under-filled strata are DROPPED + LOGGED
                                     # (no silent truncation, risk R-D)
+# Bugfix-commit set = the enrichment NUMERATOR, PINNED here (critique #8) so it is
+# frozen WITH the denominator, not left tunable in S2. A bugfix commit = a
+# non-merge commit reachable from the pinned commit whose MESSAGE matches this
+# intent regex (message-intent only; NO error-handling diff filter — enrichment is
+# blame-based per source line, so any bugfix counts). Reuses the frozen Slice-0
+# regex so the predicate is identical to the one already in the repo's history.
+ENRICHMENT_BUGFIX_MSG_REGEX = BUGFIX_MSG_REGEX
+
 # Two-sided floor (set blind, before measuring):
 ENRICHMENT_GO_FLOOR = 1.5           # matched ratio >= this => signal real (GO)
 ENRICHMENT_FALSIFIER = 1.1          # matched ratio <= this (or ~1.0) => thesis
                                     # FALSIFIED for this corpus. [1.1,1.5)=weak.
+# Significance (critique #7): a cluster bootstrap OVER REPOS (resample the corpus's
+# repos with replacement, recompute the matched ratio) — pinned before any number,
+# deterministic seed. GO requires the point floor AND the CI lower bound strictly
+# above 1.0; FALSIFIED if point <= falsifier OR the CI lower bound <= 1.0 (the
+# "collapses to ~1.0" condition made testable rather than eyeballed).
+ENRICHMENT_BOOTSTRAP_B = 2000
+ENRICHMENT_BOOTSTRAP_CI = 0.95
+ENRICHMENT_BOOTSTRAP_SEED = 0
+ENRICHMENT_GO_CI_LOWER_MIN = 1.0
 # Simpson's-paradox guard: a pooled GO must not be carried by one repo. Of repos
 # with >= this many findings per arm, a majority must show per-repo ratio > 1.
 ENRICHMENT_PERREPO_MIN_FINDINGS = 20

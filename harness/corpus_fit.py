@@ -116,10 +116,19 @@ def score(features: dict) -> dict:
 
     total = sum(points.values())
     floor = config.CORPUS_APP_SHAPEDNESS_FLOOR
+    # The floor is a *substantiveness + app-signal* gate; a mature library can
+    # clear it on language-ratio + structure + activity + substance alone (a
+    # library has src/ + packages/ + recent commits too). So the floor is
+    # necessary, not sufficient: a self-described library (library_flagged) is
+    # VETOED regardless of score. Libraries that don't self-describe as such
+    # (e.g. "formik", "puppeteer") still clear the floor and are excluded by the
+    # documented manual curation (corpus_prune_log.md) — the scorer does not claim
+    # to discriminate those automatically.
+    passes = (total >= floor) and not lib
     return {
         "app_shapedness_score": total,
         "floor": floor,
-        "passes": total >= floor,
+        "passes": passes,
         "components": points,
         "backend_dir_tokens": ndirs,
         "library_flagged": lib,

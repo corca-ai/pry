@@ -50,13 +50,26 @@ The Python split is pre-registered here too; it is inert (harmless) if the S5
 - **Welded-at-demand arm:** findings with `class == "welded" AND demand == true`.
 - **Seamed arm:** findings with `class == "seamed"`.
   (Findings that are welded-but-not-demand, or ambiguous, are in NEITHER arm.)
+- **Bugfix-commit set (the NUMERATOR), PINNED HERE — not deferred to S2:** a
+  bugfix commit = a **non-merge commit reachable from the repo's pinned commit
+  whose MESSAGE matches `config.ENRICHMENT_BUGFIX_MSG_REGEX`** (= the frozen
+  Slice-0 `BUGFIX_MSG_REGEX`: `fix|fixes|fixed|bugfix|hotfix|bug|regression|
+  broke|broken|crash|incorrect`, case-insensitive). **Message-intent only — NO
+  error-handling diff filter** (the EH-diff filter is for Slice-0 *mining*;
+  enrichment is blame-based per line, so any bugfix counts). This is the single
+  most outcome-sensitive knob, so it is frozen WITH the denominator (critique #8):
+  S2's miner *implements* this predicate, it does not get to *choose* it.
 - **Bugfix-touched (the observed outcome):** a finding is bugfix-touched **iff
   the commit that LAST modified its source line — `git blame` at the repo's
-  pinned commit — is in that repo's bugfix-commit set** produced by the miner
-  (S2). This is a deterministic last-touch proxy: it undercounts older bugfixes,
-  but it undercounts BOTH arms identically, so the *ratio* is unbiased by the
-  proxy. (The proxy is the honest, tractable form; a full per-line modification
-  history is out of scope — see Non-Claims.)
+  pinned commit — is in that repo's bugfix-commit set** (above). This is a
+  deterministic last-touch proxy. It undercounts older bugfixes, and the
+  undercount is **plausibly LARGER for the welded arm** (welded code is, by the
+  thesis, hotter / more recently churned, so an original bugfix is more likely to
+  have been overwritten by a later non-bugfix commit). The matched denominator
+  (churn stratum) *reduces* but does not *eliminate* this asymmetry, so the
+  matched ratio is a **conservative LOWER bound** on the true enrichment — the
+  proxy can only *understate* a real signal, never manufacture one. (A full
+  per-line modification history is out of scope — see Non-Claims.)
 
 ## 3. The metric and its DENOMINATOR (쟁점 4 + confound R-B)
 
@@ -83,14 +96,22 @@ The Python split is pre-registered here too; it is inert (harmless) if the S5
 
 ## 4. The two-sided floor / FALSIFIER (set blind)
 
-On the **matched** ratio:
-- **GO — signal real (쟁점 4 confirmed):** matched ratio ≥
-  `ENRICHMENT_GO_FLOOR = 1.5` (welded-at-demand sites ≥1.5× as likely to be
-  bugfix-touched as seamed, after matching).
-- **FALSIFIED for this corpus:** matched ratio ≤ `ENRICHMENT_FALSIFIER = 1.1`
-  (or collapses to ~1.0). **This is a valid, honest outcome to report, not a
-  failure to hide** (the nose `rate-match ≠ precision` lesson made a contract).
-- **WEAK / inconclusive:** `1.1 < matched ratio < 1.5`.
+On the **matched** ratio, with a **cluster bootstrap over repos** (resample the
+corpus's repos with replacement, `ENRICHMENT_BOOTSTRAP_B = 2000`, deterministic
+`ENRICHMENT_BOOTSTRAP_SEED = 0`, `ENRICHMENT_BOOTSTRAP_CI = 0.95` percentile
+interval). Bootstrapping over *repos* (not findings) respects the
+non-independence of findings within a repo (critique #7). The CI is pinned now,
+before any number, so it cannot be added post hoc to rescue a result:
+- **GO — signal real (쟁점 4 confirmed):** matched point ratio ≥
+  `ENRICHMENT_GO_FLOOR = 1.5` **AND** the 95% CI lower bound strictly above
+  `ENRICHMENT_GO_CI_LOWER_MIN = 1.0` (the enrichment is significantly > 1, not a
+  thin-stratum point estimate).
+- **FALSIFIED for this corpus:** matched point ratio ≤ `ENRICHMENT_FALSIFIER =
+  1.1` **OR** the 95% CI lower bound ≤ 1.0 (the "collapses to ~1.0" condition,
+  made testable). **This is a valid, honest outcome to report, not a failure to
+  hide** (the nose `rate-match ≠ precision` lesson made a contract).
+- **WEAK / inconclusive:** anything between (point in `(1.1, 1.5)`, or point ≥1.5
+  but CI lower bound ≤ 1.0).
 
 **Simpson's-paradox guard (S3, per-repo distribution):** a pooled GO must not be
 carried by one repo. Among repos with ≥ `ENRICHMENT_PERREPO_MIN_FINDINGS = 20`
@@ -118,6 +139,15 @@ The Python branch builds a frontend **only on a (b)-gate GO**, and the lens runs
 - **One-directional.** A seamed-no-bugfix site is NOT evidence the seam prevented
   a bug (it may be younger/colder code). We claim only that welded-at-demand
   sites are *enriched* among bugfix-touched sites — never that seams are safe.
+- **Residual confound NOT neutralized: file-KIND** (critique #5). The matched
+  denominator balances file-churn and site-size, but NOT file *kind*: network /
+  DB / subprocess modules are independently bug-prone *by type* regardless of
+  churn or size, and welded boundary calls concentrate there. Churn is measured
+  at the pinned commit (`git log --oneline -- <file> | wc -l`). We do not claim
+  the matched ratio is confound-free — only that the two numerosity/size/hotness
+  confounds (R-B as originally stated) are neutralized; the file-kind residual is
+  named, un-neutralized, and works against a clean causal reading (so the
+  correlation is reported as exactly that — a correlation).
 - **No SZZ Tier 2** (operator-dropped): no bug-linked gold, no LLM-panel audit.
 - **No per-line full history**, no per-repo precision panel on heldout, no
   provider/live/release proof, no outbound on corpus repos.

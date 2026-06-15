@@ -128,6 +128,36 @@ def test_validator_requires_dev_and_heldout_per_arm():
     assert any("dev AND >=1 heldout" in e for e in errs)
 
 
+def test_validator_rejects_score_below_floor_marked_passing():
+    # The boolean is freeze-written; the validator must independently check the
+    # numeric score clears the floor (critique #11).
+    corpus = {
+        "schema_version": "0.1.0", "app_shapedness_floor": 55,
+        "splits": {"dev": 1, "heldout": 1},
+        "repositories": [
+            _good_repo(id="a", name="o/a", split="dev",
+                       app_shapedness_score=3, app_shapedness_passes=True),
+            _good_repo(id="b", name="o/b", split="heldout"),
+        ],
+    }
+    errs = validate_corpus.validate(corpus, _schema())
+    assert any("< floor" in e for e in errs)
+
+
+def test_validator_rejects_floor_mismatch_with_config():
+    corpus = {
+        "schema_version": "0.1.0",
+        "app_shapedness_floor": config.CORPUS_APP_SHAPEDNESS_FLOOR + 1,
+        "splits": {"dev": 1, "heldout": 1},
+        "repositories": [
+            _good_repo(id="a", name="o/a", split="dev"),
+            _good_repo(id="b", name="o/b", split="heldout"),
+        ],
+    }
+    errs = validate_corpus.validate(corpus, _schema())
+    assert any("pre-registered" in e for e in errs)
+
+
 def test_validator_rejects_failed_app_shapedness():
     corpus = {
         "schema_version": "0.1.0", "app_shapedness_floor": 55,

@@ -34,7 +34,10 @@ HARNESS = ROOT / "harness"
 
 CARGO_DENY = ("reqwest", "hyper", "ureq", "isahc", "surf", "curl", "awc",
               "tonic", "anthropic", "openai")
-PY_IMPORT_DENY = ("openai", "anthropic", "httpx", "requests", "urllib3", "aiohttp")
+PY_IMPORT_DENY = ("openai", "anthropic", "httpx", "requests", "urllib3", "aiohttp",
+                  # stdlib network clients also count (critique #9): a harness
+                  # script must not open its own socket/HTTP/mail/ftp connection.
+                  "socket", "http.client", "ftplib", "smtplib")
 PY_SUBPROC_HTTP = ("curl", "wget", "urllib.request", "urlopen")
 # The single operator-approved network CLI (GitHub corpus discovery).
 APPROVED_CLI = "gh"

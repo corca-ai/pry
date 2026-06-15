@@ -131,7 +131,16 @@ def fetch_features(name: str, arm: str) -> dict:
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--reseed", action="store_true",
+                    help="allow overwriting an already-frozen corpus.json; "
+                         "without it, re-running refuses so a re-fetch cannot "
+                         "silently re-pin the corpus to newer HEADs (critique #12)")
     args = ap.parse_args()
+
+    if (not args.dry_run and not args.reseed and config.CORPUS_PATH.exists()):
+        sys.exit(f"refusing to overwrite frozen {config.CORPUS_PATH} — re-running "
+                 f"would re-pin non-seed repos to current HEAD. Pass --reseed to "
+                 f"deliberately re-freeze, or --dry-run to preview.")
 
     repositories = []
     features_record = {}

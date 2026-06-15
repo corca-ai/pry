@@ -21,16 +21,43 @@ by domain — rather than by "well-tested" or "clean code" — is the guard agai
 clustering the slate at the disciplined/low-injection end (the PQ1 gap: the 4 H3
 seeds are all 0–5% clock-injection). The slate spans 17+ distinct domains.
 
-## Scorer prunes
+## Scorer prunes — and what the floor does and does NOT do (critique #3, honest)
 
-`corpus_fit.py` pruned **0 of 33 finalists** — every curated finalist cleared the
-pre-registered app-shapedness floor (`CORPUS_APP_SHAPEDNESS_FLOOR = 55`; scores
-ranged 75–100, see `corpus_discovery_features.json`). This is expected: the
-finalists were curated FROM the stratified search as known applications, and the
-scorer's role here is **auditable validation of that curation against a
-floor that was fixed before any score was computed**, not blind rediscovery. The
-floor would have rejected a library-shaped or stale candidate had one reached the
-finalist stage.
+`corpus_fit.py` pruned **0 of 33 finalists** — every finalist cleared the
+pre-registered floor (`CORPUS_APP_SHAPEDNESS_FLOOR = 55`; scores 75–100, see
+`corpus_discovery_features.json`) and none tripped the library veto.
+
+**The floor is a substantiveness + app-signal gate — necessary, not sufficient,
+and it does NOT by itself discriminate libraries from apps.** A fresh-eye critique
+asked us to *prove* the floor would reject the excluded libraries; scoring them
+proves the honest opposite, which we record rather than hide:
+
+| rejected candidate | score | floor | library_veto | verdict |
+| --- | --- | --- | --- | --- |
+| `react-hook-form/react-hook-form` | 70 | 55 | **YES** (self-described "library") | excluded by veto |
+| `jaredpalmer/formik` | 90 | 55 | no | clears floor — excluded by **curation** |
+| `puppeteer/puppeteer` | 87 | 55 | no | clears floor — excluded by **curation** |
+
+A mature library has `src/` + `packages/` + recent commits + many stars, so it
+clears a substantiveness floor. The scorer therefore does three honest jobs: (1)
+a **pre-registered substantiveness/app-signal floor** (set in `037e5bc` before any
+candidate was scored), (2) an **auditable per-repo feature record**
+(`corpus_discovery_features.json`, scores re-derivable), and (3) a **library
+veto** for self-described libraries. The **binding app-vs-library decision for
+non-self-describing libraries (formik, puppeteer) is the manual curation
+documented in this log** — not an automatic floor. We do not overclaim the
+scorer.
+
+## Direction of the selection bias (critique #4)
+
+The slate is deliberately **mature, popular, actively-maintained** apps. This is a
+known bias and its direction is **conservative for the thesis**: well-run apps are
+more likely to have *disciplined* dependency injection (fewer welds), so if the
+welded-at-demand enrichment shows up *even here*, it generalizes *downward* to
+messier codebases rather than being an artifact of sloppy outliers. The funnel
+structurally cannot surface a low-quality/poorly-tested app, so any "welding is
+rampant in bad code" effect is absent by construction — we claim only what the
+mature-app slate can support.
 
 ## Notable EXCLUSIONS (candidate surfaced in discovery, deliberately not frozen)
 

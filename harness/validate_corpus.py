@@ -42,10 +42,23 @@ def validate(corpus: dict, schema: dict) -> list[str]:
     if len(set(names)) != len(names):
         errors.append("duplicate repo names present")
 
+    # The declared floor must match the pre-registered constant, and each repo's
+    # numeric score must actually clear it — don't just trust the boolean
+    # (critique #11: the boolean is freeze-written, the number is the evidence).
+    floor = corpus.get("app_shapedness_floor")
+    if floor != config.CORPUS_APP_SHAPEDNESS_FLOOR:
+        errors.append(f"app_shapedness_floor {floor} != pre-registered "
+                      f"config.CORPUS_APP_SHAPEDNESS_FLOOR "
+                      f"{config.CORPUS_APP_SHAPEDNESS_FLOOR}")
+
     for r in repos:
         rid = r.get("id", "?")
         if not r.get("app_shapedness_passes", False):
             errors.append(f"{rid}: app_shapedness_passes is not true")
+        sc = r.get("app_shapedness_score")
+        if isinstance(sc, int) and isinstance(floor, int) and sc < floor:
+            errors.append(f"{rid}: app_shapedness_score {sc} < floor {floor} "
+                          f"but marked passing")
         c = r.get("commit", "")
         if not (isinstance(c, str) and len(c) == 40 and all(
                 ch in "0123456789abcdef" for ch in c)):
