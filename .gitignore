@@ -11,3 +11,6 @@ __pycache__/
 # Regenerable labeling worklist (large; reproduce via label_io.py emit)
 harness/fixtures/label_worklist.json
 harness/fixtures/ceal/label_worklist.json
+
+# charness skill runtime state (durable records live in charness-artifacts/)
+.charness/

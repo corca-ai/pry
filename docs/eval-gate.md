@@ -11,11 +11,13 @@ application-shaped OSS**, the population pry actually deploys onto (E3).
 > welded-end (no DI-disciplined exemplar yet), and the held-out split is unrun.
 > Closing needs the pre-registered target (dev 5 / held-out 10, SC2).
 >
-> **Every number here is panel-labeled (3 same-model coding-subagent personas),
-> human-calibration PENDING (E4).** Same-model votes are correlated, so the panel
-> can be confidently wrong; a small human-labeled calibration subset (operator's
-> step) is still owed to bound the panel's own error rate. Treat these as
-> provisional-but-actionable, not final.
+> **Numbers are panel-labeled (3 same-model coding-subagent personas), now
+> human-calibrated (E4): 15/17 (88%) agreement on a stratified blind sample, and
+> the *only* disagreements are the panel over-calling clock *timers* as GENUINE.**
+> So the headline (network+subprocess 100%, ex-tail 89.3%) is human-validated; only
+> the already-tiny clock-genuine is slightly inflated (true ≈3/130). See **Human
+> calibration** below. Still **OPENED, not CLOSED**: the held-out arm + a
+> DI-disciplined exemplar are unrun.
 
 ## The slate (dev; pinned, frozen)
 
@@ -106,12 +108,19 @@ recompute precision/filter-recall from the labels, no new LLM call.
    the cosmetic-clock filter; surface only a narrow allowlist if one ever earns
    it). Removes 79 false positives at zero measured genuine cost. *Highest-lift,
    lowest-risk lever in the repo.*
-2. **`clock` is almost never genuine (5/130 = 3.8%).** The existing cosmetic-clock
-   filter under-catches by an order of magnitude on third-party code. The 5
-   genuine cases are token-expiry comparisons that *drive a security branch*
-   (`expiresAt < new Date()` → throw). **Lever: strengthen the cosmetic-clock
-   filter** to demote timers/`setTimeout`/record-`Date` aggressively, keeping only
-   clock reads that feed a control-flow comparison. Removes ~125 false positives.
+2. **`clock` is almost never genuine (5/130 = 3.8%, true ≈3/130 post-calibration).**
+   The existing cosmetic-clock filter under-catches by an order of magnitude. The
+   genuine cases are token-expiry **comparisons** driving a security branch
+   (`expiresAt < new Date()` → throw); the principle (operator-confirmed in
+   calibration) is **fake timers are the seam for time** — `vi.useFakeTimers()` /
+   `setSystemTime()` control global `setTimeout`/`Date` with no code seam, so a
+   welded timer doesn't block testing the way a welded network *failure* does.
+   **Lever: demote timers (`setTimeout`/`setInterval`) and record-`Date`
+   aggressively — even on retry/error paths — keeping only clock reads that feed a
+   control-flow comparison.** *Calibration sharpened this:* the panel itself
+   **over-called retry/timeout `setTimeout`s as GENUINE** (the 2 of 2 calibration
+   disagreements were exactly this — notion retry-wait, redis ping-timeout), so the
+   panel's 5/130 is an over-count and the timer-demotion is even more justified.
 3. **Test-file leak: `.vitest.ts` (and `manual-testing-sandbox/`, `*-sol.ts`).**
    pry's `is_source` drops `.test.`/`.spec.` but not `.vitest.`; continue's llm
    crater (2/35) is largely its `*.vitest.ts` suites, where `fetch` is mock-injected
@@ -119,14 +128,31 @@ recompute precision/filter-recall from the labels, no new LLM call.
    + obvious fixture dirs (`manual-testing-sandbox/`). (Per E7 a repo would
    `.pryignore` these, but the default heuristic should catch the conventional
    ones; exclude is off during eval, so they count against pry here.)
-4. **Rung-3 stage-2 (injected transport) — REOPEN.** continue's other llm
-   FALSE-WELDs are production `openai-adapters` calls behind an injectable
-   `customFetch(config.requestOptions)` seam one hop up — the exact
-   transport/executor-wrapper gap the roadmap *deferred "until a corpus surfaces
-   it"* ([`precision-gate.md`](precision-gate.md) rung-3 census; [`handoff`](handoff.md)).
-   **continue surfaces it materially** (it was *not* material on ceal). Worth a
-   scoped re-examination — but it needs cross-file analysis and risks
-   false-seaming, so gate any rule hard against this labelset + the recall arm.
+4. **Rung-3 stage-2 — REOPEN (two faces, both calibration-confirmed).**
+   (a) *Injected transport (precision):* continue's production `openai-adapters`
+   calls sit behind an injectable `customFetch(config.requestOptions)` one hop up —
+   the transport/executor-wrapper gap the roadmap *deferred "until a corpus surfaces
+   it"*. continue surfaces it materially (not material on ceal).
+   (b) *Interface-impl OVER-seaming (recall):* the inverse and more concerning —
+   pry's rung-3 form-A marks a welded `fetch` SEAMED whenever its class
+   `implements` an injectable interface (`ContinueServerClient implements
+   IContinueServerClient`). But the interface seam only makes *consumers* testable;
+   **the impl's own error handling on the welded boundary stays un-testable** (e.g.
+   `getConfig`'s `if (!response.ok) throw` — you can't inject the fetch failure into
+   the real impl). Human calibration confirmed this directly: 2/3 sampled
+   pry-seamed findings were real welds pry false-seamed via exactly this rule.
+   **Fix: rung-3 form-A should not blanket-seam a boundary whose impl has its own
+   error handling on it.** Needs cross-file analysis + risks false-seaming, so gate
+   any rule hard against this labelset + the Slice-2 recall arm.
+5. **Client construction is double-counted (`new OpenAI()` + `.create()`).**
+   pry flags both the inline client construction *and* catalogued method calls on
+   the same client → the same welded client counts twice. **Lever: treat the
+   construction as the single "welded-client origin" (the seam-decision point:
+   inline `new` = welded, injected param/factory = seamed) and DEDUP the downstream
+   method finding.** Do **not** chase per-method catalog entries (a losing game);
+   keep a few high-value method patterns (`.create`) only as a fallback for
+   import-singleton clients with no local `new`. (Operator-confirmed in calibration;
+   the `new OpenAI()` line is not "cosmetic" — it is where injectability is decided.)
 
 ## Projected lever impact (dev, against the frozen labelset)
 
@@ -168,11 +194,14 @@ finding the panel relabels GENUINE = a real weld pry demoted (a recall miss).
 | librechat | 1 / 10 |
 | **total** | **13 / 33** |
 
-This is **noisy and concentrated** in the DI-heavy repos (flowise/continue), and
-some may be panel over-calling GENUINE on borderline seams — it is **not** a
-conclusion, it is a **flag**. It is exactly the signal **Slice 2 (filter-recall,
-E5)** exists to quantify properly against the larger bare pool. Do not act on it
-before Slice 2.
+This is **noisy and concentrated** in the DI-heavy repos (flowise/continue). It is
+a **flag**, not a conclusion — but **human calibration confirmed the mechanism**:
+of 3 sampled pry-seamed findings, 2 (`ContinueServerClient.getConfig`/`sendFeedback`)
+were real welds pry false-seamed via **rung-3 form-A interface-impl over-seaming**
+(taxonomy #4b), and 1 (`http.ts` with a destructured `fetch` param) was a correct
+seam. So the recall hole has a named cause, not just a count. **Slice 2
+(filter-recall, E5)** still quantifies it properly against the larger bare pool;
+do not ship a rung-3 change before it.
 
 ## Panel quality — and why the agreement rate is weak evidence
 
@@ -198,15 +227,51 @@ confirmations.** Three compounding reasons, in increasing severity:
    file.
 
 Net: the panel was optimized for per-label accuracy over vote independence, so the
-agreement rate is **not** the confidence signal it looks like. The only real
-accuracy bound is the **human-labeled calibration subset (E4, operator-pending)**;
-until that exists the panel's error rate is unmeasured. Treat the numbers as a
-strong directional result, not a measured ground truth.
+agreement rate is **not** the confidence signal it looks like. The real accuracy
+bound is the **human calibration** below.
 
 The full audit trail is checked in: `harness/fixtures/eval/votes/<repo>/{pragmatic,
 skeptic,neutral}.json` (each persona's label + confidence + one-clause reason) and
 `continue/tiebreak.json`. The blinded worklist (the exact `source_context` shown)
 is reproducible via `finding_io.py emit` against the pinned corpus.
+
+## Human calibration (E4) — done
+
+The operator blind-labeled a **stratified 26-finding sample** (weighted to the
+contested clock/llm strata + a seamed-control recall probe), then compared to the
+frozen panel labels. After R5 test-file exclusion, **17 in-scope**; full record in
+`harness/fixtures/eval/calibration.json` (per-card human vs panel).
+
+| stratum | human–panel agreement |
+|---|---|
+| demand-weld (precision) | **12 / 14** |
+| seamed-control (recall) | **3 / 3** |
+| **overall** | **15 / 17 (88%)** |
+
+The result is strong *and* informative:
+
+- **The headline holds under human eyes.** Every sampled `network`/`subprocess`/
+  `random`/`db` and the flowise `llm` welds matched the panel. The core 100% +
+  ex-tail 89.3% are human-validated.
+- **The panel's *only* error is one-directional: it over-calls clock TIMERS as
+  GENUINE.** Both disagreements (notion retry-wait, redis ping-timeout `setTimeout`)
+  were panel=GENUINE / human=COSMETIC. So the panel's clock-genuine (5/130) is an
+  over-count; true ≈3/130 — which only *strengthens* the clock lever. No other
+  stratum drifts.
+- **Recall hole has a named cause** (seamed-control: 2/3 false-seams from rung-3
+  interface-impl over-seaming — taxonomy #4b).
+- **A refined ruleset fell out** (operator-confirmed): fake-timers = the time-seam
+  (timers → COSMETIC); clock *comparisons* → GENUINE; test files out of scope;
+  **module-mocking ≠ a seam** (this is what makes the network 100% meaningful —
+  relax it and the signal collapses); client *construction* = the welded-client
+  origin (dedup, don't enumerate SDK methods); dead-code reachability is knip's job,
+  not pry's (visibility-agnostic is correct).
+
+**Caveats:** small N (17), weighted to contested strata (not a uniform statistical
+bound); human and panel read the same full source, so this measures "given the same
+code, does the human agree with the panel's label" — the right question for label
+trust, but it does not independently re-derive recall. Session: `h3-eval-calibration`
+(HITL); ruleset in `charness-artifacts/hitl/`.
 
 ## Gate status (SC2)
 
@@ -214,10 +279,12 @@ is reproducible via `finding_io.py emit` against the pinned corpus.
   tie-break → freeze) on 4 independent third-party repos; first off-corca
   precision points exist; the core signal validated (100% network/subprocess,
   89.3% ex-tail ≈ ceal 88%); the next levers are named with counts.
-- **NOT CLOSED:** (a) human calibration owed (E4); (b) all-welded-end slate — no
-  DI-disciplined exemplar (dev #5 / spectrum gap); (c) held-out arm unrun. Close
-  per the pre-registered target: **dev 5 / held-out 10** (≈15 repos), tune only on
-  dev, held-out is the generalization gate.
+- **DONE since:** human calibration (E4) — 15/17 (88%), headline validated, panel
+  error one-directional (clock-timer over-call). See Human calibration.
+- **STILL NOT CLOSED:** (a) all-welded-end slate — no DI-disciplined exemplar
+  (dev #5 / spectrum gap); (b) held-out arm unrun. Close per the pre-registered
+  target: **dev 5 / held-out 10** (≈15 repos), tune only on dev, held-out is the
+  generalization gate.
 
 ## Reproduce
 
