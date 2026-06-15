@@ -133,3 +133,54 @@ FINDING_DEMOTED_CLOCK_FRACTION = 0.22   # ~22% of the demoted-clock pool
 FINDING_DEMOTED_RANDOM_FRACTION = 0.10  # small control on demoted random
 
 FINDING_HARNESS_VERSION = "0.1.0"
+
+# --- E9 multi-repo validation sweep (harness/fixtures/eval/preregistration.md) -
+# Every constant below is PRE-REGISTERED: it is committed BEFORE any enrichment
+# number is computed, so a fresh closeout reviewer can prove the order from git
+# (`git merge-base --is-ancestor <prereg-sha> <enrichment-sha>`). This mirrors the
+# Slice-0 REPO_FIT_SITE_FLOOR "set BEFORE the number so it cannot be moved post
+# hoc" + the kill-gate F27 "frozen before this run" discipline.
+CORPUS_PATH = EVAL_DIR / "corpus.json"
+CORPUS_SCHEMA_PATH = HARNESS_DIR / "corpus_schema.json"
+PREREGISTRATION_PATH = EVAL_DIR / "preregistration.md"
+DISCOVERY_FEATURES_PATH = EVAL_DIR / "corpus_discovery_features.json"
+CORPUS_PRUNE_LOG_PATH = EVAL_DIR / "corpus_prune_log.md"
+
+# S1 corpus selection (risk R-A, selection bias): a candidate enters the corpus
+# only if its app-shapedness score (harness/corpus_fit.py) clears this floor. Set
+# here BEFORE any candidate was scored.
+CORPUS_APP_SHAPEDNESS_FLOOR = 55
+
+# Tier-1 enrichment metric (쟁점 4). Unit = a pry finding; the two arms are
+# welded-at-demand (class=welded AND demand=true) vs seamed (class=seamed). A
+# finding is "bugfix-touched" iff the commit that LAST modified its source line
+# (git blame at the pinned commit) is in the repo's bugfix-commit set (the miner).
+# Enrichment ratio = welded_at_demand_bugfix_touch_rate / seamed_bugfix_touch_rate.
+#
+# DENOMINATOR = a MATCHED comparison, not a raw pool: findings are stratified by
+# (file-churn tercile x site-size tercile); the matched ratio is the
+# stratum-count-weighted ratio of per-stratum welded vs seamed rates (direct
+# standardization). This is the only form that neutralizes confound R-B (welded
+# sites simply being more numerous / larger / in hotter files). The raw pooled
+# ratio is reported ALONGSIDE so the confound's size stays visible.
+ENRICHMENT_CHURN_TERCILES = 3       # file-churn strata (commits touching the file)
+ENRICHMENT_SITESIZE_TERCILES = 3    # enclosing-function line-count strata
+ENRICHMENT_MIN_STRATUM = 5          # min findings PER ARM to use a stratum;
+                                    # under-filled strata are DROPPED + LOGGED
+                                    # (no silent truncation, risk R-D)
+# Two-sided floor (set blind, before measuring):
+ENRICHMENT_GO_FLOOR = 1.5           # matched ratio >= this => signal real (GO)
+ENRICHMENT_FALSIFIER = 1.1          # matched ratio <= this (or ~1.0) => thesis
+                                    # FALSIFIED for this corpus. [1.1,1.5)=weak.
+# Simpson's-paradox guard: a pooled GO must not be carried by one repo. Of repos
+# with >= this many findings per arm, a majority must show per-repo ratio > 1.
+ENRICHMENT_PERREPO_MIN_FINDINGS = 20
+ENRICHMENT_PERREPO_MAJORITY = 0.60
+
+# Python (b)-gate lens GO criterion (S5) = the kill-gate F27/Run-5 LENS band on
+# the substitution-demand subset welded fraction (NOT the fs-swamped bare
+# fraction). `pry map` already emits summary.substitution_demand_subset.
+BGATE_LENS_BAND = (0.15, 0.85)      # demand-subset welded fraction in band => GO
+BGATE_MIN_DECIDED_FRACTION = 0.40   # below this the lens is MUTE (KILL, not GO)
+
+CORPUS_SWEEP_VERSION = "0.1.0"
