@@ -59,8 +59,12 @@ fn is_source(p: &Path) -> bool {
     if !is_ts && !is_js {
         return false;
     }
-    // drop test/spec/support files across both languages
-    let is_test_stem = ["test", "spec"].iter().any(|s| {
+    // drop test/spec/vitest/e2e/support files across both languages. `vitest`/`e2e`
+    // are conventional stems the eval-gate test-file heuristic adds (docs/eval-gate.md):
+    // e.g. continue's `*.vitest.ts` suites mock-inject `fetch`, so a welded finding
+    // there is a FALSE-WELD. Repo-specific harness dirs (`manual-testing-sandbox/`,
+    // `*-sol.ts`) stay the repo's `.pryignore` job (E7), NOT this default heuristic.
+    let is_test_stem = ["test", "spec", "vitest", "e2e"].iter().any(|s| {
         [".ts", ".tsx", ".js", ".mjs", ".cjs"]
             .iter()
             .any(|ext| name.ends_with(&format!(".{s}{ext}")))
@@ -257,5 +261,43 @@ fn ratio(n: usize, d: usize) -> f64 {
     } else {
         // fixed 4-dp formatting for cross-run/machine determinism (SC3)
         ((n as f64 / d as f64) * 10000.0).round() / 10000.0
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::is_source;
+    use std::path::PathBuf;
+
+    fn src(p: &str) -> bool {
+        is_source(&PathBuf::from(p))
+    }
+
+    #[test]
+    fn drops_conventional_test_files() {
+        // pre-existing stems
+        assert!(!src("src/foo.test.ts"));
+        assert!(!src("src/foo.spec.tsx"));
+        assert!(!src("pkg/util-test-support.ts"));
+        assert!(!src("src/foo.test.mjs"));
+        // lever #2 (eval-gate test-file heuristic): conventional vitest/e2e stems
+        assert!(!src("core/autocomplete/ListenableGenerator.vitest.ts"), "vitest stem must drop");
+        assert!(!src("test/login.e2e.ts"), "e2e stem must drop");
+        assert!(!src("a/b/thing.vitest.mjs"), "vitest on a .mjs must drop");
+    }
+
+    #[test]
+    fn keeps_real_source_incl_substring_lookalikes() {
+        assert!(src("src/index.ts"));
+        assert!(src("src/openai.ts"));
+        // substring 'vitest'/'e2e' in a non-stem position must NOT drop a real file
+        assert!(src("src/vitestHelpers.ts"), "'vitest' as a name substring is not a test stem");
+        assert!(src("src/core2e.ts"), "'e2e' embedded mid-name is not the `.e2e.` stem");
+        // repo-specific harness files are the `.pryignore` job, NOT this heuristic —
+        // is_source keeps them; only an explicit .pryignore/--exclude drops them (E7).
+        assert!(src("manual-testing-sandbox/next-edit/next-edit-10-5.ts"),
+            "sandbox harness stays source by default (repo .pryignore scope, not the test heuristic)");
+        assert!(src("manual-testing-sandbox/next-edit/next-edit-6-3-sol.ts"),
+            "`-sol.ts` stays source by default (repo .pryignore scope)");
     }
 }

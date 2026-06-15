@@ -124,13 +124,19 @@ recompute precision/filter-recall from the labels, no new LLM call.
    **over-called retry/timeout `setTimeout`s as GENUINE** (the 2 of 2 calibration
    disagreements were exactly this — notion retry-wait, redis ping-timeout), so the
    panel's 5/130 is an over-count and the timer-demotion is even more justified.
-3. **Test-file leak: `.vitest.ts` (and `manual-testing-sandbox/`, `*-sol.ts`).**
-   pry's `is_source` drops `.test.`/`.spec.` but not `.vitest.`; continue's llm
-   crater (2/35) is largely its `*.vitest.ts` suites, where `fetch` is mock-injected
-   (FALSE-WELD). **Lever: extend the test-file heuristic** to `.vitest.`/`.e2e.`
-   + obvious fixture dirs (`manual-testing-sandbox/`). (Per E7 a repo would
-   `.pryignore` these, but the default heuristic should catch the conventional
-   ones; exclude is off during eval, so they count against pry here.)
+3. **Test-file leak: `.vitest.ts` (and `manual-testing-sandbox/`, `*-sol.ts`). — ✓
+   BUILT 2026-06-15 (default-stem part).** pry's `is_source` dropped `.test.`/`.spec.`
+   but not `.vitest.`; continue's llm crater (2/35) is largely its `*.vitest.ts`
+   suites, where `fetch` is mock-injected (FALSE-WELD). **Lever: extend the test-file
+   heuristic** — `is_source` (`src/main.rs:63`) now also drops `.vitest.`/`.e2e.`
+   stems. *Scope split (verified):* the default heuristic owns only the **conventional
+   stems** = **25** demand-weld findings (all `.vitest.` on this corpus; `.e2e.` is
+   added as a forward-looking convention, 0 hits here) → **66.0% → 69.7%, 0 genuine
+   lost** (the 25 are 21 FALSE-WELD + 4 COSMETIC). The
+   remaining **4** (`manual-testing-sandbox/` + `*-sol.ts`) are **repo `.pryignore`
+   scope (E7), not the default** — they are what takes the lumped number to 70.3%, so
+   the binary's honest default lift is 69.7%, not 70.3%. (Exclude is off during eval,
+   so all 29 count against pry in the raw pool; only 25 are the default's to fix.)
 4. **Rung-3 stage-2 — REOPEN (two faces, both calibration-confirmed).**
    (a) *Injected transport (precision):* continue's production `openai-adapters`
    calls sit behind an injectable `customFetch(config.requestOptions)` one hop up —
@@ -169,21 +175,24 @@ directly read off the labels. "CEILING" = assumes a *perfect* syntactic filter
 |---|---|---|---|
 | baseline (existing pry) | 315/556 = **56.7%** | — | — |
 | + cosmetic-random (drop 79 `random`) — **✓ BUILT** | 315/477 = **66.0%** | **0 / 79** | EXACT (measured) |
-| + test-file heuristic (drop 29 `.vitest`/`-sol`/`sandbox`) | 315/448 = **70.3%** | **0 / 29** | EXACT |
+| + test-file heuristic — default stems (drop 25 `.vitest`; `.e2e` forward-looking, 0 on this corpus) — **✓ BUILT** | 315/452 = **69.7%** | **0 / 25** | EXACT (measured) |
+| + repo `.pryignore` (drop 4 `sandbox`/`-sol`; E7, not the default) | 315/448 = **70.3%** | **0 / 4** | EXACT (repo scope) |
 | + stronger cosmetic-clock (drop 119 cosmetic clock) | 315/329 = **95.7%** | 0 | CEILING |
 | + rung-3 / remaining false-welds (drop 11) | 315/318 = **99.1%** | 0 | CEILING |
 
-**Across all four levers, zero of the 315 genuine welds are lost** (in the labeled
-set). The two EXACT levers — cosmetic-random and the test-file heuristic — lift dev
-precision **56.7% → 70.3% at zero recall cost**, and they are *directly
-gate-checkable today*: they only demote findings already labeled COSMETIC/FALSE-WELD,
-so E5's recall condition holds on dev by construction (no bare-pool labeling needed
-for *these two*). They still need the **held-out arm** before shipping (E5/SC2) —
-this is the dev-side evidence, not the ship decision. The clock/rung-3 ceilings need
+**Across every lever, zero of the 315 genuine welds are lost** (in the labeled
+set). The two EXACT levers — cosmetic-random and the test-file heuristic — are now
+**both built**, lifting dev precision **56.7% → 69.7% at zero recall cost** (the
+binary's honest default; the further 69.7% → 70.3% is the repo's `.pryignore` job,
+not pry's default). They were *directly gate-checkable*: they only demote findings
+already labeled COSMETIC/FALSE-WELD, so E5's recall condition holds on dev by
+construction (no bare-pool labeling needed for *these two*). They still need the
+**held-out arm** before shipping (E5/SC2) — this is the dev-side evidence, not the
+ship decision. The clock/rung-3 ceilings need
 real (imperfect) filters + the Slice-2 recall arm, so treat them as the prize, not a
-guarantee. **Build order:** cosmetic-random **✓ done (2026-06-15** — the `+
-cosmetic-random` row is now a *measured build result*, matching the projection
-exactly: 56.7%→66.0%, 0/79 lost**)**; next the test-file heuristic, then the harder
+guarantee. **Build order:** cosmetic-random **✓ done** and the test-file heuristic
+**✓ done** (both 2026-06-15 — the two EXACT rows are now *measured build results*:
+56.7%→66.0%→69.7%, 0 genuine lost, matching the projection); next the harder
 clock/rung-3 work behind Slice 2.
 
 ## Seamed-control — a recall flag for Slice 2

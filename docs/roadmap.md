@@ -58,8 +58,11 @@ held-out arm.
     first, as an EXACT lever (see the exception above; held-out arm pends ship).
 0c. **Stronger cosmetic-clock filter:** `clock` is **5/130** (3.8%); keep only
     clock reads feeding a control-flow comparison.
-0d. **Extend the test-file heuristic** (`is_source`) to `.vitest.`/`.e2e.` + obvious
-    fixture dirs (`manual-testing-sandbox/`) — drove continue's llm crater.
+0d. **Extend the test-file heuristic** (`is_source`) — **✓ BUILT 2026-06-15.**
+    `src/main.rs:63` now drops `.vitest.`/`.e2e.` stems (drove continue's llm crater).
+    Default-stem scope only = **66.0% → 69.7%, 0 genuine lost**; repo-specific
+    harness dirs (`manual-testing-sandbox/`, `*-sol.ts`) stay the `.pryignore` job
+    (E7), which is the further 69.7%→70.3% — not pry's default. EXACT lever.
 
 Then the structural deepeners:
 

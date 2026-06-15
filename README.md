@@ -34,7 +34,8 @@ pry map path/to/ts-or-js --exclude 'src/smoke-*.ts'  # skip paths (repeatable gl
 ```
 
 **Scope is your call.** `pry map` already honors `.gitignore` and drops
-conventional test files (`*.test.ts`, `*.spec.ts`, `test/`, `__tests__/`). For
+conventional test files (`*.test.ts`, `*.spec.ts`, `*.vitest.ts`, `*.e2e.ts`,
+`test/`, `__tests__/`). For
 anything else your repo considers out of scope (e.g. non-test-named `smoke-*.ts`
 harnesses), add a **`.pryignore`** file (full gitignore syntax, incl. `!`
 re-include) or pass **`--exclude <glob>`** (positive-sense, repeatable). pry never
