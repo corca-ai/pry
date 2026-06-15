@@ -93,16 +93,18 @@ bindings.
 
 - **Validated surface: TypeScript / JavaScript.** On the substitution-demand
   subset, curated precision is ~88% (ceal) / ~97% (cautilus) after the
-  cosmetic-clock + duration-record filters; the welded/seamed signal carries
-  information (lens GO across 8 corpora). See [`docs/precision-gate.md`](docs/precision-gate.md).
+  cosmetic-clock + duration-record + cosmetic-random filters; the welded/seamed
+  signal carries information (lens GO across 8 corpora). See [`docs/precision-gate.md`](docs/precision-gate.md).
 - **First off-corca evidence (H3):** an LLM-panel eval on 4 independent
   third-party OSS apps (outline / flowise / continue / librechat) finds
   **network + subprocess demand-welds are 100% genuine (261/261)** and the
   non-cosmetic surface is **89.3%** — matching the ceal hand-validation. The
   precision drag is the cosmetic `clock`/`random` tail (a named filter gap, not a
   thesis problem). The eval/panel is a **dev-time** tool only — the shipped binary
-  stays zero-LLM. See [`docs/eval-gate.md`](docs/eval-gate.md). *(Panel-labeled,
-  human-calibration pending; gate opened, not closed.)*
+  stays zero-LLM. See [`docs/eval-gate.md`](docs/eval-gate.md). *(Panel-labeled +
+  human-calibrated, 88% agreement; the first eval-gated lever — cosmetic-random —
+  is now built: dev precision 56.7% → 66.0%, 0 genuine welds lost. Gate opened; the
+  held-out arm still pends formal close.)*
 - **Python is out of scope — a recorded KILL.** The author's Python repos are
   uniformly welded *glue* with no discrimination, so pry's ranker gets no
   traction there. See [`docs/kill-gate.md`](docs/kill-gate.md). A *non-glue* OSS

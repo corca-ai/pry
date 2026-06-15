@@ -7,8 +7,8 @@ description: "Use when reviewing the testability/injectability of TypeScript/Jav
 
 `pry` the binary is deterministic and dumb (spec F1): `pry map <path>` emits
 every boundary finding classified seamed / welded / ambiguous, with the
-substitution-demand flag and the cosmetic-clock + duration-record filters
-already applied. **This skill is the intelligence layer the CLI defers to**: it
+substitution-demand flag and the cosmetic-clock + duration-record +
+cosmetic-random filters already applied. **This skill is the intelligence layer the CLI defers to**: it
 runs the binary, ranks the *welded-at-demand* backlog, and labels each finding.
 The output is advisory — a testability backlog, never a bug list, and it must
 never fail standing `quality`.
@@ -69,8 +69,8 @@ were GENUINE vs noise. Advisory only.
 
 The prescribed command above, run against any TS path with boundaries, is the
 skill's self-test: it must emit a deterministic `WELDED-AT-DEMAND BACKLOG`
-ranking. Validated against `../ceal/packages` (68 findings, matches the frozen
-`fixtures/ceal-ts-map.summary.json`).
+ranking. Validated against `../ceal/packages` (67 welded-at-demand findings,
+matches the frozen `fixtures/ceal-ts-map.summary.json`).
 
 ## Degraded behavior
 

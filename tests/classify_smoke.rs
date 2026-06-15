@@ -63,6 +63,7 @@ fn smoke_classifications() {
     let rng = fs.iter().find(|f| f.kind == "random").expect("Math.random not recognized");
     assert_eq!(rng.class, Class::Welded);
     assert!(!rng.input_sim, "randomness has no operand to redirect");
+    assert!(!rng.demand, "welded random is never a substitution-demand point (cosmetic-random lever)");
     assert!(fs.iter().any(|f| f.kind == "db" && f.class == Class::Welded), "new Database not recognized");
     assert!(fs.iter().any(|f| f.kind == "network" && f.reason.contains("builtin")), "axios.get not recognized");
 }
@@ -232,6 +233,37 @@ fn self_referential_declarator_terminates() {
     );
     // must classify (not crash) and emit the clock finding
     assert!(fs.iter().any(|f| f.kind == "clock"), "self-ref clock still found, no overflow");
+}
+
+// cosmetic-random lever (eval-gate): randomness was 0/79 genuine across the 4 H3
+// corpora — an RNG has no failure to inject, so a welded random leaf is never a
+// substitution-demand point regardless of call form (Math.random / crypto.*) or
+// position (record, control comparison). Demand is dropped; class stays welded.
+const SRC_RAND: &str = r#"
+export function token() { return Math.random().toString(36).slice(2); }
+export function pick(xs) { return xs[Math.floor(Math.random() * xs.length)]; }
+export function uuid() { return crypto.randomUUID(); }
+export function salt() { return crypto.randomBytes(16); }
+export function coin() { return Math.random() < 0.5; }
+"#;
+
+#[test]
+fn random_is_never_demand() {
+    let fs = analyze_str(SRC_RAND, "rand.ts");
+    let rands: Vec<_> = fs.iter().filter(|f| f.kind == "random").collect();
+    // Math.random x3 (builtin_call) + crypto.randomUUID/randomBytes x2 (ns_call)
+    assert!(rands.len() >= 5, "all five random boundaries recognized, got {}", rands.len());
+    assert!(rands.iter().all(|f| f.class == Class::Welded), "random is a hard weld");
+    assert!(rands.iter().all(|f| !f.input_sim), "randomness has no operand to redirect");
+    // the lever: every welded random — cosmetic position, the `< 0.5` control
+    // comparison, builtin and namespaced alike — drops out of the demand subset.
+    assert!(rands.iter().all(|f| !f.demand),
+        "welded random is never a substitution-demand point (cosmetic-random lever)");
+    // both call forms carry the demotion marker (builtin Math.random + crypto ns_call)
+    assert!(fs.iter().any(|f| f.kind == "random" && f.reason.contains("builtin") && f.reason.contains("random-cosmetic")),
+        "Math.random demotion marked");
+    assert!(fs.iter().any(|f| f.kind == "random" && f.reason.contains("ns-call-leaf-random-cosmetic")),
+        "crypto.* demotion marked");
 }
 
 #[test]

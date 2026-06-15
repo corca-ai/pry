@@ -102,12 +102,15 @@ barely DI's its clients (almost everything is a real inline weld).
 Ranked by lift. Each is a dev-time lever gated against the frozen labelset (E8) —
 recompute precision/filter-recall from the labels, no new LLM call.
 
-1. **`random` is never a genuine weld (0/79).** Across all 4 repos, every `random`
-   demand-weld is a cosmetic id/nonce/IV/jitter/shuffle value. **Lever: a
-   cosmetic-random filter** (demote `random` from `demand` by default, mirroring
-   the cosmetic-clock filter; surface only a narrow allowlist if one ever earns
-   it). Removes 79 false positives at zero measured genuine cost. *Highest-lift,
-   lowest-risk lever in the repo.*
+1. **`random` is never a genuine weld (0/79). — ✓ BUILT 2026-06-15.** Across all 4
+   repos, every `random` demand-weld is a cosmetic id/nonce/IV/jitter/shuffle value.
+   **Lever: a cosmetic-random filter** — `demote_welded_random` in `src/classify.rs`,
+   applied at every random call form (`Math.random` builtin, `crypto.*` ns-call):
+   welded `random` drops out of `demand` by default (an RNG has no failure to inject;
+   its only test concern is determinism, met by a seeded/fake source). *Verified by
+   the build:* re-derived dev precision **56.7% → 66.0%**, **0/79 genuine lost** —
+   the projection below, confirmed exactly; ceal demand-weld 68→67; `random_is_never_demand`
+   test green. *Highest-lift, lowest-risk lever in the repo; it was the first built.*
 2. **`clock` is almost never genuine (5/130 = 3.8%, true ≈3/130 post-calibration).**
    The existing cosmetic-clock filter under-catches by an order of magnitude. The
    genuine cases are token-expiry **comparisons** driving a security branch
@@ -165,7 +168,7 @@ directly read off the labels. "CEILING" = assumes a *perfect* syntactic filter
 | applied lever | precision | genuine welds lost | basis |
 |---|---|---|---|
 | baseline (existing pry) | 315/556 = **56.7%** | — | — |
-| + cosmetic-random (drop 79 `random`) | 315/477 = **66.0%** | **0 / 79** | EXACT |
+| + cosmetic-random (drop 79 `random`) — **✓ BUILT** | 315/477 = **66.0%** | **0 / 79** | EXACT (measured) |
 | + test-file heuristic (drop 29 `.vitest`/`-sol`/`sandbox`) | 315/448 = **70.3%** | **0 / 29** | EXACT |
 | + stronger cosmetic-clock (drop 119 cosmetic clock) | 315/329 = **95.7%** | 0 | CEILING |
 | + rung-3 / remaining false-welds (drop 11) | 315/318 = **99.1%** | 0 | CEILING |
@@ -178,8 +181,10 @@ so E5's recall condition holds on dev by construction (no bare-pool labeling nee
 for *these two*). They still need the **held-out arm** before shipping (E5/SC2) —
 this is the dev-side evidence, not the ship decision. The clock/rung-3 ceilings need
 real (imperfect) filters + the Slice-2 recall arm, so treat them as the prize, not a
-guarantee. **Build order:** cosmetic-random first (biggest exact lift, simplest), then
-the test-file heuristic, then the harder clock/rung-3 work behind Slice 2.
+guarantee. **Build order:** cosmetic-random **✓ done (2026-06-15** — the `+
+cosmetic-random` row is now a *measured build result*, matching the projection
+exactly: 56.7%→66.0%, 0/79 lost**)**; next the test-file heuristic, then the harder
+clock/rung-3 work behind Slice 2.
 
 ## Seamed-control — a recall flag for Slice 2
 

@@ -728,6 +728,23 @@ fn args_empty(call: Node) -> bool {
     }
 }
 
+/// Welded randomness is never a substitution-demand point. An RNG boundary has no
+/// failure mode to inject — its only test concern is *determinism*, satisfied by
+/// substituting the source (a seeded/fake RNG), not by injecting an error on a
+/// failure path. Across the 4 H3 corpora randomness was 0/79 genuine
+/// (`docs/eval-gate.md`, the "cosmetic-random" lever) and human calibration
+/// confirmed random = cosmetic-by-nature. So every welded random leaf drops out of
+/// the demand subset by default (`demand=false`). This mirrors the cosmetic-clock
+/// filter but is unconditional on position: clock has injectable *comparisons*
+/// (`expiresAt < new Date()`) that stay demand; random has no such control shape.
+fn demote_welded_random(mut f: Finding) -> Finding {
+    if f.class == Class::Welded && f.kind == "random" && f.demand {
+        f.demand = false;
+        f.reason = format!("{}-random-cosmetic", f.reason);
+    }
+    f
+}
+
 fn finding(n: Node, b: &Boundary, file: &str, class: Class, input_sim: bool, reason: &str) -> Finding {
     let pos = n.start_position();
     Finding {
@@ -828,7 +845,9 @@ fn match_node(node: Node, src: &[u8], file: &str, cat: &Catalog) -> Option<Findi
                                 "llm" => "llm-global-call",
                                 _ => "global-call",
                             };
-                            return Some(finding(node, b, file, Class::Welded, kind_input_sim(&b.kind), reason));
+                            // (no live `global_call` random entry today, but keep the
+                            // welded-random-is-never-demand invariant here too.)
+                            return Some(demote_welded_random(finding(node, b, file, Class::Welded, kind_input_sim(&b.kind), reason)));
                         }
                     }
                     None
@@ -852,18 +871,19 @@ fn match_node(node: Node, src: &[u8], file: &str, cat: &Catalog) -> Option<Findi
                                 let is = kind_input_sim(&b.kind);
                                 let reason = if class == Class::Seamed { "builtin-injected" } else { "builtin-inline" };
                                 let mut f = finding(node, b, file, class, is, reason);
-                                if class == Class::Welded {
-                                    if matches!(b.kind.as_str(), "clock" | "random")
-                                        && cosmetic_value_context(node, src)
-                                    {
+                                // clock keeps its position-sensitive filters (cosmetic
+                                // record / log-sink); random is demoted unconditionally
+                                // below via `demote_welded_random`.
+                                if class == Class::Welded && b.kind == "clock" {
+                                    if cosmetic_value_context(node, src) {
                                         f.demand = false;
                                         f.reason = format!("{reason}-cosmetic");
-                                    } else if b.kind == "clock" && clock_is_logsink(node, src) {
+                                    } else if clock_is_logsink(node, src) {
                                         f.demand = false;
                                         f.reason = format!("{reason}-logsink");
                                     }
                                 }
-                                return Some(f);
+                                return Some(demote_welded_random(f));
                             }
                             if b.form == "ns_call"
                                 && b.object.as_deref() == Some(obj_name)
@@ -885,7 +905,8 @@ fn match_node(node: Node, src: &[u8], file: &str, cat: &Catalog) -> Option<Findi
                                     }
                                     return Some(finding(node, b, file, Class::Welded, true, "exe-inline"));
                                 }
-                                return Some(finding(node, b, file, Class::Welded, kind_input_sim(&b.kind), "ns-call-leaf"));
+                                // crypto.random* etc. reach here; demoted to non-demand.
+                                return Some(demote_welded_random(finding(node, b, file, Class::Welded, kind_input_sim(&b.kind), "ns-call-leaf")));
                             }
                         }
                     }

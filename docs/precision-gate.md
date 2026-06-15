@@ -294,6 +294,26 @@ bare duration is now a record sink (both the `Date.now() - startedAt` read and t
 band (97% / ~88%+) rather than the raw 70%. The remaining residual on both corpora is
 timer-global noise, a smaller, named, lower-leverage class.
 
+## After the cosmetic-random lever (implemented 2026-06-15, H3-derived)
+
+Built in `src/classify.rs` (`demote_welded_random`, applied at every random call
+form — `Math.random` builtin_call, `crypto.*` ns_call, and the global-call
+invariant); `random_is_never_demand` test, suite green, output byte-deterministic.
+The rule: **welded randomness is never a substitution-demand point** — an RNG has
+no failure to inject (its only test concern is determinism, met by substituting a
+seeded/fake source), so every welded `random` leaf drops out of the demand subset
+regardless of position. Derived from the H3 eval, where randomness was **0/79
+genuine** across 4 independent third-party corpora ([`eval-gate.md`](eval-gate.md));
+human calibration confirmed random = cosmetic-by-nature.
+
+ceal: the single remaining random demand-weld demoted → **demand-welded 68 → 67**.
+The prior `Lever 1 (cosmetic)` only caught the 4 random in record/template/thunk
+positions; this catches the one in a control/value position too. Recall cost **0**
+(all random is COSMETIC). Class counts unchanged (`by_kind.random.welded` stays 5;
+`demand` flips only); fixture re-frozen by regenerating at the pinned `cdd31884`
+(so the delta is the lever alone, not corpus drift): demand subset 142→141, welded
+68→67, lens 0.4892→0.4855.
+
 **Known limitations (dormant — fresh-eye critique, 0 sites in either corpus).** The
 sink hop is precision-favoring with three latent recall holes, all requiring an
 unusual shape not present in cautilus/ceal: (W1) an elapsed duration fed directly to a
