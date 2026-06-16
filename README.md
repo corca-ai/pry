@@ -42,8 +42,31 @@ test" candidates. It fingerprints the repo's test files for mock + failure-sim
 → throw, …) and crosses each boundary's module token against that index. "untested"
 = no failure-mock fingerprint (a fast static filter), **not** proven-uncovered.
 Findings whose module can't be linked (a local wrapper/alias) go to a separate
-`unresolved` bucket, not the worklist — to be resolved by `.pryconfig.toml`
-declarations (forthcoming).
+`unresolved` bucket, not the worklist.
+
+### `.pryconfig.toml` (per-repo config)
+
+Drop a `.pryconfig.toml` at the analysis root to tune pry for your repo (committed,
+reviewed). v1 fields:
+
+```toml
+[scope]
+# Gitignore-style globs dropped from ALL analysis (map/floor/untested). Use this to
+# exclude tooling so `pry untested` shows production gaps only.
+exclude = ["scripts/**", "bin/**"]
+
+[untested]
+# Extra boundary kinds treated as failure-capable, on top of the default
+# network/subprocess/db/fileio. The catalog ships llm/slack but omits them from the
+# default set — opt in here. (An unknown kind is a hard error.)
+failure_capable_add = ["llm", "slack"]
+```
+
+**Exclusion precedence.** Four mechanisms, all *additive removals* (a file is analyzed
+only if none of them drops it): `.gitignore` → `.pryignore` → `--exclude <glob>` →
+`[scope].exclude`. `--exclude` and `[scope].exclude` are **positive-sense** (no leading
+`!`); `.pryignore` is the only one that supports gitignore `!` re-include. A malformed
+config is a hard error (never silently ignored).
 
 **Scope is your call.** `pry map` already honors `.gitignore` and drops
 conventional test files (`*.test.ts`, `*.spec.ts`, `*.vitest.ts`, `*.e2e.ts`,

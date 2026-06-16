@@ -34,14 +34,23 @@ UNRESOLVED **7→0**, candidates 140→133, worklist unchanged (111). **Provably
 preserved by construction); the idiom is ceal-specific, inert on OSS. Aligns with the
 operator's stated DI-over-middle-mock philosophy.
 
-**Next slice — `.pryconfig.toml` scope/ignore** (the genuinely useful config part): the
-worklist is 100 `scripts/` tooling + 11 production files on ceal; a per-repo config
-(`[ignore]` + the existing `.pryignore`) narrows to production — the dogfood's manual
-114→12, now declarative. Then: failure-capable override (llm/slack opt-in — disclosed
-gap), `catalog: seed | repo-config` provenance (field already in `untested` output,
-hardcoded `seed`), completeness-probe mode, own-repo LLM-judge triage. Non-negotiables
-if/when `[[boundary]]` extension lands: structured entries (not loose keywords),
-seed-vs-repo provenance.
+**Slice 3 — `.pryconfig.toml`: DONE** (`src/pryconfig.rs`, critique
+`charness-artifacts/critique/2026-06-16-pryconfig-code-critique.md`). The per-repo
+config home (supplements `.gitignore`/`.pryignore`/`--exclude`). v1 = two fields that
+paid off the dogfood: `[scope].exclude` (production filter — ceal worklist **111→11**
+by dropping `scripts/**`) and `[untested].failure_capable_add` (opt in llm/slack — the
+disclosed gap; surfaced **2 llm + 2 slack** previously-invisible ceal gaps, e.g.
+`slack-guardian-child.ts`, `image-generation-turn-bridge.ts`). Validated against
+catalog kinds (typo = hard error). 56 tests, clippy-clean. Critique: no Act-Before-Ship,
+folded spec/README/error-message honesty.
+
+**Next slice options** (operator's call): (a) **own-repo LLM-judge triage** — turn the
+ceal 11 production + 4 llm/slack into ~5-6 "real gap vs intentional best-effort" (the
+last mile; own-repo can use an LLM, no AC4), and/or write the failure tests for the
+confirmed gaps (`control-auto-commit.ts`, `slack-search-public.ts`, …). (b)
+**completeness-probe** (boundary-ish-but-uncatalogued → agent proposes config). (c)
+`.pryconfig.toml` `[[boundary]]` catalog extension + seed-vs-repo provenance (the two
+non-negotiables apply: structured entries not keywords; provenance-tag the output).
 
 ## Current State — 4 value-bridges down; pry = validated classifier, no measured payoff
 

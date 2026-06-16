@@ -16,7 +16,6 @@
 //! source blobs + test blobs in, worklist out; the binary shell does discovery/emit.
 
 use crate::classify::{Class, Finding};
-use crate::floor::FLOOR_KINDS;
 use regex::Regex;
 use std::collections::{HashMap, HashSet};
 use std::sync::LazyLock;
@@ -348,10 +347,14 @@ fn mock_hit(m: &str, kind: &str, idx: &HashSet<String>) -> bool {
 /// untested candidates (resolved module, no failure-mock anywhere) and `unresolved`
 /// = candidates whose module couldn't be linked (a `.pryconfig.toml` wrapper-alias
 /// target, slice 2) — kept distinct so the worklist stays low-false-alarm.
+/// `failure_capable` = the boundary kinds treated as failure-capable candidates
+/// (default `floor::FLOOR_KINDS`, optionally extended by `.pryconfig.toml`'s
+/// `[untested].failure_capable_add`).
 pub fn analyze_untested(
     findings: &[Finding],
     source_blobs: &HashMap<String, String>,
     test_files: &[(String, String)],
+    failure_capable: &[&str],
 ) -> (Vec<UntestedFinding>, Vec<UntestedFinding>, UntestedDiag) {
     // 1. the generous L-module failure-mock index: module -> some test mocks it AND
     //    simulates a failure (include_bare = the generous catalog).
@@ -373,7 +376,7 @@ pub fn analyze_untested(
     let (mut candidates, mut tested) = (0usize, 0usize);
 
     for f in findings {
-        if f.class != Class::Welded || !f.demand || !FLOOR_KINDS.contains(&f.kind.as_str()) {
+        if f.class != Class::Welded || !f.demand || !failure_capable.contains(&f.kind.as_str()) {
             continue;
         }
         candidates += 1;
@@ -439,6 +442,7 @@ pub fn analyze_untested(
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::floor::FLOOR_KINDS;
 
     fn binds(blob: &str) -> HashMap<String, String> {
         import_bindings(blob)
@@ -626,7 +630,7 @@ mod tests {
         let mut blobs = HashMap::new();
         blobs.insert("src/load.ts".to_string(), src.to_string());
         let findings = vec![finding("src/load.ts", 2, 13, "network")];
-        let (wl, unres, diag) = analyze_untested(&findings, &blobs, &[]);
+        let (wl, unres, diag) = analyze_untested(&findings, &blobs, &[], FLOOR_KINDS);
         assert_eq!(diag.candidates, 1);
         assert_eq!(unres.len(), 0);
         assert_eq!(wl.len(), 1, "global fetch with no test -> worklist");
@@ -645,7 +649,7 @@ mod tests {
             r#"vi.stubGlobal("fetch", vi.fn()); vi.mocked(fetch).mockRejectedValue(new Error("net"));"#
                 .to_string(),
         );
-        let (wl, _unres, diag) = analyze_untested(&findings, &blobs, &[test]);
+        let (wl, _unres, diag) = analyze_untested(&findings, &blobs, &[test], FLOOR_KINDS);
         assert_eq!(diag.tested, 1);
         assert_eq!(wl.len(), 0, "failure-tested -> off the worklist");
     }
@@ -656,7 +660,7 @@ mod tests {
         let mut blobs = HashMap::new();
         blobs.insert("src/load.ts".to_string(), src.to_string());
         let findings = vec![finding("src/load.ts", 3, 10, "network")];
-        let (wl, unres, _diag) = analyze_untested(&findings, &blobs, &[]);
+        let (wl, unres, _diag) = analyze_untested(&findings, &blobs, &[], FLOOR_KINDS);
         assert_eq!(wl.len(), 0, "unresolved must not pollute the confident worklist");
         assert_eq!(unres.len(), 1);
         assert_eq!(unres[0].module, UNRESOLVED);
@@ -673,7 +677,7 @@ mod tests {
         seamed.class = Class::Seamed;
         let mut nondemand = finding("src/a.ts", 1, 11, "network");
         nondemand.demand = false;
-        let (wl, unres, diag) = analyze_untested(&[clk, seamed, nondemand], &blobs, &[]);
+        let (wl, unres, diag) = analyze_untested(&[clk, seamed, nondemand], &blobs, &[], FLOOR_KINDS);
         assert_eq!(diag.candidates, 0);
         assert!(wl.is_empty() && unres.is_empty());
     }

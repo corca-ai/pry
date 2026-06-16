@@ -37,9 +37,9 @@ the worklist is a product feature, not eval scaffolding.
   simulates a failure. This is the low-false-alarm bias a worklist needs. L-import
   (tight) / strict catalog / the two-sided bracket were eval-measurement machinery
   (defensible *rate*); the product needs candidate generation, not the bracket.
-- **Failure-capable set = `floor::FLOOR_KINDS`** (single source of truth, already
-  `{network,subprocess,db,fileio}`). llm/slack stay omitted until the
-  `.pryconfig.toml` override (slice 2) — recorded as a known gap, not silently fixed.
+- **Failure-capable set = `floor::FLOOR_KINDS`** by default (single source of truth,
+  `{network,subprocess,db,fileio}`). llm/slack are omitted from the default — a repo
+  opts them in via `.pryconfig.toml` `[untested].failure_capable_add` (SHIPPED, below).
 - **Fingerprint catalogs are ported byte-faithfully** from `step1b.py` §3/§4.1/§4.2
   (already adversarially verified). The one negative-lookahead entry (`_FS_BARE`'s
   `(?![\w(])`) is refactored to a consuming-char equivalent `(?:[^\w(]|$)` —
@@ -57,11 +57,26 @@ the worklist is a product feature, not eval scaffolding.
   own findings rather than reading frozen corpus findings.)
 - Is craken-agents still ~clean (few untested, all tooling)?
 
+## `.pryconfig.toml` — SHIPPED (slice 3; `src/pryconfig.rs`)
+
+The per-repo config home (supplements `.gitignore`/`.pryignore`/`--exclude`, does not
+replace them). v1 carries the two fields the dogfood needed:
+- `[scope].exclude` — gitignore-style globs dropped from ALL analysis (the production
+  filter: ceal worklist 111→11 by excluding `scripts/**`).
+- `[untested].failure_capable_add` — opt in catalog kinds the default omits (llm/slack;
+  validated against catalog kinds — typo = hard error). On ceal this surfaced 2 llm +
+  2 slack previously-invisible gaps.
+
+NOTE: a DI-seam recognition fix (slice 2, `classify.rs`) supersedes the original
+"wrapper/alias declarations" config idea — ceal's UNRESOLVED were DI seams, not
+wrappers (see `docs/handoff.md`).
+
 ## Deferred Decisions
 
-- `.pryconfig.toml` (ignore + structured per-repo `[[boundary]]` + failure-capable
-  override + wrapper/alias declarations) — slice 2.
-- completeness-probe mode — slice 3. LLM-judge triage — slice 4.
+- `.pryconfig.toml` `[[boundary]]` catalog extension + seed-vs-repo provenance tag
+  (the two non-negotiables apply if/when this lands) — not yet built; findings still
+  emit hardcoded `catalog: "seed"`.
+- completeness-probe mode; own-repo LLM-judge triage.
 
 ## Non-Goals / Deliberately Not Doing
 

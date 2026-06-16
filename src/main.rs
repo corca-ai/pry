@@ -10,6 +10,7 @@ use anyhow::{Context, Result};
 use pry::catalog;
 use pry::classify::{self, Class, Finding};
 use pry::floor::{self, FloorFinding};
+use pry::pryconfig::{self, PryConfig};
 use pry::untested;
 use clap::{Parser, Subcommand};
 use serde_json::json;
@@ -158,22 +159,23 @@ fn build_walk(root: &Path, exclude: &[String]) -> Result<ignore::Walk> {
             // Guard two silent footguns: an empty glob (e.g. an unset `$VAR`) would
             // become the override line `!` = "ignore everything"; a user-leading `!`
             // would become `!!glob` = a no-op whitelist that excludes nothing. Both
-            // would otherwise exit 0 with a wrong result. `--exclude` is
-            // positive-sense; use a `.pryignore` file for gitignore-style re-include.
+            // would otherwise exit 0 with a wrong result. Both `--exclude` and
+            // `[scope].exclude` are positive-sense (the message stays source-agnostic
+            // since the two are merged); use a `.pryignore` file for `!` re-include.
             if g.is_empty() {
-                anyhow::bail!("--exclude glob is empty");
+                anyhow::bail!("exclude glob is empty (--exclude / [scope].exclude)");
             }
             if g.starts_with('!') {
                 anyhow::bail!(
-                    "--exclude glob must be positive (no leading '!'): {g:?} — use a \
-                     .pryignore file for gitignore-style re-include"
+                    "exclude glob must be positive (no leading '!'): {g:?} — `--exclude` and \
+                     `[scope].exclude` are positive-sense; use a .pryignore file for re-include"
                 );
             }
             // `!`-prefixed override = ignore this glob. With no whitelist glob in
             // the set, the `ignore` crate keeps every non-matching file, so this is
             // a pure additional ignore (not a whitelist that would drop the rest).
             ob.add(&format!("!{g}"))
-                .with_context(|| format!("invalid --exclude glob: {g}"))?;
+                .with_context(|| format!("invalid exclude glob: {g}"))?;
         }
         wb.overrides(ob.build().context("building --exclude override set")?);
     }
@@ -232,6 +234,35 @@ fn discover_split(root: &Path, exclude: &[String]) -> Result<(Vec<PathBuf>, Vec<
     Ok((sources, tests))
 }
 
+/// Load `.pryconfig.toml` for `root` and merge its `[scope].exclude` with the CLI
+/// `--exclude` globs (both positive-sense). A malformed config is a hard error.
+fn resolve_config_and_exclude(root: &Path, cli_exclude: &[String]) -> Result<(PryConfig, Vec<String>)> {
+    let cfg = pryconfig::load(root)?;
+    let mut exclude = cli_exclude.to_vec();
+    exclude.extend(cfg.exclude.iter().cloned());
+    Ok((cfg, exclude))
+}
+
+/// The effective `untested` failure-capable kinds: `FLOOR_KINDS` plus the validated
+/// `[untested].failure_capable_add` (de-duplicated, deterministic). An add of a kind
+/// the catalog doesn't know is a hard error (typo protection).
+fn effective_failure_capable<'a>(cfg: &'a PryConfig, cat: &catalog::Catalog) -> Result<Vec<&'a str>> {
+    let known: std::collections::BTreeSet<&str> = cat.boundary.iter().map(|b| b.kind.as_str()).collect();
+    let mut kinds: Vec<&str> = floor::FLOOR_KINDS.to_vec();
+    for k in &cfg.failure_capable_add {
+        if !known.contains(k.as_str()) {
+            anyhow::bail!(
+                "[untested].failure_capable_add: unknown kind {k:?} (known catalog kinds: {})",
+                known.iter().copied().collect::<Vec<_>>().join(", ")
+            );
+        }
+        if !kinds.contains(&k.as_str()) {
+            kinds.push(k.as_str());
+        }
+    }
+    Ok(kinds)
+}
+
 fn run_map(root: &Path, summary_only: bool, exclude: &[String]) -> Result<()> {
     let cat = catalog::load();
     let language: tree_sitter::Language = tree_sitter_typescript::LANGUAGE_TYPESCRIPT.into();
@@ -240,7 +271,8 @@ fn run_map(root: &Path, summary_only: bool, exclude: &[String]) -> Result<()> {
         .set_language(&language)
         .context("set tree-sitter-typescript language")?;
 
-    let files = discover(root, exclude)?;
+    let (_cfg, exclude) = resolve_config_and_exclude(root, exclude)?;
+    let files = discover(root, &exclude)?;
     let mut findings: Vec<Finding> = Vec::new();
     for file in &files {
         let src = match std::fs::read(file) {
@@ -305,7 +337,8 @@ fn run_floor(root: &Path, exclude: &[String]) -> Result<()> {
         .set_language(&language)
         .context("set tree-sitter-typescript language")?;
 
-    let files = discover(root, exclude)?;
+    let (_cfg, exclude) = resolve_config_and_exclude(root, exclude)?;
+    let files = discover(root, &exclude)?;
     let mut findings: Vec<FloorFinding> = Vec::new();
     for file in &files {
         let src = match std::fs::read(file) {
@@ -366,7 +399,9 @@ fn run_untested(root: &Path, exclude: &[String]) -> Result<()> {
         .set_language(&language)
         .context("set tree-sitter-typescript language")?;
 
-    let (sources, tests) = discover_split(root, exclude)?;
+    let (cfg, exclude) = resolve_config_and_exclude(root, exclude)?;
+    let failure_capable = effective_failure_capable(&cfg, &cat)?;
+    let (sources, tests) = discover_split(root, &exclude)?;
 
     // classify the source tree, keeping each file's text for the call-site re-read
     // that resolves a finding's module token.
@@ -394,7 +429,7 @@ fn run_untested(root: &Path, exclude: &[String]) -> Result<()> {
     }
 
     let (worklist, unresolved, diag) =
-        untested::analyze_untested(&findings, &source_blobs, &test_files);
+        untested::analyze_untested(&findings, &source_blobs, &test_files, &failure_capable);
 
     let row = |f: &untested::UntestedFinding| {
         json!({
@@ -429,7 +464,12 @@ fn run_untested(root: &Path, exclude: &[String]) -> Result<()> {
             "untested": diag.untested,
             "unresolved": diag.unresolved,
             "untested_by_kind": by_kind,
-            "failure_capable_kinds": floor::FLOOR_KINDS,
+            "failure_capable_kinds": failure_capable,
+            "config": {
+                "loaded_from": cfg.loaded_from,
+                "exclude_added": cfg.exclude.len(),
+                "failure_capable_add": cfg.failure_capable_add,
+            },
         },
     });
     println!("{}", serde_json::to_string_pretty(&out)?);

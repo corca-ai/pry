@@ -6,6 +6,7 @@
 pub mod catalog;
 pub mod classify;
 pub mod floor;
+pub mod pryconfig;
 pub mod untested;
 
 /// Convenience: parse a TS source string and classify it against the embedded
