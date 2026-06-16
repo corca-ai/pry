@@ -1,5 +1,16 @@
 # Step-1b failure-test pre-registration — bounded fresh-eye SPEC critique
 
+> **POST-CRITIQUE AMENDMENT (2026-06-16, operator decision, still before any
+> number).** After this critique, the operator chose to **drop the comparison
+> from the gate**: the verdict is now the **absolute `wd` failure-tested rate**
+> (POSITIVE low / OVERSTATED high), and the welded-vs-rest contrast is **reported
+> context only** (weld/demand-specificity caveat), not pass/fail. This directly
+> resolves C2 (no contrast to mis-label) and C3 (no contrast-reachability gate),
+> and retires the YIELD-ONLY *verdict* (its meaning survives as POSITIVE's
+> reported caveat). The C4 under-count fixes (binding-precedence, per-arm
+> UNRESOLVED + abort, permissive `[BRACED]` matcher) still stand and matter more
+> now that the rate IS the verdict. See prereg §0/§5/§6.
+
 Slice: Next Session Step-1b (`docs/handoff.md`) — for each welded failure-capable
 boundary, is its *failure* simulated by a test? Pending change (pre-impl lock-in):
 `harness/fixtures/eval/preregistration-step1b.md` (frozen metric + go/kill) +

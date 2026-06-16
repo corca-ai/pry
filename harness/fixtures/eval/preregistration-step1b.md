@@ -45,27 +45,31 @@ Step-1b outcome) shows the seamed arm cannot carry a matched contrast:
 | **rest** (`seamed ∪ wnd`) | 1700 | 15/25 |
 
 A `wd`-vs-**seamed** matched ratio is **structurally underpowered** (138 findings,
-one eligible repo): its CI lower bound cannot clear 1.0, so binding POSITIVE on it
-would make POSITIVE *unreachable* — a rigged gate, forbidden by this repo's
-reachability discipline (Step-1 explicitly checked "the bar was reachable"). So,
-**exactly as `preregistration-coverage.md` did** (seamed n=474 → "rest" primary):
+one eligible repo): its CI lower bound cannot clear 1.0, so binding the verdict on
+it would make a positive *unreachable* — a rigged gate, forbidden by this repo's
+reachability discipline (Step-1 explicitly checked "the bar was reachable").
 
-- The **binding contrast control = `rest`** (`seamed ∪ welded-not-demand`,
-  well-powered). `wd`-vs-`seamed` (the injectability bit) and `wd`-vs-`wnd`
-  (demand's marginal contribution) are **reported secondaries**, with `seamed`
-  flagged underpowered.
-- A **base-rate-ceiling contingency** is added (§5): failure-simulation tests are
-  rare, so the untested base rate is high, which compresses any risk ratio toward
-  1.0. When the ceiling makes the ≥1.5 risk-ratio bar unreachable, the verdict
-  **leads with the odds ratio + rate difference** (the same contingency
-  `preregistration-coverage.md` §5 pre-registered).
-- A **YIELD-ONLY** outcome is added (§6): dense untested targets exist but the
-  contrast is flat — the recommender has real targets that `welded` does not
-  *differentiate* from any boundary (Step-1's demand-null, in a new guise).
+**AMENDED 2026-06-16 (operator decision, still BEFORE any number — the simpler,
+more honest gate).** Rather than bind the verdict on *any* comparison, the verdict
+is now the **ABSOLUTE failure-tested rate of the `wd` arm**, read two ways
+(POSITIVE = low / OVERSTATED = high; §6). The welded-vs-other **comparison is
+REPORTED CONTEXT, not a gate.** Why this is better, not weaker:
 
-These adjustments stay inside the three-way / two-sided gate shape (operator-
-ratified 2026-06-16) and only make it **reachable** and **honest**. They are
-frozen here, before any failure-test number exists.
+- It answers the **product** question directly ("are there dense untested failure
+  targets the recommender can point at?") — a rate, fully powered (`wd` N=1727).
+- It **removes two problems** a binding comparison carried: (i) the only
+  well-powered control, `rest`, is ~92% `welded-not-demand`, so a binding contrast
+  would really be a *demand* test (demand already died in Step-1, 0.94) — not the
+  weld/seam claim; (ii) failure-tests are rare → near-ceiling base rates →
+  the contrast's CI-lo may be unreachable regardless of reality (Open Item §7.5).
+- **Comparisons are still computed and reported** (`wd` vs `rest`, `seamed`,
+  `wnd`; matched ratio + odds ratio + rate difference + base-rate ceiling, the
+  full §5 machinery) — as **honest context** on whether the untested-ness is
+  *weld-specific*, NOT as a pass/fail. The `seamed` arm is flagged underpowered.
+
+So the headline is a **rate with a two-sided reading**; the comparison tells us
+whether `welded`/`demand` *differentiates* the targets (a reported caveat, not a
+verdict). Frozen here, before any failure-test number exists.
 
 ## 1. Corpus, split, data source — REUSED from E9/Step-1, no new mining
 
@@ -253,117 +257,105 @@ specifically (only that `T` mocks `M` and simulates *a* failure) → it
 
 ## 5. The metric machinery — REUSED from coverage.py, keyed on `failure_untested`
 
-- **`failure_tested_rate(arm)`** per arm, under L-import and L-module, with per-kind
-  breakdown (network/subprocess/db) — the two-way headline.
-- **matched `failure_untested` ratio** = (`wd` untested rate)/(control untested
-  rate), direct standardization over `(file-churn tercile × site-size tercile)`
-  strata (`ENRICHMENT_MIN_STRATUM`=5 per arm; dropped strata logged), repo-cluster
-  bootstrap 95% CI (`ENRICHMENT_BOOTSTRAP_B`=2000, `SEED`=0). Reuses
-  `coverage.py`'s `matched` / `boot_ci` / `per_repo` verbatim, keyed on the new
-  outcome. Primary control = `rest`; reported = `seamed`, `wnd`.
-- **Companion effect sizes (pre-registered):** matched **odds ratio** + **raw rate
-  difference**, reported next to the risk ratio (robust to the high-untested
-  base-rate compression, §0).
-- **Base-rate ceiling (pre-registered contingency, from coverage.py §5):** max
-  achievable risk ratio = `1 / rest_untested_rate`. If that `< 1.5` (rest base
-  rate `> ~0.67`, expected because failure-tests are rare), the **risk-ratio GO
-  bar is structurally unreachable**; the contrast verdict then **leads with the
-  odds ratio + rate difference** (`OR ≥ ~1.5` with CI-lo>1 AND rate-diff>0 as the
-  GO-equivalent), NOT a forced FALSIFIED. Set blind, before any rate is seen.
+- **THE VERDICT METRIC — `failure_tested_rate(wd)`** per arm, under L-import and
+  L-module, with per-kind breakdown (network/subprocess/db). This absolute rate is
+  the **gate** (§6, two-sided). Fully powered (`wd` N=1727).
+- **REPORTED CONTEXT (not a gate — §0 amendment): matched `failure_untested`
+  ratio** = (`wd` untested rate)/(control untested rate), direct standardization
+  over `(file-churn tercile × site-size tercile)` strata (`ENRICHMENT_MIN_STRATUM`
+  =5 per arm; dropped strata logged), repo-cluster bootstrap 95% CI
+  (`ENRICHMENT_BOOTSTRAP_B`=2000, `SEED`=0). Reuses `coverage.py`'s `matched` /
+  `boot_ci` / `per_repo` verbatim, keyed on the new outcome. Controls reported:
+  `rest`, `seamed` (underpowered), `wnd`. **Tells whether the untested-ness is
+  weld/demand-specific — a caveat on the verdict, not the verdict.**
+- **Companion effect sizes (reported):** matched **odds ratio** + **raw rate
+  difference** next to the risk ratio (robust to high-untested base-rate
+  compression). The **base-rate ceiling** (`1 / rest_untested_rate`) is reported so
+  a compressed risk ratio is read with the odds ratio, not over-interpreted.
 - **dev vs heldout reported separately.** Nothing is tuned on dev — every
   threshold is frozen here.
-- **Simpson guard** on the contrast (`ENRICHMENT_PERREPO_MIN_FINDINGS`=20,
+- **Simpson guard** on the reported contrast (`ENRICHMENT_PERREPO_MIN_FINDINGS`=20,
   majority `ENRICHMENT_PERREPO_MAJORITY`=0.60).
 - **UNRESOLVED fraction reported PER ARM** (`wd`/`rest`/`seamed`). The §3 abort
   (`unresolved_fraction(wd) > STEP1B_UNRESOLVED_ABORT`=0.30 → `wd` number
   UNCOMPUTABLE, never POSITIVE) is checked **before** any verdict is read.
 
-## 6. The verdict — three-way / two-sided (set blind, before any flag is seen)
+## 6. The verdict — ABSOLUTE rate, two-sided (set blind, before any flag is seen)
 
-Two frozen rate thresholds (`STEP1B_TESTED_LOW`=0.20, `STEP1B_TESTED_HIGH`=0.40),
-each applied under the linkage that makes it **conservative**, plus the reused
-contrast floor. Computed on the `wd` arm.
+The verdict is the **`wd` failure-tested rate** against two frozen thresholds
+(`STEP1B_TESTED_LOW`=0.20, `STEP1B_TESTED_HIGH`=0.40), each read under the linkage
+that makes it **conservative** (opposite linkages — see end of section). **No
+comparison gates the verdict** (§0 amendment); the §5 contrast is reported as a
+weld/demand-specificity caveat only.
 
-- **POSITIVE (untested-failure wedge real — targeting, NOT weld/seam
-  classification):** `failure_tested_rate(wd, L-module) ≤ STEP1B_TESTED_LOW`
-  (≤20% even under the generous linkage — welded failures are genuinely mostly
-  untested) **AND** the `wd`-vs-`rest` contrast is positive on the effect-size
-  verdict: matched ratio `≥ 1.5` with CI-lo>1 **if the base-rate ceiling allows**,
-  ELSE `OR ≥ 1.5` with CI-lo>1 AND rate-diff>0. Strengthened-if-reported: also
-  positive vs `seamed` (underpowered) / vs `wnd`. Must survive the
-  drop-UNRESOLVED-`wd` re-cut (§3) and the §3 abort.
-  **What POSITIVE does and does NOT license (truth-in-labeling, C2).** The binding
-  control `rest` is ~92% `welded-not-demand` (1562 of 1700), so `wd`-vs-`rest` is
-  overwhelmingly a **demand** contrast. POSITIVE therefore licenses only a
-  *demand-differentiated untested-failure targeting* claim — "pry's surfaced
-  (demand-weld) population sits in more-failure-untested code than the rest." It
-  does **NOT** validate pry's *weld-vs-seam classification* (the injectability
-  bit), which lives only in the disclosed-underpowered `wd`-vs-`seamed` secondary
-  (n=138, 1 eligible repo). Note this also subsumes the `wd≈wnd` guard: because
-  `rest` is ~92% `wnd`, the binding contrast **cannot read GO on a demand-null**
-  (if `wd≈wnd` then `wd`-vs-`rest` is flat → YIELD-ONLY by construction).
+- **POSITIVE (dense untested-failure targets — a recommender wedge by yield):**
+  `failure_tested_rate(wd, L-module) ≤ STEP1B_TESTED_LOW` — ≤20% of welded FC
+  failures are mock-tested **even under the generous (over-crediting) linkage**, so
+  the recommender has dense, real untested targets. Must survive the
+  drop-UNRESOLVED-`wd` re-cut (§3) and clear the §3 abort.
+  **Reported caveat (not a gate):** the §5 `wd`-vs-`rest` contrast says whether the
+  targets are *weld/demand-specific*. If that contrast is **flat** (matched ≤
+  `ENRICHMENT_FALSIFIER`=1.1 / OR≤~1.1 / CI-lo≤1), the targets are real but **not
+  differentiated** from any FC boundary — a plain boundary inventory would surface
+  them too (Step-1's demand-null, in a new guise). Reported alongside POSITIVE, it
+  does not change the verdict; it scopes the *claim* to yield, not classification.
 - **OVERSTATED (untestability claim too strong):**
-  `failure_tested_rate(wd, L-import) ≥ STEP1B_TESTED_HIGH` (≥40% even under the
-  strict linkage — welded failures ARE frequently mock-tested without a code
-  seam), computed on the **strict deciding catalog** = (a)∧(b) **excluding the
-  bare-assertion family** (§4.2 `DESCRIPTIVE-ONLY`). Must survive the strict
-  (a)∧(b) re-pairing (§4.4). Recorded honestly: pry's "welded = can't inject a
-  failure" overstates real-world untestability; the recommender must down-rank
-  already-failure-tested welds.
-- **YIELD-ONLY (targets real, weld undifferentiated):**
-  `failure_tested_rate(wd, L-module) ≤ STEP1B_TESTED_LOW` BUT the `wd`-vs-`rest`
-  contrast is flat (matched ≤ `ENRICHMENT_FALSIFIER`=1.1 / OR≤~1.1, or CI-lo≤1).
-  Dense untested failure paths exist (the recommender has real targets) but
-  `welded`/`demand` does not distinguish them from any FC boundary — Step-1's
-  demand-null in a new guise. A *partial* product positive (yield without
-  differentiation), reported as such.
+  `failure_tested_rate(wd, L-import) ≥ STEP1B_TESTED_HIGH` — ≥40% of welded FC
+  failures are mock-tested **even under the strict (under-crediting) linkage** and
+  the **strict deciding catalog** = (a)∧(b) **excluding the bare-assertion family**
+  (§4.2 `DESCRIPTIVE-ONLY`). Must survive the strict (a)∧(b) re-pairing (§4.4).
+  Recorded honestly: pry's "welded = can't inject a failure" overstates real-world
+  untestability (module-mocking tests these failures without a code seam); the
+  recommender must down-rank already-failure-tested welds. This is the
+  **informative / hard-to-reach** direction — failure-tests are rare, so a high
+  rate is a genuine surprise, not a base-rate artifact.
 - **WEAK / inconclusive:** `STEP1B_TESTED_LOW < failure_tested_rate(wd) <
-  STEP1B_TESTED_HIGH`, or any mixed/underpowered combination, or `wd` UNCOMPUTABLE
-  (§3 abort).
+  STEP1B_TESTED_HIGH`, or `wd` UNCOMPUTABLE (§3 abort).
 
 Rationale for the thresholds: 0.40 = "failure-testing is *common*, not the
 exception" → the untestability framing cannot stand; 0.20 = "failure-testing is
-the *exception*" → the recommender has dense real targets. The contrast floor (1.5
-/ 1.1) is reused from E9/Step-1 by symmetry — no free parameter is fit to this
-outcome. **Opposite linkages** on the two thresholds (L-module for POSITIVE,
-L-import for OVERSTATED; `L-module ≥ L-import` always) make each direction
-conservative — and **deliberately widen the WEAK band** (a wider "we don't know"
-is the honest cost of double-conservatism). POSITIVE and OVERSTATED are provably
-**mutually exclusive** (both firing would need `L-import ≥ 0.40` AND `L-module ≤
-0.20`, contradicting `L-module ≥ L-import`), so the gate cannot self-contradict;
-the price is that a single-linkage-clear case can land WEAK.
+the *exception*" → the recommender has dense real targets. **Opposite linkages**
+(L-module for POSITIVE, L-import for OVERSTATED; `L-module ≥ L-import` always) make
+each direction conservative, and **deliberately widen the WEAK band** (a wider "we
+don't know" is the honest cost of double-conservatism). POSITIVE and OVERSTATED
+are provably **mutually exclusive** (both would need `L-import ≥ 0.40` AND
+`L-module ≤ 0.20`, contradicting `L-module ≥ L-import`), so the gate cannot
+self-contradict. **Honest read of POSITIVE:** because failure-tests are rare, a
+low `wd` rate is *expected*; POSITIVE confirms the recommender has targets (a real
+product fact) but is the *less surprising* outcome — the reported contrast + the
+OVERSTATED arm carry the discriminating information.
 
 ## 7. What this measures — wedge EXISTENCE, not product value (the real point)
 
 Step-1b tests whether a **point-of-use recommender wedge EXISTS** — i.e. whether
-welded FC failure paths are *differentially untested*. It does **NOT** establish
+welded FC failure paths are actually untested. It does **NOT** establish
 recommender *product value*: a static co-occurrence rate cannot show that adding a
 recommended fault-test catches real defects (E9, dead) or that these untested
 paths *matter* (the metric is explicitly one-directional, §8: untested ≠ buggy).
-The earned claim stops at wedge existence.
-- POSITIVE → the wedge exists: "demand-welded FC boundary whose failure is
-  untested → candidate to add a fault test / introduce a seam; already
+The earned claim stops at wedge existence (yield), with the §5 contrast as the
+weld/demand-specificity caveat.
+- POSITIVE → the wedge exists by yield: "demand-welded FC boundary whose failure
+  is untested → candidate to add a fault test / introduce a seam; already
   failure-tested → lower priority." A *targeting* signal, not a defect or
-  product-value claim.
+  product-value claim — and **if the reported contrast is flat, the targets are
+  not weld/demand-differentiated** (a plain FC-boundary inventory would surface
+  them too; reported, not gated).
 - OVERSTATED → no wedge in this framing: module-mocking already tests these
   failures, so "untestable" is the wrong pitch; record honestly.
-- YIELD-ONLY → targets exist but `welded`/`demand` does not rank them above a
-  plain FC-boundary inventory.
 Either way the result is reportable and directly shapes whether the ratchet-vs-
 ship-as-is decision (`docs/handoff.md` Discuss) has a recommender wedge under it.
 
 ## 7.5 Open Items (recorded, deliberately NOT resolved here)
 
-- **OR-contrast reachability (critique C3).** With near-ceiling untested base
-  rates (failure-tests are rare), the odds-ratio's tail cells are small, so the
-  repo-cluster bootstrap CI-lower may not clear 1.0 even at a large OR point
-  estimate — making POSITIVE's contrast clause possibly *unreachable*. This is
-  **recorded, NOT pre-rescued.** A decorative GO clause only ever *costs* pry a
-  POSITIVE (the gate lands YIELD-ONLY/WEAK), it never *manufactures* one — so
-  loosening it now to make POSITIVE easier would itself rig toward POSITIVE. The
-  closeout will report the observed base rates + whether CI-lo>1 was reachable;
-  if POSITIVE was blocked solely by OR power (not by the data), that is stated as
-  an under-power caveat, not a different verdict.
+- **Reported-contrast reachability (critique C3).** With near-ceiling untested
+  base rates (failure-tests are rare), the odds-ratio's tail cells are small, so
+  the repo-cluster bootstrap CI-lower may not clear 1.0 even at a large OR point
+  estimate. Post-amendment (§0) the contrast no longer gates the verdict, so this
+  only affects how confidently the **weld/demand-specificity caveat** can be
+  stated — not whether POSITIVE/OVERSTATED is reached. **Recorded, NOT
+  pre-rescued.** The closeout reports the observed base rates + whether the
+  contrast's CI-lo>1 was reachable; if not, the specificity caveat is reported as
+  "underpowered to determine," not forced either way.
 
 ## 8. Standing non-claims (restated at closeout)
 

@@ -247,22 +247,28 @@ COVERAGE_RESULT_PATH = EVAL_DIR / "coverage_result.json"
 # because the Floor block is defined below this one. test_step1b asserts equality.
 STEP1B_FAILURE_CAPABLE_KINDS = ("network", "subprocess", "db", "fileio")
 
+# AMENDED 2026-06-16 (operator decision, still BEFORE any number): the VERDICT is
+# the ABSOLUTE wd failure-TESTED rate, two-sided; NO comparison gates it. The
+# welded-vs-rest contrast (below) is REPORTED CONTEXT (weld/demand-specificity
+# caveat), not a pass/fail. This removes the demand-confound + the contrast-
+# reachability problem the spec-critique surfaced. Prereg §0/§5/§6.
 # Two-way ABSOLUTE-rate verdict thresholds on the wd failure-TESTED rate, each
 # applied under the linkage that makes it CONSERVATIVE (POSITIVE uses the generous
 # L-module count; OVERSTATED uses the strict L-import count) — see prereg §6.
-STEP1B_TESTED_LOW = 0.20    # wd failure-tested <= this (L-module) => welded
-                            # failures genuinely mostly untested (POSITIVE-leaning)
+STEP1B_TESTED_LOW = 0.20    # wd failure-tested <= this (L-module) => dense untested
+                            # targets (POSITIVE: recommender wedge by yield)
 STEP1B_TESTED_HIGH = 0.40   # wd failure-tested >= this (L-import) => failure-
                             # testing is COMMON => "welded=untestable" OVERSTATED
 
-# The CONTRAST clause reuses the E9/Step-1 matched floor by symmetry (no new
-# free parameter). On `failure_untested` (oriented wd-more-untested => ratio>1).
+# REPORTED-CONTEXT contrast floor (NOT a gate): reuses the E9/Step-1 matched floor
+# by symmetry to label whether the reported wd-vs-rest `failure_untested` contrast
+# is weld/demand-specific (>=1.5) or flat (<=1.1). A flat contrast => POSITIVE's
+# targets are real but not weld-differentiated (caveat, not a different verdict).
 STEP1B_CONTRAST_GO = ENRICHMENT_GO_FLOOR    # 1.5: wd >=1.5x more failure-untested
-STEP1B_CONTRAST_FLAT = ENRICHMENT_FALSIFIER  # 1.1: flat contrast => YIELD-ONLY/WEAK
-# Base-rate-ceiling contingency (preregistration-coverage.md §5): failure-tests are
-# rare => high untested base rate => risk ratio compressed. When max achievable
-# ratio (1/rest_untested_rate) < STEP1B_CONTRAST_GO, the contrast verdict LEADS
-# with the odds ratio + rate difference instead of a forced FALSIFIED.
+STEP1B_CONTRAST_FLAT = ENRICHMENT_FALSIFIER  # 1.1: flat contrast (reported caveat)
+# Base-rate ceiling (preregistration-coverage.md §5): failure-tests are rare =>
+# high untested base rate => risk ratio compressed; the reported contrast is read
+# with the odds ratio when max achievable ratio (1/rest_untested_rate) < 1.5.
 
 # Honesty guards added by the spec-critique (preregistration-step1b.md §3/§4.2):
 # (1) module extraction can leave a boundary UNRESOLVED -> conservatively untested
