@@ -1,0 +1,472 @@
+{
+  "reconciled": [
+    {
+      "id": "budibase:packages/cli/src/hosting/init.ts:17",
+      "rule": "FLOOR-2",
+      "repo": "budibase",
+      "catch_empty": false,
+      "votes": [
+        "BENIGN-SWALLOW",
+        "FALSE-FLAG",
+        "BENIGN-SWALLOW"
+      ],
+      "label": "BENIGN-SWALLOW",
+      "consequence": null
+    },
+    {
+      "id": "budibase:packages/server/src/sdk/workspace/ai/configs/litellm.ts:632",
+      "rule": "FLOOR-2",
+      "repo": "budibase",
+      "catch_empty": false,
+      "votes": [
+        "BENIGN-SWALLOW",
+        "BENIGN-SWALLOW",
+        "BENIGN-SWALLOW"
+      ],
+      "label": "BENIGN-SWALLOW",
+      "consequence": null
+    },
+    {
+      "id": "docmost:apps/server/src/integrations/import/services/import-attachment.service.ts:310",
+      "rule": "FLOOR-2",
+      "repo": "docmost",
+      "catch_empty": false,
+      "votes": [
+        "BENIGN-SWALLOW",
+        "FALSE-FLAG",
+        "BENIGN-SWALLOW"
+      ],
+      "label": "BENIGN-SWALLOW",
+      "consequence": null
+    },
+    {
+      "id": "flowise:packages/components/evaluation/EvaluationRunner.ts:144",
+      "rule": "FLOOR-2",
+      "repo": "flowise",
+      "catch_empty": false,
+      "votes": [
+        "FALSE-FLAG",
+        "FALSE-FLAG",
+        "FALSE-FLAG"
+      ],
+      "label": "FALSE-FLAG",
+      "consequence": null
+    },
+    {
+      "id": "karakeep:packages/trpc/routers/admin.ts:669",
+      "rule": "FLOOR-2",
+      "repo": "karakeep",
+      "catch_empty": false,
+      "votes": [
+        "FALSE-FLAG",
+        "FALSE-FLAG",
+        "FALSE-FLAG"
+      ],
+      "label": "FALSE-FLAG",
+      "consequence": null
+    },
+    {
+      "id": "librechat:packages/api/src/endpoints/models.ts:217",
+      "rule": "FLOOR-2",
+      "repo": "librechat",
+      "catch_empty": false,
+      "votes": [
+        "BENIGN-SWALLOW",
+        "BENIGN-SWALLOW",
+        "BENIGN-SWALLOW"
+      ],
+      "label": "BENIGN-SWALLOW",
+      "consequence": null
+    },
+    {
+      "id": "medusa:scripts/deps-analyze/analyze-dependencies.js:98",
+      "rule": "FLOOR-2",
+      "repo": "medusa",
+      "catch_empty": false,
+      "votes": [
+        "BENIGN-SWALLOW",
+        "FALSE-FLAG",
+        "BENIGN-SWALLOW"
+      ],
+      "label": "BENIGN-SWALLOW",
+      "consequence": null
+    },
+    {
+      "id": "medusa:www/apps/api-reference/scripts/generate-specs-manifest.mjs:29",
+      "rule": "FLOOR-2",
+      "repo": "medusa",
+      "catch_empty": false,
+      "votes": [
+        "BENIGN-SWALLOW",
+        "BENIGN-SWALLOW",
+        "BENIGN-SWALLOW"
+      ],
+      "label": "BENIGN-SWALLOW",
+      "consequence": null
+    },
+    {
+      "id": "medusa:www/apps/api-reference/scripts/generate-specs-manifest.mjs:77",
+      "rule": "FLOOR-2",
+      "repo": "medusa",
+      "catch_empty": false,
+      "votes": [
+        "BENIGN-SWALLOW",
+        "BENIGN-SWALLOW",
+        "BENIGN-SWALLOW"
+      ],
+      "label": "BENIGN-SWALLOW",
+      "consequence": null
+    },
+    {
+      "id": "n8n:packages/@n8n/computer-use/src/gateway-client.ts:164",
+      "rule": "FLOOR-2",
+      "repo": "n8n",
+      "catch_empty": false,
+      "votes": [
+        "BENIGN-SWALLOW",
+        "BENIGN-SWALLOW",
+        "BENIGN-SWALLOW"
+      ],
+      "label": "BENIGN-SWALLOW",
+      "consequence": null
+    },
+    {
+      "id": "n8n:packages/@n8n/instance-ai/evaluations/cli/build-mcp-manifest.ts:566",
+      "rule": "FLOOR-2",
+      "repo": "n8n",
+      "catch_empty": false,
+      "votes": [
+        "BENIGN-SWALLOW",
+        "BENIGN-SWALLOW",
+        "BENIGN-SWALLOW"
+      ],
+      "label": "BENIGN-SWALLOW",
+      "consequence": null
+    },
+    {
+      "id": "n8n:packages/@n8n/node-cli/src/utils/git.ts:14",
+      "rule": "FLOOR-2",
+      "repo": "n8n",
+      "catch_empty": false,
+      "votes": [
+        "BENIGN-SWALLOW",
+        "BENIGN-SWALLOW",
+        "BENIGN-SWALLOW"
+      ],
+      "label": "BENIGN-SWALLOW",
+      "consequence": null
+    },
+    {
+      "id": "n8n:packages/nodes-base/credentials/common/aws/system-credentials-utils.ts:236",
+      "rule": "FLOOR-2",
+      "repo": "n8n",
+      "catch_empty": false,
+      "votes": [
+        "BENIGN-SWALLOW",
+        "BENIGN-SWALLOW",
+        "BENIGN-SWALLOW"
+      ],
+      "label": "BENIGN-SWALLOW",
+      "consequence": null
+    },
+    {
+      "id": "n8n:packages/testing/containers/services/proxy.ts:205",
+      "rule": "FLOOR-2",
+      "repo": "n8n",
+      "catch_empty": false,
+      "votes": [
+        "BENIGN-SWALLOW",
+        "BENIGN-SWALLOW",
+        "BENIGN-SWALLOW"
+      ],
+      "label": "BENIGN-SWALLOW",
+      "consequence": null
+    },
+    {
+      "id": "n8n:packages/testing/performance/scripts/extract-expressions.mjs:81",
+      "rule": "FLOOR-2",
+      "repo": "n8n",
+      "catch_empty": false,
+      "votes": [
+        "BENIGN-SWALLOW",
+        "FALSE-FLAG",
+        "BENIGN-SWALLOW"
+      ],
+      "label": "BENIGN-SWALLOW",
+      "consequence": null
+    },
+    {
+      "id": "nocodb:packages/nocodb/build-utils/registerIntegrations.js:116",
+      "rule": "FLOOR-2",
+      "repo": "nocodb",
+      "catch_empty": false,
+      "votes": [
+        "FALSE-FLAG",
+        "FALSE-FLAG",
+        "FALSE-FLAG"
+      ],
+      "label": "FALSE-FLAG",
+      "consequence": null
+    },
+    {
+      "id": "outline:plugins/webhooks/server/tasks/DeliverWebhookTask.ts:809",
+      "rule": "FLOOR-2",
+      "repo": "outline",
+      "catch_empty": false,
+      "votes": [
+        "FALSE-FLAG",
+        "FALSE-FLAG",
+        "FALSE-FLAG"
+      ],
+      "label": "FALSE-FLAG",
+      "consequence": null
+    },
+    {
+      "id": "payload:packages/payload/src/bin/generateTypes.ts:83",
+      "rule": "FLOOR-2",
+      "repo": "payload",
+      "catch_empty": false,
+      "votes": [
+        "BENIGN-SWALLOW",
+        "BENIGN-SWALLOW",
+        "BENIGN-SWALLOW"
+      ],
+      "label": "BENIGN-SWALLOW",
+      "consequence": null
+    },
+    {
+      "id": "payload:packages/payload/src/index.ts:1238",
+      "rule": "FLOOR-2",
+      "repo": "payload",
+      "catch_empty": false,
+      "votes": [
+        "FALSE-FLAG",
+        "FALSE-FLAG",
+        "BENIGN-SWALLOW"
+      ],
+      "label": "FALSE-FLAG",
+      "consequence": null
+    },
+    {
+      "id": "payload:packages/payload/src/uploads/image-resizing/createImageSizes.ts:272",
+      "rule": "FLOOR-2",
+      "repo": "payload",
+      "catch_empty": false,
+      "votes": [
+        "BENIGN-SWALLOW",
+        "BENIGN-SWALLOW",
+        "BENIGN-SWALLOW"
+      ],
+      "label": "BENIGN-SWALLOW",
+      "consequence": null
+    },
+    {
+      "id": "rocketchat:apps/meteor/app/autotranslate/server/googleTranslate.ts:92",
+      "rule": "FLOOR-2",
+      "repo": "rocketchat",
+      "catch_empty": false,
+      "votes": [
+        "BENIGN-SWALLOW",
+        "GENUINE-MEANINGFUL",
+        "BENIGN-SWALLOW"
+      ],
+      "label": "BENIGN-SWALLOW",
+      "consequence": "on a real network failure (non-INVALID_ARGUMENT) the catch does nothing, result stays {}, and commit 120 caches an empty supported-languages [] that persists in-memory and is returned on all later calls"
+    },
+    {
+      "id": "rocketchat:apps/meteor/app/file-upload/server/lib/FileUpload.ts:272",
+      "rule": "FLOOR-2",
+      "repo": "rocketchat",
+      "catch_empty": false,
+      "votes": [
+        "GENUINE-MEANINGFUL",
+        "GENUINE-MEANINGFUL",
+        "GENUINE-MEANINGFUL"
+      ],
+      "label": "GENUINE-MEANINGFUL",
+      "consequence": "Resized avatar buffer is never written to tempFilePath (only logged), yet the DB updateOne at 277 commits size:info.size (and possibly type:image/png); stored file and its DB metadata become inconsistent"
+    },
+    {
+      "id": "seerr:server/lib/settings/index.ts:823",
+      "rule": "FLOOR-2",
+      "repo": "seerr",
+      "catch_empty": false,
+      "votes": [
+        "BENIGN-SWALLOW",
+        "FALSE-FLAG",
+        "BENIGN-SWALLOW"
+      ],
+      "label": "BENIGN-SWALLOW",
+      "consequence": null
+    },
+    {
+      "id": "seerr:server/lib/settings/migrator.ts:19",
+      "rule": "FLOOR-2",
+      "repo": "seerr",
+      "catch_empty": false,
+      "votes": [
+        "BENIGN-SWALLOW",
+        "BENIGN-SWALLOW",
+        "BENIGN-SWALLOW"
+      ],
+      "label": "BENIGN-SWALLOW",
+      "consequence": null
+    },
+    {
+      "id": "seerr:server/routes/auth.ts:671",
+      "rule": "FLOOR-2",
+      "repo": "seerr",
+      "catch_empty": false,
+      "votes": [
+        "BENIGN-SWALLOW",
+        "BENIGN-SWALLOW",
+        "BENIGN-SWALLOW"
+      ],
+      "label": "BENIGN-SWALLOW",
+      "consequence": null
+    },
+    {
+      "id": "vendure:packages/dashboard/vite/utils/tsconfig-utils.ts:39",
+      "rule": "FLOOR-2",
+      "repo": "vendure",
+      "catch_empty": false,
+      "votes": [
+        "BENIGN-SWALLOW",
+        "BENIGN-SWALLOW",
+        "BENIGN-SWALLOW"
+      ],
+      "label": "BENIGN-SWALLOW",
+      "consequence": null
+    },
+    {
+      "id": "budibase:examples/microfrontend/bff.server.mjs:332",
+      "rule": "FLOOR-1",
+      "repo": "budibase",
+      "catch_empty": false,
+      "votes": [
+        "BENIGN-SWALLOW",
+        "BENIGN-SWALLOW",
+        "BENIGN-SWALLOW"
+      ],
+      "label": "BENIGN-SWALLOW",
+      "consequence": null
+    },
+    {
+      "id": "continue:extensions/cli/src/smoke-api/smoke-api-helpers.ts:45",
+      "rule": "FLOOR-1",
+      "repo": "continue",
+      "catch_empty": false,
+      "votes": [
+        "BENIGN-SWALLOW",
+        "BENIGN-SWALLOW",
+        "BENIGN-SWALLOW"
+      ],
+      "label": "BENIGN-SWALLOW",
+      "consequence": null
+    },
+    {
+      "id": "formbricks:apps/web/playwright/utils/helper.ts:367",
+      "rule": "FLOOR-1",
+      "repo": "formbricks",
+      "catch_empty": false,
+      "votes": [
+        "BENIGN-SWALLOW",
+        "BENIGN-SWALLOW",
+        "BENIGN-SWALLOW"
+      ],
+      "label": "BENIGN-SWALLOW",
+      "consequence": null
+    },
+    {
+      "id": "librechat:config/update.js:96",
+      "rule": "FLOOR-1",
+      "repo": "librechat",
+      "catch_empty": false,
+      "votes": [
+        "BENIGN-SWALLOW",
+        "BENIGN-SWALLOW",
+        "BENIGN-SWALLOW"
+      ],
+      "label": "BENIGN-SWALLOW",
+      "consequence": null
+    },
+    {
+      "id": "midday:apps/dashboard/src/hooks/use-download-zip.ts:62",
+      "rule": "FLOOR-1",
+      "repo": "midday",
+      "catch_empty": false,
+      "votes": [
+        "GENUINE-MEANINGFUL",
+        "GENUINE-MEANINGFUL",
+        "BENIGN-SWALLOW"
+      ],
+      "label": "GENUINE-MEANINGFUL",
+      "consequence": "A file whose signed-URL fetch fails is silently omitted from the zip (no zip.file call); Promise.all still resolves and the zip is generated and saved, so the user downloads an incomplete archive with no error surfaced"
+    },
+    {
+      "id": "n8n:packages/cli/src/controllers/third-party-licenses.controller.ts:18",
+      "rule": "FLOOR-1",
+      "repo": "n8n",
+      "catch_empty": false,
+      "votes": [
+        "FALSE-FLAG",
+        "FALSE-FLAG",
+        "FALSE-FLAG"
+      ],
+      "label": "FALSE-FLAG",
+      "consequence": null
+    },
+    {
+      "id": "n8n:packages/testing/playwright/scripts/emit-shard-coverage.ts:64",
+      "rule": "FLOOR-1",
+      "repo": "n8n",
+      "catch_empty": false,
+      "votes": [
+        "BENIGN-SWALLOW",
+        "FALSE-FLAG",
+        "BENIGN-SWALLOW"
+      ],
+      "label": "BENIGN-SWALLOW",
+      "consequence": null
+    },
+    {
+      "id": "novu:apps/api/src/app/integrations/usecases/azure-setup-oauth-callback/azure-setup-oauth-callback.usecase.ts:352",
+      "rule": "FLOOR-1",
+      "repo": "novu",
+      "catch_empty": false,
+      "votes": [
+        "BENIGN-SWALLOW",
+        "BENIGN-SWALLOW",
+        "BENIGN-SWALLOW"
+      ],
+      "label": "BENIGN-SWALLOW",
+      "consequence": null
+    },
+    {
+      "id": "payload:scripts/audit-dependencies.mjs:127",
+      "rule": "FLOOR-1",
+      "repo": "payload",
+      "catch_empty": false,
+      "votes": [
+        "BENIGN-SWALLOW",
+        "BENIGN-SWALLOW",
+        "BENIGN-SWALLOW"
+      ],
+      "label": "BENIGN-SWALLOW",
+      "consequence": null
+    },
+    {
+      "id": "strapi:packages/core/strapi/src/node/vite/watch.ts:134",
+      "rule": "FLOOR-1",
+      "repo": "strapi",
+      "catch_empty": false,
+      "votes": [
+        "FALSE-FLAG",
+        "FALSE-FLAG",
+        "FALSE-FLAG"
+      ],
+      "label": "FALSE-FLAG",
+      "consequence": null
+    }
+  ]
+}

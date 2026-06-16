@@ -48,6 +48,10 @@ pub struct FloorFinding {
     pub col: usize,
     pub catch_line: usize,
     pub commit_line: Option<usize>,
+    /// catch body has zero statements (eslint `no-empty` WOULD catch this; a
+    /// non-empty/log-only catch is what the status quo passes — the floor's
+    /// differentiation, docs/spec-floor.md §1.4).
+    pub catch_empty: bool,
     pub reason: String,
 }
 
@@ -199,6 +203,8 @@ pub fn analyze_floor(src: &[u8], file: &str, tree: &tree_sitter::Tree, cat: &Cat
                 let catch_body = handler.child_by_field_name("body").unwrap_or(handler);
                 if let Some((kind, line, col)) = boundary_in_try(body, src, file, cat) {
                     if catch_swallows(catch_body, src) {
+                        let catch_empty = catch_body.kind() == "statement_block"
+                            && catch_body.named_child_count() == 0;
                         let commit_line = commit_after_in_fn(node, src);
                         let (rule, reason) = if commit_line.is_some() {
                             ("FLOOR-2", "swallowed boundary failure, then control reaches a mutation/commit")
@@ -213,6 +219,7 @@ pub fn analyze_floor(src: &[u8], file: &str, tree: &tree_sitter::Tree, cat: &Cat
                             col,
                             catch_line: pos(handler).0,
                             commit_line,
+                            catch_empty,
                             reason: reason.to_string(),
                         });
                     }

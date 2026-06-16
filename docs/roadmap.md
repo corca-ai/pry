@@ -100,12 +100,18 @@ held-out arm.
 
 Then the structural deepeners:
 
-1. **Syntactic floor.** Build the un-built Layer-0 claim channel (empty catch,
-   swallowed error, log-and-continue on a mutating path), kept physically separate
-   from the map output. High precision + `# pry-ignore` escape hatch (the
-   *path-level* half — `.pryignore` + `--exclude` — already shipped, see
-   `spec-eval-harness.md` E7; the inline `// pry-ignore` per-finding hatch lands
-   here). This is the genuine un-built Layer-0 deliverable.
+1. **Syntactic floor.** ~~Build the un-built Layer-0 claim channel.~~ **Minimal
+   floor BUILT + experiment ran (2026-06-16) → KILL (this rule set).** `pry floor`
+   (swallowed failure-capable boundary failure; FLOOR-2 = + swallow-then-commit),
+   physically separate from the map, weld-agnostic. Result: **FLOOR-2 precision
+   1/26 = 3.8%** ([`eval-gate.md`](eval-gate.md) Floor) — on mature OSS, swallowed
+   boundary failures are overwhelmingly *intentional* best-effort, so the claim
+   channel is low-precision there. KILL scopes to this minimal rule set (the
+   deferred Aspirator rules — over-catch→abort, etc. — are unexplored), but
+   combined with the E9 + Step-1 + kill-gate pincer (mature OSS = intentional
+   swallows; pre-DI repos = shape near-absent), **no corpus tried surfaces an
+   actionable defect payoff.** Live options are the ratchet (below, next §) or
+   ship-as-is. The inline `// pry-ignore` hatch + deferred rules wait on a wedge.
 2. **quality auto-invoke** (charness-side): a `quality` driver that runs `pry map`
    as a standing advisory inventory, mirroring nose's consumer. Today pry is
    agent-invoked on-request via the `skills/pry/` F15 skill, not auto-run.

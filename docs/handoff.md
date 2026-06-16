@@ -2,67 +2,57 @@
 
 ## Workflow Trigger — if the operator says "계속합시다" / "continue"
 
-There is an **open product decision** (see Discuss). If the operator has already
-chosen, route: **floor experiment → `spec`** (pre-registered go/kill, then
-`impl`); **ratchet → `spec`**; **stop → wire the map into `quality` and close**.
-If no choice is recorded yet, present the Discuss fork; do **not** auto-build a new
-direction. Read `docs/eval-gate.md` + `charness-artifacts/ideation/2026-06-16-concept-ideation.md`
-first.
+There is an **open product decision** (see Discuss): **ratchet** vs **ship-as-is**.
+The defect-finding direction is exhausted — do NOT re-run bug/coverage/floor
+experiments on these corpora. If the operator has chosen, route: **ratchet →
+`spec`** (then `impl`); **ship-as-is → wire `pry map` into charness `quality` and
+close**. If not chosen, present the Discuss fork. Read `docs/eval-gate.md` first.
 
-## Current State — both MAP prediction payoffs are FALSIFIED; the FLOOR is the un-killed bet
+## Current State — all THREE value-bridges are down; pry is a precise classifier with no proven payoff
 
-The validation march is **done and negative for the prediction channel.** Detail
-+ non-claims in `docs/eval-gate.md`; wedge analysis in the ideation artifact.
+Three pre-registered experiments, all reported honestly (detail + non-claims in
+`docs/eval-gate.md`):
 
-- **E9 Tier-1 (bugs): FALSIFIED** — welded-at-demand not bugfix-enriched (matched
-  1.05, CI [0.96,1.18]; per-kind re-cut mildly anti-correlated).
-- **Step-1 (coverage): FILE-LEVEL gap FALSIFIED** — welded-at-demand files not
-  less test-associated (matched 0.95, CI [0.88,1.02]; robust over 7 cuts; ceiling
-  1.62 > 1.5 floor → genuine null). Honesty gate proven (`git merge-base
-  --is-ancestor cd90d1d 3584359`); `harness/coverage.py` deterministic/offline/AC4.
-  **Scope:** *file-level* only; the *line-level/error-path* claim needs executed
-  coverage (outbound, forbidden) → **unmeasured, not refuted**.
-- **Decisive reframe (ideation):** `initial-plan.md` §5 defines TWO channels —
-  **map (prediction)** and **floor (claim)** — with different validity bases. Only
-  the MAP was built, and only the MAP died. The **FLOOR** (Aspirator-lineage
-  syntactic error-handling bug finder: empty catch / swallowed boundary error /
-  log-and-continue on a mutating path) was **never built** and is **not what
-  failed** — its bar is *precision-of-a-fact*, not lift-over-churn.
+- **E9 (bugs): FALSIFIED** — welded-at-demand not bugfix-enriched (matched 1.05).
+- **Step-1 (coverage): FALSIFIED** — welded-at-demand files not less test-associated
+  (matched 0.95); line-level claim unmeasured (outbound forbidden), not refuted.
+- **Floor (claim channel): KILL** — `pry floor` built (FLOOR-1/FLOOR-2, separate
+  channel, weld-agnostic; `src/floor.rs`, 6 tests). FLOOR-2 precision **1/26 =
+  3.8%**: on mature OSS, swallowed boundary failures are overwhelmingly
+  *intentional* best-effort. KILL scopes to this minimal rule set. Honesty gate
+  proven (`git merge-base --is-ancestor c7f4308 <result>`).
 
-**Consequence (committed):** roadmap demotes the unbuilt precision-lever march
-(premise dead). pry's honest identity = a **precise injectability classifier**
-(net/subproc 100%) with **no proven prioritization payoff** — NOT a "testability
-debt ranker." Honesty guard: do not pitch "fix welds → fewer bugs/coverage."
+**The pincer (the load-bearing synthesis):** mature OSS *has* pry's shapes but they
+are intentional/benign; the author's own pre-DI repos (`kill-gate.md`: charness
+7/126, ceal 2/26) *lack* the shape. Both ends of the maturity axis are negative, so
+**no corpus tried supports an actionable defect/testability payoff.** pry stays a
+*validated precise injectability classifier* (net/subproc 100%) — that is intact;
+what is unproven is any downstream payoff. Roadmap demotes the precision-lever march
++ the floor. Honesty guard: do not pitch "fix welds → fewer bugs / better coverage /
+fewer swallowed-failure bugs."
 
-## Next Session — the recommended path (operator-gated)
+## Next Session — decide the two live options (operator-gated)
 
-1. **`spec` a bounded FLOOR go/kill experiment** (the un-killed bet): implement
-   Aspirator's 3 rules, run on the **already-cloned** corpus offline (AC4, no
-   outbound), sample ~30 flags for **precision + repo-fit** labeling. Pre-register
-   the go/kill BEFORE numbers (same honesty discipline). GO = high precision ∧ ≥1
-   meaningful bug class → build the floor (Layer-0's genuine un-built deliverable).
-   KILL = fires only on trivial/correct swallows (premortem §13.A repo-fit death)
-   → fall back to 2 or 3. Reuses parse/catalog/dataflow-lite already in the binary.
-2. **Fallback — seam-coverage RATCHET** (`spec`): a "no new welded boundary" CI
-   gate. Survives the falsification (policy-conformance, not risk prediction);
-   shippable on the already-validated precision; bets on niche DI-bought-in demand.
-3. **Fallback — ship-as-is + stop:** wire the map into charness `quality` as a
-   precise injectability inventory; make no prioritization claim.
+1. **Ratchet** (`spec` → `impl`): a "no new welded boundary" CI gate. Survives all
+   three negatives (it is policy-conformance, NOT risk prediction); ships on the
+   already-validated precision; bets on niche DI-bought-in demand. The only option
+   that turns the validated classifier into a product without a defect payoff.
+2. **Ship-as-is + stop:** wire `pry map` into charness `quality` as a precise
+   injectability inventory; make no prioritization/defect claim; close the project.
 
 ## Discuss — the open decision (operator's call)
 
-Which direction: **(1) build+test the floor** [ideation recommendation — the only
-candidate not premised on the dead prediction, with Aspirator prior art],
-**(2) ratchet**, or **(3) stop**? `(d)` line-level coverage measurement on an
-owned/local corpus is a sub-experiment, only worth it behind a chosen testability
-direction. Wedges (a) fault-test enablement / (b) testability-debt ranker / (e)
-feeder-to-mutation all re-lean on the dead "welds = risk" premise — demoted.
+Ratchet vs ship-as-is. A defect-finding wedge is **unsupported by all evidence
+gathered** — reopening it needs a genuinely new corpus hypothesis (e.g. Yuan's
+distributed-systems shape, untested in any gate), not another run on these repos.
+The deferred Aspirator floor rules (over-catch→abort, etc.) remain unexplored but
+face the same "mature apps swallow on purpose" precision ceiling.
 
 ## References
 
-- `docs/eval-gate.md` — E9 Tier-1 + Step-1 coverage results + non-claims.
-- `charness-artifacts/ideation/2026-06-16-concept-ideation.md` — wedge analysis,
-  scoring, recommendation, truth tests.
-- `docs/roadmap.md` — premise-update banner (precision-lever demotion).
-- `initial-plan.md` §5 (two channels), §1.4 (floor's swallowed-then-commit shape),
-  §13 (premortem — repo-fit is the real killer).
+- `docs/eval-gate.md` — E9 + Step-1 + Floor results + non-claims (owns the numbers).
+- `charness-artifacts/ideation/2026-06-16-concept-ideation.md` — wedge analysis.
+- `docs/roadmap.md` — premise-update banner + floor KILL note.
+- `docs/kill-gate.md` — the owned-repo / pre-DI negative (the other pincer arm).
+- `harness/floor_verdict.py` + `floor-labels.json` / `floor-votes/` — frozen panel.
+- `initial-plan.md` §5 (two channels), §13 (premortem — corpus-fit is the killer).

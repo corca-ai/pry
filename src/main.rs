@@ -251,6 +251,7 @@ fn run_floor(root: &Path, exclude: &[String]) -> Result<()> {
                 "kind": f.kind,
                 "catch_line": f.catch_line,
                 "commit_line": f.commit_line,
+                "catch_empty": f.catch_empty,
                 "reason": f.reason,
             })
         })

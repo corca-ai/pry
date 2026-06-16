@@ -243,6 +243,85 @@ probed (backend-only), not fully neutralized.
 frozen sweep records + the clones at the pinned commits; seeded bootstrap is
 byte-reproducible). Unit tests: `python3 harness/test_coverage.py`.
 
+## Floor experiment (the claim channel) — is a minimal swallowed-failure detector precise?
+
+> **VERDICT: KILL (this minimal rule set).** After both *map* prediction payoffs
+> died (bugs, coverage), the remaining candidate was the never-built *claim*
+> channel — the syntactic floor (`initial-plan.md` §5), judged by
+> precision-of-a-fact, not lift. A minimal `pry floor` (FLOOR-1 = a failure-capable
+> boundary call in a `try` whose `catch` swallows; FLOOR-2 = that, then control
+> reaches a mutation/commit) was built and run offline on the 25 TS/JS apps.
+> **FLOOR-2 precision = 1/26 = 3.8%** (Wilson95 [0.01, 0.19]) — far below the
+> pre-registered KILL bar (≤0.40, or <2 genuine). The detector fires almost
+> entirely on **intentional** swallows, so it is not a usable defect finder on this
+> corpus. KILL scopes to **this rule set**, not the floor *concept* (the deferred
+> Aspirator rules are unexplored).
+
+**Pre-registration (honesty gate).** Rules, corpus, sample, labeling protocol, and
+the two-sided go/kill were frozen in
+[`preregistration-floor.md`](../harness/fixtures/eval/preregistration-floor.md) +
+the `Floor` block of `harness/config.py` **before** any number. Git-provable:
+`git merge-base --is-ancestor c7f4308 <this-commit>`. The volume gates
+(min-decided 20, min-total 25) were added at freeze to close a cheap-GO hole a
+spec-critique found (n=3 all-genuine would otherwise clear a Wilson-LB bar).
+
+**Method.** `pry floor` is a new, physically separate channel (never mixed into
+`pry map`, premortem §13.B.2), weld-agnostic (it does not consult the falsified
+welded/seamed classification — only the boundary catalog). Corpus-wide it fires
+**FLOOR-1 = 293, FLOOR-2 = 27** (13/25 repos) — FLOOR-2 cleared the GO-eligibility
+floor (≥25). All 27 FLOOR-2 + a 10-flag FLOOR-1 sample were labeled by a **3 rater
+fresh-eye panel** (majority reconciliation; same-model caveat disclosed, as in H3),
+into [`floor-labels.json`](../harness/fixtures/eval/floor-labels.json) +
+`floor-votes/`.
+
+| rule | genuine / decided | precision | Wilson95 | benign | false-flag |
+| --- | --- | --- | --- | --- | --- |
+| **FLOOR-2** (headline) | **1 / 26** | **3.8%** | [0.01, 0.19] | 20 | 5 |
+| FLOOR-1 (context) | 1 / 10 | 10.0% | [0.02, 0.40] | 7 | 2 |
+
+**Why it fails — mature apps swallow on purpose.** Of 26 decided FLOOR-2 flags,
+**~20 are BENIGN intentional swallows** (cache-miss fallback caching `undefined`,
+optional metadata enrichment, best-effort cleanup/`unlink`, telemetry, dev/build
+scripts, test infra — several comment-confirmed: *"fall through and cache
+undefined"*, *"ignore, we still continue"*) and **5 are FALSE-FLAGs** (the catch
+records the error as returned data / an HTTP status — *handling*, not swallowing —
+or FLOOR-2's "commit" is an unrelated later statement in a large function). A naive
+swallow-then-commit rule cannot separate deliberate best-effort from a real defect,
+so precision collapses. This is the premortem §13.A death in a new guise: pry is
+*correct about a shape* (swallowed boundary failures exist) that, on mature OSS, is
+**overwhelmingly intentional**. (Conservatism note: the same-model panel bias cuts
+*toward* over-calling GENUINE — a builder-sympathetic rater inflates precision — so
+a KILL despite that bias is conservative; indeed one 2-1 BENIGN, rocketchat
+`googleTranslate.ts:92`, is arguably a real cache-poisoning bug the panel
+under-called, which would only raise precision to 2/26 = 7.7%, still a KILL.)
+
+**The signal is not zero — it is rare.** The one genuine FLOOR-2 (rocketchat
+`FileUpload.ts:272`: a resized-avatar `writeFile` failure is only logged, then the
+DB `updateOne` commits the new `size`/`type` → on-disk file and its metadata go
+inconsistent) is a textbook pry-shape bug, and eslint `no-empty` passes it (the
+catch is non-empty) — so the *differentiation* premise held (both genuine flags
+survive a linter). But one real bug in 26 is a filter problem, not a product.
+
+**What this means (all three value-bridges now down).** Bug prediction (E9),
+coverage gap (Step-1), and the swallowed-failure claim (here) all fail to surface
+actionable signal on mature third-party apps. The consistent thread is
+**corpus-fit** — but it is now a *pincer*, not a "try a different corpus" escape:
+on **mature OSS** the swallow shape exists but is overwhelmingly *intentional*
+(KILL here); on the author's own **less-mature / pre-DI** repos
+[`kill-gate.md`](kill-gate.md) already found the shape is *near-absent* (charness
+7/126, ceal 2/26 — RE-TARGETed for lacking the network+mutation+rollback shape).
+So both ends of the maturity axis have now produced a negative; there is no
+obvious untested rescue corpus on that axis (the closest live hypothesis is Yuan's
+distributed-systems shape, a population not in either gate). pry remains a
+validated precise *injectability classifier*; what is unproven across every angle
+tried is an *actionable defect/testability payoff* at all. The honest live options
+narrow to a **policy ratchet** (no new welds — needs no defect payoff) or
+**ship-as-is**; a defect-finding wedge is not supported by any evidence gathered.
+
+**Reproduce.** `cargo build --release && python3 harness/floor_worklist.py`
+(deterministic flags) → label → `python3 harness/floor_verdict.py` (re-derives the
+verdict from the frozen votes). `cargo test floor` (6 unit tests).
+
 ## The slate (dev; pinned, frozen)
 
 Third-party app-shaped OSS (agent/LLM/automation runtimes), `pry map` at the

@@ -1,0 +1,60 @@
+{
+  "verdict": "KILL",
+  "headline": "FLOOR-2 (swallow-then-commit)",
+  "floor2": {
+    "n_total": 26,
+    "n_decided": 26,
+    "n_genuine": 1,
+    "precision": 0.038461538461538464,
+    "wilson95": [
+      0.006821808976989882,
+      0.18893176991958402
+    ],
+    "genuine_repos": [
+      "rocketchat"
+    ],
+    "linter_survival": "1/1",
+    "benign": 20,
+    "false_flag": 5,
+    "genuine_ids": [
+      "rocketchat:apps/meteor/app/file-upload/server/lib/FileUpload.ts:272"
+    ]
+  },
+  "floor1": {
+    "n_total": 10,
+    "n_decided": 10,
+    "n_genuine": 1,
+    "precision": 0.1,
+    "wilson95": [
+      0.01787574951572113,
+      0.4041563854975721
+    ],
+    "genuine_repos": [
+      "midday"
+    ],
+    "linter_survival": "1/1",
+    "benign": 7,
+    "false_flag": 2,
+    "genuine_ids": [
+      "midday:apps/dashboard/src/hooks/use-download-zip.ts:62"
+    ]
+  },
+  "floor2_total_corpus": 27,
+  "go_kill_inputs": {
+    "precision": 0.038461538461538464,
+    "n_decided": 26,
+    "n_genuine": 1,
+    "genuine_repos": 1,
+    "corpus_total": 27
+  },
+  "thresholds": {
+    "go_precision": 0.6,
+    "go_min_decided": 20,
+    "go_min_total": 25,
+    "go_min_genuine": 3,
+    "go_min_repos": 2,
+    "kill_precision": 0.4
+  },
+  "panel": "3 fresh-eye subagent raters, majority reconciliation; same-model caveat disclosed",
+  "note": "KILL scopes to THIS minimal rule set, not the floor concept"
+}
