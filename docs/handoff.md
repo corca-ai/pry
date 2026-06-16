@@ -20,14 +20,28 @@ local-wrapper bucket). Dogfood holds: **ceal 140 candidates → 111 untested** (
 fidelity + worklist honesty; folded B1 (`is_test_file` now mirrors the oracle's
 `is_test` net). 43 tests, byte-deterministic, clippy-clean.
 
-**Next slice — `.pryconfig.toml`** (the design is AGREED, see the ideation note): a
-per-repo `[ignore] + [[boundary]]` config that (a) declares wrapper/alias entries to
-resolve the UNRESOLVED bucket (ceal's 7 local-wrapper subprocess findings — the
-highest-value first config type), (b) lets a repo override the failure-capable set
-(llm/slack — currently OMITTED, a disclosed gap), (c) tags each finding
-`catalog: seed | repo-config` (the field already exists in `untested` output, hardcoded
-`seed`). Two non-negotiables: structured `[[boundary]]` entries (not loose keywords),
-seed-vs-repo provenance. Then completeness-probe mode and own-repo LLM-judge triage.
+**Slice 2 — DI-seam recognition: DONE** (`src/classify.rs` `callee_injected`, critique
+`charness-artifacts/critique/2026-06-16-di-seam-code-critique.md`). PIVOT from the
+planned `.pryconfig.toml` wrapper config (operator-approved): the dogfood revealed the
+UNRESOLVED bucket was NOT local wrappers needing a module mapping — it was the
+**dependency-injection seam** `const spawn = deps.spawnSync ?? spawnSync; spawn(…)`
+(ceal's #1 testability discipline, **188×**), which pry mis-classified WELDED. The
+planned wrapper→module config would have *wrongly* dumped these genuinely-seamed calls
+onto the worklist. Fix teaches classify to recognize the local-DI callee (reusing the
+validated `find_local_binding`/`classify_rhs` machinery, closure-aware). Result: ceal
+UNRESOLVED **7→0**, candidates 140→133, worklist unchanged (111). **Provably safe:
+0 welded→seamed flips across all 1882 corpus net/subproc findings** (H3 precision
+preserved by construction); the idiom is ceal-specific, inert on OSS. Aligns with the
+operator's stated DI-over-middle-mock philosophy.
+
+**Next slice — `.pryconfig.toml` scope/ignore** (the genuinely useful config part): the
+worklist is 100 `scripts/` tooling + 11 production files on ceal; a per-repo config
+(`[ignore]` + the existing `.pryignore`) narrows to production — the dogfood's manual
+114→12, now declarative. Then: failure-capable override (llm/slack opt-in — disclosed
+gap), `catalog: seed | repo-config` provenance (field already in `untested` output,
+hardcoded `seed`), completeness-probe mode, own-repo LLM-judge triage. Non-negotiables
+if/when `[[boundary]]` extension lands: structured entries (not loose keywords),
+seed-vs-repo provenance.
 
 ## Current State — 4 value-bridges down; pry = validated classifier, no measured payoff
 

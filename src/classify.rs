@@ -912,6 +912,43 @@ fn classify_receiver(root: Node, src: &[u8]) -> (Class, String) {
     }
 }
 
+/// Is the call target `name` an INJECTED dependency at this call site? Returns the
+/// seam reason when so. True when `name` is a formal parameter of an enclosing fn,
+/// OR a local binding whose RHS is a DI / nullish-default expression
+/// (`const spawn = deps.spawnSync ?? spawnSync`) in this or any enclosing scope —
+/// the same 0-/1-hop dataflow `classify_receiver` already credits for member-call
+/// receivers, here applied to the callee itself. Closure-aware: the binding may live
+/// in an outer function while the call sits in a nested arrow (the common
+/// `const run = (args) => spawn(args)` DI shape). The nearest binding shadows, so a
+/// callee bound to a non-injectable RHS (e.g. `const x = makeSpawner()`) is NOT a seam.
+///
+/// Scoping caveat: `find_local_binding` scans an enclosing fn's whole body (it
+/// recurses into nested fns), so when the climb reaches an outer scope it could match
+/// a same-named binding declared inside a *sibling* nested fn rather than the one
+/// lexically enclosing the call. That collision needs a sibling that DI-binds the same
+/// catalog name AND a free/global use of that name at the call site — 0 occurrences
+/// across the 33-repo corpus. Accepted as a bounded imprecision, not strict lexical scope.
+fn callee_injected(call: Node, name: &str, src: &[u8]) -> Option<&'static str> {
+    if is_enclosing_param(call, name, src) {
+        return Some("callee-param-injected");
+    }
+    let mut f = enclosing_function(call);
+    while let Some(fnode) = f {
+        if let Some(body) = fnode.child_by_field_name("body") {
+            if let Some(rhs) = find_local_binding(body, name, src) {
+                let params = param_names(fnode, src);
+                return if classify_rhs(rhs, &params, src).0 == Class::Seamed {
+                    Some("callee-local-injected")
+                } else {
+                    None // bound in the nearest scope, but not to an injectable RHS
+                };
+            }
+        }
+        f = enclosing_function(fnode);
+    }
+    None
+}
+
 /// First argument node of a call/new expression, if any.
 fn first_arg<'t>(call: Node<'t>) -> Option<Node<'t>> {
     let args = call.child_by_field_name("arguments")?;
@@ -1011,14 +1048,15 @@ pub fn match_node(node: Node, src: &[u8], file: &str, cat: &Catalog) -> Option<F
                     for b in &cat.boundary {
                         if b.form == "global_call" && b.callee.as_deref() == Some(name) {
                             // Injected callee: `spawn(...)` / `request(...)` where the
-                            // call target itself is an enclosing param (e.g. a
-                            // `spawn = spawnSync` default). The boundary is reached
-                            // through an injected dependency -> seamed, the same rung
-                            // as receiver-/exe-param-injected applied to the callee.
-                            if matches!(b.kind.as_str(), "network" | "subprocess")
-                                && is_enclosing_param(node, name, src)
-                            {
-                                return Some(finding(node, b, file, Class::Seamed, true, "callee-param-injected"));
+                            // call target itself is an injected dependency — an
+                            // enclosing param (`spawn = spawnSync` default), or a local
+                            // DI binding (`const spawn = deps.spawnSync ?? spawnSync`).
+                            // The boundary is reached through an injectable seam ->
+                            // seamed, the same rung as receiver-/exe-param-injected.
+                            if matches!(b.kind.as_str(), "network" | "subprocess") {
+                                if let Some(reason) = callee_injected(node, name, src) {
+                                    return Some(finding(node, b, file, Class::Seamed, true, reason));
+                                }
                             }
                             // F22 rung-3: leaf inside a named injectable-interface impl
                             // (the seam is the interface, not this leaf).

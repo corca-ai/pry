@@ -269,6 +269,65 @@ fn injected_callee_is_seamed() {
     assert_eq!((real.class, real.demand), (Class::Welded, true), "global spawnSync must stay a demand weld");
 }
 
+// Local DI-binding seam (the ceal dogfood lever, 188× in that repo): the callee is a
+// LOCAL const bound to `deps.X ?? defaultX` and called later — an injection seam the
+// param-only check missed. Closure-aware (the const may live in an outer fn while the
+// call is in a nested arrow), with guardrails against over-seaming.
+const SRC_DI: &str = r#"
+import { spawnSync } from "node:child_process";
+export function installer(deps) {
+  const spawn = deps.spawnSync ?? spawnSync;
+  const run = (args) => spawn("python3", args);
+  return run(["-V"]);
+}
+export function directDI(deps, args) {
+  const spawn = deps.spawnSync ?? spawnSync;
+  return spawn("git", args);
+}
+export function gotDI(deps, u) {
+  const got = deps.httpGot ?? defaultGot;
+  return got(u);
+}
+export function notInjected(args) {
+  const spawn = makeSpawner();
+  return spawn("git", args);
+}
+export function genuineWeld(args) {
+  return spawnSync("git", args);
+}
+"#;
+
+#[test]
+fn local_di_binding_callee_is_seamed() {
+    let fs = analyze_str(SRC_DI, "di.ts");
+    let subproc_at = |line: usize| {
+        fs.iter().find(|f| f.kind == "subprocess" && f.line == line)
+            .unwrap_or_else(|| panic!("no subprocess finding on line {line}"))
+    };
+
+    // closure-aware: `const spawn = deps.spawnSync ?? spawnSync` (line 4) used inside a
+    // nested arrow -> the spawn("python3",…) call on line 5 is seamed.
+    let nested = subproc_at(5);
+    assert_eq!((nested.class, nested.reason.as_str()), (Class::Seamed, "callee-local-injected"),
+        "DI const used in a nested arrow must seam (closure-aware)");
+
+    // same-scope DI const -> seamed subprocess (line 10)
+    let direct = subproc_at(10);
+    assert_eq!((direct.class, direct.reason.as_str()), (Class::Seamed, "callee-local-injected"));
+
+    // DI also applies to network callees: `const got = deps.httpGot ?? defaultGot; got(u)` (line 14)
+    let net = fs.iter().find(|f| f.kind == "network" && f.line == 14).expect("no network at 14");
+    assert_eq!((net.class, net.reason.as_str()), (Class::Seamed, "callee-local-injected"));
+
+    // GUARDRAIL 1 — a local const bound to a NON-injectable RHS (`makeSpawner()`) is the
+    // nearest binding and is not a `??`/param seam -> the call (line 18) stays welded.
+    assert_eq!(subproc_at(18).class, Class::Welded, "const spawn = makeSpawner() is not an injection seam");
+
+    // GUARDRAIL 2 — a genuine direct global spawnSync (no DI const, line 21) stays a demand weld.
+    let weld = subproc_at(21);
+    assert_eq!((weld.class, weld.demand), (Class::Welded, true));
+}
+
 // A self-referential declarator (`const d = Date.now() - d`) is a TDZ bug at
 // runtime but parses fine; the binding-hop dataflow must not recurse forever on it
 // (main.rs has no per-file panic isolation, so a stack overflow would abort the
