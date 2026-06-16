@@ -226,6 +226,56 @@ COVERAGE_FRONTEND_REGEX = (
 )
 COVERAGE_RESULT_PATH = EVAL_DIR / "coverage_result.json"
 
+# --- Step-1b: static FAILURE-test detection (preregistration-step1b.md) --------
+# The SHARP redo of Step-1. Step-1's file-level coverage proxy was FALSIFIED
+# (0.95) but it only asked "is the welded boundary's FILE tested at all?". Step-1b
+# asks the question the testability thesis actually makes: is the welded
+# boundary's own FAILURE PATH simulated by a test? Failure-testing leaves STATIC
+# fingerprints (module mock + failure simulation), so it is measurable offline /
+# AC4-clean on the same frozen corpus (no test suites run, no LLM, no outbound).
+# Every threshold here is PRE-REGISTERED (committed before any number; git-provable
+# via merge-base). Contract: harness/fixtures/eval/preregistration-step1b.md.
+#
+# Unit = a pry finding of a FAILURE-CAPABLE kind (clock/random/env excluded: no
+# failure worth injecting). Signal arm = welded-at-demand (wd); PRIMARY contrast
+# control = "rest" (seamed | welded-not-demand) — "seamed"-only is too thin to
+# matched-power on FC kinds (corpus n=138, 1 eligible repo), so it is a REPORTED
+# underpowered secondary, exactly as preregistration-coverage.md did. Same reuse:
+# coverage.py's import-by-test graph + matched/boot_ci/per_repo, keyed on the new
+# `failure_untested` outcome; the E9/Step-1 floor (1.5/1.1) reused by symmetry.
+# Same failure-capable set as the Floor (FLOOR_BOUNDARY_KINDS); a literal here
+# because the Floor block is defined below this one. test_step1b asserts equality.
+STEP1B_FAILURE_CAPABLE_KINDS = ("network", "subprocess", "db", "fileio")
+
+# Two-way ABSOLUTE-rate verdict thresholds on the wd failure-TESTED rate, each
+# applied under the linkage that makes it CONSERVATIVE (POSITIVE uses the generous
+# L-module count; OVERSTATED uses the strict L-import count) — see prereg §6.
+STEP1B_TESTED_LOW = 0.20    # wd failure-tested <= this (L-module) => welded
+                            # failures genuinely mostly untested (POSITIVE-leaning)
+STEP1B_TESTED_HIGH = 0.40   # wd failure-tested >= this (L-import) => failure-
+                            # testing is COMMON => "welded=untestable" OVERSTATED
+
+# The CONTRAST clause reuses the E9/Step-1 matched floor by symmetry (no new
+# free parameter). On `failure_untested` (oriented wd-more-untested => ratio>1).
+STEP1B_CONTRAST_GO = ENRICHMENT_GO_FLOOR    # 1.5: wd >=1.5x more failure-untested
+STEP1B_CONTRAST_FLAT = ENRICHMENT_FALSIFIER  # 1.1: flat contrast => YIELD-ONLY/WEAK
+# Base-rate-ceiling contingency (preregistration-coverage.md §5): failure-tests are
+# rare => high untested base rate => risk ratio compressed. When max achievable
+# ratio (1/rest_untested_rate) < STEP1B_CONTRAST_GO, the contrast verdict LEADS
+# with the odds ratio + rate difference instead of a forced FALSIFIED.
+
+# Honesty guards added by the spec-critique (preregistration-step1b.md §3/§4.2):
+# (1) module extraction can leave a boundary UNRESOLVED -> conservatively untested
+#     -> biases toward POSITIVE (the un-robust direction), so an UNRESOLVED share
+#     above this in the wd arm makes the wd number UNCOMPUTABLE (never POSITIVE).
+STEP1B_UNRESOLVED_ABORT = 0.30
+# (2) failure-sim matcher is PERMISSIVE: a [BRACED] construct whose paren/brace-
+#     balanced window (this many chars from the token) can't be parsed is counted
+#     as failure-sim PRESENT -> detection gaps over-credit tested -> bias toward
+#     OVERSTATED, away from POSITIVE (POSITIVE is robust to over-crediting).
+STEP1B_BRACE_WINDOW = 600
+STEP1B_RESULT_PATH = EVAL_DIR / "step1b_result.json"
+
 # --- Floor experiment (the un-killed CLAIM channel) ---------------------------
 # After both MAP prediction payoffs died (E9 bugs, Step-1 coverage), this tests
 # the never-built FLOOR: a syntactic error-handling bug finder whose bar is
