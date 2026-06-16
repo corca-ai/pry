@@ -31,7 +31,19 @@ Prebuilt binaries for macOS and Linux (arm64 / x86_64). Or build from source
 pry map path/to/ts-or-js                       # full finding map (deterministic JSON)
 pry map path/to/ts-or-js --summary-only        # coverage summary only
 pry map path/to/ts-or-js --exclude 'src/smoke-*.ts'  # skip paths (repeatable glob)
+pry untested path/to/repo                      # worklist: welded boundaries whose FAILURE has no test
 ```
+
+`pry untested` is the **worklist channel** (`docs/spec-untested.md`): of the welded,
+failure-capable boundaries (network/subprocess/db/fileio) at substitution demand, it
+emits the ones whose failure is **not simulated by any test** — the "add a failure
+test" candidates. It fingerprints the repo's test files for mock + failure-sim
+(`mockRejectedValue`, `reply(500)`, msw `HttpResponse.error`, `stubGlobal('fetch')`
+→ throw, …) and crosses each boundary's module token against that index. "untested"
+= no failure-mock fingerprint (a fast static filter), **not** proven-uncovered.
+Findings whose module can't be linked (a local wrapper/alias) go to a separate
+`unresolved` bucket, not the worklist — to be resolved by `.pryconfig.toml`
+declarations (forthcoming).
 
 **Scope is your call.** `pry map` already honors `.gitignore` and drops
 conventional test files (`*.test.ts`, `*.spec.ts`, `*.vitest.ts`, `*.e2e.ts`,

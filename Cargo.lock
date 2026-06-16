@@ -267,6 +267,7 @@ dependencies = [
  "anyhow",
  "clap",
  "ignore",
+ "regex",
  "serde",
  "serde_json",
  "toml",

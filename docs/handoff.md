@@ -10,13 +10,24 @@ a per-repo `.pryconfig.toml`** — per
 **`impl`** for slice 1 below. Do **not** re-open the dead theses or run a fifth
 measurement — this is a product-shape build, not a new experiment.
 
-**First slice (operator-deferred until after this compaction):** `pry untested`
-subcommand (Rust) — port `harness/step1b.py`'s failure-test cross into the binary
-(pry already has tree-sitter + catalog + welded classification; add test-file
-mock/failure-sim fingerprinting + import linkage) → emit the welded∧untested∧
-production worklist. `step1b.py` is the validated reference/oracle. Then the
-`.pryconfig.toml` (ignore + structured per-repo `[[boundary]]` extensions + seed-vs-
-repo provenance tag + completeness probe) and the own-repo LLM-judge triage.
+**Slice 1 — `pry untested` subcommand: DONE** (`src/untested.rs`, `docs/spec-untested.md`,
+critique `charness-artifacts/critique/2026-06-16-untested-code-critique.md`). Ports
+`step1b.py`'s generous L-module failure-test cross into the binary; emits the
+welded∧demand∧failure-capable∧untested worklist (+ a separate `unresolved`
+local-wrapper bucket). Dogfood holds: **ceal 140 candidates → 111 untested** (110
+`child_process` + 1 `http`; `control-auto-commit.ts:133` is a traced true positive),
+**craken-agents 19 → 5** (all `bin/*.mjs` tooling). Fresh-eye critique confirmed port
+fidelity + worklist honesty; folded B1 (`is_test_file` now mirrors the oracle's
+`is_test` net). 43 tests, byte-deterministic, clippy-clean.
+
+**Next slice — `.pryconfig.toml`** (the design is AGREED, see the ideation note): a
+per-repo `[ignore] + [[boundary]]` config that (a) declares wrapper/alias entries to
+resolve the UNRESOLVED bucket (ceal's 7 local-wrapper subprocess findings — the
+highest-value first config type), (b) lets a repo override the failure-capable set
+(llm/slack — currently OMITTED, a disclosed gap), (c) tags each finding
+`catalog: seed | repo-config` (the field already exists in `untested` output, hardcoded
+`seed`). Two non-negotiables: structured `[[boundary]]` entries (not loose keywords),
+seed-vs-repo provenance. Then completeness-probe mode and own-repo LLM-judge triage.
 
 ## Current State — 4 value-bridges down; pry = validated classifier, no measured payoff
 

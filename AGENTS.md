@@ -16,11 +16,15 @@ prebuilt release and wired into charness as an `external_binary` that the
 tree-sitter's Rust bindings. (This is the concrete form of `initial-plan.md`
 §10's "packaging option".)
 
-Current state: **design stage** — the founding spec exists; no analyzer code has
-been written yet. The first deliverable is Layer 0 (static map + syntactic
-floor) plus its validation harness, run against this author's own Python repos
-to test whether error-handling/testability is even the bottleneck before
-building further. Read the roadmap before starting implementation.
+Current state: **product-shape build, post-measurement.** The Rust binary ships
+`pry map` (welded/seamed classifier), `pry floor` (swallowed-failure claim
+channel), and `pry untested` (welded∧untested worklist). A 25-repo validation
+harness ran four pre-registered honesty-gated experiments; all four came back
+honest negatives for a *generalizable OSS* prioritization claim (see
+`docs/eval-gate.md`). That refocused pry on its actual north star: **dogfood on
+the author's own products** via a per-repo `.pryconfig.toml` (in progress). Read
+`docs/handoff.md` (the live trigger + slice state) and `docs/roadmap.md` before
+starting implementation.
 
 ## Skill Routing
 
