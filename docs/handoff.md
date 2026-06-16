@@ -2,13 +2,21 @@
 
 ## Workflow Trigger — if the operator says "계속합시다" / "continue"
 
-Step-1b is **DONE (WEAK)**. The measurement arc is exhausted — four pre-registered
-value-bridges have all come back negative. The next move is **not another
-measurement**; it is the **ratchet-vs-ship-as-is decision** (below), which is an
-`ideation`/`critique` *decision frame* (options, trade-offs, recommendation, next
-step), not a new harness. Start there. Do **not** open a fifth measurement without
-an explicit new hypothesis and corpus — the honest options have narrowed to a
-product/policy choice.
+The measurement arc is **DONE** (4 negatives). The direction is **decided and
+agreed**: build pry's real product shape — **dogfood on the author's own repos via
+a per-repo `.pryconfig.toml`** — per
+[`charness-artifacts/ideation/2026-06-16-pryconfig-and-dogfood.md`](../charness-artifacts/ideation/2026-06-16-pryconfig-and-dogfood.md)
+(read it first; it has the full design + impl plan). Route to **`spec`** then
+**`impl`** for slice 1 below. Do **not** re-open the dead theses or run a fifth
+measurement — this is a product-shape build, not a new experiment.
+
+**First slice (operator-deferred until after this compaction):** `pry untested`
+subcommand (Rust) — port `harness/step1b.py`'s failure-test cross into the binary
+(pry already has tree-sitter + catalog + welded classification; add test-file
+mock/failure-sim fingerprinting + import linkage) → emit the welded∧untested∧
+production worklist. `step1b.py` is the validated reference/oracle. Then the
+`.pryconfig.toml` (ignore + structured per-repo `[[boundary]]` extensions + seed-vs-
+repo provenance tag + completeness probe) and the own-repo LLM-judge triage.
 
 ## Current State — 4 value-bridges down; pry = validated classifier, no measured payoff
 
@@ -26,31 +34,25 @@ Detail/numbers in `docs/eval-gate.md`. All pre-registered, git-provable, honest:
 pry stays a **precise injectability classifier** (H3: net/subproc 100%) with **no
 proven actionable recommender/defect payoff** on this corpus.
 
-## The live thread (operator-raised, the real remaining value)
+## Decision — MADE: dogfood-on-own-repos via `.pryconfig.toml` (supersedes ratchet-vs-ship)
 
-The honest surviving value is a **design-philosophy** one, not a measured payoff:
-"a welded boundary whose failure is only *middle*-mocked (`vi.mock('axios')` /
-`stubGlobal('fetch')`) is a smell — prefer a seam, or edge-mocking (msw) for HTTP."
-This is the **"don't mock what you don't own" / hexagonal** school — legitimate and
-strongest for **non-HTTP** boundaries (db/subprocess), **weakest for HTTP** (where
-msw tests a *welded* fetch's failure fine, no seam needed, and is ~70% of pry's
-findings). Step-1b neither proves nor refutes it — it is taste, not a defect/coverage
-fact. That value's natural home is the **ratchet**, which needs no measured payoff.
+The operator's north star (NOT a generalizable OSS product): **pry surfaces, in the
+author's own products, welded boundaries whose failure is untested → they get tested.**
+The 4 negatives refute the *generalizable* claim; they do NOT refute this. **Dogfood
+proved it:** `pry map` + a live failure-test cross on **ceal** found **142 welded FC →
+114 untested → 12 production → ~5-6 genuine gaps** (e.g. `control-auto-commit.ts:133`),
+while **craken-agents** was clean (6 untested, all `bin/` tooling). On the author's own
+(less-mature) repos the welded∧untested gap is real and large — the opposite of mature
+OSS (~71% mock-tested). This is the opt-in/config home the old "ratchet" pointed at,
+now concrete. Full design + impl plan: the ideation note linked in the trigger.
 
-## Decision — ratchet vs ship-as-is (the next session's work)
-
-- **Ratchet (no-new-welded-boundary CI gate):** design-conformance, not risk
-  prediction; **survives every falsification** (makes no defect/coverage claim);
-  ships on the *already-validated* 100% net/subproc precision; the home for the
-  design-philosophy value above. Bets on **unverified niche demand** (teams that
-  bought DI discipline) and a smaller surface. Open: would the operator/any team
-  actually turn on "no new welds"? Consider scoping it to non-HTTP kinds (where the
-  seam argument is strongest) + an msw-aware exemption for network.
-- **Ship-as-is (map into `quality`, stop):** banks the validated precise classifier
-  as an *inventory*; makes no prioritization claim. Lowest cost, honest, ends the arc.
-
-Route via `ideation` (or `critique` as a decision pre-mortem) for the framed choice;
-then `spec`/`impl` only if ratchet is chosen.
+**Mechanism (confirmed from source, shapes the build):** pry = syntactic AST matching
+against a curated boundary **catalog** (`catalog/typescript.toml`, ~63 entries / 9 kinds,
+structured `[[boundary]]` fingerprints) — a whitelist; `failure-capable` = a hardcoded
+subset `{net,subproc,db,fileio}` (llm/slack omitted — a gap to fix). The `.pryconfig.toml`
+makes the catalog **per-repo extensible** (agent-authored), with two non-negotiables:
+**(1) structured entries not loose keywords** (preserve AST matching + precision),
+**(2) seed-vs-repo provenance tagged in output** (don't dilute the validated number).
 
 ## References
 
@@ -60,6 +62,9 @@ then `spec`/`impl` only if ratchet is chosen.
   failure-test detector + its frozen contract (binding-precedence module extraction,
   mock/failure-sim catalogs, L-import/L-module bracket).
 - `charness-artifacts/critique/2026-06-16-step1b-{spec-critique,verification}.md`.
-- `charness-artifacts/ideation/2026-06-16-concept-ideation.md` — the wedge analysis
-  that named the floor (done) and the ratchet (the remaining live option).
+- **`charness-artifacts/ideation/2026-06-16-pryconfig-and-dogfood.md`** — the DECIDED
+  direction: dogfood result (craken-agents/ceal) + the `.pryconfig.toml` design + impl plan.
+- `charness-artifacts/ideation/2026-06-16-concept-ideation.md` — the earlier wedge
+  analysis that named the floor (done) and the ratchet (now realized as the dogfood/config shape).
+- `catalog/typescript.toml` — the boundary whitelist the `.pryconfig.toml` will extend.
 - `initial-plan.md` §1.3/§5 (testability=injectability thesis, two channels).
