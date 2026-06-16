@@ -327,6 +327,111 @@ narrow to a **policy ratchet** (no new welds — needs no defect payoff) or
 (deterministic flags) → label → `python3 harness/floor_verdict.py` (re-derives the
 verdict from the frozen votes). `cargo test floor` (6 unit tests).
 
+## Step-1b — static FAILURE-test detection (the SHARP Step-1 redo) — is the welded boundary's failure actually tested?
+
+> **VERDICT: WEAK / inconclusive — and it gives pry NO recommender wedge.** Step-1's
+> file-level proxy was too coarse; Step-1b asks the question the testability thesis
+> actually makes — for each welded-at-demand failure-capable boundary (network/
+> subprocess/db/fileio), is its *failure* simulated by a test? — fully static/offline
+> via fingerprints (a test MOCKS the boundary's module AND SIMULATES its failure;
+> the failure-sim is the discriminator). The per-boundary failure-tested rate is a
+> **wide unknown interval: 9.1% (L-import-strict, 151/1663) to 71.1% (L-module,
+> 1183/1663)** — a ~7.8× bracket — so the static fingerprint **cannot pin it**.
+> Neither pre-registered bar fires: POSITIVE needed ≤20% even under the *generous*
+> linkage (it is 71%); OVERSTATED needed ≥40% even under the *strict* linkage (it is
+> 9%). UNRESOLVED 3.7% (64/1727), far under the 30% abort.
+
+> **The one robust signal is another null for pry's refinement.** The welded-vs-rest
+> and welded-vs-welded-not-demand `failure_untested` contrasts are **confidently
+> flat** (matched **0.965** / **0.961**, tight CIs, both FALSIFIED): welded/demand
+> does **not** identify a differentially-untested population — Step-1's demand-null
+> recurs at the *failure-path* level (wd is if anything slightly *less* untested than
+> wnd, 0.893 vs 0.933). welded-vs-**seamed** (the true injectability bit) is also
+> point-flat at **1.002** but **underpowered** — CI [0.90, 1.22], n=138, 1 eligible
+> repo — so it is "not confidently anything," not "confirmed flat."
+
+**Pre-registration (honesty gate).** Outcome, both linkages, the catalogs, and the
+two-sided floor were frozen in [`preregistration-step1b.md`](../harness/fixtures/eval/preregistration-step1b.md)
++ the `Step-1b` block of `harness/config.py` **before** any number. Git-provable:
+`git merge-base --is-ancestor 5469026 <step1b-number-commit>`. The gate was AMENDED
+(operator decision, still pre-number): the verdict is the **absolute** wd
+failure-tested rate, two-sided (POSITIVE ≤0.20 under the generous L-module linkage /
+OVERSTATED ≥0.40 under the strict L-import linkage); the welded-vs-rest matched
+contrast is **reported context, not a gate** — because the only well-powered control
+(`rest`) is ~92% welded-not-demand, so binding on it would test *demand* (dead since
+Step-1), and near-ceiling base rates make a contrast CI possibly unreachable.
+
+**Method (zero new mining, AC4-clean).** Reuses `coverage.py`'s git plumbing +
+import-by-test resolver. Net-new: per-boundary **module extraction** (re-read the
+call site, resolve the callee's root identifier against the file's import map — a
+frozen binding-precedence rule; bare `fetch`→global, imported `fetch`→`node-fetch`,
+`new Redis`→its constructor's import), per-test-file **mock + failure-sim
+fingerprints** (frozen catalogs), and two **linkages that bracket the truth**:
+L-import (TIGHT — only tests that directly import the boundary's source file) and
+L-module (LOOSE — any test that fail-mocks module `M` credits *all* welds of `M`).
+
+| wd failure-tested | rate | reads as |
+| --- | --- | --- |
+| **L-import-strict** (tight) | **9.1%** (151/1663) | lower bound — a co-located own-file failure test |
+| **L-module** (loose) | **71.1%** (1183/1663) | upper bound — the module is fail-mocked *somewhere* |
+
+per-kind (L-module): network 85% (994/1170) ≫ subprocess 43% ≫ db 17%. dev (78.7% /
+15.0%) and heldout (69.5% / 9.3%) both land in the WEAK band (no heldout gaming).
+
+**Why the bracket is so wide (the honest core).** L-module over-credits massively:
+one `vi.stubGlobal('fetch', rejecting)` test credits *every* fetch weld in the repo,
+and network drives 85% of the 71%. So L-module says "a mockable seam is **available
+somewhere** for ~71% of welds' modules," **not** "this weld's own failure is tested."
+L-import under-credits (misses transitive-import tests; the alias resolver reads only
+root `tsconfig`). The per-boundary truth is between, and static fingerprints cannot
+resolve it.
+
+**Testing-quality caveat (operator-raised — important, do not over-read the 71%).**
+"Failure tested" counts *any* mock-based failure sim as tested. A quality bar that
+says "mock the network (msw), not the module" / "don't mock what you don't own"
+would **discount** much of the 71%: of the network welds credited, only ~3.3% are
+via **edge** mocking (nock/msw); the rest is **middle** mocking (`stubGlobal('fetch')`
+698, `vi.mock('axios')`) — exactly what such a bar treats as a smell. So by a strict
+quality standard the "well-tested" rate sits nearer the **low** end, and pry's
+underlying concern (a welded boundary whose failure is only middle-mocked) is not
+baseless. But that is a **design-philosophy** claim (contested; weakest for HTTP,
+where msw tests a welded fetch's failure fine **with no seam** — undercutting the
+absolute "welded = cannot inject a failure" framing), **not** a measurable defect/
+coverage payoff, and it does not recover a weld-specific signal (the contrast is flat).
+
+**What this means.** Step-1b is the **fourth** honest negative for a pry *prioritization/
+recommender* payoff (after E9 bugs, Step-1 file-coverage, Floor). It shows neither
+that welded failures are densely untested (the generous linkage says most modules are
+fail-mocked somewhere) nor that welded/demand picks out a differentially-untested
+population (flat contrast). What it does **not** claim: that welded failures are
+*well*-tested (L-import 9% ⇒ ~91% lack a co-located own-file failure test; per-weld
+truth is unknown, 9–71%), nor that an untested weld is buggy/safe (one-directional,
+never causal). pry stays a **precise injectability classifier** (H3 100% net/subproc)
+with **no proven actionable recommender wedge** on this corpus. Live options unchanged:
+the **ratchet** (no-new-welds design-conformance gate — needs no measured payoff; the
+natural home for the design-philosophy value above) vs **ship-as-is** (`docs/handoff.md`).
+
+**Verification (fresh-eye workflow — 5 dimensions + skeptical synthesis).**
+`result_trustworthy: true`, verdict WEAK, `must_fix: none`. Independently reproduced
+every number byte-identically; module extraction faithful (3.7% UNRESOLVED, 8× abort
+headroom); 71% not meaningfully inflated by false positives; 9.1% a fair tight lower
+bound (aggressive resolver fix = +1 boundary); honesty gate intact, deterministic,
+AC4-clean, sweep unmutated, 26/26 tests; **WEAK robust to every defect in both
+directions** (no combination crosses either threshold). Two impl→catalog fidelity
+fixes folded post-verification (the `{ error:` brace, faithful to the frozen §4.2;
+L-import-strict 10.3→9.1%). Residual immaterial caveats: root-only alias resolver
+(drops ~2 genuine tests, inflates-positive); `moduleNameMapper`/`setupFiles`
+config-mock arm deferred (0 FC config mocks on corpus, disclosed in the prereg).
+Full record: [`charness-artifacts/critique/2026-06-16-step1b-verification.md`](../charness-artifacts/critique/2026-06-16-step1b-verification.md).
+
+**Standing non-claims.** Static fingerprint, not executed proof; file-level (a)∧(b)
+co-occurrence; linkage is a bracket, not a point; module extraction best-effort
+(UNRESOLVED conservatively untested); "tested" counts mock-based sims (quality-bar
+caveat above); correlational, one-directional, never causal; no LLM/outbound (AC4).
+
+**Reproduce.** `python3 harness/step1b.py` (re-derives every number; byte-reproducible)
+→ `step1b_result.json`. Unit tests: `python3 harness/test_step1b.py` (26 green).
+
 ## The slate (dev; pinned, frozen)
 
 Third-party app-shaped OSS (agent/LLM/automation runtimes), `pry map` at the

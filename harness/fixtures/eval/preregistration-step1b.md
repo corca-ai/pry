@@ -179,10 +179,14 @@ spelling variants (`Once` suffixes, whitespace) are implementation detail.
 - `vi.mock(<s>)` / `jest.mock(<s>)` / `vi.doMock` / `jest.doMock` where `<s>`
   resolves to `M` (relative `<s>` resolved like a normal import to the same target;
   bare `<s>` matched against `M`'s package name / a leading subpath).
-- a manual mock file `**/__mocks__/<M>.*` exists in the repo, OR a jest/vitest
-  config `moduleNameMapper` / `setupFiles` entry that names `M` (repo-level,
-  parsed once per repo from `jest.config.*` / `vitest.config.*` / `vite.config.*`
-  / `package.json#jest`).
+- a manual mock file `**/__mocks__/<M>.*` exists in the repo (implemented), OR a
+  jest/vitest config `moduleNameMapper` / `setupFiles` entry that names `M`
+  (**DEFERRED — immaterial, disclosed 2026-06-16:** the config-parsing arm is not
+  implemented; the verification sweep found **zero** FC-module config mocks on this
+  corpus — e.g. n8n's `moduleNameMapper` is ts-jest path aliases, `setupFilesAfterEnv`
+  is `jest-expect-message` — so it would credit nothing here, and its absence
+  *under*-credits `failure_tested`, i.e. biases away from OVERSTATED, the safe
+  direction. Recorded so the frozen catalog and the impl do not silently disagree).
 - network-level (kind=network only, module-agnostic): `nock(` (import + call) or
   `msw` (`setupServer`/`rest.`/`http.`/`HttpResponse`) present in `T`.
 - `sinon.stub(` / `sinon.mock(` on `M`'s binding; `jest.spyOn(X,…)` / `vi.spyOn(X,…)`
