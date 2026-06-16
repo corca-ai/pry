@@ -156,13 +156,18 @@ URL track the rename.
 > **was reachable** — a genuine null, not a rigged one.
 >
 > **Scope of the claim (do not over-read).** This measures *file-level* test
-> association — a coarse **upper bound** on the line-level claim the thesis actually
-> makes (the *welded boundary's own error branch* is harder to exercise). That finer
-> claim needs *executed* line coverage (`npm install` + test runs = outbound,
-> forbidden on corpus repos), so it is **unmeasured here**, and a file-level null is
-> correspondingly *weaker* evidence for it. The honest reading: **pry's `demand`
-> refinement buys no file-level coverage signal**; the line-level version is
-> untested, **not refuted**.
+> association — a coarse **upper bound** on the sharper question the thesis actually
+> makes: is the *welded boundary's own failure path* actually exercised by a test?
+> **Correction (2026-06-16, operator-caught — the earlier "needs executed coverage /
+> outbound" framing was WRONG):** that sharper question does **not** require running
+> test suites. Failure-path testing leaves *static* fingerprints — a module mock
+> (`vi.mock`/`jest.mock`/`__mocks__/`, `nock`, `msw`) plus a **failure simulation**
+> (`mockRejectedValue`, `mockImplementation(()=>{throw})`, `nock().replyWithError`,
+> msw error handler, `mockResolvedValue({ok:false})`, `.rejects`). So it is
+> **measurable statically + offline (AC4-clean) on this same corpus** and is the
+> planned **Step-1b** (see `docs/handoff.md`). The line-level claim is therefore
+> *unmeasured here, not unmeasurable, and not refuted*. The honest reading of THIS
+> file-level result: pry's `demand` refinement buys no *file-level* coverage signal.
 
 **Pre-registration (honesty gate).** The split, the coverage outcome, the matched
 denominator, the two-sided floor, and the bootstrap CI were frozen in
